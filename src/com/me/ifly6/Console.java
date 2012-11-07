@@ -24,14 +24,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Info.version);
 	JPanel pane = new JPanel();
-	static JTextArea output = new JTextArea();
-	static JTextArea log = new JTextArea();
-	static JTextField input = new JTextField();
+	protected static JTextArea output = new JTextArea();
+	protected static JTextArea log = new JTextArea();
+	protected static JTextField input = new JTextField();
 	JScrollPane scp = new JScrollPane(output);
 
 	// INTERNAL DATA
-	static String textStep1;
-	static String[] textStep2;
+	protected static String preoperand;
+	protected static String[] operand;
 	static String computername = "Unknown";
 	static String[] mem = new String[10];
 	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
@@ -160,11 +160,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				Core.processing(null);
+				ConsoleCommands.processing(null);
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
-		if (keyCode == 38){ input.setText(textStep1); }
+		if (keyCode == 38){ input.setText(preoperand); }
 	}
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
@@ -175,37 +175,37 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == export) {
 			output.append("\n" + computername + "~ $ File>Export ");
 			try {
-				Addons.save(null);
+				GUICommands.save(null);
 			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
 		}
 		if (eventSource == script) {
 			output.append("\n" + computername + "~ $ File>Script");
-			Addons.script();
+			GUICommands.script();
 			log.append("Script Look Executed. May or may not have run.");
 		}
 		if (eventSource == mindterm) {
 			output.append("\n" + computername + "~ $ File>Mindterm");
 			try {
-				Addons.mindterm();
+				GUICommands.mindterm();
 			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
 			log.append("\nMindterm Download Commenced.");
 		}
 		if (eventSource == purge) {
 			output.append("\n" + computername + "~ $ Command>Purge");
 			try {
-				Addons.purge(null);
+				GUICommands.purge(null);
 			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
 			output.append("\n" + computername + "~ $ Command>Debug");
 			try {
-				Addons.debug(null);
+				GUICommands.debug(null);
 			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
 			output.append("\n" + computername + "~ $ Command>System Readout");
 			try {
-				Addons.info(null);
+				GUICommands.info(null);
 			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
 			} catch (IOException e1) { log.append("\nInformation Not Exported: IOException"); }
 		}
@@ -218,7 +218,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			log.append("\nConsole Text Cleared");
 		}
 		if (eventSource == defaultCarat){
-			Addons.defaultCarat(null);
+			GUICommands.defaultCarat(null);
 		}
 		// Needs Work
 		if (eventSource == viewswitch){
@@ -244,7 +244,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == del){
 			output.append("\n" + computername + "~ $ View>Delete iUtilities Files");
 			try {
-				Addons.delete(null);
+				GUICommands.delete(null);
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
 			output.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
 		}
@@ -261,13 +261,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == help){
 			try {
-				Core.help(null);
+				ConsoleCommands.help(null);
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
 			output.append("\n" + computername + "~ $ changelog");
 			try {
-				Core.changelog(null);
+				ConsoleCommands.changelog(null);
 			} catch (IOException e1) { log.append("Changelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){

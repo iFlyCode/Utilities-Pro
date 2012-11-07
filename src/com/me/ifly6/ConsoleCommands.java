@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class Core extends API {
+public class ConsoleCommands extends API {
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
@@ -16,54 +16,53 @@ public class Core extends API {
 	private static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
 
 	public static void processing(String[] args) throws InterruptedException, IOException {
-		textStep1 = input.getText();
-		API.append(computername + "~ $ " + textStep1);
+		preoperand = input.getText();
+		API.append(computername + "~ $ " + preoperand);
 		input.setText(null);
-		textStep2 = textStep1.split(" ");
+		operand = preoperand.split(" ");
 
 		// Sub-commands
-		if (textStep2[0].equals("changelog")) {
-			Core.changelog(null);
+		if (operand[0].equals("changelog")) {
+			ConsoleCommands.changelog(null);
 		}
-		if (textStep2[0].equals("copyright")) {
+		if (operand[0].equals("copyright")) {
 			API.append(Info.copyright);
 			log("\nCopyright Processing Trigger Invoked");
 		}
-		if (textStep2[0].equals("help")) {
-			Core.help(null);
+		if (operand[0].equals("help")) {
+			ConsoleCommands.help(null);
 			log("\nHelp Processing Trigger Invoked");
 		}
-		if (textStep2[0].equals("/clear")) {
+		if (operand[0].equals("/clear")) {
 			output.setText(starter);
 			log("\nCommand to Clear Screen Invoked");
 		}
-		if (textStep2[0].equals("acknowledgements")) {
-			Core.acknowledgements(null);
+		if (operand[0].equals("acknowledgements")) {
+			ConsoleCommands.acknowledgements(null);
 		}
-		if (textStep2[0].equals("/font")){
+		if (operand[0].equals("/font")){
 			int tmp;
-			if (textStep2[2].equals(null)){
+			if (operand[2].equals(null)){
 				tmp = 11;
 			}
-			tmp = java.lang.Integer.parseInt(textStep2[2]);
-			Font font = new Font(textStep2[1], 0, tmp);
+			tmp = java.lang.Integer.parseInt(operand[2]);
+			Font font = new Font(operand[1], 0, tmp);
 			output.setFont(font);
 		}
-		if (textStep2[0].equals("/api")){
-			if (textStep2[1].equals(null)){
+		if (operand[0].equals("/api")){
+			if (preoperand.equals(operand[0])){
 				append("This is the current list of Plugins:");
 				append(Info.plugins);
-			}
-			else {
-				// read and execute plugin.
+			} else {
+				api(null);
 			}
 		}
 
 		// ProcessBuilder Calling System
 		else { 
-			if ((!textStep2[0].equals("bash"))) {
+			if ((!operand[0].equals("bash"))) {
 				exec(null);
-				log("\nBASH COMMAND INVOKED: " + textStep1);
+				log("\nBASH COMMAND INVOKED: " + preoperand);
 			}
 		}	
 	}
@@ -71,7 +70,7 @@ public class Core extends API {
 	// EXECUTION STREAM
 	public static void exec(String[] args) throws IOException{
 		// Output Stream
-		ProcessBuilder builder = new ProcessBuilder(textStep2);
+		ProcessBuilder builder = new ProcessBuilder(operand);
 		Process process = builder.start();
 		InputStream is = process.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);
@@ -139,7 +138,12 @@ public class Core extends API {
 		br.close();
 		log("\nHelp Processing Trigger Invoked");
 	}
-	public static void api(String[] args) {
-		
+	public static void api(String[] args){
+		if (operand[1].equals("SimplePlugin")){
+			com.me.ifly6.plugins.SimplePlugin.plugin(null);
+		}
+		if (operand[1].equals("DebugMenu")){
+			com.me.ifly6.plugins.DebugMenu.main(null);
+		}
 	}
 }

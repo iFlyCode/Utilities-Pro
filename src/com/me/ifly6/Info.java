@@ -2,14 +2,15 @@ package com.me.ifly6;
 
 public class Info {
 
-	static String computername = "Unknown";
-	static String copyright = "(c) ifly6@me.com - Now Open Source. Distributed Under GPL Licence.";
+	public static String computername = "Unknown";
+	public static String copyright = "(c) ifly6@me.com - Now Open Source. Distributed Under GPL Licence.";
 	
 	// Version-based.
-	static String password = "greenmont";
-	static String version = "2.2_02-dev";
-	static String plugins = "* SimplePlugin" +
-			"\n*";
+	public static String password = "greenmont";
+	public static String version = "2.2_02-dev";
+	public static String plugins = "* SimplePlugin" +
+			"\n* DebugMenu" +
+			"\n* Type '/api name' to execute";
 	
 	/*
 	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>

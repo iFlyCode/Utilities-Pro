@@ -71,7 +71,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	{
 		// Base GUI, in Swing.
 		frame.setBounds(50, 50, 670, 735);
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		Container con = getContentPane();
 		getContentPane().setLayout(new BorderLayout());
 		con.add(this.pane);

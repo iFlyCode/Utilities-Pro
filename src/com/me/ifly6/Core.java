@@ -113,6 +113,6 @@ public class Core extends Console{
 		while ((r = br.readLine()) != null){
 			Console.output.append("\n " + r); }
 		br.close();
-		Console.log.append("\nAcknowledgements Processing Trigger Invoked");
+		log.append("\nAcknowledgements Processing Trigger Invoked");
 	}
 }

@@ -18,7 +18,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
 	 * FIX THE SWTICH SCREEN MECANISM
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
 
 	// SWING DATA
@@ -282,6 +282,15 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 					output.append("\n " + r);
 			} catch (IOException localIOException2) { bug.append("\nAcknowledgements Failed: IOException"); }
 			bug.append("\nAcknowledgements Processing Trigger Invoked");
+		}
+		if (t2[0].equals("/font")){
+			int tmp;
+			if (t2[2].equals(null)){
+				tmp = 11;
+			}
+			tmp = java.lang.Integer.parseInt(t2[2]);
+			Font font = new Font(t2[1], 0, tmp);
+			output.setFont(font);
 		}
 
 		// ProcessBuilder Calling System

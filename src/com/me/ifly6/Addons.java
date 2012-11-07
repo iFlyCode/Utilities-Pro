@@ -6,12 +6,13 @@ public class Addons {
 
 	static Runtime rt = Runtime.getRuntime();
 	static String userName = System.getProperty("user.name");
+	private static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
 
 	public static void save(String[] args) throws IOException {
 		Console.log.append("\nOutput Saving System Invoked.");
 		String report = Console.output.getText();
 		long time = System.currentTimeMillis();
-		File f = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
+		File f = new File(IUTILITIES_DIR);
 		f.mkdirs();
 		Writer output = null;
 		File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report" + time + ".txt");
@@ -31,28 +32,27 @@ public class Addons {
 				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6server.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
 		Console.log.append("\nMindterm Download Invoked.");
-		Console.output.append("\nMindterm Downloaded to: " + "/Users/" + userName + "/Library/Application Support/iUtilities");
+		Console.output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR);
 	}
 
 	public static void purge(String[] args) throws IOException {
 		Console.log.append("\nInactive Memory Purged");
 		Console.output.append("\n" + Console.computername + "~ $ purge");
 		Console.log.append("\nMindterm Download Invoked.");
-		Console.output.append("\nMindterm Downloaded to: " + "/Users/" + userName + "/Library/Application Support/iUtilities" +
-				"\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D.");
+		Console.output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D.");
 	}
 	public static void debug(String[] args) throws IOException {
 		Console.log.append("\niUtilities Debug Readout Command Executed");
 		String debug = Console.log.getText();
 		long time = System.currentTimeMillis();
-		File f = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
+		File f = new File(IUTILITIES_DIR);
 		f.mkdirs();
 		Writer output = null;
-		File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report" + time + ".txt");
+		File file = new File(IUTILITIES_DIR + "/report" + time + ".txt");
 		output = new BufferedWriter(new FileWriter(file));
 		output.write(debug);
 		output.close();
-		Console.output.append("\nDebug Contents Exported to File: ~/Library/Application Support/iUtilities");
+		Console.output.append("\nDebug Contents Exported to File in: " + IUTILITIES_DIR);
 	}
 	public static void info(String[] args) throws InterruptedException, IOException{
 		Console.log.append("\nSystem Readout Invoked.");

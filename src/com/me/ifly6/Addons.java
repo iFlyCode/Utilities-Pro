@@ -55,7 +55,7 @@ public class Addons {
 		output = new BufferedWriter(new FileWriter(file));
 		output.write(debug);
 		output.close();
-		Console.output.append("Debug Contents Exported to File.");
+		Console.output.append("\nDebug Contents Exported to File: ~/Library/Application Support/iUtilities");
 	}
 	public static void info(String[] args) throws InterruptedException, IOException{
 		Console.bug.append("\nSystem Readout Invoked.");

@@ -33,6 +33,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "\n == iUtilities Console " + Data.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
+	static String storage;
+	static int status = 0;
 
 	// MENUBAR DATA
 	JMenuBar menubar = new JMenuBar();
@@ -47,6 +49,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem ping = new JMenuItem("Ping Utility");
 	JMenuItem clear = new JMenuItem("Clear Screen");
+	JMenuItem viewswitch = new JMenuItem("Switch View");
 	JMenuItem term = new JMenuItem("Terminate");
 	JMenuItem del = new JMenuItem("Delete iUtilities Files");
 
@@ -100,9 +103,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		ping.addActionListener(this);
 		// View
 		menuview.add(clear);
+		menuview.add(viewswitch);
 		menuview.add(term);
 		menuview.add(del);
 		clear.addActionListener(this);
+		viewswitch.addActionListener(this);
 		term.addActionListener(this);
 		del.addActionListener(this);
 
@@ -178,6 +183,21 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == clear){
 			output.setText(null);
 			bug.append("\nConsole Text Cleared");
+		}
+		// Needs Work
+		if (eventSource == viewswitch){
+			if (status == 0){
+				bug.append("\nViewSwitched to Debug");
+				storage = output.getText();
+				String temp = bug.getText();
+				output.setText(temp);
+				status = 1;
+			}
+			if (status == 1){
+				bug.append("\nViewSwitched to Output");
+				output.setText(storage);
+				status = 0;
+			}
 		}
 		if (eventSource == term){
 			bug.append("\nTermination of Programme Switched");

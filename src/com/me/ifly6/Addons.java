@@ -21,8 +21,8 @@ public class Addons {
 		Console.output.append("Contents Exported.");
 	}
 	public static void script() {
-		// TODO Auto-generated method stub
-
+		Console.output.append("\n** Checking ~/Library/Application Support/iUtilities/script/check.txt");
+		// Some stuff.
 	}
 	public static void mindterm() throws IOException {
 		String a = System.getProperty("user.name");
@@ -39,7 +39,6 @@ public class Addons {
 		Console.bug.append("\nInactive Memory Purged");
 		Console.output.append("\n" + Console.computername + "~ $ purge");
 		String[] temp = {"purge"};
-		Runtime rt = Runtime.getRuntime();
 		rt.exec(temp);
 		Console.output.append("\n== Inactive Memory Purged ==");
 	}
@@ -82,6 +81,8 @@ public class Addons {
 		while ((line1 = br1.readLine()) != null) {
 			Console.output.append(" " + line1 + "\n");
 		}
+		
+		// Hardware
 		Console.output.append("\nAvailable cores: " + 
 				Runtime.getRuntime().availableProcessors());
 		Console.output.append("\nFree memory (bytes): " + 
@@ -92,7 +93,6 @@ public class Addons {
 				Runtime.getRuntime().totalMemory());
 		File[] roots = File.listRoots();
 		Console.output.append("\n");
-		Console.output.append("\nTemp: " + System.getProperty("java.io.tmpdir"));
 		for (File root : roots) {
 			Console.output.append("\nFile system root: " + root.getAbsolutePath());
 			Console.output.append("\nFS Capacity (bytes): " + root.getTotalSpace());

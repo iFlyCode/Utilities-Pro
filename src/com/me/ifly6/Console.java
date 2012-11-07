@@ -33,8 +33,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "\n == iUtilities Console " + Data.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
+	static String help = ("\n == Help Menu ==" +
+			"\n * Commands: 'acknowledgements', 'changelog', 'copyright', '/clear'" +
+			"\n * Most (but not all) bash commands are accepted, and will run.");
 	static String storage;
-	static int status = 0;
+	static int status;
 
 	// MENUBAR DATA
 	JMenuBar menubar = new JMenuBar();
@@ -127,6 +130,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		bug.append("\niUtilities " + Data.version + " Initialised. Date: " + date);
+		status = 0;
 	}
 
 	// EVENT HANDLER
@@ -143,6 +147,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
 
+	// ACTIONPREFORMED LISTENER FOR ALL THE DAMN BUTTONS
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if (eventSource == export) {
@@ -151,8 +156,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (IOException e1) { bug.append("\nExport Failed, IOException"); }
 		}
 		if (eventSource == script) {
-			output.append("\nLooking for Script in ~/Library/Application Support/iUtilities/scripts");
 			Addons.script();
+			bug.append("Script Look Executed. May or may not have run.");
 		}
 		if (eventSource == mindterm) {
 			try {
@@ -182,21 +187,22 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == clear){
 			output.setText(null);
+			output.setText(starter);
 			bug.append("\nConsole Text Cleared");
 		}
 		// Needs Work
 		if (eventSource == viewswitch){
 			if (status == 0){
-				bug.append("\nViewSwitched to Debug");
 				storage = output.getText();
-				String temp = bug.getText();
-				output.setText(temp);
+				output.setText(null);
+				Console.output.setText(Console.bug.getText());
 				status = 1;
+				output.append("\nViewSwitched to Debug");
 			}
 			if (status == 1){
-				bug.append("\nViewSwitched to Output");
 				output.setText(storage);
 				status = 0;
+				bug.append("\nViewSwitched to Output");
 			}
 		}
 		if (eventSource == term){
@@ -211,7 +217,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 	}
 
-	// PROCESSING STREAMS
+	// PROCESSING STREAM
 	public static void processing(String[] args) throws InterruptedException, IOException {
 		boolean triggered = false;
 		t1 = input.getText();
@@ -226,7 +232,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				String userName = System.getProperty("user.name");
 				File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 				folder.mkdirs();
-				String[] url = { "curl", "-o", "/Users/" + userName + 
+				String[] url = { "curl","-o","/Users/" + userName + 
 						"/Library/Application Support/iUtilities/changelog.txt", "http://ifly6server.no-ip.org/iUtilities/changelog.txt" };
 				rt.exec(url);
 				String r = "\n";
@@ -245,9 +251,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			bug.append("\nCopyright Processing Trigger Invoked");
 		}
 		if (t2[0].equals("help")) {
-			output.append("\n == Help Menu ==" +
-					"\n * Assorted Commands: 'acknowledgements', 'changelog', 'copyright', '/clear'" +
-					"\n * Most (but not all) bash commands are accepted, and will run.");
+			output.append(help);
 			triggered = true;
 			bug.append("\nHelp Processing Trigger Invoked");
 		}
@@ -279,13 +283,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// ProcessBuilder Calling System
 		else { 
 			if ((!t2[0].equals("bash")) && (!triggered)) {
-				execution(null);
+				exec(null);
 				bug.append("\nBASH COMMAND INVOKED: " + t1);
 			}
 		}	
 	}
 
-	public static void execution(String[] args) throws IOException{
+	// EXECUTION STREAM
+	public static void exec(String[] args) throws IOException{
 		// Output Stream
 		ProcessBuilder builder = new ProcessBuilder(t2);
 		Process process = builder.start();

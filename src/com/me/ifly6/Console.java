@@ -250,8 +250,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == term){
 			output.append("\n" + computername + "~ $ View>Terminate");
-			log.append("\nTermination of Programme Switched");
-			System.exit(0);
+			log.append("\nTermination of Dynamic Programme Switched");
+			TextCommands.process.destroy();
 		}
 		if (eventSource == about) {
 			output.append("\n" + computername + "~ $ Help>About");

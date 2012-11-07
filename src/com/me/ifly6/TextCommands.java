@@ -13,7 +13,8 @@ public class TextCommands extends API {
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
 	static String userName = System.getProperty("user.name");
-	private static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
+	public static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
+	public static Process process = null;
 
 	public static void processing(String[] args) throws InterruptedException, IOException {
 		preoperand = input.getText();
@@ -69,23 +70,34 @@ public class TextCommands extends API {
 
 	// EXECUTION STREAM
 	public static void exec(String[] args) throws IOException{
-		// Output Stream
-		ProcessBuilder builder = new ProcessBuilder(operand);
-		Process process = builder.start();
-		InputStream is = process.getInputStream();
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(isr);
-		String line;
-		while ((line = br.readLine()) != null) {
-			append(line);
-		}
-		// Error Stream
-		InputStream stderr1 = process.getErrorStream();
-		InputStreamReader isr1 = new InputStreamReader(stderr1);
-		BufferedReader br1 = new BufferedReader(isr1);
-		String line1 = null;
-		while ((line1 = br1.readLine()) != null)
-			append(line1);
+		Runnable runner = new Runnable() {
+			public void run() {
+				// Output Stream
+				ProcessBuilder builder = new ProcessBuilder(operand);
+				try {
+					process = builder.start();
+				} catch (IOException e) { log("ProcessBuilder Error: IOException"); }
+				InputStream is = process.getInputStream();
+				InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr);
+				String line;
+				try {
+					while ((line = br.readLine()) != null) {
+						append(line);
+					}
+				} catch (IOException e) { }
+				// Error Stream
+				InputStream stderr1 = process.getErrorStream();
+				InputStreamReader isr1 = new InputStreamReader(stderr1);
+				BufferedReader br1 = new BufferedReader(isr1);
+				String line1 = null;
+				try {
+					while ((line1 = br1.readLine()) != null) {
+						append(line1); }
+				} catch (IOException e) { }
+			}
+		};
+		new Thread(runner).start();
 	}
 
 	/*

@@ -5,7 +5,7 @@ public interface API {
 	/**
 	 * @return whether the plugin should let the command through to the OS after execution.
 	 */
-	public boolean blocksCommand();
+	public boolean blockCommandPassthrough();
 	
 	/**
 	 * @param command, the command with args passed to the plugin by the console.
@@ -14,7 +14,6 @@ public interface API {
 	public int execute(String[] command);
 	
 	/**
-	 * 
 	 * @return String array of commands the console should hand off to the plugin
 	 */
 	public int claimedCommands();

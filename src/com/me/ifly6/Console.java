@@ -36,7 +36,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
-	static String help = ("\n == Help Menu ==" +
+	static String helpstring = ("\n == Help Menu ==" +
 			"\n * Commands: 'acknowledgements', 'changelog', 'copyright', '/clear'" +
 			"\n * Most (but not all) bash commands are accepted, and will run.");
 	static int status;
@@ -46,6 +46,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenu menufile = new JMenu("File");
 	JMenu menucomm = new JMenu("Commands");
 	JMenu menuview = new JMenu("View");
+	JMenu menuhelp = new JMenu("Help");
 	JMenuItem export = new JMenuItem("Exportation");
 	JMenuItem script = new JMenuItem("Script Input");
 	JMenuItem mindterm = new JMenuItem("Mindterm");
@@ -57,6 +58,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem viewswitch = new JMenuItem("Switch View");
 	JMenuItem del = new JMenuItem("Delete iUtilities Files");
 	JMenuItem term = new JMenuItem("Terminate");
+	JMenuItem about = new JMenuItem("About");
+	JMenuItem help = new JMenuItem("Help");
+	JMenuItem updates = new JMenuItem("Updates");
 
 	Console()
 	{
@@ -91,6 +95,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		menubar.add(menufile);
 		menubar.add(menucomm);
 		menubar.add(menuview);
+		menubar.add(menuhelp);
 
 		// File
 		menufile.add(export);
@@ -117,6 +122,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		viewswitch.addActionListener(this);
 		term.addActionListener(this);
 		del.addActionListener(this);
+		
+		// Help
+		menuhelp.add(about);
+		menuhelp.add(help);
+		menuhelp.add(updates);
+		about.addActionListener(this);
+		help.addActionListener(this);
+		updates.addActionListener(this);
 
 		pane.add(menubar, BorderLayout.NORTH);
 		setVisible(true);
@@ -155,31 +168,37 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if (eventSource == export) {
+			output.append("\n" + computername + "~ $ File>Export");
 			try {
 				Addons.save(null);
 			} catch (IOException e1) { bug.append("\nExport Failed, IOException"); }
 		}
 		if (eventSource == script) {
+			output.append("\n" + computername + "~ $ File>Script");
 			Addons.script();
 			bug.append("Script Look Executed. May or may not have run.");
 		}
 		if (eventSource == mindterm) {
+			output.append("\n" + computername + "~ $ File>Mindterm");
 			try {
 				Addons.mindterm();
 			} catch (IOException e1) { bug.append("\nMindterm Download Failed: IOException"); }
 			bug.append("\nMindterm Download Commenced.");
 		}
 		if (eventSource == purge) {
+			output.append("\n" + computername + "~ $ Command>Purge");
 			try {
 				Addons.purge(null);
 			} catch (IOException e1) { bug.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
+			output.append("\n" + computername + "~ $ Command>Debug");
 			try {
 				Addons.debug(null);
 			} catch (IOException e1) { bug.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
+			output.append("\n" + computername + "~ $ Command>System Readout");
 			try {
 				Addons.info(null);
 			} catch (InterruptedException e1) { bug.append("\nInformation Not Exported: InterruptedException");
@@ -195,6 +214,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		// Needs Work
 		if (eventSource == viewswitch){
+			output.append("\n" + computername + "~ $ View>Switch View");
 			if (status == 0){
 				output.setText(null);
 				Console.output.setText(Console.bug.getText());
@@ -214,14 +234,30 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			}
 		}
 		if (eventSource == del){
+			output.append("\n" + computername + "~ $ View>Delete iUtilities Files");
 			try {
 				Addons.delete(null);
 			} catch (IOException e1) { bug.append("\nDeletion Failed: IOException"); }
 			output.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
 		}
 		if (eventSource == term){
+			output.append("\n" + computername + "~ $ View>Terminate");
 			bug.append("\nTermination of Programme Switched");
 			System.exit(0);
+		}
+		if (eventSource == about) {
+			output.append("\n" + computername + "~ $ Help>About");
+			output.append("\n== About iUtilities " + Info.version );
+			output.append("\n" + Info.copyright);
+			output.append("\nVersion " + Info.version + " '" + Info.password + "'");
+		}
+		if (eventSource == help){
+			output.append("\n" + computername + "~ $ Help>Help");
+			output.append(helpstring);
+		}
+		if (eventSource == updates){
+			output.append("\n" + computername + "~ $ Help>Updates");
+			// Fix THIS
 		}
 	}
 
@@ -256,7 +292,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			bug.append("\nCopyright Processing Trigger Invoked");
 		}
 		if (t2[0].equals("help")) {
-			output.append(help);
+			output.append(helpstring);
 			bug.append("\nHelp Processing Trigger Invoked");
 		}
 		if (t2[0].equals("/clear")) {
@@ -309,17 +345,15 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		InputStreamReader isr = new InputStreamReader(is);
 		BufferedReader br = new BufferedReader(isr);
 		String line;
-		output.append("\n");
 		while ((line = br.readLine()) != null) {
-			output.append(line + "\n");
+			output.append("\n" + line);
 		}
 		// Error Stream
 		InputStream stderr1 = process.getErrorStream();
 		InputStreamReader isr1 = new InputStreamReader(stderr1);
 		BufferedReader br1 = new BufferedReader(isr1);
 		String line1 = null;
-		output.append("\n");
 		while ((line1 = br1.readLine()) != null)
-			output.append(" " + line1 + "\n");
+			output.append("\n " + line1);
 	}
 }

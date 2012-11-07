@@ -3,10 +3,14 @@ package com.me.ifly6;
 public class Info {
 
 	static String computername = "Unknown";
-	static String copyright = "(c) ifly6@me.com - All Rights Reserved. This may not be edited, " +
-			"\n modified, copied, changed, or reverse engineered without the permission of the author. " +
-			"\n If you do, you will face legal action as stated under United States/International Copyright Law.";
+	static String copyright = "(c) ifly6@me.com - Now Open Source. Distributed Under GPL Licence.";
 	static String password = "greenmont";
 	static String version = "2.2_01_dev1";
-
+	
+	/*
+	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>
+	 * For example: alpha 2.2_01.2 = Major Version 2, Minor Version 2, Revision 01, Sub-Revision 2
+	 * For example: 2.2 = Release, Major Version 2, Minor Version 2, No revisions.
+	 */
+	
 }

@@ -16,7 +16,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	/*
 	 * THINGS TO DO:
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
-	 * FIX THE SWTICH SCREEN MECANISM
+	 * FIX THE SWTICH SCREEN MECHANISM
 	 */
 
 	private static final long serialVersionUID = 1L;
@@ -39,7 +39,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static String help = ("\n == Help Menu ==" +
 			"\n * Commands: 'acknowledgements', 'changelog', 'copyright', '/clear'" +
 			"\n * Most (but not all) bash commands are accepted, and will run.");
-	static String storage;
 	static int status;
 
 	// MENUBAR DATA
@@ -197,7 +196,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// Needs Work
 		if (eventSource == viewswitch){
 			if (status == 0){
-				storage = output.getText();
 				output.setText(null);
 				Console.output.setText(Console.bug.getText());
 				output.append("\nViewSwitched to Debug");
@@ -207,7 +205,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				status = 1;
 			}
 			if (status == 1){
-				output.setText(storage);
+				output.setText(starter);
 				try {
 					Thread.sleep(50);
 				} catch (InterruptedException e1) { }

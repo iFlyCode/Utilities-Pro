@@ -22,6 +22,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	private static final long serialVersionUID = 1L;
 
 	// SWING DATA
+	JFrame frame = new JFrame("iUtilities " + Info.version);
 	JPanel pane = new JPanel();
 	static JTextArea output = new JTextArea();
 	static JTextArea log = new JTextArea();
@@ -69,13 +70,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	Console()
 	{
 		// Base GUI, in Swing.
-		super("iUtilities " + Info.version);
-		setBounds(50, 50, 670, 735);
+		frame.setBounds(50, 50, 670, 735);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		Container con = getContentPane();
 		getContentPane().setLayout(new BorderLayout());
 		con.add(this.pane);
 		pane.setLayout(new BorderLayout());
+		frame.add(pane);
 
 		pane.add(scp, BorderLayout.CENTER);
 		pane.add(input, BorderLayout.SOUTH);
@@ -140,7 +141,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		updates.addActionListener(this);
 
 		pane.add(menubar, BorderLayout.NORTH);
-		setVisible(true);
+		pane.setVisible(true);
+		frame.setVisible(true);
 		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 

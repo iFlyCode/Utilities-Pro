@@ -42,7 +42,8 @@ public class Addons extends Console {
 		log.append("\nInactive Memory Purged");
 		output.append("\n" + Console.computername + "~ $ purge");
 		log.append("\nMindterm Download Invoked.");
-		output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D.");
+		output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D." +
+				"\nIt is however, not made by the iUtilities Team, and therefore, does not fall under our perview.");
 	}
 	public static void debug(String[] args) throws IOException {
 		Console.log.append("\niUtilities Debug Readout Command Executed");

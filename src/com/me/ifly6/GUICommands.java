@@ -4,7 +4,7 @@ import java.io.*;
 
 import javax.swing.text.DefaultCaret;
 
-public class GUICommands extends API {
+public class Addons extends API {
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();

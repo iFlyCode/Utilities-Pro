@@ -229,7 +229,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	// PROCESSING STREAM
 	public static void processing(String[] args) throws InterruptedException, IOException {
-		boolean triggered = false;
 		t1 = input.getText();
 		output.append("\n" + computername + "~ $ " + t1);
 		input.setText(null);
@@ -252,22 +251,18 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				while ((r = br.readLine()) != null)
 					output.append("\n " + r);
 			} catch (IOException localIOException) { bug.append("\nChangelog Failed: IOException"); }
-			triggered = true;
 			bug.append("\nChangelog Processing Trigger Invoked.");
 		}
 		if (t2[0].equals("copyright")) {
 			output.append("\n" + Data.copyright);
-			triggered = true;
 			bug.append("\nCopyright Processing Trigger Invoked");
 		}
 		if (t2[0].equals("help")) {
 			output.append(help);
-			triggered = true;
 			bug.append("\nHelp Processing Trigger Invoked");
 		}
 		if (t2[0].equals("/clear")) {
 			output.setText(starter);
-			triggered = true;
 			bug.append("\nCommand to Clear Screen Invoked");
 		}
 		if (t2[0].equals("acknowledgements")) {
@@ -286,13 +281,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				while ((r = br.readLine()) != null)
 					output.append("\n " + r);
 			} catch (IOException localIOException2) { bug.append("\nAcknowledgements Failed: IOException"); }
-			triggered = true;
 			bug.append("\nAcknowledgements Processing Trigger Invoked");
 		}
 
 		// ProcessBuilder Calling System
 		else { 
-			if ((!t2[0].equals("bash")) && (!triggered)) {
+			if ((!t2[0].equals("bash"))) {
 				exec(null);
 				bug.append("\nBASH COMMAND INVOKED: " + t1);
 			}

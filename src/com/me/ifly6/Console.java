@@ -168,7 +168,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if (eventSource == export) {
-			output.append("\n" + computername + "~ $ File>Export");
+			output.append("\n" + computername + "~ $ File>Export ");
 			try {
 				Addons.save(null);
 			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }

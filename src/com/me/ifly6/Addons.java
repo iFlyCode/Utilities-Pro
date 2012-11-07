@@ -5,11 +5,11 @@ import java.io.*;
 public class Addons {
 
 	static Runtime rt = Runtime.getRuntime();
+	static String userName = System.getProperty("user.name");
 
 	public static void save(String[] args) throws IOException {
 		Console.log.append("\nOutput Saving System Invoked.");
 		String report = Console.output.getText();
-		String userName = System.getProperty("user.name");
 		long time = System.currentTimeMillis();
 		File f = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 		f.mkdirs();
@@ -25,7 +25,6 @@ public class Addons {
 		// Some stuff.
 	}
 	public static void mindterm() throws IOException {
-		String userName = System.getProperty("user.name");
 		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities/");
 		folder.mkdirs();
 		String[] url = { "curl", "-o", "/Users/" + userName + 
@@ -38,14 +37,13 @@ public class Addons {
 	public static void purge(String[] args) throws IOException {
 		Console.log.append("\nInactive Memory Purged");
 		Console.output.append("\n" + Console.computername + "~ $ purge");
-		String[] temp = {"purge"};
-		rt.exec(temp);
-		Console.output.append("\n== Inactive Memory Purged ==");
+		Console.log.append("\nMindterm Download Invoked.");
+		Console.output.append("\nMindterm Downloaded to: " + "/Users/" + userName + "/Library/Application Support/iUtilities" +
+				"\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D.");
 	}
 	public static void debug(String[] args) throws IOException {
 		Console.log.append("\niUtilities Debug Readout Command Executed");
 		String debug = Console.log.getText();
-		String userName = System.getProperty("user.name");
 		long time = System.currentTimeMillis();
 		File f = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 		f.mkdirs();

@@ -9,12 +9,12 @@ public class Addons {
 	public static void save(String[] args) throws IOException {
 		Console.log.append("\nOutput Saving System Invoked.");
 		String report = Console.output.getText();
-		String a = System.getProperty("user.name");
+		String userName = System.getProperty("user.name");
 		long time = System.currentTimeMillis();
-		File f = new File("/Users/" + a + "/Library/Application Support/iUtilities");
+		File f = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 		f.mkdirs();
 		Writer output = null;
-		File file = new File("/Users/" + a + "/Library/Application Support/iUtilities/report" + time + ".txt");
+		File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report" + time + ".txt");
 		output = new BufferedWriter(new FileWriter(file));
 		output.write(report);
 		output.close();
@@ -25,14 +25,14 @@ public class Addons {
 		// Some stuff.
 	}
 	public static void mindterm() throws IOException {
-		String a = System.getProperty("user.name");
-		File folder = new File("/Users/" + a + "/Library/Application Support/iUtilities/");
+		String userName = System.getProperty("user.name");
+		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities/");
 		folder.mkdirs();
-		String[] url = { "curl", "-o", "/Users/" + a + 
+		String[] url = { "curl", "-o", "/Users/" + userName + 
 				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6server.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
 		Console.log.append("\nMindterm Download Invoked.");
-		Console.output.append("\nMindterm Downloaded to: " + "/Users/" + a + "/Library/Application Support/iUtilities");
+		Console.output.append("\nMindterm Downloaded to: " + "/Users/" + userName + "/Library/Application Support/iUtilities");
 	}
 
 	public static void purge(String[] args) throws IOException {
@@ -45,12 +45,12 @@ public class Addons {
 	public static void debug(String[] args) throws IOException {
 		Console.log.append("\niUtilities Debug Readout Command Executed");
 		String debug = Console.log.getText();
-		String a = System.getProperty("user.name");
+		String userName = System.getProperty("user.name");
 		long time = System.currentTimeMillis();
-		File f = new File("/Users/" + a + "/Library/Application Support/iUtilities");
+		File f = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 		f.mkdirs();
 		Writer output = null;
-		File file = new File("/Users/" + a + "/Library/Application Support/iUtilities/report" + time + ".txt");
+		File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report" + time + ".txt");
 		output = new BufferedWriter(new FileWriter(file));
 		output.write(debug);
 		output.close();

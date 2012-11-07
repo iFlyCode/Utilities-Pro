@@ -1,6 +1,6 @@
 package com.me.ifly6;
 
-public class Data {
+public class Info {
 
 	static String computername = "Unknown";
 	static String copyright = "(c) ifly6@me.com - All Rights Reserved. This may not be edited, " +

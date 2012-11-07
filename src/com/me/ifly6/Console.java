@@ -33,7 +33,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static String[] t2;
 	static String computername = "Unknown";
 	static String[] mem = new String[10];
-	static final String starter = "\n == iUtilities Console " + Data.version + " == " + 
+	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
 	static String help = ("\n == Help Menu ==" +
@@ -62,7 +62,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	Console()
 	{
 		// Base GUI, in Swing.
-		super("iUtilities " + Data.version);
+		super("iUtilities " + Info.version);
 		setBounds(50, 50, 670, 735);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		Container con = getContentPane();
@@ -134,7 +134,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		@SuppressWarnings("unused")
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		bug.append("\niUtilities " + Data.version + " Initialised. Date: " + date);
+		bug.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
 		status = 0;
 	}
 
@@ -254,7 +254,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			bug.append("\nChangelog Processing Trigger Invoked.");
 		}
 		if (t2[0].equals("copyright")) {
-			output.append("\n" + Data.copyright);
+			output.append("\n" + Info.copyright);
 			bug.append("\nCopyright Processing Trigger Invoked");
 		}
 		if (t2[0].equals("help")) {

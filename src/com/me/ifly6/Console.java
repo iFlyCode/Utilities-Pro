@@ -126,64 +126,64 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	// EVENT HANDLER
 	public void keyPressed(KeyEvent e) {
-		int a = e.getKeyCode();
-		if (a == 10) {
+		int keyCode = e.getKeyCode();
+		if (keyCode == 10) {
 			try {
 				processing(null);
 			} catch (InterruptedException e1) { bug.append("\nkeyPressed Error");
 			} catch (IOException e1) { bug.append("\nkeyPressed Error"); }
 		}
-		if (a == 38){ input.setText(t1); }
+		if (keyCode == 38){ input.setText(t1); }
 	}
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
 
 	public void actionPerformed(ActionEvent e) {
-		Object a = e.getSource();
-		if (a == export) {
+		Object eventSource = e.getSource();
+		if (eventSource == export) {
 			try {
 				Addons.save(null);
 			} catch (IOException e1) { bug.append("\nExport Failed, IOException"); }
 		}
-		if (a == script) {
+		if (eventSource == script) {
 			output.append("\nLooking for Script in ~/Library/Application Support/iUtilities/scripts");
 			Addons.script();
 		}
-		if (a == mindterm) {
+		if (eventSource == mindterm) {
 			try {
 				Addons.mindterm();
 			} catch (IOException e1) { bug.append("\nMindterm Download Failed: IOException"); }
 			bug.append("\nMindterm Download Commenced.");
 		}
-		if (a == purge) {
+		if (eventSource == purge) {
 			try {
 				Addons.purge(null);
 			} catch (IOException e1) { bug.append("\nPurge Failed: IOException");}
 		}
-		if (a == debug) {
+		if (eventSource == debug) {
 			try {
 				Addons.debug(null);
 			} catch (IOException e1) { bug.append("\nBug JTextArea Export Failed: IOException"); }
 		}
-		if (a == info){
+		if (eventSource == info){
 			try {
 				Addons.info(null);
 			} catch (InterruptedException e1) { bug.append("\nInformation Not Exported: InterruptedException");
 			} catch (IOException e1) { bug.append("\nInformation Not Exported: IOException"); }
 		}
-		if (a == ping){
+		if (eventSource == ping){
 			input.setText("ping -c 1 ");
 			bug.append("\nPing Shortcut Accessed.");
 		}
-		if (a == clear){
+		if (eventSource == clear){
 			output.setText(null);
 			bug.append("\nConsole Text Cleared");
 		}
-		if (a == term){
+		if (eventSource == term){
 			bug.append("\nTermination of Programme Switched");
 			System.exit(0);
 		}
-		if (a == del){
+		if (eventSource == del){
 			Addons.delete(null);
 			bug.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
 		}
@@ -201,14 +201,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		Runtime rt = Runtime.getRuntime();
 		if (t2[0].equals("changelog")) {
 			try {
-				String a = System.getProperty("user.name");
-				File folder = new File("/Users/" + a + "/Library/Application Support/iUtilities");
+				String userName = System.getProperty("user.name");
+				File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 				folder.mkdirs();
-				String[] url = { "curl", "-o", "/Users/" + a + 
+				String[] url = { "curl", "-o", "/Users/" + userName + 
 						"/Library/Application Support/iUtilities/changelog.txt", "http://ifly6server.no-ip.org/iUtilities/changelog.txt" };
 				rt.exec(url);
 				String r = "\n";
-				FileReader fstream = new FileReader("/Users/" + a + "/Library/Application Support/iUtilities/changelog.txt");
+				FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/changelog.txt");
 				BufferedReader br = new BufferedReader(fstream);
 				r = br.readLine();
 				while ((r = br.readLine()) != null)
@@ -236,15 +236,15 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (t2[0].equals("acknowledgements")) {
 			try {
-				String a = System.getProperty("user.name");
-				File folder = new File("/Users/" + a + "/Library/Application Support/iUtilities");
+				String userName = System.getProperty("user.name");
+				File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 				folder.mkdirs();
-				String[] url = { "curl", "-o", "/Users/" + a + 
+				String[] url = { "curl", "-o", "/Users/" + userName + 
 						"/Library/Application Support/iUtilities/acknowledgements.txt", "http://ifly6server.no-ip.org/iUtilities/acknowledgements.txt" };
 				ProcessBuilder builder = new ProcessBuilder(url);
 				builder.start();
 				String r = "\n";
-				FileReader fstream = new FileReader("/Users/" + a + "/Library/Application Support/iUtilities/acknowledgements.txt");
+				FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
 				BufferedReader br = new BufferedReader(fstream);
 				r = br.readLine();
 				while ((r = br.readLine()) != null)

@@ -37,11 +37,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
-
-
-	static String helpstring = ("\n == Help Menu ==" +
-			"\n * Commands: 'acknowledgements', 'changelog', 'copyright', '/clear'" +
-			"\n * Most (but not all) bash commands are accepted, and will run.");
 	static int status;
 
 	// MENUBAR DATA
@@ -265,8 +260,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			output.append("\nVersion " + Info.version + " '" + Info.password + "'");
 		}
 		if (eventSource == help){
-			output.append("\n" + computername + "~ $ Help>Help");
-			output.append(helpstring);
+			try {
+				Core.help(null);
+			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
 			output.append("\n" + computername + "~ $ changelog");

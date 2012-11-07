@@ -30,7 +30,7 @@ public class Core extends Console{
 			log.append("\nCopyright Processing Trigger Invoked");
 		}
 		if (textStep2[0].equals("help")) {
-			output.append(helpstring);
+			Core.help(null);
 			log.append("\nHelp Processing Trigger Invoked");
 		}
 		if (textStep2[0].equals("/clear")) {
@@ -79,11 +79,11 @@ public class Core extends Console{
 		while ((line1 = br1.readLine()) != null)
 			output.append("\n " + line1);
 	}
-	
+
 	/*
 	 *  THE CORE FUNCTIONS METHODS.
 	 */
-	
+
 	public static void changelog(String[] args) throws IOException{
 		String userName = System.getProperty("user.name");
 		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
@@ -104,7 +104,7 @@ public class Core extends Console{
 		File folder = new File(IUTILITIES_DIR);
 		folder.mkdirs();
 		String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt",
-				"http://ifly6server.no-ip.org/iUtilities/acknowledgements.txt" };
+		"http://ifly6server.no-ip.org/iUtilities/acknowledgements.txt" };
 		rt.exec(url);
 		String r = "\n";
 		FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
@@ -114,5 +114,20 @@ public class Core extends Console{
 			Console.output.append("\n " + r); }
 		br.close();
 		log.append("\nAcknowledgements Processing Trigger Invoked");
+	}
+	public static void help(String[] args) throws IOException{
+		File folder = new File(IUTILITIES_DIR);
+		folder.mkdirs();
+		String[] url = { "curl", "-o", IUTILITIES_DIR + "/help.txt",
+		"http://ifly6server.no-ip.org/iUtilities/help.txt" };
+		rt.exec(url);
+		String r = "\n";
+		FileReader fstream = new FileReader(IUTILITIES_DIR +"/help.txt");
+		BufferedReader br = new BufferedReader(fstream);
+		r = br.readLine();
+		while ((r = br.readLine()) != null){
+			Console.output.append("\n " + r); }
+		br.close();
+		log.append("\nHelp Processing Trigger Invoked");
 	}
 }

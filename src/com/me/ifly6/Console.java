@@ -36,6 +36,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
+
+
 	static String helpstring = ("\n == Help Menu ==" +
 			"\n * Commands: 'acknowledgements', 'changelog', 'copyright', '/clear'" +
 			"\n * Most (but not all) bash commands are accepted, and will run.");
@@ -55,11 +57,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem ping = new JMenuItem("Ping Utility");
 	JMenuItem clear = new JMenuItem("Clear Screen");
+	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
 	JMenuItem viewswitch = new JMenuItem("Switch View");
 	JMenuItem del = new JMenuItem("Delete iUtilities Files");
 	JMenuItem term = new JMenuItem("Terminate");
 	JMenuItem about = new JMenuItem("About");
 	JMenuItem help = new JMenuItem("Help");
+	JMenuItem changelog = new JMenuItem("Changelog");
 	JMenuItem updates = new JMenuItem("Updates");
 
 	Console()
@@ -115,10 +119,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		ping.addActionListener(this);
 		// View
 		menuview.add(clear);
+		menuview.add(defaultCarat);
 		menuview.add(viewswitch);
 		menuview.add(del);
 		menuview.add(term);
 		clear.addActionListener(this);
+		defaultCarat.addActionListener(this);
 		viewswitch.addActionListener(this);
 		term.addActionListener(this);
 		del.addActionListener(this);
@@ -126,9 +132,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// Help
 		menuhelp.add(about);
 		menuhelp.add(help);
+		menuhelp.add(changelog);
 		menuhelp.add(updates);
 		about.addActionListener(this);
 		help.addActionListener(this);
+		changelog.addActionListener(this);
 		updates.addActionListener(this);
 
 		pane.add(menubar, BorderLayout.NORTH);
@@ -212,6 +220,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			output.setText(starter);
 			log.append("\nConsole Text Cleared");
 		}
+		if (eventSource == defaultCarat){
+			Addons.defaultCarat(null);
+		}
 		// Needs Work
 		if (eventSource == viewswitch){
 			output.append("\n" + computername + "~ $ View>Switch View");
@@ -254,6 +265,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == help){
 			output.append("\n" + computername + "~ $ Help>Help");
 			output.append(helpstring);
+		}
+		if (eventSource == changelog){
+			output.append("\n" + computername + "~ $ changelog");
+			try {
+				Core.changelog(null);
+			} catch (IOException e1) { log.append("Changelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){
 			output.append("\n" + computername + "~ $ Help>Updates");

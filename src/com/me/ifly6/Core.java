@@ -22,7 +22,6 @@ public class Core extends Console{
 		textStep2 = textStep1.split(" ");
 
 		// Sub-commands
-		Runtime rt = Runtime.getRuntime();
 		if (textStep2[0].equals("changelog")) {
 			Core.changelog(null);
 		}
@@ -96,8 +95,9 @@ public class Core extends Console{
 		FileReader fstream = new FileReader(IUTILITIES_DIR + "/changelog.txt");
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
-		while ((r = br.readLine()) != null)
-			Console.output.append("\n " + r);
+		while ((r = br.readLine()) != null) {
+			Console.output.append("\n " + r); }
+		br.close();
 		log.append("\nChangelog Processing Trigger Invoked.");
 	}
 	public static void acknowledgements(String[] args) throws IOException{
@@ -110,8 +110,9 @@ public class Core extends Console{
 		FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
-		while ((r = br.readLine()) != null)
-			Console.output.append("\n " + r);
+		while ((r = br.readLine()) != null){
+			Console.output.append("\n " + r); }
+		br.close();
 		Console.log.append("\nAcknowledgements Processing Trigger Invoked");
 	}
 }

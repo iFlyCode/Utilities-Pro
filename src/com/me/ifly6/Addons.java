@@ -2,6 +2,8 @@ package com.me.ifly6;
 
 import java.io.*;
 
+import javax.swing.text.DefaultCaret;
+
 public class Addons extends Console {
 
 	private static final long serialVersionUID = 1L;
@@ -107,6 +109,10 @@ public class Addons extends Console {
 		Console.output.append("\nOperating System: " + System.getProperty(nameOS) + " " + System.getProperty(versionOS));
 		Console.output.append("\nUser: " + System.getProperty("user.name") + " ... with Home at: " + System.getProperty("user.home"));
 		Console.output.append("\nDesktop: " + System.getProperty("sun.desktop"));
+	}
+	public static void defaultCarat(Object object) {
+		DefaultCaret caret = (DefaultCaret)output.getCaret();
+		caret.setUpdatePolicy(2);
 	}
 	public static void delete(String[] args) throws IOException {
 		Console.log.append("\niUtilities Folder Deletion Commencing.");

@@ -5,7 +5,7 @@ public class Info {
 	static String computername = "Unknown";
 	static String copyright = "(c) ifly6@me.com - Now Open Source. Distributed Under GPL Licence.";
 	static String password = "greenmont";
-	static String version = "2.2_01_dev1";
+	static String version = "2.2_01-ebe4782";
 	
 	/*
 	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>

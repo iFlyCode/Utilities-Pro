@@ -155,7 +155,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				processing(null);
+				Core.processing(null);
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
@@ -259,72 +259,5 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			output.append("\n" + computername + "~ $ Help>Updates");
 			// Fix THIS
 		}
-	}
-
-	// PROCESSING STREAM
-	public static void processing(String[] args) throws InterruptedException, IOException {
-		textStep1 = input.getText();
-		output.append("\n" + computername + "~ $ " + textStep1);
-		input.setText(null);
-		textStep2 = textStep1.split(" ");
-
-		// Sub-commands
-		Runtime rt = Runtime.getRuntime();
-		if (textStep2[0].equals("changelog")) {
-			Core.changelog(null);
-		}
-		if (textStep2[0].equals("copyright")) {
-			output.append("\n" + Info.copyright);
-			log.append("\nCopyright Processing Trigger Invoked");
-		}
-		if (textStep2[0].equals("help")) {
-			output.append(helpstring);
-			log.append("\nHelp Processing Trigger Invoked");
-		}
-		if (textStep2[0].equals("/clear")) {
-			output.setText(starter);
-			log.append("\nCommand to Clear Screen Invoked");
-		}
-		if (textStep2[0].equals("acknowledgements")) {
-			Core.acknowledgements(null);
-		}
-		if (textStep2[0].equals("/font")){
-			int tmp;
-			if (textStep2[2].equals(null)){
-				tmp = 11;
-			}
-			tmp = java.lang.Integer.parseInt(textStep2[2]);
-			Font font = new Font(textStep2[1], 0, tmp);
-			output.setFont(font);
-		}
-
-		// ProcessBuilder Calling System
-		else { 
-			if ((!textStep2[0].equals("bash"))) {
-				exec(null);
-				log.append("\nBASH COMMAND INVOKED: " + textStep1);
-			}
-		}	
-	}
-
-	// EXECUTION STREAM
-	public static void exec(String[] args) throws IOException{
-		// Output Stream
-		ProcessBuilder builder = new ProcessBuilder(textStep2);
-		Process process = builder.start();
-		InputStream is = process.getInputStream();
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(isr);
-		String line;
-		while ((line = br.readLine()) != null) {
-			output.append("\n" + line);
-		}
-		// Error Stream
-		InputStream stderr1 = process.getErrorStream();
-		InputStreamReader isr1 = new InputStreamReader(stderr1);
-		BufferedReader br1 = new BufferedReader(isr1);
-		String line1 = null;
-		while ((line1 = br1.readLine()) != null)
-			output.append("\n " + line1);
 	}
 }

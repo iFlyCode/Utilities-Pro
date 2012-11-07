@@ -2,8 +2,9 @@ package com.me.ifly6;
 
 import java.io.*;
 
-public class Addons {
+public class Addons extends Console {
 
+	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
 	static String userName = System.getProperty("user.name");
 	private static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
@@ -19,10 +20,10 @@ public class Addons {
 		output = new BufferedWriter(new FileWriter(file));
 		output.write(report);
 		output.close();
-		Console.output.append("Contents Exported.");
+		output.append("Contents Exported.");
 	}
 	public static void script() {
-		Console.output.append("\n** Checking ~/Library/Application Support/iUtilities/script/check.txt");
+		output.append("\n** Checking ~/Library/Application Support/iUtilities/script/check.txt");
 		// Some stuff.
 	}
 	public static void mindterm() throws IOException {
@@ -31,15 +32,15 @@ public class Addons {
 		String[] url = { "curl", "-o", "/Users/" + userName + 
 				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6server.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
-		Console.log.append("\nMindterm Download Invoked.");
-		Console.output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR);
+		log.append("\nMindterm Download Invoked.");
+		output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR);
 	}
 
 	public static void purge(String[] args) throws IOException {
-		Console.log.append("\nInactive Memory Purged");
-		Console.output.append("\n" + Console.computername + "~ $ purge");
-		Console.log.append("\nMindterm Download Invoked.");
-		Console.output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D.");
+		log.append("\nInactive Memory Purged");
+		output.append("\n" + Console.computername + "~ $ purge");
+		log.append("\nMindterm Download Invoked.");
+		output.append("\nMindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D.");
 	}
 	public static void debug(String[] args) throws IOException {
 		Console.log.append("\niUtilities Debug Readout Command Executed");

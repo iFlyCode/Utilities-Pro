@@ -184,8 +184,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			System.exit(0);
 		}
 		if (eventSource == del){
-			Addons.delete(null);
-			bug.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
+			try {
+				Addons.delete(null);
+			} catch (IOException e1) { bug.append("\nDeletion Failed: IOException"); }
+			output.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
 		}
 	}
 

@@ -7,6 +7,3 @@
 
 # Mac junk
 *.DS_Store
-# Eclipse junk?
-*.classpath
-.project

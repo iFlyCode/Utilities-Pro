@@ -24,7 +24,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// SWING DATA
 	JPanel pane = new JPanel();
 	static JTextArea output = new JTextArea();
-	static JTextArea bug = new JTextArea();
+	static JTextArea log = new JTextArea();
 	static JTextField input = new JTextField();
 	JScrollPane scp = new JScrollPane(output);
 
@@ -133,7 +133,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 		pane.add(menubar, BorderLayout.NORTH);
 		setVisible(true);
-		bug.append("\nJava Swing GUI Initialised and Rendered");
+		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 
 	// MAIN THREAD.
@@ -146,7 +146,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		@SuppressWarnings("unused")
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		bug.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
+		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
 		status = 0;
 	}
 
@@ -156,8 +156,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (keyCode == 10) {
 			try {
 				processing(null);
-			} catch (InterruptedException e1) { bug.append("\nkeyPressed Error");
-			} catch (IOException e1) { bug.append("\nkeyPressed Error"); }
+			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
+			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
 		if (keyCode == 38){ input.setText(t1); }
 	}
@@ -171,53 +171,53 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			output.append("\n" + computername + "~ $ File>Export");
 			try {
 				Addons.save(null);
-			} catch (IOException e1) { bug.append("\nExport Failed, IOException"); }
+			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
 		}
 		if (eventSource == script) {
 			output.append("\n" + computername + "~ $ File>Script");
 			Addons.script();
-			bug.append("Script Look Executed. May or may not have run.");
+			log.append("Script Look Executed. May or may not have run.");
 		}
 		if (eventSource == mindterm) {
 			output.append("\n" + computername + "~ $ File>Mindterm");
 			try {
 				Addons.mindterm();
-			} catch (IOException e1) { bug.append("\nMindterm Download Failed: IOException"); }
-			bug.append("\nMindterm Download Commenced.");
+			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
+			log.append("\nMindterm Download Commenced.");
 		}
 		if (eventSource == purge) {
 			output.append("\n" + computername + "~ $ Command>Purge");
 			try {
 				Addons.purge(null);
-			} catch (IOException e1) { bug.append("\nPurge Failed: IOException");}
+			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
 			output.append("\n" + computername + "~ $ Command>Debug");
 			try {
 				Addons.debug(null);
-			} catch (IOException e1) { bug.append("\nBug JTextArea Export Failed: IOException"); }
+			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
 			output.append("\n" + computername + "~ $ Command>System Readout");
 			try {
 				Addons.info(null);
-			} catch (InterruptedException e1) { bug.append("\nInformation Not Exported: InterruptedException");
-			} catch (IOException e1) { bug.append("\nInformation Not Exported: IOException"); }
+			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
+			} catch (IOException e1) { log.append("\nInformation Not Exported: IOException"); }
 		}
 		if (eventSource == ping){
 			input.setText("ping -c 1 ");
-			bug.append("\nPing Shortcut Accessed.");
+			log.append("\nPing Shortcut Accessed.");
 		}
 		if (eventSource == clear){
 			output.setText(starter);
-			bug.append("\nConsole Text Cleared");
+			log.append("\nConsole Text Cleared");
 		}
 		// Needs Work
 		if (eventSource == viewswitch){
 			output.append("\n" + computername + "~ $ View>Switch View");
 			if (status == 0){
 				output.setText(null);
-				Console.output.setText(Console.bug.getText());
+				Console.output.setText(Console.log.getText());
 				output.append("\nViewSwitched to Debug");
 				try {
 					Thread.sleep(50);
@@ -230,19 +230,19 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 					Thread.sleep(50);
 				} catch (InterruptedException e1) { }
 				status = 0;
-				bug.append("\nViewSwitched to Output");
+				log.append("\nViewSwitched to Output");
 			}
 		}
 		if (eventSource == del){
 			output.append("\n" + computername + "~ $ View>Delete iUtilities Files");
 			try {
 				Addons.delete(null);
-			} catch (IOException e1) { bug.append("\nDeletion Failed: IOException"); }
+			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
 			output.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
 		}
 		if (eventSource == term){
 			output.append("\n" + computername + "~ $ View>Terminate");
-			bug.append("\nTermination of Programme Switched");
+			log.append("\nTermination of Programme Switched");
 			System.exit(0);
 		}
 		if (eventSource == about) {
@@ -284,20 +284,20 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				r = br.readLine();
 				while ((r = br.readLine()) != null)
 					output.append("\n " + r);
-			} catch (IOException localIOException) { bug.append("\nChangelog Failed: IOException"); }
-			bug.append("\nChangelog Processing Trigger Invoked.");
+			} catch (IOException localIOException) { log.append("\nChangelog Failed: IOException"); }
+			log.append("\nChangelog Processing Trigger Invoked.");
 		}
 		if (t2[0].equals("copyright")) {
 			output.append("\n" + Info.copyright);
-			bug.append("\nCopyright Processing Trigger Invoked");
+			log.append("\nCopyright Processing Trigger Invoked");
 		}
 		if (t2[0].equals("help")) {
 			output.append(helpstring);
-			bug.append("\nHelp Processing Trigger Invoked");
+			log.append("\nHelp Processing Trigger Invoked");
 		}
 		if (t2[0].equals("/clear")) {
 			output.setText(starter);
-			bug.append("\nCommand to Clear Screen Invoked");
+			log.append("\nCommand to Clear Screen Invoked");
 		}
 		if (t2[0].equals("acknowledgements")) {
 			try {
@@ -314,8 +314,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				r = br.readLine();
 				while ((r = br.readLine()) != null)
 					output.append("\n " + r);
-			} catch (IOException localIOException2) { bug.append("\nAcknowledgements Failed: IOException"); }
-			bug.append("\nAcknowledgements Processing Trigger Invoked");
+			} catch (IOException localIOException2) { log.append("\nAcknowledgements Failed: IOException"); }
+			log.append("\nAcknowledgements Processing Trigger Invoked");
 		}
 		if (t2[0].equals("/font")){
 			int tmp;
@@ -331,7 +331,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		else { 
 			if ((!t2[0].equals("bash"))) {
 				exec(null);
-				bug.append("\nBASH COMMAND INVOKED: " + t1);
+				log.append("\nBASH COMMAND INVOKED: " + t1);
 			}
 		}	
 	}

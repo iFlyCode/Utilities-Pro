@@ -30,8 +30,13 @@ public class DebugMenu extends com.me.ifly6.API {
 	}
 
 	public static void main(String[] args){
+		while (true){
 		new DebugMenu();
 		String tmp = log.getText();
 		display1.setText(tmp);
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) { log("Plugin DebugMen Failed: Interrupted Exception"); }
+		}
 	}
 }

@@ -4,6 +4,8 @@ import java.awt.Font;
 
 public class API extends Console {
 	
+	// Kyle Swartley is redeveloping the API. Please do not edit or touch.
+	
 	private static final long serialVersionUID = 1L;
 	protected static Runtime rt = Runtime.getRuntime();
 	protected static String userName = System.getProperty("user.name");
@@ -12,6 +14,9 @@ public class API extends Console {
 
 	// Standardised Output Processing
 	public static void append(String in){
+		output.append("\n" + in);
+	}
+	public static void append(int in){
 		output.append("\n" + in);
 	}
 	public static void log(String in){

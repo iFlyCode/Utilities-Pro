@@ -24,14 +24,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Info.version);
 	JPanel pane = new JPanel();
-	protected static JTextArea output = new JTextArea();
-	protected static JTextArea log = new JTextArea();
-	protected static JTextField input = new JTextField();
+	public static JTextArea output = new JTextArea();
+	public static JTextArea log = new JTextArea();
+	public static JTextField input = new JTextField();
 	JScrollPane scp = new JScrollPane(output);
 
 	// INTERNAL DATA
-	protected static String preoperand;
-	protected static String[] operand;
+	public static String preoperand;
+	public static String[] operand;
 	static String computername = "Unknown";
 	static String[] mem = new String[10];
 	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
@@ -160,7 +160,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				ConsoleCommands.processing(null);
+				TextCommands.processing(null);
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
@@ -261,13 +261,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == help){
 			try {
-				ConsoleCommands.help(null);
+				TextCommands.help(null);
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
 			output.append("\n" + computername + "~ $ changelog");
 			try {
-				ConsoleCommands.changelog(null);
+				TextCommands.changelog(null);
 			} catch (IOException e1) { log.append("Changelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){

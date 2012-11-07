@@ -1,7 +1,6 @@
 package com.me.ifly6;
 
 import java.io.*;
-
 import javax.swing.text.DefaultCaret;
 
 public class GUICommands extends API {

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class ConsoleCommands extends API {
+public class TextCommands extends API {
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
@@ -23,14 +23,14 @@ public class ConsoleCommands extends API {
 
 		// Sub-commands
 		if (operand[0].equals("changelog")) {
-			ConsoleCommands.changelog(null);
+			TextCommands.changelog(null);
 		}
 		if (operand[0].equals("copyright")) {
 			API.append(Info.copyright);
 			log("\nCopyright Processing Trigger Invoked");
 		}
 		if (operand[0].equals("help")) {
-			ConsoleCommands.help(null);
+			TextCommands.help(null);
 			log("\nHelp Processing Trigger Invoked");
 		}
 		if (operand[0].equals("/clear")) {
@@ -38,7 +38,7 @@ public class ConsoleCommands extends API {
 			log("\nCommand to Clear Screen Invoked");
 		}
 		if (operand[0].equals("acknowledgements")) {
-			ConsoleCommands.acknowledgements(null);
+			TextCommands.acknowledgements(null);
 		}
 		if (operand[0].equals("/font")){
 			int tmp;

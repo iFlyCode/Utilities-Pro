@@ -26,10 +26,10 @@ public class Addons {
 	}
 	public static void mindterm() throws IOException {
 		String a = System.getProperty("user.name");
-		File folder = new File("/Users/" + a + "/Library/Application Support/iUtilities");
+		File folder = new File("/Users/" + a + "/Library/Application Support/iUtilities/");
 		folder.mkdirs();
 		String[] url = { "curl", "-o", "/Users/" + a + 
-				"/Library/Application Support/iUtilities/changelog.txt", "http://ifly6server.no-ip.org/Public/mindterm.jar" };
+				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6server.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
 		Console.bug.append("\nMindterm Download Invoked.");
 		Console.output.append("\nMindterm Downloaded to: " + "/Users/" + a + "/Library/Application Support/iUtilities");

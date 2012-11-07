@@ -13,9 +13,12 @@ import javax.swing.text.DefaultCaret;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
 
-	/**
-	 * 
+	/*
+	 * THINGS TO DO:
+	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
+	 * FIX THE SWTICH SCREEN MECANISM
 	 */
+	
 	private static final long serialVersionUID = 1L;
 
 	// SWING DATA
@@ -93,8 +96,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// File
 		menufile.add(export);
 		menufile.add(script);
+		menufile.add(mindterm);
 		export.addActionListener(this);
 		script.addActionListener(this);
+		mindterm.addActionListener(this);
 		// Commands
 		menucomm.add(purge);
 		menucomm.add(debug);

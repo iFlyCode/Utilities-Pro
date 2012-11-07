@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class Core extends API {
+public class Core extends Console{
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
@@ -17,7 +17,7 @@ public class Core extends API {
 
 	public static void processing(String[] args) throws InterruptedException, IOException {
 		textStep1 = input.getText();
-		API.append(computername + "~ $ " + textStep1);
+		output.append("\n" + computername + "~ $ " + textStep1);
 		input.setText(null);
 		textStep2 = textStep1.split(" ");
 
@@ -26,16 +26,16 @@ public class Core extends API {
 			Core.changelog(null);
 		}
 		if (textStep2[0].equals("copyright")) {
-			API.append(Info.copyright);
-			log("\nCopyright Processing Trigger Invoked");
+			output.append("\n" + Info.copyright);
+			log.append("\nCopyright Processing Trigger Invoked");
 		}
 		if (textStep2[0].equals("help")) {
 			Core.help(null);
-			log("\nHelp Processing Trigger Invoked");
+			log.append("\nHelp Processing Trigger Invoked");
 		}
 		if (textStep2[0].equals("/clear")) {
 			output.setText(starter);
-			log("\nCommand to Clear Screen Invoked");
+			log.append("\nCommand to Clear Screen Invoked");
 		}
 		if (textStep2[0].equals("acknowledgements")) {
 			Core.acknowledgements(null);
@@ -49,21 +49,12 @@ public class Core extends API {
 			Font font = new Font(textStep2[1], 0, tmp);
 			output.setFont(font);
 		}
-		if (textStep2[0].equals("/api")){
-			if (textStep2[1].equals(null)){
-				append("This is the current list of Plugins:");
-				append(Info.plugins);
-			}
-			else {
-				// read and execute plugin.
-			}
-		}
 
 		// ProcessBuilder Calling System
 		else { 
 			if ((!textStep2[0].equals("bash"))) {
 				exec(null);
-				log("\nBASH COMMAND INVOKED: " + textStep1);
+				log.append("\nBASH COMMAND INVOKED: " + textStep1);
 			}
 		}	
 	}
@@ -78,7 +69,7 @@ public class Core extends API {
 		BufferedReader br = new BufferedReader(isr);
 		String line;
 		while ((line = br.readLine()) != null) {
-			append(line);
+			output.append("\n" + line);
 		}
 		// Error Stream
 		InputStream stderr1 = process.getErrorStream();
@@ -86,7 +77,7 @@ public class Core extends API {
 		BufferedReader br1 = new BufferedReader(isr1);
 		String line1 = null;
 		while ((line1 = br1.readLine()) != null)
-			append(line1);
+			output.append("\n " + line1);
 	}
 
 	/*
@@ -105,9 +96,9 @@ public class Core extends API {
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null) {
-			API.append(r); }
+			Console.output.append("\n " + r); }
 		br.close();
-		log("\nChangelog Processing Trigger Invoked.");
+		log.append("\nChangelog Processing Trigger Invoked.");
 	}
 	public static void acknowledgements(String[] args) throws IOException{
 		File folder = new File(IUTILITIES_DIR);
@@ -120,26 +111,23 @@ public class Core extends API {
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null){
-			API.append(r); }
+			Console.output.append("\n " + r); }
 		br.close();
-		log("\nAcknowledgements Processing Trigger Invoked");
+		log.append("\nAcknowledgements Processing Trigger Invoked");
 	}
 	public static void help(String[] args) throws IOException{
 		File folder = new File(IUTILITIES_DIR);
 		folder.mkdirs();
 		String[] url = { "curl", "-o", IUTILITIES_DIR + "/help.txt",
-		"http://ifly6server.no-ip.org/iUtilities/help/2.2_02.txt" };
+		"http://ifly6server.no-ip.org/iUtilities/help.txt" };
 		rt.exec(url);
 		String r = "\n";
 		FileReader fstream = new FileReader(IUTILITIES_DIR +"/help.txt");
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null){
-			API.append(r); }
+			Console.output.append("\n " + r); }
 		br.close();
-		log("\nHelp Processing Trigger Invoked");
-	}
-	public static void api(String[] args) {
-		
+		log.append("\nHelp Processing Trigger Invoked");
 	}
 }

@@ -4,12 +4,8 @@ public class Info {
 
 	static String computername = "Unknown";
 	static String copyright = "(c) ifly6@me.com - Now Open Source. Distributed Under GPL Licence.";
-	
-	// Version-based.
 	static String password = "greenmont";
 	static String version = "2.2_02-dev";
-	static String plugins = "* SimplePlugin" +
-			"\n*";
 	
 	/*
 	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>

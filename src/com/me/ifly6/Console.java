@@ -225,10 +225,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			output.append("\n" + computername + "~ $ View>Switch View");
 			if (status == 0){
 				output.setText(null);
-				output.setText(log.getText());
+				Console.output.setText(Console.log.getText());
 				output.append("\nViewSwitched to Debug");
 				try {
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch (InterruptedException e1) { }
 				status = 1;
 			}

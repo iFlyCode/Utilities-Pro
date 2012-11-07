@@ -53,8 +53,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem ping = new JMenuItem("Ping Utility");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem viewswitch = new JMenuItem("Switch View");
-	JMenuItem term = new JMenuItem("Terminate");
 	JMenuItem del = new JMenuItem("Delete iUtilities Files");
+	JMenuItem term = new JMenuItem("Terminate");
 
 	Console()
 	{
@@ -107,8 +107,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// View
 		menuview.add(clear);
 		menuview.add(viewswitch);
-		menuview.add(term);
 		menuview.add(del);
+		menuview.add(term);
 		clear.addActionListener(this);
 		viewswitch.addActionListener(this);
 		term.addActionListener(this);
@@ -186,7 +186,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			bug.append("\nPing Shortcut Accessed.");
 		}
 		if (eventSource == clear){
-			output.setText(null);
 			output.setText(starter);
 			bug.append("\nConsole Text Cleared");
 		}
@@ -196,24 +195,30 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				storage = output.getText();
 				output.setText(null);
 				Console.output.setText(Console.bug.getText());
-				status = 1;
 				output.append("\nViewSwitched to Debug");
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e1) { }
+				status = 1;
 			}
 			if (status == 1){
 				output.setText(storage);
+				try {
+					Thread.sleep(50);
+				} catch (InterruptedException e1) { }
 				status = 0;
 				bug.append("\nViewSwitched to Output");
 			}
-		}
-		if (eventSource == term){
-			bug.append("\nTermination of Programme Switched");
-			System.exit(0);
 		}
 		if (eventSource == del){
 			try {
 				Addons.delete(null);
 			} catch (IOException e1) { bug.append("\nDeletion Failed: IOException"); }
 			output.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
+		}
+		if (eventSource == term){
+			bug.append("\nTermination of Programme Switched");
+			System.exit(0);
 		}
 	}
 

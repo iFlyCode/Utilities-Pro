@@ -32,6 +32,7 @@ public class Addons {
 				"/Library/Application Support/iUtilities/changelog.txt", "http://ifly6server.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
 		Console.bug.append("\nMindterm Download Invoked.");
+		Console.output.append("\nMindterm Downloaded to: " + "/Users/" + a + "/Library/Application Support/iUtilities");
 	}
 
 	public static void purge(String[] args) throws IOException {
@@ -86,8 +87,7 @@ public class Addons {
 		Console.output.append("\nFree memory (bytes): " + 
 				Runtime.getRuntime().freeMemory());
 		long maxMemory = Runtime.getRuntime().maxMemory();
-		Console.output.append("\nMax. memory (bytes): " + (
-				maxMemory == 9223372036854775807L ? "no limit" : Long.valueOf(maxMemory)));
+		Console.output.append("\nMax. memory (bytes): " + (Long.valueOf(maxMemory)));
 		Console.output.append("\nTotal memory (bytes): " + 
 				Runtime.getRuntime().totalMemory());
 		File[] roots = File.listRoots();
@@ -109,7 +109,10 @@ public class Addons {
 		Console.output.append("\nUser: " + System.getProperty("user.name") + " ... with Home at: " + System.getProperty("user.home"));
 		Console.output.append("\nDesktop: " + System.getProperty("sun.desktop"));
 	}
-	public static void delete(String[] args) {
+	public static void delete(String[] args) throws IOException {
 		Console.bug.append("\niUtilities Folder Deletion Commencing.");
+		String[] delete = {"rm","-rf","'~/Library/Application Support/iUtilities'"};
+		ProcessBuilder builder = new ProcessBuilder(delete);
+		builder.start();
 	}
 }

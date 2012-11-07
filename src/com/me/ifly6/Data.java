@@ -7,6 +7,6 @@ public class Data {
 			"\n modified, copied, changed, or reverse engineered without the permission of the author. " +
 			"\n If you do, you will face legal action as stated under United States/International Copyright Law.";
 	static String password = "greenmont";
-	static String version = "2.2";
-	
+	static String version = "2.2_01_dev1";
+
 }

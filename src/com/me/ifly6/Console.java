@@ -122,7 +122,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		viewswitch.addActionListener(this);
 		term.addActionListener(this);
 		del.addActionListener(this);
-		
+
 		// Help
 		menuhelp.add(about);
 		menuhelp.add(help);
@@ -271,21 +271,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// Sub-commands
 		Runtime rt = Runtime.getRuntime();
 		if (textStep2[0].equals("changelog")) {
-			try {
-				String userName = System.getProperty("user.name");
-				File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
-				folder.mkdirs();
-				String[] url = { "curl","-o","/Users/" + userName + 
-						"/Library/Application Support/iUtilities/changelog.txt", "http://ifly6server.no-ip.org/iUtilities/changelog.txt" };
-				rt.exec(url);
-				String r = "\n";
-				FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/changelog.txt");
-				BufferedReader br = new BufferedReader(fstream);
-				r = br.readLine();
-				while ((r = br.readLine()) != null)
-					output.append("\n " + r);
-			} catch (IOException localIOException) { log.append("\nChangelog Failed: IOException"); }
-			log.append("\nChangelog Processing Trigger Invoked.");
+			Core.changelog(null);
 		}
 		if (textStep2[0].equals("copyright")) {
 			output.append("\n" + Info.copyright);
@@ -300,22 +286,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			log.append("\nCommand to Clear Screen Invoked");
 		}
 		if (textStep2[0].equals("acknowledgements")) {
-			try {
-				String userName = System.getProperty("user.name");
-				File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
-				folder.mkdirs();
-				String[] url = { "curl", "-o", "/Users/" + userName + 
-						"/Library/Application Support/iUtilities/acknowledgements.txt", "http://ifly6server.no-ip.org/iUtilities/acknowledgements.txt" };
-				ProcessBuilder builder = new ProcessBuilder(url);
-				builder.start();
-				String r = "\n";
-				FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
-				BufferedReader br = new BufferedReader(fstream);
-				r = br.readLine();
-				while ((r = br.readLine()) != null)
-					output.append("\n " + r);
-			} catch (IOException localIOException2) { log.append("\nAcknowledgements Failed: IOException"); }
-			log.append("\nAcknowledgements Processing Trigger Invoked");
+			Core.acknowledgements(null);
 		}
 		if (textStep2[0].equals("/font")){
 			int tmp;

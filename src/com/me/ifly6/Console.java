@@ -29,8 +29,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JScrollPane scp = new JScrollPane(output);
 
 	// INTERNAL DATA
-	static String t1;
-	static String[] t2;
+	static String textStep1;
+	static String[] textStep2;
 	static String computername = "Unknown";
 	static String[] mem = new String[10];
 	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
@@ -159,7 +159,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
-		if (keyCode == 38){ input.setText(t1); }
+		if (keyCode == 38){ input.setText(textStep1); }
 	}
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
@@ -263,14 +263,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	// PROCESSING STREAM
 	public static void processing(String[] args) throws InterruptedException, IOException {
-		t1 = input.getText();
-		output.append("\n" + computername + "~ $ " + t1);
+		textStep1 = input.getText();
+		output.append("\n" + computername + "~ $ " + textStep1);
 		input.setText(null);
-		t2 = t1.split(" ");
+		textStep2 = textStep1.split(" ");
 
 		// Sub-commands
 		Runtime rt = Runtime.getRuntime();
-		if (t2[0].equals("changelog")) {
+		if (textStep2[0].equals("changelog")) {
 			try {
 				String userName = System.getProperty("user.name");
 				File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
@@ -287,19 +287,19 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (IOException localIOException) { log.append("\nChangelog Failed: IOException"); }
 			log.append("\nChangelog Processing Trigger Invoked.");
 		}
-		if (t2[0].equals("copyright")) {
+		if (textStep2[0].equals("copyright")) {
 			output.append("\n" + Info.copyright);
 			log.append("\nCopyright Processing Trigger Invoked");
 		}
-		if (t2[0].equals("help")) {
+		if (textStep2[0].equals("help")) {
 			output.append(helpstring);
 			log.append("\nHelp Processing Trigger Invoked");
 		}
-		if (t2[0].equals("/clear")) {
+		if (textStep2[0].equals("/clear")) {
 			output.setText(starter);
 			log.append("\nCommand to Clear Screen Invoked");
 		}
-		if (t2[0].equals("acknowledgements")) {
+		if (textStep2[0].equals("acknowledgements")) {
 			try {
 				String userName = System.getProperty("user.name");
 				File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
@@ -317,21 +317,21 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (IOException localIOException2) { log.append("\nAcknowledgements Failed: IOException"); }
 			log.append("\nAcknowledgements Processing Trigger Invoked");
 		}
-		if (t2[0].equals("/font")){
+		if (textStep2[0].equals("/font")){
 			int tmp;
-			if (t2[2].equals(null)){
+			if (textStep2[2].equals(null)){
 				tmp = 11;
 			}
-			tmp = java.lang.Integer.parseInt(t2[2]);
-			Font font = new Font(t2[1], 0, tmp);
+			tmp = java.lang.Integer.parseInt(textStep2[2]);
+			Font font = new Font(textStep2[1], 0, tmp);
 			output.setFont(font);
 		}
 
 		// ProcessBuilder Calling System
 		else { 
-			if ((!t2[0].equals("bash"))) {
+			if ((!textStep2[0].equals("bash"))) {
 				exec(null);
-				log.append("\nBASH COMMAND INVOKED: " + t1);
+				log.append("\nBASH COMMAND INVOKED: " + textStep1);
 			}
 		}	
 	}
@@ -339,7 +339,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// EXECUTION STREAM
 	public static void exec(String[] args) throws IOException{
 		// Output Stream
-		ProcessBuilder builder = new ProcessBuilder(t2);
+		ProcessBuilder builder = new ProcessBuilder(textStep2);
 		Process process = builder.start();
 		InputStream is = process.getInputStream();
 		InputStreamReader isr = new InputStreamReader(is);

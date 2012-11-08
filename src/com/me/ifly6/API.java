@@ -8,13 +8,14 @@ public interface API {
 	public boolean blockCommandPassthrough();
 	
 	/**
-	 * @param command, the command with args passed to the plugin by the console.
+	 * @param command: The command with args passed to the plugin by the console.
+	 * @param c: The instance of console that the plugin is being called from.
 	 * @return 0 if all went well
 	 */
-	public int execute(String[] command);
+	public int execute(String[] command, Console c);
 	
 	/**
-	 * @return String array of commands the console should hand off to the plugin
+	 * @return Command the console should hand off to the plugin.
 	 */
-	public int claimedCommands();
+	public String claimedCommand();
 }

@@ -24,9 +24,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Info.version);
 	JPanel pane = new JPanel();
-	static JTextArea output = new JTextArea();
-	static JTextArea log = new JTextArea();
-	static JTextField input = new JTextField();
+	public static JTextArea output = new JTextArea();
+	public static JTextArea log = new JTextArea();
+	public static JTextField input = new JTextField();
 	JScrollPane scp = new JScrollPane(output);
 
 	// INTERNAL DATA

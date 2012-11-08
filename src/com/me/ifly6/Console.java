@@ -26,7 +26,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JPanel pane = new JPanel();
 	public static JTextArea output = new JTextArea();
 	public static JTextArea log = new JTextArea();
-	public static JTextField input = new JTextField();
+	public JTextField input = new JTextField();
 	JScrollPane scp = new JScrollPane(output);
 
 	// INTERNAL DATA
@@ -34,7 +34,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static String[] textStep2;
 	static String computername = "Unknown";
 	static String[] mem = new String[10];
-	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
+	final static String starter = "\n == iUtilities Console " + Info.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
 	static int status;
@@ -160,7 +160,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				Core.processing(null);
+				StringBuilder[] rets = new StringBuilder[2];
+				rets = Core.processing(this);
+				System.out.println(rets[0].toString());
+				output.append(rets[0].toString());
+				log.append(rets[0].toString());
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
@@ -225,7 +229,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			output.append("\n" + computername + "~ $ View>Switch View");
 			if (status == 0){
 				output.setText(null);
-				Console.output.setText(Console.log.getText());
+				Console.output.setText(log.getText());
 				output.append("\nViewSwitched to Debug");
 				try {
 					Thread.sleep(50);
@@ -261,7 +265,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == help){
 			try {
-				Core.help(null);
+				Core.help();
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){

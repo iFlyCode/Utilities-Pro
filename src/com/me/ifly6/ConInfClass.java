@@ -2,6 +2,8 @@ package com.me.ifly6;
 
 import java.awt.Font;
 
+import javax.swing.text.DefaultCaret;
+
 public class ConInfClass extends Console {
 	
 	// Console Interface Class
@@ -26,5 +28,12 @@ public class ConInfClass extends Console {
 	}
 	public static void setText(String in){
 		output.setText(in);
+	}
+	public static DefaultCaret getCaret() {
+		DefaultCaret caret = (DefaultCaret)Console.output.getCaret();
+		return caret;
+	}
+	public static void term_proc(){
+	TextProc.process.destroy();
 	}
 }

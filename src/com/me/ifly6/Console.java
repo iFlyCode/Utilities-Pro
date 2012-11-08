@@ -5,8 +5,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.*;
@@ -141,7 +139,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		new Console();
 		output.append(starter);
 		computername = InetAddress.getLocalHost().getHostName(); 
-		
+
 		Date date = new Date();
 		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
 	}
@@ -151,7 +149,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				TextCommands.processing(null);
+				TextProc.processing(null);
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
@@ -166,83 +164,79 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == export) {
 			output.append("\n" + computername + "~ $ File>Export ");
 			try {
-				GUICommands.save(null);
+				ToolbarProc.save();
 			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
 		}
 		if (eventSource == script) {
 			output.append("\n" + computername + "~ $ File>Script");
-			GUICommands.script();
+			ToolbarProc.script();
 			log.append("Script Look Executed. May or may not have run.");
 		}
 		if (eventSource == mindterm) {
 			output.append("\n" + computername + "~ $ File>Mindterm");
 			try {
-				GUICommands.mindterm();
+				ToolbarProc.mindterm();
 			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
 			log.append("\nMindterm Download Commenced.");
 		}
 		if (eventSource == purge) {
 			output.append("\n" + computername + "~ $ Command>Purge");
 			try {
-				GUICommands.purge(null);
+				ToolbarProc.purge();
 			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
 			output.append("\n" + computername + "~ $ Command>Debug");
 			try {
-				GUICommands.debug(null);
+				ToolbarProc.debug();
 			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
 			output.append("\n" + computername + "~ $ Command>System Readout");
 			try {
-				GUICommands.info(null);
+				ToolbarProc.info();
 			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
 			} catch (IOException e1) { log.append("\nInformation Not Exported: IOException"); }
 		}
 		if (eventSource == clear){
-			output.setText(starter);
-			log.append("\nConsole Text Cleared");
+			ToolbarProc.clear();
 		}
 		if (eventSource == defaultCarat){
-			GUICommands.defaultCarat(null);
+			ConInfClass.append(computername + "~ $ View>Snap to Bottom");
+			ToolbarProc.defaultCarat();
 		}
 		// Needs Work
 		if (eventSource == viewswitch){
-			output.append("\n" + computername + "~ $ View>Switch View");
+			ConInfClass.append(computername + "~ $ View>Switch View");
 			// right now it doesn't do shit. it just sets the screen as starter. please rewrite this algorithm.
 		}
 		if (eventSource == del){
-			output.append("\n" + computername + "~ $ View>Delete iUtilities Files");
+			ConInfClass.append(computername + "~ $ View>Delete iUtilities Files");
 			try {
-				GUICommands.delete(null);
+				ToolbarProc.delete();
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
-			output.append("\nAll iUtilities files in ~/Library/Application Support/iUtilities have been deleted.");
 		}
 		if (eventSource == term){
-			output.append("\n" + computername + "~ $ View>Terminate");
-			log.append("\nTermination of Dynamic Programme Switched");
-			TextCommands.process.destroy();
+			ConInfClass.append(computername + "~ $ Commands>Terminate Process");
+			ToolbarProc.term();
 		}
 		if (eventSource == about) {
-			output.append("\n" + computername + "~ $ Help>About");
-			output.append("\n== About iUtilities " + Info.version );
-			output.append("\n" + Info.copyright);
-			output.append("\nVersion " + Info.version + " '" + Info.password + "'");
+			ConInfClass.append(computername + "~ $ Help>About");
+			ToolbarProc.about();
 		}
 		if (eventSource == help){
 			try {
-				TextCommands.help(null);
+				TextProc.help(null);
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
-			output.append("\n" + computername + "~ $ changelog");
+			ConInfClass.append(computername + "~ $ changelog");
 			try {
-				TextCommands.changelog(null);
+				TextProc.changelog(null);
 			} catch (IOException e1) { log.append("Changelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){
-			output.append("\n" + computername + "~ $ Help>Updates");
+			ConInfClass.append(computername + "~ $ Help>Updates");
 			// Fix THIS
 		}
 	}

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class TextCommands extends ConInfClass {
+public class TextProc extends ConInfClass {
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
@@ -24,14 +24,14 @@ public class TextCommands extends ConInfClass {
 
 		// Sub-commands
 		if (operand[0].equals("changelog")) {
-			TextCommands.changelog(null);
+			TextProc.changelog(null);
 		}
 		if (operand[0].equals("copyright")) {
 			ConInfClass.append(Info.copyright);
 			log("\nCopyright Processing Trigger Invoked");
 		}
 		if (operand[0].equals("help")) {
-			TextCommands.help(null);
+			TextProc.help(null);
 			log("\nHelp Processing Trigger Invoked");
 		}
 		if (operand[0].equals("/clear")) {
@@ -39,7 +39,7 @@ public class TextCommands extends ConInfClass {
 			log("\nCommand to Clear Screen Invoked");
 		}
 		if (operand[0].equals("acknowledgements")) {
-			TextCommands.acknowledgements(null);
+			TextProc.acknowledgements(null);
 		}
 		if (operand[0].equals("/font")){
 			int tmp;
@@ -109,7 +109,7 @@ public class TextCommands extends ConInfClass {
 		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 		folder.mkdirs();
 		String[] url = { "curl","-o", IUTILITIES_DIR + "/changelog.txt",
-		"http://ifly6server.no-ip.org/iUtilities/changelog.txt" };
+		"http://ifly6.no-ip.org/iUtilities/changelog.txt" };
 		rt.exec(url);
 		String r = "\n";
 		FileReader fstream = new FileReader(IUTILITIES_DIR + "/changelog.txt");
@@ -124,7 +124,7 @@ public class TextCommands extends ConInfClass {
 		File folder = new File(IUTILITIES_DIR);
 		folder.mkdirs();
 		String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt",
-		"http://ifly6server.no-ip.org/iUtilities/acknowledgements.txt" };
+		"http://ifly6.no-ip.org/iUtilities/acknowledgements.txt" };
 		rt.exec(url);
 		String r = "\n";
 		FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");

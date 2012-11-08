@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class TextCommands extends API {
+public class TextCommands extends ConInfClass {
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
@@ -18,7 +18,7 @@ public class TextCommands extends API {
 
 	public static void processing(String[] args) throws InterruptedException, IOException {
 		preoperand = input.getText();
-		API.append(computername + "~ $ " + preoperand);
+		ConInfClass.append(Console.computername + "~ $ " + preoperand);
 		input.setText(null);
 		operand = preoperand.split(" ");
 
@@ -27,7 +27,7 @@ public class TextCommands extends API {
 			TextCommands.changelog(null);
 		}
 		if (operand[0].equals("copyright")) {
-			API.append(Info.copyright);
+			ConInfClass.append(Info.copyright);
 			log("\nCopyright Processing Trigger Invoked");
 		}
 		if (operand[0].equals("help")) {
@@ -35,7 +35,7 @@ public class TextCommands extends API {
 			log("\nHelp Processing Trigger Invoked");
 		}
 		if (operand[0].equals("/clear")) {
-			output.setText(starter);
+			Console.output.setText(starter);
 			log("\nCommand to Clear Screen Invoked");
 		}
 		if (operand[0].equals("acknowledgements")) {
@@ -116,7 +116,7 @@ public class TextCommands extends API {
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null) {
-			API.append(r); }
+			ConInfClass.append(r); }
 		br.close();
 		log("\nChangelog Processing Trigger Invoked.");
 	}
@@ -131,7 +131,7 @@ public class TextCommands extends API {
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null){
-			API.append(r); }
+			ConInfClass.append(r); }
 		br.close();
 		log("\nAcknowledgements Processing Trigger Invoked");
 	}
@@ -146,7 +146,7 @@ public class TextCommands extends API {
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null){
-			API.append(r); }
+			ConInfClass.append(r); }
 		br.close();
 		log("\nHelp Processing Trigger Invoked");
 	}

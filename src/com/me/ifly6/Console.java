@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,11 +35,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static String[] operand;
 	static String computername = "Unknown";
 	static String[] mem = new String[10];
-	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
-			"\n Hello " + System.getProperty("user.name") + "!" + 
-			"\n Type 'help' for help.";
+	static final String starter = "== iUtilities Console " + Info.version + " == " + 
+			"\nHello " + System.getProperty("user.name") + "!" + 
+			"\nType 'help' for help.";
 
-	// MENUBAR DATA
 	JMenuBar menubar = new JMenuBar();
 	JMenu menufile = new JMenu("File");
 	JMenu menucomm = new JMenu("Commands");
@@ -54,7 +54,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
 	JMenuItem viewswitch = new JMenuItem("Switch View");
 	JMenuItem del = new JMenuItem("Delete iUtilities Files");
-	JMenuItem term = new JMenuItem("Terminate");
+	JMenuItem term = new JMenuItem("Terminate Process");
 	JMenuItem about = new JMenuItem("About");
 	JMenuItem help = new JMenuItem("Help");
 	JMenuItem changelog = new JMenuItem("Changelog");
@@ -137,14 +137,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	}
 
 	// MAIN THREAD.
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException {
 		new Console();
 		output.append(starter);
-		try {
-			computername = InetAddress.getLocalHost().getHostName(); 
-		} catch (Exception localException) { }
-		@SuppressWarnings("unused")
-		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		computername = InetAddress.getLocalHost().getHostName(); 
+		
 		Date date = new Date();
 		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
 	}

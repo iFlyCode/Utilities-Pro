@@ -1,6 +1,6 @@
 package com.me.ifly6.plugins;
 
-public class SimplePlugin extends com.me.ifly6.API {
+public class SimplePlugin extends com.me.ifly6.ConInfClass {
 
 	/**
 	 * 

@@ -51,7 +51,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem purge = new JMenuItem("Inactive Memory Purge");
 	JMenuItem debug = new JMenuItem("Log Console");
 	JMenuItem info = new JMenuItem("System Readout");
-	JMenuItem ping = new JMenuItem("Ping Utility");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
 	JMenuItem viewswitch = new JMenuItem("Switch View");
@@ -108,21 +107,19 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		menucomm.add(purge);
 		menucomm.add(debug);
 		menucomm.add(info);
-		menucomm.add(ping);
+		menucomm.add(term);
 		purge.addActionListener(this);
 		debug.addActionListener(this);
 		info.addActionListener(this);
-		ping.addActionListener(this);
+		term.addActionListener(this);
 		// View
 		menuview.add(clear);
 		menuview.add(defaultCarat);
 		menuview.add(viewswitch);
 		menuview.add(del);
-		menuview.add(term);
 		clear.addActionListener(this);
 		defaultCarat.addActionListener(this);
 		viewswitch.addActionListener(this);
-		term.addActionListener(this);
 		del.addActionListener(this);
 
 		// Help
@@ -208,10 +205,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				GUICommands.info(null);
 			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
 			} catch (IOException e1) { log.append("\nInformation Not Exported: IOException"); }
-		}
-		if (eventSource == ping){
-			input.setText("ping -c 1 ");
-			log.append("\nPing Shortcut Accessed.");
 		}
 		if (eventSource == clear){
 			output.setText(starter);

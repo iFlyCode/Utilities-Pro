@@ -37,7 +37,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "\n == iUtilities Console " + Info.version + " == " + 
 			"\n Hello " + System.getProperty("user.name") + "!" + 
 			"\n Type 'help' for help.";
-	static int status;
 
 	// MENUBAR DATA
 	JMenuBar menubar = new JMenuBar();
@@ -121,7 +120,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		defaultCarat.addActionListener(this);
 		viewswitch.addActionListener(this);
 		del.addActionListener(this);
-
 		// Help
 		menuhelp.add(about);
 		menuhelp.add(help);
@@ -149,7 +147,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
 		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
-		status = 0;
 	}
 
 	// EVENT HANDLER
@@ -216,23 +213,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// Needs Work
 		if (eventSource == viewswitch){
 			output.append("\n" + computername + "~ $ View>Switch View");
-			if (status == 0){
-				output.setText(null);
-				output.setText(log.getText());
-				output.append("\nViewSwitched to Debug");
-				try {
-					Thread.sleep(100);
-				} catch (InterruptedException e1) { }
-				status = 1;
-			}
-			if (status == 1){
-				output.setText(starter);
-				try {
-					Thread.sleep(50);
-				} catch (InterruptedException e1) { }
-				status = 0;
-				log.append("\nViewSwitched to Output");
-			}
+			// right now it doesn't do shit. it just sets the screen as starter. please rewrite this algorithm.
 		}
 		if (eventSource == del){
 			output.append("\n" + computername + "~ $ View>Delete iUtilities Files");

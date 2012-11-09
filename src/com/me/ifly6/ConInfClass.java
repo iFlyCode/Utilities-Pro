@@ -2,8 +2,6 @@ package com.me.ifly6;
 
 import java.awt.Font;
 
-import javax.swing.text.DefaultCaret;
-
 public class ConInfClass extends Console {
 	
 	// Console Interface Class

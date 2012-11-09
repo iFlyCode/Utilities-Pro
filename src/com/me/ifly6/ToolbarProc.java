@@ -28,6 +28,7 @@ public class ToolbarProc extends ConInfClass {
 	}
 	public static void script() {
 		append("** Function Not Yet Built");
+		log.append("Script Look Executed. May or may not have run.");
 		// Some stuff.
 	}
 	public static void mindterm() throws IOException {
@@ -36,7 +37,7 @@ public class ToolbarProc extends ConInfClass {
 		String[] url = { "curl", "-o", "/Users/" + userName + 
 				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
-		log("Mindterm Download Invoked.");
+		log.append("\nMindterm Download Commenced.");
 		append("Mindterm Downloaded to: " + IUTILITIES_DIR);
 		append("Mindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D." +
 				"\nIt is however, not made by the iUtilities Team, and therefore, does not fall under our perview.");
@@ -72,7 +73,7 @@ public class ToolbarProc extends ConInfClass {
 		BufferedReader br = new BufferedReader(isr);
 		String line = null;
 		while ((line = br.readLine()) != null) {
-			append(line + "\n"); }
+			append(line); }
 
 		InputStream stderr1 = proc1.getInputStream();
 		InputStreamReader isr1 = new InputStreamReader(stderr1);
@@ -80,7 +81,7 @@ public class ToolbarProc extends ConInfClass {
 		String line1 = null;
 		append(" -- Internet Information -- ");
 		while ((line1 = br1.readLine()) != null) {
-			append(" " + line1 + "\n"); }
+			append(line1); }
 
 		// Hardware
 		append("Available cores: " + rt.availableProcessors());
@@ -89,19 +90,19 @@ public class ToolbarProc extends ConInfClass {
 		append("Max. memory (Kilobytes): " + maxMemory/1000);
 		append("Total memory (Kilobytes): " + (rt.totalMemory()/1000));
 		File[] roots = File.listRoots();
-		append(null);
+		append("");
 		for (File root : roots) {
 			append("File system root: " + root.getAbsolutePath());
 			append("FS Capacity (bytes): " + root.getTotalSpace());
 			append("FS Free (bytes): " + root.getFreeSpace());
 			append("FS Usable (bytes): " + root.getUsableSpace());
 		}
-		append(null);
+		append("");
 		append(System.getProperty("java.runtime.name") + " version " + System.getProperty("java.runtime.version") +
 				System.getProperty("java.vm.version") + " by " +
 				System.getProperty("java.vm.vendor"));
 		append("Execution Directory: " + System.getProperty("user.dir"));
-		append(null);
+		append("");
 		String nameOS = "os.name";
 		String versionOS = "os.version";
 		append("Operating System: " + System.getProperty(nameOS) + " " + System.getProperty(versionOS));
@@ -114,13 +115,13 @@ public class ToolbarProc extends ConInfClass {
 		append("Version " + Info.version + " '" + Info.password + "'");
 	}
 	public static void defaultCarat() {
-		DefaultCaret caret = getCaret();
+		DefaultCaret caret = (DefaultCaret)output.getCaret();
 		caret.setUpdatePolicy(2);
 	}
 	public static void delete() throws IOException {
 		log("iUtilities Folder Deletion Commencing.");
 		append("iUtilities Folder Deletion Commencing.");
-		String[] delete = {"rm","-rf","'~/Library/Application Support/iUtilities'"};
+		String[] delete = {"rm","-rf",(IUTILITIES_DIR)};
 		rt.exec(delete);
 	}
 	public static void term() {
@@ -129,5 +130,16 @@ public class ToolbarProc extends ConInfClass {
 	}
 	public static void clear() {
 		setText(starter);
+	}
+	public static void update() throws IOException {
+		log("Beginning Update Sequence");
+		String userName = System.getProperty("user.name");
+		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
+		folder.mkdirs();
+		String[] url = { "curl","-o", IUTILITIES_DIR + "/iUtilities-latest.jar",
+		"http://ifly6.no-ip.org/iUtilities/iUtilities-latest.jar" };
+		rt.exec(url);
+		log("Update Successful.");
+		append("iUtilities is updated. New file iUtilities-latest.jar in ~/Library/Application Support/iUtilities");
 	}
 }

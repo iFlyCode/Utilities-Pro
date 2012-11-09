@@ -20,6 +20,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	private static final long serialVersionUID = 1L;
 
+	// EXTERNAL DATA
+	protected static String computername = "Unknown";
+	
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Info.version);
 	JPanel pane = new JPanel();
@@ -31,7 +34,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// INTERNAL DATA
 	public static String preoperand;
 	public static String[] operand;
-	static String computername = "Unknown";
 	static String[] mem = new String[10];
 	static final String starter = "== iUtilities Console " + Info.version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
@@ -65,7 +67,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		Container con = getContentPane();
 		getContentPane().setLayout(new BorderLayout());
-		con.add(this.pane);
+		con.add(pane);
 		pane.setLayout(new BorderLayout());
 		frame.add(pane);
 
@@ -83,7 +85,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		input.setBackground(Color.black);
 		input.setForeground(Color.green);
 		input.setCaretColor(Color.green);
-		this.pane.setBackground(Color.DARK_GRAY);
+		pane.setBackground(Color.DARK_GRAY);
 		DefaultCaret caret = (DefaultCaret)output.getCaret();
 		caret.setUpdatePolicy(2);
 
@@ -138,8 +140,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static void main(String[] args) throws UnknownHostException {
 		new Console();
 		output.append(starter);
-		computername = InetAddress.getLocalHost().getHostName(); 
-
+		computername = InetAddress.getLocalHost().getHostName();
 		Date date = new Date();
 		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
 	}
@@ -170,14 +171,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == script) {
 			output.append("\n" + computername + "~ $ File>Script");
 			ToolbarProc.script();
-			log.append("Script Look Executed. May or may not have run.");
 		}
 		if (eventSource == mindterm) {
 			output.append("\n" + computername + "~ $ File>Mindterm");
 			try {
 				ToolbarProc.mindterm();
 			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
-			log.append("\nMindterm Download Commenced.");
 		}
 		if (eventSource == purge) {
 			output.append("\n" + computername + "~ $ Command>Purge");
@@ -186,13 +185,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
-			output.append("\n" + computername + "~ $ Command>Debug");
+			ConInfClass.append("\n" + computername + "~ $ Command>Debug");
 			try {
 				ToolbarProc.debug();
 			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
-			output.append("\n" + computername + "~ $ Command>System Readout");
+			ConInfClass.append(computername + "~ $ Command>System Readout");
 			try {
 				ToolbarProc.info();
 			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
@@ -225,6 +224,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ToolbarProc.about();
 		}
 		if (eventSource == help){
+			ConInfClass.append(computername + "~ $ Help>Help");
 			try {
 				TextProc.help(null);
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
@@ -233,11 +233,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConInfClass.append(computername + "~ $ changelog");
 			try {
 				TextProc.changelog(null);
-			} catch (IOException e1) { log.append("Changelog Invocation Failed: IOException"); }
+			} catch (IOException e1) { log.append("\nChangelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){
 			ConInfClass.append(computername + "~ $ Help>Updates");
-			// Fix THIS
+			try {
+				ToolbarProc.update();
+			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
 		}
 	}
 }

@@ -18,7 +18,7 @@ public class TextProc extends ConInfClass {
 
 	public static void processing(String[] args) throws InterruptedException, IOException {
 		preoperand = input.getText();
-		ConInfClass.append(Console.computername + "~ $ " + preoperand);
+		ConInfClass.append(computername + "~ $ " + preoperand);
 		input.setText(null);
 		operand = preoperand.split(" ");
 
@@ -77,8 +77,7 @@ public class TextProc extends ConInfClass {
 				try {
 					process = builder.start();
 				} catch (IOException e) { log("ProcessBuilder Error: IOException"); }
-				InputStream is = process.getInputStream();
-				InputStreamReader isr = new InputStreamReader(is);
+				InputStreamReader isr = new InputStreamReader(process.getInputStream());
 				BufferedReader br = new BufferedReader(isr);
 				String line;
 				try {

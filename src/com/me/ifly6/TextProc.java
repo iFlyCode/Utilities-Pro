@@ -23,14 +23,14 @@ public class TextProc extends ConInfClass {
 		operand = preoperand.split(" ");
 
 		// Sub-commands
-		if (operand[0].equals("/changelog")) {
+		if (operand[0].equals("changelog")) {
 			TextProc.changelog(null);
 		}
-		if (operand[0].equals("/copyright")) {
+		if (operand[0].equals("copyright")) {
 			ConInfClass.append(Info.copyright);
 			log("\nCopyright Processing Trigger Invoked");
 		}
-		if (operand[0].equals("/help")) {
+		if (operand[0].equals("help")) {
 			TextProc.help(null);
 			log("\nHelp Processing Trigger Invoked");
 		}
@@ -38,7 +38,7 @@ public class TextProc extends ConInfClass {
 			Console.output.setText(starter);
 			log("\nCommand to Clear Screen Invoked");
 		}
-		if (operand[0].equals("/acknowledgements")) {
+		if (operand[0].equals("acknowledgements")) {
 			TextProc.acknowledgements(null);
 		}
 		if (operand[0].equals("/font")){

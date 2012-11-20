@@ -99,9 +99,7 @@ public class TextProc extends ConInfClass {
 		new Thread(runner).start();
 	}
 
-	/*
-	 *  THE CORE FUNCTIONS METHODS.
-	 */
+	/* THE CORE FUNCTIONS METHODS. */
 
 	public static void changelog(String[] args) throws IOException{
 		String userName = System.getProperty("user.name");

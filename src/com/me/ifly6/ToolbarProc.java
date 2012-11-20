@@ -65,8 +65,10 @@ public class ToolbarProc extends ConInfClass {
 		append(" -- Current Running Processes -- ");
 		String[] com = { "ps", "ax" };
 		String[] com1 = { "ifconfig" };
+        String[] com2 = { "lsof", "-i" };
 		Process proc = rt.exec(com);
 		Process proc1 = rt.exec(com1);
+		Process proc2 = rt.exec(com2);
 
 		InputStream stderr = proc.getInputStream();
 		InputStreamReader isr = new InputStreamReader(stderr);
@@ -79,10 +81,18 @@ public class ToolbarProc extends ConInfClass {
 		InputStreamReader isr1 = new InputStreamReader(stderr1);
 		BufferedReader br1 = new BufferedReader(isr1);
 		String line1 = null;
-		append(" -- Internet Information -- ");
+		append(" -- Internet Interface Information -- ");
 		while ((line1 = br1.readLine()) != null) {
 			append(line1); }
 
+        InputStream stderr2 = proc2.getInputStream();
+		InputStreamReader isr2 = new InputStreamReader(stderr2);
+		BufferedReader br2 = new BufferedReader(isr2);
+		String line2 = null;
+		append(" -- Processes Information -- ");
+		while ((line2 = br2.readLine()) != null) {
+			append(line2); }
+        
 		// Hardware
 		append("Available cores: " + rt.availableProcessors());
 		append("Free memory (bytes): " + rt.freeMemory());

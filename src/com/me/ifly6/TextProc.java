@@ -148,11 +148,13 @@ public class TextProc extends ConInfClass {
 		log("\nHelp Processing Trigger Invoked");
 	}
 	public static void api(String[] args){
-		if (operand[1].equals("SimplePlugin")){
-			com.me.ifly6.plugins.SimplePlugin.plugin(null);
-		}
-		if (operand[1].equals("DebugMenu")){
-			com.me.ifly6.plugins.DebugMenu.main(null);
+		if (operand[1].equals("exec")){
+			if (operand[2].equals("SimplePlugin")){
+				com.me.ifly6.plugins.SimplePlugin.plugin(null);
+			}
+			if (operand[2].equals("DebugMenu")){
+				com.me.ifly6.plugins.DebugMenu.main(null);
+			}
 		}
 	}
 }

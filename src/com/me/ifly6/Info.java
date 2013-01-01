@@ -10,9 +10,9 @@ public class Info {
 	public static String api_version = "0.0.0";
 	public static String version = "2.2_01";
 	public static String plugins = 
-			"* SimplePlugin" +
-			"\n* DebugMenu" +
-			"\n* Type '/api name' to execute";
+			"* SimplePlugin \n" +
+			"* DebugMenu \n" +
+			"* Type '/api exec' to execute";
 	
 	/*
 	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>

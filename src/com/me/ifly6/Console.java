@@ -11,7 +11,8 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
-
+	// Name: Console (Actually the Console's Opening System)
+	
 	/*
 	 * THINGS TO DO:
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
@@ -150,7 +151,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				TextProc.processing(null);
+				TextComm.bashproc(null);
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
@@ -226,13 +227,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == help){
 			ConInfClass.append(computername + "~ $ Help>Help");
 			try {
-				TextProc.help(null);
+				TextComm.help(null);
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
 			ConInfClass.append(computername + "~ $ changelog");
 			try {
-				TextProc.changelog(null);
+				TextComm.changelog(null);
 			} catch (IOException e1) { log.append("\nChangelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){

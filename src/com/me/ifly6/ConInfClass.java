@@ -3,8 +3,9 @@ package com.me.ifly6;
 import java.awt.Font;
 
 public class ConInfClass extends Console {
+	// Name: Console Interface Class
 	
-	// Console Interface Class
+	// Shared Resources
 	private static final long serialVersionUID = 1L;
 	protected static Runtime rt = Runtime.getRuntime();
 	protected static String userName = System.getProperty("user.name");
@@ -28,6 +29,6 @@ public class ConInfClass extends Console {
 		output.setText(in);
 	}
 	public static void term_proc(){
-	TextProc.process.destroy();
+	TextComm.process.destroy();
 	}
 }

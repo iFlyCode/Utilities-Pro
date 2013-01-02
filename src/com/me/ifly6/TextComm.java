@@ -8,7 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class TextProc extends ConInfClass {
+public class TextComm extends ConInfClass {
+	// Name: Text Commands (Executes Necessary Text Data from Console/anything else)
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
@@ -16,57 +17,12 @@ public class TextProc extends ConInfClass {
 	public static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
 	public static Process process = null;
 
-	public static void processing(String[] args) throws InterruptedException, IOException {
-		preoperand = input.getText();
-		ConInfClass.append(computername + "~ $ " + preoperand);
-		input.setText(null);
-		operand = preoperand.split(" ");
-
-		// Sub-commands
-		if (operand[0].equals("changelog")) {
-			TextProc.changelog(null);
+	public static void bashproc(String[] args) throws InterruptedException, IOException {
+		if ((!operand[0].equals("bash"))) {
+			exec(null);
+			log("\nBASH COMMAND INVOKED: " + preoperand);
 		}
-		if (operand[0].equals("copyright")) {
-			ConInfClass.append(Info.copyright);
-			log("\nCopyright Processing Trigger Invoked");
-		}
-		if (operand[0].equals("help")) {
-			TextProc.help(null);
-			log("\nHelp Processing Trigger Invoked");
-		}
-		if (operand[0].equals("/clear")) {
-			Console.output.setText(starter);
-			log("\nCommand to Clear Screen Invoked");
-		}
-		if (operand[0].equals("acknowledgements")) {
-			TextProc.acknowledgements(null);
-		}
-		if (operand[0].equals("/font")){
-			int tmp;
-			if (operand[2].equals(null)){
-				tmp = 11;
-			}
-			tmp = java.lang.Integer.parseInt(operand[2]);
-			Font font = new Font(operand[1], 0, tmp);
-			output.setFont(font);
-		}
-		if (operand[0].equals("/api")){
-			if (preoperand.equals(operand[0])){
-				append("This is the current list of Plugins:");
-				append(Info.plugins);
-			} else {
-				api(null);
-			}
-		}
-
-		// ProcessBuilder Calling System
-		else { 
-			if ((!operand[0].equals("bash"))) {
-				exec(null);
-				log("\nBASH COMMAND INVOKED: " + preoperand);
-			}
-		}	
-	}
+	}	
 
 	// EXECUTION STREAM
 	public static void exec(String[] args) throws IOException{

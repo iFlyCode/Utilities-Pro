@@ -5,5 +5,5 @@
 *.war
 *.ear
 
-# Mac junk
+# OS Boring Stuff
 *.DS_Store

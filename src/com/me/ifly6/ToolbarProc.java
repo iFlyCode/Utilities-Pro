@@ -12,7 +12,8 @@ import java.io.Writer;
 import javax.swing.text.DefaultCaret;
 
 public class ToolbarProc extends ConInfClass {
-
+	// Name: Toolbar Processing (Processes Toolbar Button Actions)
+	
 	private static final long serialVersionUID = 1L;
 
 	public static void save() throws IOException {

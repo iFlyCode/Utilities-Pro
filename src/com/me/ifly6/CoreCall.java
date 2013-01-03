@@ -1,11 +1,13 @@
 package com.me.ifly6;
 
 import java.awt.Font;
+import java.io.*;
 
 public class CoreCall extends ConInfClass {
 	// Name: Core Caller (from Core, Calls necessary functions)
 	
-	public static void caller(String args){
+	private static final long serialVersionUID = 1L;
+	public static void caller(String args) throws IOException {
 		preoperand = input.getText();
 		ConInfClass.append(computername + "~ $ " + preoperand);
 		input.setText(null);
@@ -44,7 +46,7 @@ public class CoreCall extends ConInfClass {
 				append("This is the current list of Plugins:");
 				append(Info.plugins);
 			} else {
-				api(null);
+				TextComm.api(null);
 			}
 		}
 	}

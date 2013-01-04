@@ -151,8 +151,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				TextComm.bashproc(null);
-			} catch (InterruptedException e1) { log.append("\nkeyPressed Error");
+				TextComm.proc();
 			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
 		}
 		if (keyCode == 38){ input.setText(preoperand); }
@@ -186,13 +185,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
-			ConInfClass.append("\n" + computername + "~ $ Command>Debug");
+			ConsoleIf.append("\n" + computername + "~ $ Command>Debug");
 			try {
 				ToolbarProc.debug();
 			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
-			ConInfClass.append(computername + "~ $ Command>System Readout");
+			ConsoleIf.append(computername + "~ $ Command>System Readout");
 			try {
 				ToolbarProc.info();
 			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
@@ -202,42 +201,42 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ToolbarProc.clear();
 		}
 		if (eventSource == defaultCarat){
-			ConInfClass.append(computername + "~ $ View>Snap to Bottom");
+			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			ToolbarProc.defaultCarat();
 		}
 		// Needs Work
 		if (eventSource == viewswitch){
-			ConInfClass.append(computername + "~ $ View>Switch View");
+			ConsoleIf.append(computername + "~ $ View>Switch View");
 			// right now it doesn't do shit. it just sets the screen as starter. please rewrite this algorithm.
 		}
 		if (eventSource == del){
-			ConInfClass.append(computername + "~ $ View>Delete iUtilities Files");
+			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
 			try {
 				ToolbarProc.delete();
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
 		}
 		if (eventSource == term){
-			ConInfClass.append(computername + "~ $ Commands>Terminate Process");
+			ConsoleIf.append(computername + "~ $ Commands>Terminate Process");
 			ToolbarProc.term();
 		}
 		if (eventSource == about) {
-			ConInfClass.append(computername + "~ $ Help>About");
+			ConsoleIf.append(computername + "~ $ Help>About");
 			ToolbarProc.about();
 		}
 		if (eventSource == help){
-			ConInfClass.append(computername + "~ $ Help>Help");
+			ConsoleIf.append(computername + "~ $ Help>Help");
 			try {
-				TextComm.help(null);
+				TextComm.help();
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
-			ConInfClass.append(computername + "~ $ changelog");
+			ConsoleIf.append(computername + "~ $ changelog");
 			try {
-				TextComm.changelog(null);
+				TextComm.changelog();
 			} catch (IOException e1) { log.append("\nChangelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){
-			ConInfClass.append(computername + "~ $ Help>Updates");
+			ConsoleIf.append(computername + "~ $ Help>Updates");
 			try {
 				ToolbarProc.update();
 			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }

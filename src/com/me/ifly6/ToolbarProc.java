@@ -11,7 +11,7 @@ import java.io.Writer;
 
 import javax.swing.text.DefaultCaret;
 
-public class ToolbarProc extends ConInfClass {
+public class ToolbarProc extends ConsoleIf {
 	// Name: Toolbar Processing (Processes Toolbar Button Actions)
 	
 	private static final long serialVersionUID = 1L;
@@ -137,7 +137,7 @@ public class ToolbarProc extends ConInfClass {
 	}
 	public static void term() {
 		log.append("\nTermination of Dynamic Programme Switched");
-		ConInfClass.term_proc();
+		ConsoleIf.term_proc();
 	}
 	public static void clear() {
 		setText(starter);

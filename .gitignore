@@ -1,9 +1,7 @@
 *.class
+*.DS_Store
 
 # Package Files #
 *.jar
 *.war
 *.ear
-
-# OS Boring Stuff
-*.DS_Store

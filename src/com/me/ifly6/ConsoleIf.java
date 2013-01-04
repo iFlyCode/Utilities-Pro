@@ -2,7 +2,7 @@ package com.me.ifly6;
 
 import java.awt.Font;
 
-public class ConInfClass extends Console {
+public class ConsoleIf extends Console {
 	// Name: Console Interface Class
 	
 	// Shared Resources

@@ -8,47 +8,100 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-public class TextComm extends ConInfClass {
+public class TextComm extends ConsoleIf {
 	// Name: Text Commands (Executes Necessary Text Data from Console/anything else)
 
 	private static final long serialVersionUID = 1L;
 	static Runtime rt = Runtime.getRuntime();
 	static String userName = System.getProperty("user.name");
 	public static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
-	public static Process process = null;
+	public static Process process;
+	static String[] commText = new String[10];
+	// Processing Stream
 
-	public static void bashproc(String[] args) throws InterruptedException, IOException {
-		if ((!operand[0].equals("bash"))) {
-			exec(null);
-			log("\nBASH COMMAND INVOKED: " + preoperand);
+	public static void proc() throws IOException {
+		// CMD-String Array Settings
+		commText[0] = "/changelog";
+		commText[1] = "/copyright";
+		commText[2] = "/help";
+		commText[3] = "/clear";
+		commText[4] = "/acknowledgements";
+		commText[5] = "/font";
+		commText[6] = "/api";
+
+		// Command Parsing
+		preoperand = input.getText();
+		append(computername + "~ $ " + preoperand);
+		input.setText(null);
+		operand = preoperand.split(" ");
+
+		// Command Evaluation
+		if (operand[0].equals(commText[0])) {
+			changelog();
 		}
-	}	
+		if (operand[0].equals(commText[1])) {
+			ConsoleIf.append(Info.copyright);
+			log("\nCopyright Processing Trigger Invoked");
+		}
+		if (operand[0].equals(commText[2])) {
+			help();
+			log("\nHelp Processing Trigger Invoked");
+		}
+		if (operand[0].equals(commText[3])) {
+			Console.output.setText(starter);
+			log("\nCommand to Clear Screen Invoked");
+		}
+		if (operand[0].equals(commText[4])) {
+			acknowledgements();
+		}
+		if (operand[0].equals(commText[5])){
+			int tmp = 11;
+			tmp = java.lang.Integer.parseInt(operand[2]);
+			Font font = new Font(operand[1], 0, tmp);
+			output.setFont(font);
+		}
+		if (operand[0].equals(commText[6])){
+			if (preoperand.equals(operand[0])){
+				append("This is the current list of Plugins:");
+				append(Info.plugins);
+			} else {
+				Addons.api();
+			}
+		}
+		else {
+			if ((!operand[0].equals("bash"))) {
+				exec();
+				log("\nBASH COMMAND INVOKED: " + preoperand);
+			}
+		}
+	}
 
 	// EXECUTION STREAM
-	public static void exec(String[] args) throws IOException{
+	public static void exec() throws IOException {
 		Runnable runner = new Runnable() {
 			public void run() {
+
 				// Output Stream
 				ProcessBuilder builder = new ProcessBuilder(operand);
 				try {
 					process = builder.start();
+					log.append("Execution of Operand Beginning.");
 				} catch (IOException e) { log("ProcessBuilder Error: IOException"); }
-				InputStreamReader isr = new InputStreamReader(process.getInputStream());
+				InputStream stderr = process.getInputStream();
+				InputStreamReader isr = new InputStreamReader(stderr);
 				BufferedReader br = new BufferedReader(isr);
 				String line;
 				try {
-					while ((line = br.readLine()) != null) {
-						append(line);
-					}
+					while ((line = br.readLine()) != null) { append(line); }
 				} catch (IOException e) { }
+
 				// Error Stream
 				InputStream stderr1 = process.getErrorStream();
 				InputStreamReader isr1 = new InputStreamReader(stderr1);
 				BufferedReader br1 = new BufferedReader(isr1);
 				String line1 = null;
 				try {
-					while ((line1 = br1.readLine()) != null) {
-						append(line1); }
+					while ((line1 = br1.readLine()) != null) { append(line1); }
 				} catch (IOException e) { }
 			}
 		};
@@ -57,7 +110,7 @@ public class TextComm extends ConInfClass {
 
 	/* THE CORE FUNCTIONS METHODS. */
 
-	public static void changelog(String[] args) throws IOException{
+	public static void changelog() throws IOException{
 		String userName = System.getProperty("user.name");
 		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 		folder.mkdirs();
@@ -69,11 +122,11 @@ public class TextComm extends ConInfClass {
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null) {
-			ConInfClass.append(r); }
+			ConsoleIf.append(r); }
 		br.close();
-		log("\nChangelog Processing Trigger Invoked.");
+		log("Changelog Processing Trigger Completed");
 	}
-	public static void acknowledgements(String[] args) throws IOException{
+	public static void acknowledgements() throws IOException{
 		File folder = new File(IUTILITIES_DIR);
 		folder.mkdirs();
 		String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt",
@@ -84,33 +137,16 @@ public class TextComm extends ConInfClass {
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null){
-			ConInfClass.append(r); }
+			ConsoleIf.append(r); }
 		br.close();
-		log("\nAcknowledgements Processing Trigger Invoked");
+		log("Acknowledgements Processing Trigger Completed");
 	}
-	public static void help(String[] args) throws IOException{
-		File folder = new File(IUTILITIES_DIR);
-		folder.mkdirs();
-		String[] url = { "curl", "-o", IUTILITIES_DIR + "/help.txt",
-		"http://ifly6server.no-ip.org/iUtilities/help/2.2_02.txt" };
-		rt.exec(url);
-		String r = "\n";
-		FileReader fstream = new FileReader(IUTILITIES_DIR +"/help.txt");
-		BufferedReader br = new BufferedReader(fstream);
-		r = br.readLine();
-		while ((r = br.readLine()) != null){
-			ConInfClass.append(r); }
-		br.close();
-		log("\nHelp Processing Trigger Invoked");
-	}
-	public static void api(String[] args){
-		if (operand[1].equals("exec")){
-			if (operand[2].equals("SimplePlugin")){
-				com.me.ifly6.plugins.SimplePlugin.plugin(null);
-			}
-			if (operand[2].equals("DebugMenu")){
-				com.me.ifly6.plugins.DebugMenu.main(null);
+	public static void help() throws IOException{
+		for (int x = 0; x<10; x++){
+			if (!(commText[x].equals(null))){
+				append(commText[x]);
 			}
 		}
+		log("Help Processing Trigger Completed");
 	}
 }

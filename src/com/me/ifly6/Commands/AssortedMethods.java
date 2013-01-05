@@ -1,6 +1,5 @@
 package com.me.ifly6.Commands;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -8,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.util.Scanner;
 
 import com.me.ifly6.Info;
 import com.me.ifly6.TextProc;
@@ -71,26 +71,23 @@ public class AssortedMethods extends TextProc {
 
 		InputStream stderr = proc.getInputStream();
 		InputStreamReader isr = new InputStreamReader(stderr);
-		BufferedReader br = new BufferedReader(isr);
-		String line = null;
-		while ((line = br.readLine()) != null) {
-			out(line); }
+		Scanner scan = new Scanner(isr);
+		while (scan.hasNextLine()) {
+			out(scan.nextLine()); }
 
 		InputStream stderr1 = proc1.getInputStream();
 		InputStreamReader isr1 = new InputStreamReader(stderr1);
-		BufferedReader br1 = new BufferedReader(isr1);
-		String line1 = null;
+		scan = new Scanner(isr1);
 		append(" -- Internet Interface Information -- ");
-		while ((line1 = br1.readLine()) != null) {
-			out(line1); }
+		while (scan.hasNextLine()) {
+			out(scan.nextLine()); }
 
 		InputStream stderr2 = proc2.getInputStream();
 		InputStreamReader isr2 = new InputStreamReader(stderr2);
-		BufferedReader br2 = new BufferedReader(isr2);
-		String line2 = null;
+		scan = new Scanner(isr2);
 		append(" -- Processes Information -- ");
-		while ((line2 = br2.readLine()) != null) {
-			out(line2); }
+		while (scan.hasNextLine()) {
+			out(scan.nextLine()); }
 
 		// Hardware
 		out("Available cores: " + rt.availableProcessors());

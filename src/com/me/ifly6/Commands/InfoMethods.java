@@ -16,7 +16,7 @@ public class InfoMethods extends TextProc {
 	private static final long serialVersionUID = 1L;
 
 	public static void about(){
-		append("== About iUtilities " + Info.version );
+		append("== About iUtilities " + Info.version + " ==");
 		out(Info.copyright);
 		out("Version " + Info.version + " '" + Info.password + "'");
 	}

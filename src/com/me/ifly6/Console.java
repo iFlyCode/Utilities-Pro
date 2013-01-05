@@ -10,27 +10,31 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
+import com.me.ifly6.Commands.AssortedMethods;
+import com.me.ifly6.Commands.InfoMethods;
+
 public class Console extends JFrame implements KeyListener, ActionListener{
-	// Name: Console (Actually the Console's Opening System)
+	// Name: Console (Also the Main Class)
 	
 	/*
 	 * THINGS TO DO:
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
-	 * FIX THE SWTICH SCREEN MECHANISM
 	 */
 
 	private static final long serialVersionUID = 1L;
 
 	// EXTERNAL DATA
 	protected static String computername = "Unknown";
+	public static int numArray = 15;
 	
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Info.version);
 	JPanel pane = new JPanel();
+	public static JTextArea display = new JTextArea();
 	public static JTextArea output = new JTextArea();
 	public static JTextArea log = new JTextArea();
 	public static JTextField input = new JTextField();
-	JScrollPane scp = new JScrollPane(output);
+	JScrollPane scp = new JScrollPane(display);
 
 	// INTERNAL DATA
 	public static String preoperand;
@@ -39,6 +43,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "== iUtilities Console " + Info.version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
 			"\nType 'help' for help.";
+	public static int screen_state = 0;
+	public static String screen_stored = starter;
 
 	JMenuBar menubar = new JMenuBar();
 	JMenu menufile = new JMenu("File");
@@ -74,20 +80,20 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 		pane.add(scp, BorderLayout.CENTER);
 		pane.add(input, BorderLayout.SOUTH);
-		output.setEditable(false);
+		display.setEditable(false);
 		input.addKeyListener(this);
 
 		Font font = new Font("Monaco", 0, 11);
-		output.setFont(font);
-		output.setBackground(Color.black);
-		output.setForeground(Color.green);
+		display.setFont(font);
+		display.setBackground(Color.black);
+		display.setForeground(Color.green);
 
 		input.setFont(font);
 		input.setBackground(Color.black);
 		input.setForeground(Color.green);
 		input.setCaretColor(Color.green);
 		pane.setBackground(Color.DARK_GRAY);
-		DefaultCaret caret = (DefaultCaret)output.getCaret();
+		DefaultCaret caret = (DefaultCaret)display.getCaret();
 		caret.setUpdatePolicy(2);
 
 		// MENUBAR CREATION
@@ -140,10 +146,15 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// MAIN THREAD.
 	public static void main(String[] args) throws UnknownHostException {
 		new Console();
-		output.append(starter);
+		
+		// Visible Housekeeping
+		display.append(starter);
 		computername = InetAddress.getLocalHost().getHostName();
 		Date date = new Date();
 		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
+		
+		// Invisible Housekeeping
+		Addons.array_fill();
 	}
 
 	// EVENT HANDLER
@@ -151,94 +162,95 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
 			try {
-				TextComm.proc();
-			} catch (IOException e1) { log.append("\nkeyPressed Error"); }
+				TextProc.proc();
+			} catch (IOException e1) { log.append("\nkeyPressed Error, IO Exception"); 
+			} catch (InterruptedException e1) { log.append("\nkeyPressed Error, InterruptedException"); }
 		}
 		if (keyCode == 38){ input.setText(preoperand); }
 	}
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
 
-	// ACTIONPREFORMED LISTENER FOR ALL THE DAMN BUTTONS
+	// ACTIONPREFORMED LISTENER FOR ALL THE MENU BUTTONS
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if (eventSource == export) {
-			output.append("\n" + computername + "~ $ File>Export ");
+			display.append("\n" + computername + "~ $ File>Export ");
 			try {
-				ToolbarProc.save();
+				AssortedMethods.save();
 			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
 		}
 		if (eventSource == script) {
-			output.append("\n" + computername + "~ $ File>Script");
-			ToolbarProc.script();
+			display.append("\n" + computername + "~ $ File>Script");
+			AssortedMethods.script();
 		}
 		if (eventSource == mindterm) {
-			output.append("\n" + computername + "~ $ File>Mindterm");
+			display.append("\n" + computername + "~ $ File>Mindterm");
 			try {
-				ToolbarProc.mindterm();
+				AssortedMethods.mindterm();
 			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
 		}
 		if (eventSource == purge) {
-			output.append("\n" + computername + "~ $ Command>Purge");
+			display.append("\n" + computername + "~ $ Command>Purge");
 			try {
-				ToolbarProc.purge();
+				AssortedMethods.purge();
 			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
 			ConsoleIf.append("\n" + computername + "~ $ Command>Debug");
 			try {
-				ToolbarProc.debug();
+				AssortedMethods.saveLog();
 			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
 			ConsoleIf.append(computername + "~ $ Command>System Readout");
 			try {
-				ToolbarProc.info();
+				AssortedMethods.info();
 			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
 			} catch (IOException e1) { log.append("\nInformation Not Exported: IOException"); }
 		}
 		if (eventSource == clear){
-			ToolbarProc.clear();
+			InfoMethods.clear();
 		}
 		if (eventSource == defaultCarat){
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
-			ToolbarProc.defaultCarat();
+			InfoMethods.defaultCarat();
 		}
-		// Needs Work
+		// Viewswitch Needs Work
 		if (eventSource == viewswitch){
 			ConsoleIf.append(computername + "~ $ View>Switch View");
-			// right now it doesn't do shit. it just sets the screen as starter. please rewrite this algorithm.
+			InfoMethods.viewswitch();
 		}
 		if (eventSource == del){
 			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
 			try {
-				ToolbarProc.delete();
+				AssortedMethods.delete();
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
 		}
 		if (eventSource == term){
 			ConsoleIf.append(computername + "~ $ Commands>Terminate Process");
-			ToolbarProc.term();
+			AssortedMethods.terminate();
 		}
 		if (eventSource == about) {
 			ConsoleIf.append(computername + "~ $ Help>About");
-			ToolbarProc.about();
+			InfoMethods.about();
 		}
 		if (eventSource == help){
 			ConsoleIf.append(computername + "~ $ Help>Help");
 			try {
-				TextComm.help();
+				com.me.ifly6.Commands.CoreMethods.help();
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
 			ConsoleIf.append(computername + "~ $ changelog");
 			try {
-				TextComm.changelog();
+				com.me.ifly6.Commands.InfoMethods.changelog();
 			} catch (IOException e1) { log.append("\nChangelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){
 			ConsoleIf.append(computername + "~ $ Help>Updates");
 			try {
-				ToolbarProc.update();
+				AssortedMethods.update();
 			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
 		}
 	}

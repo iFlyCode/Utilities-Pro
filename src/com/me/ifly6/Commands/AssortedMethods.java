@@ -1,4 +1,4 @@
-package com.me.ifly6;
+package com.me.ifly6.Commands;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,20 +9,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Writer;
 
-import javax.swing.text.DefaultCaret;
+import com.me.ifly6.Info;
+import com.me.ifly6.TextProc;
 
-public class ToolbarProc extends ConInfClass {
+public class AssortedMethods extends TextProc {
+	// Name: Non-Core Methods
 
 	private static final long serialVersionUID = 1L;
 
 	public static void save() throws IOException {
-		log("Output Saving System Invoked.");
-		File folder = new File(IUTILITIES_DIR);
-		folder.mkdirs();
+		log("Display Saving System Invoked.");
+		mkdir();
 		Writer writer = null;
-		File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report" + System.currentTimeMillis() + ".txt");
+		File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report_display-out" + System.currentTimeMillis() + ".txt");
 		writer = new BufferedWriter(new FileWriter(file));
-		writer.write(getText());
+		writer.write(display.getText());
 		writer.close();
 		append("Contents Exported.");
 	}
@@ -32,8 +33,7 @@ public class ToolbarProc extends ConInfClass {
 		// Some stuff.
 	}
 	public static void mindterm() throws IOException {
-		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities/");
-		folder.mkdirs();
+		mkdir();
 		String[] url = { "curl", "-o", "/Users/" + userName + 
 				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
@@ -47,12 +47,11 @@ public class ToolbarProc extends ConInfClass {
 		append("" + computername + "~ $ purge");
 		log("Mindterm Download Invoked.");
 	}
-	public static void debug() throws IOException {
-		log("iUtilities Debug Readout Command Executed");
-		File f = new File(IUTILITIES_DIR);
-		f.mkdirs();
+	public static void saveLog() throws IOException {
+		log("iUtilities Log Readout Command Executed");
+		mkdir();
 		Writer writer = null;
-		File file = new File(IUTILITIES_DIR + "/report" + System.currentTimeMillis() + ".txt");
+		File file = new File(IUTILITIES_DIR + "/report_log" + System.currentTimeMillis() + ".txt");
 		writer = new BufferedWriter(new FileWriter(file));
 		writer.write(log.getText());
 		writer.close();
@@ -65,8 +64,10 @@ public class ToolbarProc extends ConInfClass {
 		append(" -- Current Running Processes -- ");
 		String[] com = { "ps", "ax" };
 		String[] com1 = { "ifconfig" };
+		String[] com2 = { "lsof", "-i" };
 		Process proc = rt.exec(com);
 		Process proc1 = rt.exec(com1);
+		Process proc2 = rt.exec(com2);
 
 		InputStream stderr = proc.getInputStream();
 		InputStreamReader isr = new InputStreamReader(stderr);
@@ -79,9 +80,17 @@ public class ToolbarProc extends ConInfClass {
 		InputStreamReader isr1 = new InputStreamReader(stderr1);
 		BufferedReader br1 = new BufferedReader(isr1);
 		String line1 = null;
-		append(" -- Internet Information -- ");
+		append(" -- Internet Interface Information -- ");
 		while ((line1 = br1.readLine()) != null) {
 			append(line1); }
+
+		InputStream stderr2 = proc2.getInputStream();
+		InputStreamReader isr2 = new InputStreamReader(stderr2);
+		BufferedReader br2 = new BufferedReader(isr2);
+		String line2 = null;
+		append(" -- Processes Information -- ");
+		while ((line2 = br2.readLine()) != null) {
+			append(line2); }
 
 		// Hardware
 		append("Available cores: " + rt.availableProcessors());
@@ -109,33 +118,21 @@ public class ToolbarProc extends ConInfClass {
 		append("User: " + System.getProperty("user.name") + " ... with Home at: " + System.getProperty("user.home"));
 		append("Desktop: " + System.getProperty("sun.desktop"));
 	}
-	public static void about(){
-		append("== About iUtilities " + Info.version );
-		append(Info.copyright);
-		append("Version " + Info.version + " '" + Info.password + "'");
-	}
-	public static void defaultCarat() {
-		DefaultCaret caret = (DefaultCaret)output.getCaret();
-		caret.setUpdatePolicy(2);
-	}
 	public static void delete() throws IOException {
 		log("iUtilities Folder Deletion Commencing.");
 		append("iUtilities Folder Deletion Commencing.");
 		String[] delete = {"rm","-rf",(IUTILITIES_DIR)};
 		rt.exec(delete);
 	}
-	public static void term() {
-		log.append("\nTermination of Dynamic Programme Switched");
-		ConInfClass.term_proc();
-	}
-	public static void clear() {
-		setText(starter);
+	public static void terminate() {
+		log("\nTermination of Dynamic Programme Switched");
+		term_proc();
 	}
 	public static void update() throws IOException {
-		log("Beginning Update Sequence");
-		String userName = System.getProperty("user.name");
-		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
-		folder.mkdirs();
+		String temp = ("Beginning Update Sequence");
+		log(temp);
+		append(temp);
+		mkdir();
 		String[] url = { "curl","-o", IUTILITIES_DIR + "/iUtilities-latest.jar",
 		"http://ifly6.no-ip.org/iUtilities/iUtilities-latest.jar" };
 		rt.exec(url);

@@ -1,9 +1,7 @@
 *.class
+*.DS_Store
 
 # Package Files #
 *.jar
 *.war
 *.ear
-
-# Mac junk
-*.DS_Store

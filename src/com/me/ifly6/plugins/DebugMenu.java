@@ -6,7 +6,7 @@ import java.awt.Container;
 import javax.swing.*;
 import com.me.ifly6.Info;
 
-public class DebugMenu extends com.me.ifly6.ConInfClass {
+public class DebugMenu extends com.me.ifly6.ConsoleIf {
 
 	private static final long serialVersionUID = 1L;
 	JFrame frame1 = new JFrame("iUtilities " + Info.version + " API DebugMenu");

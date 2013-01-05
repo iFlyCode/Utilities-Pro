@@ -1,6 +1,7 @@
 package com.me.ifly6;
 
 import java.awt.Font;
+import java.io.File;
 import java.io.IOException;
 
 import com.me.ifly6.Commands.*;
@@ -17,6 +18,7 @@ public class TextProc extends ConsoleIf {
 	// Processing Stream
 
 	public static void proc() throws IOException, InterruptedException {
+		
 		// CMD-String Array Settings
 		commText[0] = "/changelog";
 		commText[1] = "/about";

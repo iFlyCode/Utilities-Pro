@@ -1,6 +1,7 @@
 package com.me.ifly6;
 
 import java.awt.Font;
+import java.io.File;
 
 public class ConsoleIf extends Console {
 	// Name: Console Interface Class
@@ -21,9 +22,13 @@ public class ConsoleIf extends Console {
 		Console.display.append("\n" + in);
 		Console.output.append("\n" + in);
 	}
-	public static void log(String in){
-		Console.log.append("\n" + in);
-	}
+	public static void log(String in){ Console.log.append("\n" + in); }
+	
+	// Getter and Setter
+	public static String getText(){ return display.getText(); }
+	public static void setText(String in){ display.setText(in); }
+	
+	// Files and Clearing
 	public static void term_proc(){
 		TextProc.process.destroy();
 	}
@@ -31,5 +36,9 @@ public class ConsoleIf extends Console {
 		Console.display.setText(null);
 		Console.output.setText(null);
 		Console.log.setText(null);
+	}
+	public static void mkdir() {
+		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
+		folder.mkdirs();
 	}
 }

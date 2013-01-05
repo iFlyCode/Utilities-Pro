@@ -17,7 +17,7 @@ public class TextProc extends ConsoleIf {
 	// Processing Stream
 
 	public static void proc() throws IOException, InterruptedException {
-		
+
 		// CMD-String Array Settings
 		commText[0] = "/changelog";
 		commText[1] = "/about";
@@ -33,7 +33,7 @@ public class TextProc extends ConsoleIf {
 		commText[11] = "/mindterm";
 		commText[12] = "/terminate";
 		commText[13] = null;
-		commText[14] = null;
+		commText[14] = "sl";
 		commText[15] = "quit";
 
 		// Command Parsing
@@ -67,7 +67,7 @@ public class TextProc extends ConsoleIf {
 			display.setFont(font);
 		}
 		if (operand[0].equals(commText[6])){
-CoreMethods.apiList();
+			CoreMethods.apiList();
 		}
 		if (operand[0].equals(commText[7])){
 			AssortedMethods.save();
@@ -94,11 +94,11 @@ CoreMethods.apiList();
 			log("Process Termination Processing Trigger Called");
 		}
 		/* if (operand[0].equals(commText[13])){
-			
-		}
-		if (operand[0].equals(commText[14])){
-			
+
 		} */
+		if (operand[0].equals(commText[14])){
+			out("CHOOO CHOOO! TRAIN APPROACHING!. Please type 'ls'.");
+		}
 		if (operand[0].equals(commText[15])){
 			System.exit(0);
 		}

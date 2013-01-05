@@ -165,6 +165,15 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	// MAIN THREAD.
 	public static void main(String[] args) throws UnknownHostException, InterruptedException {
+		
+		// GUI Construction
+		try {
+			UIManager.setLookAndFeel(
+					UIManager.getCrossPlatformLookAndFeelClassName());
+		} catch (ClassNotFoundException e) {
+		} catch (InstantiationException e) {
+		} catch (IllegalAccessException e) { 
+		} catch (UnsupportedLookAndFeelException e) {}
 		new Console();
 
 		// OS Restriction
@@ -246,7 +255,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			InfoMethods.defaultCarat();
 		}
-		
+
 		// Viewswitch Needs Work
 		if (eventSource == viewswitch){
 			ConsoleIf.append(computername + "~ $ View>Switch View");
@@ -285,7 +294,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
 		}
 	}
-	
+
 	// To Detect and Disable on Windows.
 	public static boolean isWindows() {
 		String OS = System.getProperty("os.name");

@@ -61,7 +61,7 @@ public class CoreMethods extends TextProc{
 			append("Type /api exec 'name' to execute Programmes");
 			for (int x = 0; x<10; x++){
 				if (!(Addons.api[x].equals(null))){
-					append("* " + Addons.api[x]);
+					out("* " + Addons.api[x]);
 				}
 			}
 			log("API Processing Trigger Completed");

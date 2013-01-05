@@ -11,10 +11,12 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
 import com.me.ifly6.Commands.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
 	// Name: Console (Also the Main Class)
-	
+
 	/*
 	 * THINGS TO DO:
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
@@ -25,9 +27,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// EXTERNAL DATA
 	protected static String computername = "Unknown";
 	public static int numArray = 20;
-	
+
 	// SWING DATA
-	JFrame frame = new JFrame("iUtilities " + Info.version);
+	static JFrame frame = new JFrame("iUtilities " + Info.version);
 	JPanel pane = new JPanel();
 	public static JTextArea display = new JTextArea();
 	public static JTextArea output = new JTextArea();
@@ -71,20 +73,19 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// Base GUI, in Swing.
 		frame.setBounds(50, 50, 670, 735);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		Container con = getContentPane();
-		getContentPane().setLayout(new BorderLayout());
-		con.add(pane);
 		pane.setLayout(new BorderLayout());
-		frame.add(pane);
+		frame.getContentPane().add(pane);
+		scp.setViewportBorder(new LineBorder(new Color(0, 0, 0), 6));
 
 		pane.add(scp, BorderLayout.CENTER);
+		input.setToolTipText("Type Commands Here");
 		pane.add(input, BorderLayout.SOUTH);
-		display.setEditable(false);
 		input.addKeyListener(this);
 
 		Font font = new Font("Monaco", 0, 11);
-		display.setFont(font);
-		display.setBackground(Color.black);
+		display.setEditable(false);
+		display.setFont(new Font("Monaco", Font.PLAIN, 11));
+		display.setBackground(new Color(0, 0, 0));
 		display.setForeground(Color.green);
 
 		input.setFont(font);
@@ -94,16 +95,37 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		pane.setBackground(Color.DARK_GRAY);
 		DefaultCaret caret = (DefaultCaret)display.getCaret();
 		caret.setUpdatePolicy(2);
+		menubar.setMargin(new Insets(0, 2, 0, 0));
+		menubar.setBackground(Color.LIGHT_GRAY);
+		menubar.setForeground(Color.BLACK);
+		menufile.setHorizontalAlignment(SwingConstants.LEFT);
+		menufile.setBackground(Color.LIGHT_GRAY);
+		menufile.setForeground(Color.BLACK);
 
 		// MENUBAR CREATION
 		menubar.add(menufile);
+		menucomm.setHorizontalAlignment(SwingConstants.LEFT);
+		menucomm.setBackground(Color.LIGHT_GRAY);
+		menucomm.setForeground(Color.BLACK);
 		menubar.add(menucomm);
+		menuview.setHorizontalAlignment(SwingConstants.LEFT);
+		menuview.setBackground(Color.LIGHT_GRAY);
+		menuview.setForeground(Color.BLACK);
 		menubar.add(menuview);
+		menuhelp.setHorizontalAlignment(SwingConstants.LEFT);
+		menuhelp.setBackground(Color.LIGHT_GRAY);
+		menuhelp.setForeground(Color.BLACK);
 		menubar.add(menuhelp);
+		export.setBackground(Color.WHITE);
+		export.setForeground(Color.BLACK);
 
 		// File
 		menufile.add(export);
+		script.setBackground(Color.WHITE);
+		script.setForeground(Color.BLACK);
 		menufile.add(script);
+		mindterm.setBackground(Color.WHITE);
+		mindterm.setForeground(Color.BLACK);
 		menufile.add(mindterm);
 		export.addActionListener(this);
 		script.addActionListener(this);
@@ -137,21 +159,30 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		updates.addActionListener(this);
 
 		pane.add(menubar, BorderLayout.NORTH);
-		pane.setVisible(true);
 		frame.setVisible(true);
 		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 
 	// MAIN THREAD.
-	public static void main(String[] args) throws UnknownHostException {
+	public static void main(String[] args) throws UnknownHostException, InterruptedException {
 		new Console();
-		
+
+		// OS Restriction
+		if (isWindows()){
+			frame.setVisible(false);
+			log.append("\nWindows Detected. Disengaging.");
+			String temp = "Windows Detected. Disengaging to prevent havoc, as this is requires UNIX Commands.";
+			JOptionPane.showMessageDialog(null, temp, "OS Validation", -1);
+			Thread.sleep(10000);
+			System.exit(0);
+		}
+
 		// Visible Housekeeping
 		display.append(starter);
 		computername = InetAddress.getLocalHost().getHostName();
 		Date date = new Date();
 		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
-		
+
 		// Invisible Housekeeping
 		Addons.array_fill();
 	}
@@ -252,5 +283,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				AssortedMethods.update();
 			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
 		}
+	}
+	
+	// To Detect and Disable on Windows.
+	public static boolean isWindows() {
+		String OS = System.getProperty("os.name");
+		return (OS.indexOf("win") >= 0);
 	}
 }

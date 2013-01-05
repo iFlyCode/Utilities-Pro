@@ -1,7 +1,6 @@
 package com.me.ifly6.Commands;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -18,8 +17,8 @@ public class InfoMethods extends TextProc {
 
 	public static void about(){
 		append("== About iUtilities " + Info.version );
-		append(Info.copyright);
-		append("Version " + Info.version + " '" + Info.password + "'");
+		out(Info.copyright);
+		out("Version " + Info.version + " '" + Info.password + "'");
 	}
 
 	public static void clear() {
@@ -34,23 +33,21 @@ public class InfoMethods extends TextProc {
 
 	public static void viewswitch() {
 		if (screen_state == 0){
-			Console.display.setText(Console.log.getText());
+			setText(Console.log.getText());
 			screen_state = 1;
 		}
 		if (screen_state == 1){
-			Console.display.setText(Console.output.getText());
+			setText(Console.output.getText());
 			screen_state = 0;
 		}
 	}
 
 	public static void acknowledgements() throws IOException{
-		File folder = new File(IUTILITIES_DIR);
-		folder.mkdirs();
-		String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt",
-		"http://ifly6.no-ip.org/iUtilities/acknowledgements.txt" };
+		mkdir();
+		String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt", "http://ifly6.no-ip.org/iUtilities/acknowledgements.txt" };
 		rt.exec(url);
 		String r = "\n";
-		FileReader fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
+		fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null){
@@ -60,18 +57,15 @@ public class InfoMethods extends TextProc {
 	}
 
 	public static void changelog() throws IOException{
-		String userName = System.getProperty("user.name");
-		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
-		folder.mkdirs();
-		String[] url = { "curl","-o", IUTILITIES_DIR + "/changelog.txt",
-		"http://ifly6.no-ip.org/iUtilities/changelog.txt" };
+		mkdir();
+		String[] url = { "curl","-o", IUTILITIES_DIR + "/changelog.txt", "http://ifly6.no-ip.org/iUtilities/changelog.txt" };
 		rt.exec(url);
 		String r = "\n";
-		FileReader fstream = new FileReader(IUTILITIES_DIR + "/changelog.txt");
-		BufferedReader br = new BufferedReader(fstream);
+		fstream = new FileReader(IUTILITIES_DIR + "/changelog.txt");
+		br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null) {
-			ConsoleIf.append(r); }
+			append(r); }
 		br.close();
 		log("Changelog Processing Trigger Completed");
 	}

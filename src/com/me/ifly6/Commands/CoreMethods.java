@@ -21,15 +21,15 @@ public class CoreMethods extends TextProc{
 				ProcessBuilder builder = new ProcessBuilder(operand);
 				try {
 					process = builder.start();
-					log.append("Execution of Operand Beginning.");
+					log("Execution of Operand Beginning.");
 				} catch (IOException e) { log("ProcessBuilder Error: IOException"); }
 				InputStream stderr = process.getInputStream();
 				InputStreamReader isr = new InputStreamReader(stderr);
 				BufferedReader br = new BufferedReader(isr);
 				String line;
 				try {
-					while ((line = br.readLine()) != null) { append(line); }
-				} catch (IOException e) { }
+					while ((line = br.readLine()) != null) { out(line); }
+				} catch (IOException e) { log("Buffered Reader Error: IOException"); }
 	
 				// Error Stream
 				InputStream stderr1 = process.getErrorStream();
@@ -37,8 +37,8 @@ public class CoreMethods extends TextProc{
 				BufferedReader br1 = new BufferedReader(isr1);
 				String line1 = null;
 				try {
-					while ((line1 = br1.readLine()) != null) { append(line1); }
-				} catch (IOException e) { }
+					while ((line1 = br1.readLine()) != null) { out(line1); }
+				} catch (IOException e) { log("Buffered Reader Error: IOException"); }
 			}
 		};
 		new Thread(runner).start();
@@ -47,7 +47,7 @@ public class CoreMethods extends TextProc{
 	public static void help() throws IOException{
 		for (int x = 0; x<10; x++){
 			if (!(commText[x].equals(null))){
-				append("* " + commText[x]);
+				out("* " + commText[x]);
 			}
 		}
 		log("Help Processing Trigger Completed");

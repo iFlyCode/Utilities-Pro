@@ -25,10 +25,10 @@ public class AssortedMethods extends TextProc {
 		writer = new BufferedWriter(new FileWriter(file));
 		writer.write(display.getText());
 		writer.close();
-		append("Contents Exported.");
+		out("Contents Exported.");
 	}
 	public static void script() {
-		append("** Function Not Yet Built");
+		out("** Function Not Yet Built");
 		log.append("Script Look Executed. May or may not have run.");
 		// Some stuff.
 	}
@@ -38,13 +38,13 @@ public class AssortedMethods extends TextProc {
 				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
 		log.append("\nMindterm Download Commenced.");
-		append("Mindterm Downloaded to: " + IUTILITIES_DIR);
-		append("Mindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D." +
+		out("Mindterm Downloaded to: " + IUTILITIES_DIR);
+		out("Mindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D." +
 				"\nIt is however, not made by the iUtilities Team, and therefore, does not fall under our perview.");
 	}
 	public static void purge() throws IOException {
+		append(computername + "~ $ purge");
 		log("Inactive Memory Purged");
-		append("" + computername + "~ $ purge");
 		log("Mindterm Download Invoked.");
 	}
 	public static void saveLog() throws IOException {
@@ -55,7 +55,7 @@ public class AssortedMethods extends TextProc {
 		writer = new BufferedWriter(new FileWriter(file));
 		writer.write(log.getText());
 		writer.close();
-		append("Debug Contents Exported to File in: " + IUTILITIES_DIR);
+		out("Debug Contents Exported to File in: " + IUTILITIES_DIR);
 	}
 	public static void info() throws InterruptedException, IOException{
 		log("System Readout Invoked.");
@@ -74,7 +74,7 @@ public class AssortedMethods extends TextProc {
 		BufferedReader br = new BufferedReader(isr);
 		String line = null;
 		while ((line = br.readLine()) != null) {
-			append(line); }
+			out(line); }
 
 		InputStream stderr1 = proc1.getInputStream();
 		InputStreamReader isr1 = new InputStreamReader(stderr1);
@@ -82,7 +82,7 @@ public class AssortedMethods extends TextProc {
 		String line1 = null;
 		append(" -- Internet Interface Information -- ");
 		while ((line1 = br1.readLine()) != null) {
-			append(line1); }
+			out(line1); }
 
 		InputStream stderr2 = proc2.getInputStream();
 		InputStreamReader isr2 = new InputStreamReader(stderr2);
@@ -90,37 +90,37 @@ public class AssortedMethods extends TextProc {
 		String line2 = null;
 		append(" -- Processes Information -- ");
 		while ((line2 = br2.readLine()) != null) {
-			append(line2); }
+			out(line2); }
 
 		// Hardware
-		append("Available cores: " + rt.availableProcessors());
-		append("Free memory (bytes): " + rt.freeMemory());
+		out("Available cores: " + rt.availableProcessors());
+		out("Free memory (bytes): " + rt.freeMemory());
 		long maxMemory = rt.maxMemory();
-		append("Max. memory (Kilobytes): " + maxMemory/1000);
-		append("Total memory (Kilobytes): " + (rt.totalMemory()/1000));
+		out("Max. memory (Kilobytes): " + maxMemory/1000);
+		out("Total memory (Kilobytes): " + (rt.totalMemory()/1000));
 		File[] roots = File.listRoots();
-		append("");
+		out("");
 		for (File root : roots) {
-			append("File system root: " + root.getAbsolutePath());
-			append("FS Capacity (bytes): " + root.getTotalSpace());
-			append("FS Free (bytes): " + root.getFreeSpace());
-			append("FS Usable (bytes): " + root.getUsableSpace());
+			out("File system root: " + root.getAbsolutePath());
+			out("FS Capacity (bytes): " + root.getTotalSpace());
+			out("FS Free (bytes): " + root.getFreeSpace());
+			out("FS Usable (bytes): " + root.getUsableSpace());
 		}
-		append("");
-		append(System.getProperty("java.runtime.name") + " version " + System.getProperty("java.runtime.version") +
+		out("");
+		out(System.getProperty("java.runtime.name") + " version " + System.getProperty("java.runtime.version") +
 				System.getProperty("java.vm.version") + " by " +
 				System.getProperty("java.vm.vendor"));
-		append("Execution Directory: " + System.getProperty("user.dir"));
-		append("");
+		out("Execution Directory: " + System.getProperty("user.dir"));
+		out("");
 		String nameOS = "os.name";
 		String versionOS = "os.version";
-		append("Operating System: " + System.getProperty(nameOS) + " " + System.getProperty(versionOS));
-		append("User: " + System.getProperty("user.name") + " ... with Home at: " + System.getProperty("user.home"));
-		append("Desktop: " + System.getProperty("sun.desktop"));
+		out("Operating System: " + System.getProperty(nameOS) + " " + System.getProperty(versionOS));
+		out("User: " + System.getProperty("user.name") + " ... with Home at: " + System.getProperty("user.home"));
+		out("Desktop: " + System.getProperty("sun.desktop"));
 	}
 	public static void delete() throws IOException {
 		log("iUtilities Folder Deletion Commencing.");
-		append("iUtilities Folder Deletion Commencing.");
+		out("iUtilities Folder Deletion Commencing.");
 		String[] delete = {"rm","-rf",(IUTILITIES_DIR)};
 		rt.exec(delete);
 	}
@@ -131,7 +131,7 @@ public class AssortedMethods extends TextProc {
 	public static void update() throws IOException {
 		String temp = ("Beginning Update Sequence");
 		log(temp);
-		append(temp);
+		out(temp);
 		mkdir();
 		String[] url = { "curl","-o", IUTILITIES_DIR + "/iUtilities-latest.jar",
 		"http://ifly6.no-ip.org/iUtilities/iUtilities-latest.jar" };

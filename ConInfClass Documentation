@@ -1,5 +1,0 @@
-Console Interface Class: Documentation
-output()	= send String or Integer to Console.output for output
-log()		= send String to Console.output for output
-getText()	= get String from Console.output to local String
-setText()	= set Console.output to local String

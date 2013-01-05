@@ -9,10 +9,9 @@ import java.util.Date;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
+import javax.swing.border.LineBorder;
 
 import com.me.ifly6.Commands.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
 	// Name: Console (Also the Main Class)
@@ -27,6 +26,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// EXTERNAL DATA
 	protected static String computername = "Unknown";
 	public static int numArray = 20;
+	public static String currentDir = new File(".").getAbsolutePath();
 
 	// SWING DATA
 	static JFrame frame = new JFrame("iUtilities " + Info.version);
@@ -246,6 +246,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			InfoMethods.defaultCarat();
 		}
+		
 		// Viewswitch Needs Work
 		if (eventSource == viewswitch){
 			ConsoleIf.append(computername + "~ $ View>Switch View");

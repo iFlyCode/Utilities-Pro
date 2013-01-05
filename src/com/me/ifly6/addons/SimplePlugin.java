@@ -1,4 +1,4 @@
-package com.me.ifly6.plugins;
+package com.me.ifly6.addons;
 
 public class SimplePlugin extends com.me.ifly6.ConsoleIf {
 

@@ -67,16 +67,7 @@ public class TextProc extends ConsoleIf {
 			display.setFont(font);
 		}
 		if (operand[0].equals(commText[6])){
-			if (preoperand.equals(operand[0])){
-				append("Current API Version: " + Info.api_version);
-				for (int x = 0; x<10; x++){
-					append("* " + Addons.api[x]);
-				}
-				log("API Processing Trigger Completed");
-			} else {
-				Addons.api();
-				log("API Processing Trigger Completed");
-			}
+CoreMethods.apiList();
 		}
 		if (operand[0].equals(commText[7])){
 			AssortedMethods.save();

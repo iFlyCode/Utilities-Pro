@@ -11,9 +11,10 @@ import java.io.Writer;
 
 import com.me.ifly6.ConsoleIf;
 import com.me.ifly6.Info;
+import com.me.ifly6.TextProc;
 
 
-public class AssortedMethods extends ConsoleIf {
+public class AssortedMethods extends TextProc {
 	// Name: Non-Core Methods
 
 	private static final long serialVersionUID = 1L;
@@ -130,7 +131,7 @@ public class AssortedMethods extends ConsoleIf {
 	}
 	public static void terminate() {
 		log("\nTermination of Dynamic Programme Switched");
-		ConsoleIf.term_proc();
+		term_proc();
 	}
 	public static void update() throws IOException {
 		log("Beginning Update Sequence");

@@ -3,6 +3,8 @@ package com.me.ifly6;
 import java.awt.Font;
 import java.io.IOException;
 
+import com.me.ifly6.Commands.*;
+
 public class TextProc extends ConsoleIf {
 	// Name: Text Commands (Executes Necessary Text Data from Console/anything else)
 
@@ -41,21 +43,21 @@ public class TextProc extends ConsoleIf {
 
 		// Command Evaluation
 		if (operand[0].equals(commText[0])) {
-			com.me.ifly6.Commands.InfoMethods.changelog();
+			InfoMethods.changelog();
 		}
 		if (operand[0].equals(commText[1])) {
-			com.me.ifly6.Commands.InfoMethods.about();
+			InfoMethods.about();
 			log("'About' Processing Trigger Invoked");
 		}
 		if (operand[0].equals(commText[2])) {
-			com.me.ifly6.Commands.CoreMethods.help();
+			CoreMethods.help();
 			log("Help Processing Trigger Invoked");
 		}
 		if (operand[0].equals(commText[3])) {
-			com.me.ifly6.Commands.InfoMethods.clear();
+			InfoMethods.clear();
 		}
 		if (operand[0].equals(commText[4])) {
-			com.me.ifly6.Commands.InfoMethods.acknowledgements();
+			InfoMethods.acknowledgements();
 		}
 		if (operand[0].equals(commText[5])){
 			int tmp = 11;
@@ -76,22 +78,28 @@ public class TextProc extends ConsoleIf {
 			}
 		}
 		if (operand[0].equals(commText[7])){
-			com.me.ifly6.Commands.AssortedMethods.save();
+			AssortedMethods.save();
+			log("Saving Processing Trigger Called");
 		}
 		if (operand[0].equals(commText[8])){
-			com.me.ifly6.Commands.AssortedMethods.saveLog();
+			AssortedMethods.saveLog();
+			log("SavingLog Processing Trigger Called");
 		}
 		if (operand[0].equals(commText[9])){
-			com.me.ifly6.Commands.AssortedMethods.delete();
+			AssortedMethods.delete();
+			log("Deletion Processing Trigger Called");
 		}
 		if (operand[0].equals(commText[10])){
-			com.me.ifly6.Commands.AssortedMethods.info();
+			AssortedMethods.info();
+			log("System Information Processing Trigger Called");
 		}
 		if (operand[0].equals(commText[11])){
-			com.me.ifly6.Commands.AssortedMethods.mindterm();
+			AssortedMethods.mindterm();
+			log("Mindterm Download Processing Trigger Called");
 		}
 		if (operand[0].equals(commText[12])){
-			com.me.ifly6.Commands.AssortedMethods.terminate();
+			AssortedMethods.terminate();
+			log("Process Termination Processing Trigger Called");
 		}
 		/* if (operand[0].equals(commText[13])){
 			

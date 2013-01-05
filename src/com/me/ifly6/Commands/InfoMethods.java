@@ -10,8 +10,9 @@ import javax.swing.text.DefaultCaret;
 import com.me.ifly6.Console;
 import com.me.ifly6.ConsoleIf;
 import com.me.ifly6.Info;
+import com.me.ifly6.TextProc;
 
-public class InfoMethods extends ConsoleIf{
+public class InfoMethods extends TextProc {
 	// Name: Methods for Providing Information About iUtilities
 	private static final long serialVersionUID = 1L;
 

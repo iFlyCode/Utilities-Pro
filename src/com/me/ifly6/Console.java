@@ -10,8 +10,7 @@ import java.util.Date;
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 
-import com.me.ifly6.Commands.AssortedMethods;
-import com.me.ifly6.Commands.InfoMethods;
+import com.me.ifly6.Commands.*;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
 	// Name: Console (Also the Main Class)
@@ -238,13 +237,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == help){
 			ConsoleIf.append(computername + "~ $ Help>Help");
 			try {
-				com.me.ifly6.Commands.CoreMethods.help();
+				CoreMethods.help();
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
 			ConsoleIf.append(computername + "~ $ changelog");
 			try {
-				com.me.ifly6.Commands.InfoMethods.changelog();
+				InfoMethods.changelog();
 			} catch (IOException e1) { log.append("\nChangelog Invocation Failed: IOException"); }
 		}
 		if (eventSource == updates){

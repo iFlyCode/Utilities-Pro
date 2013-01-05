@@ -1,7 +1,6 @@
 package com.me.ifly6;
 
 import java.awt.Font;
-import java.io.File;
 import java.io.IOException;
 
 import com.me.ifly6.Commands.*;

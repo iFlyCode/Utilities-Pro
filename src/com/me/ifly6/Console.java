@@ -24,7 +24,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	// EXTERNAL DATA
 	protected static String computername = "Unknown";
-	public static int numArray = 15;
+	public static int numArray = 20;
 	
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Info.version);

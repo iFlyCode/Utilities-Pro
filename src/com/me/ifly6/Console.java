@@ -14,22 +14,21 @@ import javax.swing.border.LineBorder;
 import com.me.ifly6.methods.*;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
-	// Name: Console (Also the Main Class)
+	// Name: Console (No Longer the Main Class...)
 
 	/*
 	 * THINGS TO DO:
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
 	 */
-
 	private static final long serialVersionUID = 1L;
-
+	
 	// EXTERNAL DATA
 	protected static String computername = "Unknown";
 	public static int numArray = 20;
 	public static String currentDir = new File(".").getAbsolutePath();
 
 	// SWING DATA
-	static JFrame frame = new JFrame("iUtilities " + Info.version);
+	static JFrame frame = new JFrame("iUtilities " + Parametres.version);
 
 	public static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	public static JPanel tab1 = new JPanel();
@@ -44,7 +43,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static String preoperand;
 	public static String[] operand;
 	static String[] mem = new String[10];
-	static final String starter = "== iUtilities Console " + Info.version + " == " + 
+	static final String starter = "== iUtilities Console " + Parametres.version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
 			"\nType '/help' for help.";
 	public static int screen_state = 0;
@@ -56,6 +55,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenu menucomm = new JMenu("Commands");
 	JMenu menuview = new JMenu("View");
 	JMenu menuhelp = new JMenu("Help");
+	JMenuItem del = new JMenuItem("Delete iUtilities Files");
 	JMenuItem export = new JMenuItem("Exportation");
 	JMenuItem script = new JMenuItem("Script Input");
 	JMenuItem mindterm = new JMenuItem("Mindterm");
@@ -64,7 +64,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
-	JMenuItem del = new JMenuItem("Delete iUtilities Files");
+	JMenuItem newConsole = new JMenuItem("New Console Tab");
 	JMenuItem logEnable = new JMenuItem("Enable Log View");
 	JMenuItem term = new JMenuItem("Terminate Process");
 	JMenuItem about = new JMenuItem("About");
@@ -78,7 +78,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		frame.setBounds(50, 50, 670, 735);
 		frame.getContentPane().setLayout(new BorderLayout());
 		menubar.setBorderPainted(false);
-		frame.getContentPane().add(menubar, BorderLayout.NORTH);
 		
 		menubar.setBackground(Color.LIGHT_GRAY);
 		menubar.setForeground(Color.BLACK);
@@ -96,9 +95,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				menubar.add(menuhelp);
 				
 						// File
+						menufile.add(del);
 						menufile.add(export);
 						menufile.add(script);
 						menufile.add(mindterm);
+						del.addActionListener(this);
 						export.addActionListener(this);
 						script.addActionListener(this);
 						mindterm.addActionListener(this);
@@ -114,11 +115,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 						// View
 						menuview.add(clear);
 						menuview.add(defaultCarat);
-						menuview.add(del);
+						menuview.add(newConsole);
 						menuview.add(logEnable);
 						clear.addActionListener(this);
 						defaultCarat.addActionListener(this);
-						del.addActionListener(this);
 						logEnable.addActionListener(this);
 						// Help
 						menuhelp.add(about);
@@ -129,6 +129,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 						help.addActionListener(this);
 						changelog.addActionListener(this);
 						updates.addActionListener(this);
+						
+						frame.setJMenuBar(menubar);
 						
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -153,22 +155,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		log.setEditable(false);
 		log.setFont(font);
 
-		// Set Visibles.
+		// Set Visibles and System.setProperties
 		caret.setUpdatePolicy(2);
 		frame.setVisible(true);
 		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 
-	// MAIN THREAD.
-	public static void main(String[] args) throws UnknownHostException, InterruptedException {
-
-		// GUI Look and Feel
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException e) {
-		} catch (InstantiationException e) {
-		} catch (IllegalAccessException e) { 
-		} catch (UnsupportedLookAndFeelException e) {}
+	// launchGUI... RTF-Name
+	public static void launchGUI(){
 
 		// GUI Construction Call
 		EventQueue.invokeLater(new Runnable() {
@@ -186,15 +180,17 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			log.append("\nWindows Detected. Disengaging.");
 			String temp = "Windows Detected. Disengaging to prevent havoc, as this is requires UNIX Commands.";
 			JOptionPane.showMessageDialog(null, temp, "OS Validation", -1);
-			Thread.sleep(10000);
+			try { Thread.sleep(10000);
+			} catch (InterruptedException e) { }
 			System.exit(0);
 		}
 
 		// Visible Housekeeping
 		display.append(starter);
-		computername = InetAddress.getLocalHost().getHostName();
+		try { computername = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) { }
 		Date date = new Date();
-		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
+		log.append("iUtilities " + Parametres.version + " Initialised. Date: " + date);
 
 		// Invisible Housekeeping
 		Addons.array_fill();
@@ -217,6 +213,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// ACTIONPREFORMED LISTENER FOR ALL THE MENU BUTTONS
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
+		if (eventSource == del){
+			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
+			try {
+				InOutMethods.delete();
+			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
+		}
 		if (eventSource == export) {
 			display.append("\n" + computername + "~ $ File>Export ");
 			try {
@@ -259,11 +261,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			GraphicsMethods.defaultCarat();
 		}
-		if (eventSource == del){
-			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
-			try {
-				InOutMethods.delete();
-			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
+		if (eventSource == newConsole){
+			GraphicsMethods.newConsole();
+			ConsoleIf.append(computername + "~ $ View>New Console Tab");
+			ConsoleIf.log("New Console Tab.");
 		}
 		if (eventSource == logEnable){
 			GraphicsMethods.enableLogTab();

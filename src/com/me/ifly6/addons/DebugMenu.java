@@ -15,7 +15,7 @@ public class DebugMenu extends ConsoleIf {
 
 	private static final long serialVersionUID = 1L;
 	
-	JFrame frame1 = new JFrame("iUtilities " + Info.version + ": DebugMenu");
+	JFrame frame1 = new JFrame("iUtilities " + Parametres.version + ": DebugMenu");
 	JPanel pane1 = new JPanel();
 	static JTextArea display1 = new JTextArea();
 	JScrollPane sp1 = new JScrollPane(display1);

@@ -19,4 +19,8 @@ public class GraphicsMethods extends ConsoleIf{
 	public static void enableLogTab(){
 		Console.tabbedPane.addTab("Log\n", null, tab2, null);
 	}
+
+	public static void newConsole() {
+		// Find some way to add Tabs to this thing.
+	}
 }

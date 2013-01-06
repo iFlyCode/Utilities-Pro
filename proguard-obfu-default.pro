@@ -1,5 +1,5 @@
--injars '/Users/Kevin/Documents/Dropbox/Not Obfuscated/iUtilities-2.2_01-ebe4782.jar'
--outjars '/Users/Kevin/Documents/Dropbox/Public/iTools Suite/iUtilities Releases/iUtilities-2.2_01-ebe4782.jar'
+-injars '/Users/Kevin/Documents/Dropbox/Not Obfuscated/iUtilities-2.2_02.jar'
+-outjars '/Users/Kevin/Documents/Dropbox/Public/Documents/iTools Suite/iUtilities Releases/iUtilities-2.2_02.jar'
 
 -libraryjars /System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar
 

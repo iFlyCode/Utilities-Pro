@@ -1,4 +1,4 @@
-package com.me.ifly6.plugins;
+package com.me.ifly6.addons;
 
 public class SimplePlugin extends com.me.ifly6.ConsoleIf {
 
@@ -7,7 +7,7 @@ public class SimplePlugin extends com.me.ifly6.ConsoleIf {
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public static void plugin(String[] args){
+	public static void plugin(){
 		if (operand[0].equals("/api")){
 			if (operand[1].equals("SimplePlugin")){
 				append("Hello World. SimplePlugin Reporting.");

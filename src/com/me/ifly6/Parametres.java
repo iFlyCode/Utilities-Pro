@@ -30,7 +30,7 @@ public class Parametres {
 	 * 2.5 = greenfall
 	 * 2.6 = greenpool
 	 * 2.7 = greenbyte
-	 * 2.8 = green-2^3
+	 * 2.8 = greenland
 	 */
 	
 	public static void main(String[] args) throws UnknownHostException, InterruptedException{

@@ -44,7 +44,7 @@ public class CoreMethods extends TextProc{
 		new Thread(runner).start();
 	}
 
-	public static void help() throws IOException{
+	public static void helpList() throws IOException{
 		for (int x = 0; x<50; x++){
 			if (!(commText[x].equals(null))){
 				out("* " + commText[x]);

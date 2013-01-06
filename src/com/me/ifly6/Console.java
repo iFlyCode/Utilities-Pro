@@ -216,60 +216,60 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == export) {
 			display.append("\n" + computername + "~ $ File>Export ");
 			try {
-				AssortedMethods.save();
+				InOutMethods.save();
 			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
 		}
 		if (eventSource == script) {
 			display.append("\n" + computername + "~ $ File>Script");
-			AssortedMethods.script();
+			InOutMethods.script();
 		}
 		if (eventSource == mindterm) {
 			display.append("\n" + computername + "~ $ File>Mindterm");
 			try {
-				AssortedMethods.mindterm();
+				InOutMethods.mindterm();
 			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
 		}
 		if (eventSource == purge) {
 			display.append("\n" + computername + "~ $ Command>Purge");
 			try {
-				AssortedMethods.purge();
+				InOutMethods.purge();
 			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
 		}
 		if (eventSource == debug) {
 			ConsoleIf.append("\n" + computername + "~ $ Command>Debug");
 			try {
-				AssortedMethods.saveLog();
+				InOutMethods.saveLog();
 			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
 			ConsoleIf.append(computername + "~ $ Command>System Readout");
 			try {
-				AssortedMethods.info();
+				InfoMethods.info();
 			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
 			} catch (IOException e1) { log.append("\nInformation Not Exported: IOException"); }
 		}
 		if (eventSource == clear){
-			InfoMethods.clear();
+			GraphicsMethods.clear();
 		}
 		if (eventSource == defaultCarat){
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
-			InfoMethods.defaultCarat();
+			GraphicsMethods.defaultCarat();
 		}
 
 		// Viewswitch Needs Work
 		if (eventSource == viewswitch){
 			ConsoleIf.append(computername + "~ $ View>Switch View");
-			InfoMethods.viewswitch();
+			GraphicsMethods.viewswitch();
 		}
 		if (eventSource == del){
 			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
 			try {
-				AssortedMethods.delete();
+				InOutMethods.delete();
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
 		}
 		if (eventSource == term){
 			ConsoleIf.append(computername + "~ $ Commands>Terminate Process");
-			AssortedMethods.terminate();
+			InOutMethods.terminate();
 		}
 		if (eventSource == about) {
 			ConsoleIf.append(computername + "~ $ Help>About");
@@ -278,7 +278,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == help){
 			ConsoleIf.append(computername + "~ $ Help>Help");
 			try {
-				CoreMethods.help();
+				CoreMethods.helpList();
 			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
 		}
 		if (eventSource == changelog){
@@ -290,12 +290,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (eventSource == updates){
 			ConsoleIf.append(computername + "~ $ Help>Updates");
 			try {
-				AssortedMethods.update();
+				InOutMethods.update();
 			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
 		}
 	}
 
-	// To Detect and Disable on Windows.
+	// To Detect whether on Windows.
 	public static boolean isWindows() {
 		String OS = System.getProperty("os.name");
 		return (OS.indexOf("win") >= 0);

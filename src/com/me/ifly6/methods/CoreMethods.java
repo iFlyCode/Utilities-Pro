@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-import com.me.ifly6.Addons;
 import com.me.ifly6.Info;
 import com.me.ifly6.TextProc;
 
@@ -52,21 +51,4 @@ public class CoreMethods extends TextProc{
 		}
 		log("Help Processing Trigger Completed");
 	}
-
-	public static void apiList() {
-		if (preoperand.equals(operand[0])){
-			append("Current API Version: " + Info.api_version);
-			append("Type /api exec 'name' to execute Programmes");
-			for (int x = 0; x<50; x++){
-				if (!(Addons.api[x].equals(null))){
-					out("* " + Addons.api[x]);
-				}
-			}
-			log("API Processing Trigger Completed");
-		} else {
-			Addons.api();
-			log("API Processing Trigger Completed, 'else' triggered.");
-		}
-	}
-
 }

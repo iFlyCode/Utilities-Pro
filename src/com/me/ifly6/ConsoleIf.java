@@ -50,8 +50,8 @@ public class ConsoleIf extends Console {
 		Console.output.setText(null);
 		Console.log.setText(null);
 	}
-	public static void mkdir() {
+	/* public static void mkdir() {
 		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
 		folder.mkdirs();
-	}
+	} */
 }

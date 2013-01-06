@@ -176,24 +176,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		} catch (UnsupportedLookAndFeelException e) {}
 		new Console();
 
-		// OS Restriction
-		if (isWindows()){
-			frame.setVisible(false);
-			log.append("\nWindows Detected. Disengaging.");
-			String temp = "Windows Detected. Disengaging to prevent havoc, as this is requires UNIX Commands.";
-			JOptionPane.showMessageDialog(null, temp, "OS Validation", -1);
-			Thread.sleep(10000);
-			System.exit(0);
-		}
-
 		// Visible Housekeeping
 		display.append(starter);
 		computername = InetAddress.getLocalHost().getHostName();
 		Date date = new Date();
 		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
-
-		// Invisible Housekeeping
-		Addons.array_fill();
 	}
 
 	// EVENT HANDLER
@@ -293,11 +280,5 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				InOutMethods.update();
 			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
 		}
-	}
-
-	// To Detect whether on Windows.
-	public static boolean isWindows() {
-		String OS = System.getProperty("os.name");
-		return (OS.indexOf("win") >= 0);
 	}
 }

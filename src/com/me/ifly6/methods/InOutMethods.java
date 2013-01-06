@@ -17,7 +17,7 @@ public class InOutMethods extends TextProc {
 		log("Display Saving System Invoked.");
 		mkdir();
 		Writer writer = null;
-		File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report_display-out" + System.currentTimeMillis() + ".txt");
+		// File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report_display-out" + System.currentTimeMillis() + ".txt");
 		writer = new BufferedWriter(new FileWriter(file));
 		writer.write(display.getText());
 		writer.close();
@@ -30,41 +30,37 @@ public class InOutMethods extends TextProc {
 	}
 	public static void mindterm() throws IOException {
 		mkdir();
-		log.append("\nMindterm Download Commenced.");
 		String[] url = { "curl", "-o", "/Users/" + userName + 
 				"/Library/Application Support/iUtilities/mindterm.jar", "http://ifly6.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
+		log.append("\nMindterm Download Commenced.");
 		out("Mindterm Downloaded to: " + IUTILITIES_DIR);
-		out("Mindterm Downloaded to: " + IUTILITIES_DIR + 
-				"\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D." +
+		out("Mindterm Downloaded to: " + IUTILITIES_DIR + "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D." +
 				"\nIt is however, not made by the iUtilities Team, and therefore, does not fall under our perview.");
 	}
 	public static void purge() throws IOException {
 		append(computername + "~ $ purge");
 		log("Inactive Memory Purged");
-		String[] exec = { "purge" };
-		rt.exec(exec);
-		log("Inactive Memory Purged");
-		out("Inactive Memory Purged");
+		log("Mindterm Download Invoked.");
 	}
 	public static void saveLog() throws IOException {
 		log("iUtilities Log Readout Command Executed");
 		mkdir();
 		Writer writer = null;
-		File file = new File(IUTILITIES_DIR + "/report_log" + System.currentTimeMillis() + ".txt");
+		// File file = new File(IUTILITIES_DIR + "/report_log" + System.currentTimeMillis() + ".txt");
 		writer = new BufferedWriter(new FileWriter(file));
 		writer.write(log.getText());
 		writer.close();
-		out("Debug Contents Exported to File in: " + IUTILITIES_DIR);
+		// out("Debug Contents Exported to File in: " + IUTILITIES_DIR);
 	}
 	public static void delete() throws IOException {
 		log("iUtilities Folder Deletion Commencing.");
 		out("iUtilities Folder Deletion Commencing.");
-		String[] delete = {"rm","-rf",(IUTILITIES_DIR)};
+		// String[] delete = {"rm","-rf",(IUTILITIES_DIR)};
 		rt.exec(delete);
 	}
 	public static void terminate() {
-		log("\nTermination of Dynamic Programme Switched");
+		log("Termination of Dynamic Programme Switched");
 		term_proc();
 	}
 	public static void update() throws IOException {
@@ -72,10 +68,9 @@ public class InOutMethods extends TextProc {
 		log(temp);
 		out(temp);
 		mkdir();
-		String[] url = { "curl","-o", IUTILITIES_DIR + "/iUtilities-latest.jar",
-		"http://ifly6.no-ip.org/iUtilities/iUtilities-latest.jar" };
+		// String[] url = { "curl","-o", IUTILITIES_DIR + "/iUtilities-latest.jar", "http://ifly6.no-ip.org/iUtilities/iUtilities-latest.jar" };
 		rt.exec(url);
 		log("Update Successful.");
-		append("iUtilities is updated. New file iUtilities-latest.jar in ~/Library/Application Support/iUtilities");
+		// append("iUtilities is updated. New file iUtilities-latest.jar in ~/Library/Application Support/iUtilities");
 	}
 }

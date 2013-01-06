@@ -30,12 +30,15 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	// SWING DATA
 	static JFrame frame = new JFrame("iUtilities " + Info.version);
-	JPanel pane = new JPanel();
+
+	public static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+	public static JPanel tab1 = new JPanel();
+	public static JPanel tab2 = new JPanel();
 	public static JTextArea display = new JTextArea();
-	public static JTextArea output = new JTextArea();
 	public static JTextArea log = new JTextArea();
 	public static JTextField input = new JTextField();
-	JScrollPane scp = new JScrollPane(display);
+	JScrollPane scp_tab1 = new JScrollPane(display);
+	JScrollPane scp_tab2 = new JScrollPane(log);
 
 	// INTERNAL DATA
 	public static String preoperand;
@@ -43,9 +46,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static String[] mem = new String[10];
 	static final String starter = "== iUtilities Console " + Info.version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
-			"\nType 'help' for help.";
+			"\nType '/help' for help.";
 	public static int screen_state = 0;
 	public static String screen_stored = starter;
+	public static Font font = new Font("Monaco", 0, 11);
 
 	JMenuBar menubar = new JMenuBar();
 	JMenu menufile = new JMenu("File");
@@ -60,8 +64,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
-	JMenuItem viewswitch = new JMenuItem("Switch View");
 	JMenuItem del = new JMenuItem("Delete iUtilities Files");
+	JMenuItem logEnable = new JMenuItem("Enable Log View");
 	JMenuItem term = new JMenuItem("Terminate Process");
 	JMenuItem about = new JMenuItem("About");
 	JMenuItem help = new JMenuItem("Help");
@@ -72,109 +76,109 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	{
 		// Base GUI, in Swing.
 		frame.setBounds(50, 50, 670, 735);
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		pane.setLayout(new BorderLayout());
-		frame.getContentPane().add(pane);
-		scp.setViewportBorder(new LineBorder(new Color(0, 0, 0), 6));
-
-		pane.add(scp, BorderLayout.CENTER);
-		input.setToolTipText("Type Commands Here");
-		pane.add(input, BorderLayout.SOUTH);
-		input.addKeyListener(this);
-
-		Font font = new Font("Monaco", 0, 11);
-		display.setEditable(false);
-		display.setFont(new Font("Monaco", Font.PLAIN, 11));
-		display.setBackground(new Color(0, 0, 0));
-		display.setForeground(Color.green);
-
-		input.setFont(font);
-		input.setBackground(Color.black);
-		input.setForeground(Color.green);
-		input.setCaretColor(Color.green);
-		pane.setBackground(Color.DARK_GRAY);
-		DefaultCaret caret = (DefaultCaret)display.getCaret();
-		caret.setUpdatePolicy(2);
-		menubar.setMargin(new Insets(0, 2, 0, 0));
+		frame.getContentPane().setLayout(new BorderLayout());
+		menubar.setBorderPainted(false);
+		frame.getContentPane().add(menubar, BorderLayout.NORTH);
+		
 		menubar.setBackground(Color.LIGHT_GRAY);
 		menubar.setForeground(Color.BLACK);
 		menufile.setHorizontalAlignment(SwingConstants.LEFT);
 		menufile.setBackground(Color.LIGHT_GRAY);
 		menufile.setForeground(Color.BLACK);
+		
+				// MENUBAR CREATION
+				menubar.add(menufile);
+				menucomm.setBackground(Color.LIGHT_GRAY);
+				menubar.add(menucomm);
+				menuview.setBackground(Color.LIGHT_GRAY);
+				menubar.add(menuview);
+				menuhelp.setBackground(Color.LIGHT_GRAY);
+				menubar.add(menuhelp);
+				
+						// File
+						menufile.add(export);
+						menufile.add(script);
+						menufile.add(mindterm);
+						export.addActionListener(this);
+						script.addActionListener(this);
+						mindterm.addActionListener(this);
+						// Commands
+						menucomm.add(purge);
+						menucomm.add(debug);
+						menucomm.add(info);
+						menucomm.add(term);
+						purge.addActionListener(this);
+						debug.addActionListener(this);
+						info.addActionListener(this);
+						term.addActionListener(this);
+						// View
+						menuview.add(clear);
+						menuview.add(defaultCarat);
+						menuview.add(del);
+						menuview.add(logEnable);
+						clear.addActionListener(this);
+						defaultCarat.addActionListener(this);
+						del.addActionListener(this);
+						logEnable.addActionListener(this);
+						// Help
+						menuhelp.add(about);
+						menuhelp.add(help);
+						menuhelp.add(changelog);
+						menuhelp.add(updates);
+						about.addActionListener(this);
+						help.addActionListener(this);
+						changelog.addActionListener(this);
+						updates.addActionListener(this);
+						
+		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		tabbedPane.addTab("Console", null, tab1, null);
 
-		// MENUBAR CREATION
-		menubar.add(menufile);
-		menucomm.setHorizontalAlignment(SwingConstants.LEFT);
-		menucomm.setBackground(Color.LIGHT_GRAY);
-		menucomm.setForeground(Color.BLACK);
-		menubar.add(menucomm);
-		menuview.setHorizontalAlignment(SwingConstants.LEFT);
-		menuview.setBackground(Color.LIGHT_GRAY);
-		menuview.setForeground(Color.BLACK);
-		menubar.add(menuview);
-		menuhelp.setHorizontalAlignment(SwingConstants.LEFT);
-		menuhelp.setBackground(Color.LIGHT_GRAY);
-		menuhelp.setForeground(Color.BLACK);
-		menubar.add(menuhelp);
-		export.setBackground(Color.WHITE);
-		export.setForeground(Color.BLACK);
+		tab1.setLayout(new BorderLayout());
+		tab2.setLayout(new BorderLayout());
+		scp_tab1.setViewportBorder(new LineBorder(Color.WHITE, 6));
+		scp_tab2.setViewportBorder(new LineBorder(Color.WHITE, 6));
 
-		// File
-		menufile.add(export);
-		script.setBackground(Color.WHITE);
-		script.setForeground(Color.BLACK);
-		menufile.add(script);
-		mindterm.setBackground(Color.WHITE);
-		mindterm.setForeground(Color.BLACK);
-		menufile.add(mindterm);
-		export.addActionListener(this);
-		script.addActionListener(this);
-		mindterm.addActionListener(this);
-		// Commands
-		menucomm.add(purge);
-		menucomm.add(debug);
-		menucomm.add(info);
-		menucomm.add(term);
-		purge.addActionListener(this);
-		debug.addActionListener(this);
-		info.addActionListener(this);
-		term.addActionListener(this);
-		// View
-		menuview.add(clear);
-		menuview.add(defaultCarat);
-		menuview.add(viewswitch);
-		menuview.add(del);
-		clear.addActionListener(this);
-		defaultCarat.addActionListener(this);
-		viewswitch.addActionListener(this);
-		del.addActionListener(this);
-		// Help
-		menuhelp.add(about);
-		menuhelp.add(help);
-		menuhelp.add(changelog);
-		menuhelp.add(updates);
-		about.addActionListener(this);
-		help.addActionListener(this);
-		changelog.addActionListener(this);
-		updates.addActionListener(this);
+		tab1.add(scp_tab1, BorderLayout.CENTER);
+		tab1.add(input, BorderLayout.SOUTH);
+		tab2.add(scp_tab2, BorderLayout.CENTER);
 
-		pane.add(menubar, BorderLayout.NORTH);
+		input.addKeyListener(this);
+
+		// GUI Colours
+		input.setFont(font);
+		DefaultCaret caret = (DefaultCaret)display.getCaret();
+		display.setEditable(false);
+		display.setFont(font);
+		log.setEditable(false);
+		log.setFont(font);
+
+		// Set Visibles.
+		caret.setUpdatePolicy(2);
 		frame.setVisible(true);
 		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 
 	// MAIN THREAD.
 	public static void main(String[] args) throws UnknownHostException, InterruptedException {
-		
-		// GUI Construction
+
+		// GUI Look and Feel
 		try {
-			UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName());
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
 		} catch (InstantiationException e) {
 		} catch (IllegalAccessException e) { 
 		} catch (UnsupportedLookAndFeelException e) {}
-		new Console();
+
+		// GUI Construction Call
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new Console();
+				} catch (Exception e) { System.out.println("CRITICAL FAILURE");
+				}
+			}
+		});
 
 		// OS Restriction
 		if (isWindows()){
@@ -255,17 +259,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			GraphicsMethods.defaultCarat();
 		}
-
-		// Viewswitch Needs Work
-		if (eventSource == viewswitch){
-			ConsoleIf.append(computername + "~ $ View>Switch View");
-			GraphicsMethods.viewswitch();
-		}
 		if (eventSource == del){
 			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
 			try {
 				InOutMethods.delete();
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
+		}
+		if (eventSource == logEnable){
+			GraphicsMethods.enableLogTab();
 		}
 		if (eventSource == term){
 			ConsoleIf.append(computername + "~ $ Commands>Terminate Process");

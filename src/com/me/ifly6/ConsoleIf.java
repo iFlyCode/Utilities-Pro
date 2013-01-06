@@ -21,19 +21,15 @@ public class ConsoleIf extends Console {
 	// Standardised I/O Processing
 	public static void append(String in){
 		Console.display.append("\n" + in);
-		Console.output.append("\n" + in);
 	}
 	public static void append(int in){
 		Console.display.append("\n" + in);
-		Console.output.append("\n" + in);
 	}
 	public static void out(String in){
 		Console.display.append("\n " + in);
-		Console.output.append("\n " + in);
 	}
 	public static void out(int in){
 		Console.display.append("\n " + in);
-		Console.output.append("\n " + in);
 	}
 	public static void log(String in){ Console.log.append("\n" + in); }
 	
@@ -47,7 +43,6 @@ public class ConsoleIf extends Console {
 	}
 	public static void clear() {
 		Console.display.setText(null);
-		Console.output.setText(null);
 		Console.log.setText(null);
 	}
 	public static void mkdir() {

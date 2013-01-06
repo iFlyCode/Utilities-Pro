@@ -16,15 +16,7 @@ public class GraphicsMethods extends ConsoleIf{
 		DefaultCaret caret = (DefaultCaret)display.getCaret();
 		caret.setUpdatePolicy(2);
 	}
-
-	public static void viewswitch() {
-		if (screen_state == 0){
-			setText(Console.log.getText());
-			screen_state = 1;
-		}
-		if (screen_state == 1){
-			setText(Console.output.getText());
-			screen_state = 0;
-		}
-	} 
+	public static void enableLogTab(){
+		Console.tabbedPane.addTab("Log\n", null, tab2, null);
+	}
 }

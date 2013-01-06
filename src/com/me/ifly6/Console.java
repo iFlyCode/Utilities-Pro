@@ -11,7 +11,7 @@ import javax.swing.*;
 import javax.swing.text.DefaultCaret;
 import javax.swing.border.LineBorder;
 
-import com.me.ifly6.Commands.*;
+import com.me.ifly6.methods.*;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
 	// Name: Console (Also the Main Class)

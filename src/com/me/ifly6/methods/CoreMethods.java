@@ -1,4 +1,4 @@
-package com.me.ifly6.Commands;
+package com.me.ifly6.methods;
 
 import java.io.IOException;
 import java.io.InputStream;

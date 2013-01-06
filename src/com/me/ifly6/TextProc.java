@@ -3,7 +3,7 @@ package com.me.ifly6;
 import java.awt.Font;
 import java.io.IOException;
 
-import com.me.ifly6.Commands.*;
+import com.me.ifly6.methods.*;
 
 public class TextProc extends ConsoleIf {
 	// Name: Text Commands (Executes Necessary Text Data from Console/anything else)
@@ -103,7 +103,7 @@ public class TextProc extends ConsoleIf {
 			System.exit(0);
 		}
 		else if ((!operand[0].equals("bash"))) {
-			com.me.ifly6.Commands.CoreMethods.exec();
+			com.me.ifly6.methods.CoreMethods.exec();
 			log("\nBASH COMMAND INVOKED: " + preoperand);
 		}
 	}

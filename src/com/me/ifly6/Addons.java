@@ -1,7 +1,5 @@
 package com.me.ifly6;
 
-import com.me.ifly6.addons.*;
-
 public class Addons extends ConsoleIf {
 	// Name: Managing Class for Add-ons
 	
@@ -10,16 +8,7 @@ public class Addons extends ConsoleIf {
 
 	public static void api(){
 		// Processing of API Commands
-		if (operand[1].equals("exec")){
-			if (operand[2].equals(api[0])){
-				SimplePlugin.plugin();
-			}
-			if (operand[2].equals(api[1])){
-				Runnable runner = new Runnable() {
-					public void run() { DebugMenu.execute(); } };
-				new Thread(runner).start();
-			}
-		}
+		// This API is now deprecated until it is finished being written.
 	}
 	
 	public static void array_fill(){

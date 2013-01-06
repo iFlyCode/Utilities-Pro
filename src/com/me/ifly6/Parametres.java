@@ -23,8 +23,7 @@ public class Parametres {
 	public static String userName = System.getProperty("user.name");
 	public static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
 
-	/*
-	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>
+	/* System is: <type> <major>.<minor>_<revision>.<sub-revision>
 	 * For example: alpha 2.2_01.2 = Major Version 2, Minor Version 2, Revision 01, Sub-Revision 2
 	 * For example: 2.2 = Release, Major Version 2, Minor Version 2, No revisions.
 	 * 

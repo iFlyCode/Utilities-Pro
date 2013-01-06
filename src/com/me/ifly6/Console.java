@@ -66,6 +66,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
 	JMenuItem newConsole = new JMenuItem("New Console Tab");
 	JMenuItem logEnable = new JMenuItem("Enable Log View");
+	JMenu lookAndFeel = new JMenu("Look and Feel");
+	JMenuItem metalInf = new JMenuItem("Metal Interface");
+	JMenuItem macIntrf = new JMenuItem("System Interface");
 	JMenuItem term = new JMenuItem("Terminate Process");
 	JMenuItem about = new JMenuItem("About");
 	JMenuItem help = new JMenuItem("Help");
@@ -117,9 +120,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 						menuview.add(defaultCarat);
 						menuview.add(newConsole);
 						menuview.add(logEnable);
+						menuview.add(lookAndFeel);
+						lookAndFeel.add(metalInf); lookAndFeel.add(macIntrf);
 						clear.addActionListener(this);
 						defaultCarat.addActionListener(this);
 						logEnable.addActionListener(this);
+						metalInf.addActionListener(this);
+						macIntrf.addActionListener(this);
 						// Help
 						menuhelp.add(about);
 						menuhelp.add(help);
@@ -267,7 +274,16 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.log("New Console Tab.");
 		}
 		if (eventSource == logEnable){
+			ConsoleIf.append(computername + "~ $ View>Enable Log Tab");
 			GraphicsMethods.enableLogTab();
+		}
+		if (eventSource == metalInf){
+			ConsoleIf.append(computername + "~ $ View>Metal Interface");
+			GraphicsMethods.saveConfig("CrossPlatformLAF");
+		}
+		if (eventSource == macIntrf){
+			ConsoleIf.append(computername + "~ $ View>System Interface");
+			GraphicsMethods.saveConfig("Default");
 		}
 		if (eventSource == term){
 			ConsoleIf.append(computername + "~ $ Commands>Terminate Process");

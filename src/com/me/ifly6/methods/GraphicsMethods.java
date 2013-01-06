@@ -1,5 +1,8 @@
 package com.me.ifly6.methods;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 import javax.swing.text.DefaultCaret;
 
 import com.me.ifly6.*;
@@ -22,5 +25,17 @@ public class GraphicsMethods extends ConsoleIf{
 
 	public static void newConsole() {
 		// Find some way to add Tabs to this thing.
+	}
+	public static void saveConfig(String config){
+		try{
+			// Create file 
+			FileWriter fstream = new FileWriter(IUTILITIES_DIR + "/config");
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(config);
+			//Close the output stream
+			out.close();
+		}catch (Exception e){//Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		}
 	}
 }

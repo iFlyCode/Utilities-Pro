@@ -17,7 +17,7 @@ public class Parametres {
 	// Version-based.
 	public static String password = "greenmont";
 	public static String api_version = "0.0.1";
-	public static String version = "2.3_dev3Stable";
+	public static String version = "2.3_dev4Stable";
 
 	// Configuration Files
 	public static String userName = System.getProperty("user.name");

@@ -1,0 +1,11 @@
+Console Interface Class: Documentation
+// Last Updated: 5 January 2013
+
+append()	= send to Console.display and Console.output for output as a header
+out()		= send to Console.display and Console.output for output as body text.
+log()		= send String to Console.output for output
+getText()	= get String from Console.output to local String
+setText()	= set Console.output to local String
+term_proc()	= terminate the runner that is invoked in Core Methods
+clear()		= clears ALL JTextAreas (display, output, and log)
+mkdir()		= makes the directory in which iUtilities puts its data (~/Lib./App. Support/iUtilities)

@@ -12,7 +12,7 @@ public class ConsoleIf extends Console {
 	private static final long serialVersionUID = 1L;
 	protected static Runtime rt = Runtime.getRuntime();
 	protected static String userName = System.getProperty("user.name");
-	protected static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
+	protected static final String IUTILITIES_DIR = "C:\\Documents and Settings\\" + userName + "\\UserData\\iUtilities";
 	protected static Font font = new Font("Monaco", 0, 10);
 	protected static FileReader fstream;
 	protected static BufferedReader br;
@@ -50,8 +50,8 @@ public class ConsoleIf extends Console {
 		Console.output.setText(null);
 		Console.log.setText(null);
 	}
-	/* public static void mkdir() {
-		File folder = new File("/Users/" + userName + "/Library/Application Support/iUtilities");
+	public static void mkdir() {
+		File folder = new File("C:\\Documents and Settings\\" + userName + "\\UserData\\iUtilities");
 		folder.mkdirs();
-	} */
+	}
 }

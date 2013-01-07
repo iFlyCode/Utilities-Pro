@@ -17,7 +17,7 @@ public class InOutMethods extends TextProc {
 		log("Display Saving System Invoked.");
 		mkdir();
 		Writer writer = null;
-		// File file = new File("/Users/" + userName + "/Library/Application Support/iUtilities/report_display-out" + System.currentTimeMillis() + ".txt");
+		File file = new File(IUTILITIES_DIR + "\\report_display-out" + System.currentTimeMillis() + ".txt");
 		writer = new BufferedWriter(new FileWriter(file));
 		writer.write(display.getText());
 		writer.close();
@@ -47,16 +47,16 @@ public class InOutMethods extends TextProc {
 		log("iUtilities Log Readout Command Executed");
 		mkdir();
 		Writer writer = null;
-		// File file = new File(IUTILITIES_DIR + "/report_log" + System.currentTimeMillis() + ".txt");
+		File file = new File(IUTILITIES_DIR + "\\report_log" + System.currentTimeMillis() + ".txt");
 		writer = new BufferedWriter(new FileWriter(file));
 		writer.write(log.getText());
 		writer.close();
-		// out("Debug Contents Exported to File in: " + IUTILITIES_DIR);
+		out("Debug Contents Exported to File in: " + IUTILITIES_DIR);
 	}
 	public static void delete() throws IOException {
 		log("iUtilities Folder Deletion Commencing.");
 		out("iUtilities Folder Deletion Commencing.");
-		// String[] delete = {"rm","-rf",(IUTILITIES_DIR)};
+		String[] delete = {"DEL",(IUTILITIES_DIR)};
 		rt.exec(delete);
 	}
 	public static void terminate() {
@@ -68,9 +68,9 @@ public class InOutMethods extends TextProc {
 		log(temp);
 		out(temp);
 		mkdir();
-		// String[] url = { "curl","-o", IUTILITIES_DIR + "/iUtilities-latest.jar", "http://ifly6.no-ip.org/iUtilities/iUtilities-latest.jar" };
+		String[] url = { "curl","-o", IUTILITIES_DIR + "/iUtilities-latest.jar", "http://ifly6.no-ip.org/iUtilities/iUtilities-latest.jar" };
 		rt.exec(url);
 		log("Update Successful.");
-		// append("iUtilities is updated. New file iUtilities-latest.jar in ~/Library/Application Support/iUtilities");
+		append("iUtilities is updated. New file iUtilities-latest.jar in ~/Library/Application Support/iUtilities");
 	}
 }

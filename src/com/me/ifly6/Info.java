@@ -4,12 +4,11 @@ public class Info {
 	// Name: Information (Holds Shared Information)
 	
 	public static String computername = "Unknown";
-	public static String copyright = "(c) ifly6@me.com - Now Open Source.";
+	public static String copyright = "(c) ifly6@me.com";
 	
 	// Version-based.
 	public static String password = "greenmont";
-	public static String api_version = "0.0.1";
-	public static String version = "2.3_dev3";
+	public static String version = "0.1";
 	
 	/*
 	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>

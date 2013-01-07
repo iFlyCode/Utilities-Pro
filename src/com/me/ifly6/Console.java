@@ -29,8 +29,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static String currentDir = new File(".").getAbsolutePath();
 
 	// SWING DATA
-	static JFrame frame = new JFrame("iUtilities " + Info.version);
-	JPanel pane = new JPanel();
+	static JFrame frame = new JFrame("WinUtilities " + Info.version);
+	static JTabbedPane tabbedPane = new JTabbedPane();
+	JPanel consoleTab = new JPanel();
+	JPanel loggingTab = new JPanel();
 	public static JTextArea display = new JTextArea();
 	public static JTextArea output = new JTextArea();
 	public static JTextArea log = new JTextArea();
@@ -41,7 +43,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static String preoperand;
 	public static String[] operand;
 	static String[] mem = new String[10];
-	static final String starter = "== iUtilities Console " + Info.version + " == " + 
+	static final String starter = "== WinUtilities Console " + Info.version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
 			"\nType 'help' for help.";
 	public static int screen_state = 0;
@@ -53,15 +55,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenu menuview = new JMenu("View");
 	JMenu menuhelp = new JMenu("Help");
 	JMenuItem export = new JMenuItem("Exportation");
-	JMenuItem script = new JMenuItem("Script Input");
-	JMenuItem mindterm = new JMenuItem("Mindterm");
-	JMenuItem purge = new JMenuItem("Inactive Memory Purge");
 	JMenuItem debug = new JMenuItem("Log Console");
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
 	JMenuItem viewswitch = new JMenuItem("Switch View");
-	JMenuItem del = new JMenuItem("Delete iUtilities Files");
+	JMenuItem del = new JMenuItem("Delete WinUtilities Files");
 	JMenuItem term = new JMenuItem("Terminate Process");
 	JMenuItem about = new JMenuItem("About");
 	JMenuItem help = new JMenuItem("Help");
@@ -71,71 +70,40 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	Console()
 	{
 		// Base GUI, in Swing.
-		frame.setBounds(50, 50, 670, 735);
+		frame.setBounds(10, 10, 670, 735);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		pane.setLayout(new BorderLayout());
-		frame.getContentPane().add(pane);
-		scp.setViewportBorder(new LineBorder(new Color(0, 0, 0), 6));
+		frame.setLayout(new BorderLayout());
+		frame.add(tabbedPane);
+		tabbedPane.add(consoleTab);
+		tabbedPane.add(loggingTab);
+		scp.setViewportBorder(new LineBorder(Color.white));
 
-		pane.add(scp, BorderLayout.CENTER);
+		consoleTab.setLayout(new BorderLayout());
+		consoleTab.add(scp, BorderLayout.CENTER);
 		input.setToolTipText("Type Commands Here");
-		pane.add(input, BorderLayout.SOUTH);
+		consoleTab.add(input, BorderLayout.SOUTH);
 		input.addKeyListener(this);
 
-		Font font = new Font("Monaco", 0, 11);
+		Font font = new Font("Courier", 0, 11);
 		display.setEditable(false);
-		display.setFont(new Font("Monaco", Font.PLAIN, 11));
-		display.setBackground(new Color(0, 0, 0));
-		display.setForeground(Color.green);
-
+		display.setFont(font);
 		input.setFont(font);
-		input.setBackground(Color.black);
-		input.setForeground(Color.green);
-		input.setCaretColor(Color.green);
-		pane.setBackground(Color.DARK_GRAY);
 		DefaultCaret caret = (DefaultCaret)display.getCaret();
 		caret.setUpdatePolicy(2);
-		menubar.setMargin(new Insets(0, 2, 0, 0));
-		menubar.setBackground(Color.LIGHT_GRAY);
-		menubar.setForeground(Color.BLACK);
-		menufile.setHorizontalAlignment(SwingConstants.LEFT);
-		menufile.setBackground(Color.LIGHT_GRAY);
-		menufile.setForeground(Color.BLACK);
 
 		// MENUBAR CREATION
 		menubar.add(menufile);
-		menucomm.setHorizontalAlignment(SwingConstants.LEFT);
-		menucomm.setBackground(Color.LIGHT_GRAY);
-		menucomm.setForeground(Color.BLACK);
 		menubar.add(menucomm);
-		menuview.setHorizontalAlignment(SwingConstants.LEFT);
-		menuview.setBackground(Color.LIGHT_GRAY);
-		menuview.setForeground(Color.BLACK);
 		menubar.add(menuview);
-		menuhelp.setHorizontalAlignment(SwingConstants.LEFT);
-		menuhelp.setBackground(Color.LIGHT_GRAY);
-		menuhelp.setForeground(Color.BLACK);
 		menubar.add(menuhelp);
-		export.setBackground(Color.WHITE);
-		export.setForeground(Color.BLACK);
 
 		// File
 		menufile.add(export);
-		script.setBackground(Color.WHITE);
-		script.setForeground(Color.BLACK);
-		menufile.add(script);
-		mindterm.setBackground(Color.WHITE);
-		mindterm.setForeground(Color.BLACK);
-		menufile.add(mindterm);
 		export.addActionListener(this);
-		script.addActionListener(this);
-		mindterm.addActionListener(this);
 		// Commands
-		menucomm.add(purge);
 		menucomm.add(debug);
 		menucomm.add(info);
 		menucomm.add(term);
-		purge.addActionListener(this);
 		debug.addActionListener(this);
 		info.addActionListener(this);
 		term.addActionListener(this);
@@ -158,7 +126,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		changelog.addActionListener(this);
 		updates.addActionListener(this);
 
-		pane.add(menubar, BorderLayout.NORTH);
+		consoleTab.add(menubar, BorderLayout.NORTH);
 		frame.setVisible(true);
 		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
@@ -169,7 +137,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// GUI Construction
 		try {
 			UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName());
+					UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException e) {
 		} catch (InstantiationException e) {
 		} catch (IllegalAccessException e) { 
@@ -180,7 +148,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		display.append(starter);
 		computername = InetAddress.getLocalHost().getHostName();
 		Date date = new Date();
-		log.append("\niUtilities " + Info.version + " Initialised. Date: " + date);
+		log.append("\nWinUtilities " + Info.version + " Initialised. Date: " + date);
 	}
 
 	// EVENT HANDLER
@@ -206,22 +174,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				InOutMethods.save();
 			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
 		}
-		if (eventSource == script) {
-			display.append("\n" + computername + "~ $ File>Script");
-			InOutMethods.script();
-		}
-		if (eventSource == mindterm) {
-			display.append("\n" + computername + "~ $ File>Mindterm");
-			try {
-				InOutMethods.mindterm();
-			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
-		}
-		if (eventSource == purge) {
-			display.append("\n" + computername + "~ $ Command>Purge");
-			try {
-				InOutMethods.purge();
-			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
-		}
 		if (eventSource == debug) {
 			ConsoleIf.append("\n" + computername + "~ $ Command>Debug");
 			try {
@@ -242,14 +194,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			GraphicsMethods.defaultCarat();
 		}
-
-		// Viewswitch Needs Work
-		if (eventSource == viewswitch){
-			ConsoleIf.append(computername + "~ $ View>Switch View");
-			GraphicsMethods.viewswitch();
-		}
 		if (eventSource == del){
-			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
+			ConsoleIf.append(computername + "~ $ View>Delete WinUtilities Files");
 			try {
 				InOutMethods.delete();
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
@@ -278,7 +224,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ Help>Updates");
 			try {
 				InOutMethods.update();
-			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
+			} catch (IOException e1) { log.append("\nWinUtilities Update FAILED: IOException"); }
 		}
 	}
 }

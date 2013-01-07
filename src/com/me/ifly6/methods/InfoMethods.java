@@ -25,10 +25,10 @@ public class InfoMethods extends TextProc {
 
 	public static void acknowledgements() throws IOException{
 		mkdir();
-		// TODO Change Libraries: String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt", "http://ifly6.no-ip.org/iUtilities/acknowledgements.txt" };
+		String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt", "http://ifly6.no-ip.org/iUtilities/acknowledgements.txt" };
 		rt.exec(url);
 		String r = "\n";
-		// TODO Change: fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
+		fstream = new FileReader(IUTILITIES_DIR + "\\acknowledgements.txt");
 		BufferedReader br = new BufferedReader(fstream);
 		r = br.readLine();
 		while ((r = br.readLine()) != null){
@@ -39,14 +39,12 @@ public class InfoMethods extends TextProc {
 
 	public static void changelog() throws IOException{
 		mkdir();
-		// TODO Change Libraries: String[] url = { "curl","-o", IUTILITIES_DIR + "/changelog.txt", "http://ifly6.no-ip.org/iUtilities/changelog.txt" };
+		String[] url = { "curl","-o", IUTILITIES_DIR + "/changelog.txt", "http://ifly6.no-ip.org/iUtilities/changelog.txt" };
 		rt.exec(url);
-		String r = "\n";
-		// TODO Change: fstream = new FileReader(IUTILITIES_DIR + "/changelog.txt");
-		br = new BufferedReader(fstream);
-		r = br.readLine();
-		while ((r = br.readLine()) != null) {
-			append(r); }
+		fstream = new FileReader(IUTILITIES_DIR + "\\changelog.txt");
+		Scanner scan = new Scanner(fstream);
+		while (scan.hasNextLine()) {
+			append(scan.nextLine()); }
 		br.close();
 		log("Changelog Processing Trigger Completed");
 	}
@@ -62,27 +60,27 @@ public class InfoMethods extends TextProc {
 		Process proc = rt.exec(com);
 		Process proc1 = rt.exec(com1);
 		Process proc2 = rt.exec(com2);
-	
+
 		InputStream stderr = proc.getInputStream();
 		InputStreamReader isr = new InputStreamReader(stderr);
 		Scanner scan = new Scanner(isr);
 		while (scan.hasNextLine()) {
 			out(scan.nextLine()); }
-	
+
 		InputStream stderr1 = proc1.getInputStream();
 		InputStreamReader isr1 = new InputStreamReader(stderr1);
 		scan = new Scanner(isr1);
 		append(" -- Internet Interface Information -- ");
 		while (scan.hasNextLine()) {
 			out(scan.nextLine()); }
-	
+
 		InputStream stderr2 = proc2.getInputStream();
 		InputStreamReader isr2 = new InputStreamReader(stderr2);
 		scan = new Scanner(isr2);
 		append(" -- Processes Information -- ");
 		while (scan.hasNextLine()) {
 			out(scan.nextLine()); }
-	
+
 		// Hardware
 		out("Available cores: " + rt.availableProcessors());
 		out("Free memory (bytes): " + rt.freeMemory());

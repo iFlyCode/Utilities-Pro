@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-import com.me.ifly6.Info;
 import com.me.ifly6.TextProc;
 
 public class CoreMethods extends TextProc{

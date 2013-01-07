@@ -14,12 +14,13 @@ import javax.swing.border.LineBorder;
 import com.me.ifly6.methods.*;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
-	// Name: Console (No Longer the Main Class...)
+	// Name: Console (GUI Class)
 
 	/*
 	 * THINGS TO DO:
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	// EXTERNAL DATA
@@ -78,7 +79,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	Console()
 	{
 		// Base GUI, in Swing.
-		frame.setBounds(50, 50, 670, 735);
+		frame.setBounds(0, 0, 670, 735);
 		frame.getContentPane().setLayout(new BorderLayout());
 		menubar.setBorderPainted(false);
 		
@@ -168,11 +169,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 
-	// launchGUI... RTF-Name
 	public static void launchGUI(){
 
 		// GUI Construction Call
-		EventQueue.invokeLater(new Runnable() {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					new Console();
@@ -198,9 +198,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		} catch (UnknownHostException e) { }
 		Date date = new Date();
 		log.append("iUtilities " + Parametres.version + " Initialised. Date: " + date);
-
-		// Invisible Housekeeping
-		Addons.array_fill();
+	}
+	
+	public static void tabAddConsole(){
+		
 	}
 
 	// EVENT HANDLER

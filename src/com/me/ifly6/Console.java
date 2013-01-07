@@ -32,6 +32,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Parametres.version);
 
+<<<<<<< HEAD
 	protected static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	protected static JPanel consoleTab = new JPanel();
 	protected static JPanel loggingTab = new JPanel();
@@ -40,6 +41,16 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	protected static JTextField input = new JTextField();
 	protected JScrollPane scp_tab1 = new JScrollPane(display);
 	protected JScrollPane scp_tab2 = new JScrollPane(log);
+=======
+	public static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+	public static JPanel consoleTab = new JPanel();
+	public static JPanel loggingTab = new JPanel();
+	public static JTextArea display = new JTextArea();
+	public static JTextArea log = new JTextArea();
+	public static JTextField input = new JTextField();
+	JScrollPane scpConsole = new JScrollPane(display);
+	JScrollPane scpLogging = new JScrollPane(log);
+>>>>>>> alphaGUI
 
 	// INTERNAL DATA
 	protected static String preoperand;
@@ -147,33 +158,44 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	private void consoleSettings(){
 		// Sets the Layout, and Adds things to the Console's Tab.
 		consoleTab.setLayout(new BorderLayout());
-		consoleTab.add(scp_tab1, BorderLayout.CENTER);
+		consoleTab.add(scpConsole, BorderLayout.CENTER);
 		consoleTab.add(input, BorderLayout.SOUTH);
 		input.setFont(font);
 		input.addKeyListener(this);
 
-		scp_tab1.setViewportBorder(new LineBorder(Color.WHITE, 6));
+		scpConsole.setViewportBorder(new LineBorder(Color.WHITE, 6));
 
 		DefaultCaret caret = (DefaultCaret)display.getCaret();
 		display.setEditable(false);
 		display.setFont(font);
 		caret.setUpdatePolicy(2);
-		
+
 		tabbedPane.addTab("Console", null, consoleTab, null);
 	}
 
 	private void loggingSettings(){
 		loggingTab.setLayout(new BorderLayout());
-		scp_tab2.setViewportBorder(new LineBorder(Color.WHITE, 6));
-		loggingTab.add(scp_tab2, BorderLayout.CENTER);
+		scpLogging.setViewportBorder(new LineBorder(Color.WHITE, 6));
+		loggingTab.add(scpLogging, BorderLayout.CENTER);
 
 		log.setEditable(false);
 		log.setFont(font);
-		
+
 		tabbedPane.addTab("Log", null, loggingTab, null);
 	}
 
 	protected static void launchGUI(){
+
+		// OS Restriction
+		if (isWindows()){
+			log.append("\nWindows Detected. Disengaging.");
+			String temp = "Windows Detected. Disengaging to prevent damage," +
+					"\nas this is requires UNIX Commands and uses different FS.";
+			JOptionPane.showMessageDialog(null, temp, "OS Validation", -1);
+			try { Thread.sleep(500);
+			} catch (InterruptedException e) { }
+			System.exit(0);
+		}
 
 		// GUI Construction Call
 		SwingUtilities.invokeLater(new Runnable() {
@@ -184,17 +206,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				} catch (Exception e) { System.out.println("CRITICAL FAILURE"); }
 			}
 		});
-
-		// OS Restriction
-		if (isWindows()){
-			log.append("\nWindows Detected. Disengaging.");
-			String temp = "Windows Detected. Disengaging to prevent damage," +
-					"\nas this is requires UNIX Commands and uses different FS.";
-			JOptionPane.showMessageDialog(null, temp, "OS Validation", -1);
-			try { Thread.sleep(10000);
-			} catch (InterruptedException e) { }
-			System.exit(0);
-		}
 
 		// Visible Housekeeping
 		display.append(Parametres.starter);
@@ -213,7 +224,10 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			} catch (IOException e1) { log.append("\nkeyPressed Error, IO Exception"); 
 			} catch (InterruptedException e1) { log.append("\nkeyPressed Error, InterruptedException"); }
 		}
-		if (keyCode == 38){ input.setText(preoperand); }
+		if (keyCode == 38){
+			// TODO Memory for Commands when pressing UP.
+			input.setText(preoperand);
+		}
 	}
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
@@ -288,7 +302,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == term){
 			ConsoleIf.append(computername + "~ $ Commands>Terminate Process");
-			InOutMethods.terminate();
+			CoreMethods.terminate();
 		}
 		if (eventSource == about) {
 			ConsoleIf.append(computername + "~ $ Help>About");
@@ -319,6 +333,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		String OS = System.getProperty("os.name");
 		return (OS.indexOf("win") >= 0);
 	}
+<<<<<<< HEAD
 	
 	/* ============================
 	 * iUTILITIES GRAPHICS METHODS
@@ -326,11 +341,16 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	 */
 	
 	private void enableLogTab(){
+=======
+
+	// iUtilities Graphics Methods
+	void enableLogTab(){
+>>>>>>> alphaGUI
 		loggingSettings();
 	}
 
 	private void newConsole() {
 		// TODO Find some way to add Console Tabs to this thing.
-		launchGUI();
+		// launchGUI();
 	}
 }

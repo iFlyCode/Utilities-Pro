@@ -95,7 +95,7 @@ public class TextProc extends ConsoleIf {
 			log("Mindterm Download Processing Trigger Called");
 		}
 		if (operand[0].equals(commText[12])){
-			InOutMethods.terminate();
+			CoreMethods.terminate();
 			log("Process Termination Processing Trigger Called");
 		}
 		/* if (operand[0].equals(commText[13])){

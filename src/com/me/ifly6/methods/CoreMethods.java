@@ -50,4 +50,9 @@ public class CoreMethods extends TextProc{
 		}
 		log("Help Processing Trigger Completed");
 	}
+
+	public static void terminate() {
+		log("\nTermination of Dynamic Programme Switched");
+		term_proc();
+	}
 }

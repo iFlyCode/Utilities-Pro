@@ -63,10 +63,6 @@ public class InOutMethods extends TextProc {
 		String[] delete = {"rm","-rf",(IUTILITIES_DIR)};
 		rt.exec(delete);
 	}
-	public static void terminate() {
-		log("\nTermination of Dynamic Programme Switched");
-		term_proc();
-	}
 	public static void update() throws IOException {
 		String temp = ("Beginning Update Sequence");
 		log(temp);

@@ -12,8 +12,13 @@ public class Parametres {
 	// Name: Information (Holds Shared Information)
 	
 	// Version-based.
+<<<<<<< HEAD
 	public static String password = "greenmont";
 	public static String version = "2.3_dev5Stable";
+=======
+	public static String password = "greenhill";
+	public static String version = "2.3_dev5Alpha";
+>>>>>>> alphaGUI
 	
 	// Strings
 	public static String computername = "Unknown";
@@ -41,10 +46,21 @@ public class Parametres {
 	 * 2.6 = greenpool
 	 * 2.7 = greenbyte
 	 * 2.8 = greenland
+	 * 
+	 * The 3.x Versions
+	 * 3.0 = iceland
+	 * 3.1 = icewell
+	 * 3.2 = icemont
+	 * 3.3 = everest
+	 * 3.4 = icefield
+	 * 3.5 = skyfall
+	 * 3.6 = bluepool
+	 * 3.7 = gigabyte
+	 * 3.8 = scotland
 	 */
 
 	// Sets Pre-Launch Parameters and then Invokes the first Class.
-	public static void main(String[] args) throws InterruptedException, IOException{
+	public static void main() throws InterruptedException, IOException{
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iUtilities");
 

@@ -10,6 +10,8 @@ import com.me.ifly6.*;
 public class GraphicsMethods extends ConsoleIf {
 	private static final long serialVersionUID = 1L;
 
+	// Note the CONSOLE GUI is not addressed here. This is for the Console ASCII graphics.
+	
 	public static void clear() {
 		log("All Screens and JTextAreas Cleared");
 		ConsoleIf.clear();
@@ -19,24 +21,13 @@ public class GraphicsMethods extends ConsoleIf {
 		DefaultCaret caret = (DefaultCaret)display.getCaret();
 		caret.setUpdatePolicy(2);
 	}
-	
-	public static void enableLogTab(){
-		// TODO Enable the LogTab
-	}
-
-	public static void newConsole() {
-		// TODO Find some way to add Tabs to this thing.
-	}
 	public static void saveConfig(String config){
+		// String config should either be "Default" or "CrossPlatformLAF"
 		try{
-			// Create file 
 			FileWriter fstream = new FileWriter(IUTILITIES_DIR + "/config");
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(config);
-			//Close the output stream
 			out.close();
-		}catch (Exception e){//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
-		}
+		} catch (Exception e){ log("Attempt to save LAF Config Failed."); }
 	}
 }

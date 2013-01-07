@@ -26,26 +26,26 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	// EXTERNAL DATA
 	protected static String computername = "Unknown";
-	public static int numArray = 20;
-	public static String currentDir = new File(".").getAbsolutePath();
+	protected static int numArray = 20;
+	protected static String currentDir = new File(".").getAbsolutePath();
 
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Parametres.version);
 
-	public static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-	public static JPanel consoleTab = new JPanel();
-	public static JPanel loggingTab = new JPanel();
-	public static JTextArea display = new JTextArea();
-	public static JTextArea log = new JTextArea();
-	public static JTextField input = new JTextField();
-	JScrollPane scp_tab1 = new JScrollPane(display);
-	JScrollPane scp_tab2 = new JScrollPane(log);
+	protected static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+	protected static JPanel consoleTab = new JPanel();
+	protected static JPanel loggingTab = new JPanel();
+	protected static JTextArea display = new JTextArea();
+	protected static JTextArea log = new JTextArea();
+	protected static JTextField input = new JTextField();
+	protected JScrollPane scp_tab1 = new JScrollPane(display);
+	protected JScrollPane scp_tab2 = new JScrollPane(log);
 
 	// INTERNAL DATA
-	public static String preoperand;
-	public static String[] operand;
-	static String[] mem = new String[10];
-	public static Font font = new Font("Monaco", 0, 11);
+	protected static String preoperand;
+	protected static String[] operand;
+	protected static String[] mem = new String[10];
+	protected static Font font = new Font("Monaco", 0, 11);
 
 	JMenuBar menubar = new JMenuBar();
 	JMenu menufile = new JMenu("File");
@@ -72,14 +72,14 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem changelog = new JMenuItem("Changelog");
 	JMenuItem updates = new JMenuItem("Updates");
 
-	public Console()
+	protected Console()
 	{
 		initialise();
 		consoleSettings();
 		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 
-	public void initialise(){
+	protected void initialise(){
 		// Window and MenuBar
 		frame.setBounds(0, 0, 670, 735);
 		frame.getContentPane().setLayout(new BorderLayout());
@@ -87,9 +87,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 		menubar.setBackground(Color.LIGHT_GRAY);
 		menubar.setForeground(Color.BLACK);
-		menufile.setHorizontalAlignment(SwingConstants.LEFT);
-		menufile.setBackground(Color.LIGHT_GRAY);
-		menufile.setForeground(Color.BLACK);
 
 		// MenuBar.add Menus
 		menubar.add(menufile);
@@ -176,7 +173,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		tabbedPane.addTab("Log", null, loggingTab, null);
 	}
 
-	public static void launchGUI(){
+	protected static void launchGUI(){
 
 		// GUI Construction Call
 		SwingUtilities.invokeLater(new Runnable() {
@@ -318,7 +315,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	}
 
 	// To Detect whether on Windows.
-	public static boolean isWindows() {
+	protected static boolean isWindows() {
 		String OS = System.getProperty("os.name");
 		return (OS.indexOf("win") >= 0);
 	}
@@ -328,11 +325,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	 * ============================
 	 */
 	
-	void enableLogTab(){
+	private void enableLogTab(){
 		loggingSettings();
 	}
 
-	void newConsole() {
+	private void newConsole() {
 		// TODO Find some way to add Console Tabs to this thing.
 		launchGUI();
 	}

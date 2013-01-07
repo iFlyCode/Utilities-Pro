@@ -12,6 +12,7 @@ import javax.swing.text.DefaultCaret;
 import javax.swing.border.LineBorder;
 
 import com.me.ifly6.methods.*;
+import com.me.ifly6.Parametres;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
 	// Name: Console (GUI Class)
@@ -20,20 +21,20 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	 * THINGS TO DO:
 	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
 	 */
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	// EXTERNAL DATA
 	protected static String computername = "Unknown";
 	public static int numArray = 20;
 	public static String currentDir = new File(".").getAbsolutePath();
 
 	// SWING DATA
-	static JFrame frame = new JFrame("iUtilities " + Parametres.version);
+	JFrame frame = new JFrame("iUtilities " + Parametres.version);
 
 	public static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-	public static JPanel tab1 = new JPanel();
-	public static JPanel tab2 = new JPanel();
+	public static JPanel consoleTab = new JPanel();
+	public static JPanel loggingTab = new JPanel();
 	public static JTextArea display = new JTextArea();
 	public static JTextArea log = new JTextArea();
 	public static JTextField input = new JTextField();
@@ -44,11 +45,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static String preoperand;
 	public static String[] operand;
 	static String[] mem = new String[10];
-	static final String starter = "== iUtilities Console " + Parametres.version + " == " + 
-			"\nHello " + System.getProperty("user.name") + "!" + 
-			"\nType '/help' for help.";
-	public static int screen_state = 0;
-	public static String screen_stored = starter;
 	public static Font font = new Font("Monaco", 0, 11);
 
 	JMenuBar menubar = new JMenuBar();
@@ -65,7 +61,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
-	JMenuItem newConsole = new JMenuItem("New Console Tab");
+	JMenuItem newConsole = new JMenuItem("New Console Window");
 	JMenuItem logEnable = new JMenuItem("Enable Log View");
 	JMenu lookAndFeel = new JMenu("Look and Feel");
 	JMenuItem metalInf = new JMenuItem("Metal Interface");
@@ -78,95 +74,104 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	Console()
 	{
+		initialise();
+		consoleSettings();
+		log.append("\nJava Swing GUI Initialised and Rendered");
+	}
+
+	public void initialise(){
 		// Base GUI, in Swing.
 		frame.setBounds(0, 0, 670, 735);
 		frame.getContentPane().setLayout(new BorderLayout());
 		menubar.setBorderPainted(false);
-		
+
 		menubar.setBackground(Color.LIGHT_GRAY);
 		menubar.setForeground(Color.BLACK);
 		menufile.setHorizontalAlignment(SwingConstants.LEFT);
 		menufile.setBackground(Color.LIGHT_GRAY);
 		menufile.setForeground(Color.BLACK);
-		
-				// MENUBAR CREATION
-				menubar.add(menufile);
-				menucomm.setBackground(Color.LIGHT_GRAY);
-				menubar.add(menucomm);
-				menuview.setBackground(Color.LIGHT_GRAY);
-				menubar.add(menuview);
-				menuhelp.setBackground(Color.LIGHT_GRAY);
-				menubar.add(menuhelp);
-				
-						// File
-						menufile.add(del);
-						menufile.add(export);
-						menufile.add(script);
-						menufile.add(mindterm);
-						del.addActionListener(this);
-						export.addActionListener(this);
-						script.addActionListener(this);
-						mindterm.addActionListener(this);
-						// Commands
-						menucomm.add(purge);
-						menucomm.add(debug);
-						menucomm.add(info);
-						menucomm.add(term);
-						purge.addActionListener(this);
-						debug.addActionListener(this);
-						info.addActionListener(this);
-						term.addActionListener(this);
-						// View
-						menuview.add(clear);
-						menuview.add(defaultCarat);
-						menuview.add(newConsole);
-						menuview.add(logEnable);
-						menuview.add(lookAndFeel);
-						lookAndFeel.add(metalInf); lookAndFeel.add(macIntrf);
-						clear.addActionListener(this);
-						defaultCarat.addActionListener(this);
-						logEnable.addActionListener(this);
-						metalInf.addActionListener(this);
-						macIntrf.addActionListener(this);
-						// Help
-						menuhelp.add(about);
-						menuhelp.add(help);
-						menuhelp.add(changelog);
-						menuhelp.add(updates);
-						about.addActionListener(this);
-						help.addActionListener(this);
-						changelog.addActionListener(this);
-						updates.addActionListener(this);
-						
-						frame.setJMenuBar(menubar);
-						
+
+		// MENUBAR CREATION
+		menubar.add(menufile);
+		menucomm.setBackground(Color.LIGHT_GRAY);
+		menubar.add(menucomm);
+		menuview.setBackground(Color.LIGHT_GRAY);
+		menubar.add(menuview);
+		menuhelp.setBackground(Color.LIGHT_GRAY);
+		menubar.add(menuhelp);
+
+		// File
+		menufile.add(del);
+		menufile.add(export);
+		menufile.add(script);
+		menufile.add(mindterm);
+		del.addActionListener(this);
+		export.addActionListener(this);
+		script.addActionListener(this);
+		mindterm.addActionListener(this);
+		// Commands
+		menucomm.add(purge);
+		menucomm.add(debug);
+		menucomm.add(info);
+		menucomm.add(term);
+		purge.addActionListener(this);
+		debug.addActionListener(this);
+		info.addActionListener(this);
+		term.addActionListener(this);
+		// View
+		menuview.add(clear);
+		menuview.add(defaultCarat);
+		menuview.add(newConsole);
+		menuview.add(logEnable);
+		menuview.add(lookAndFeel);
+		lookAndFeel.add(metalInf); lookAndFeel.add(macIntrf);
+		clear.addActionListener(this);
+		defaultCarat.addActionListener(this);
+		newConsole.addActionListener(this);
+		logEnable.addActionListener(this);
+		metalInf.addActionListener(this);
+		macIntrf.addActionListener(this);
+		// Help
+		menuhelp.add(about);
+		menuhelp.add(help);
+		menuhelp.add(changelog);
+		menuhelp.add(updates);
+		about.addActionListener(this);
+		help.addActionListener(this);
+		changelog.addActionListener(this);
+		updates.addActionListener(this);
+
+		frame.setJMenuBar(menubar);
+
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
-		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
-		tabbedPane.addTab("Console", null, tab1, null);
+		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+	}
 
-		tab1.setLayout(new BorderLayout());
-		tab2.setLayout(new BorderLayout());
-		scp_tab1.setViewportBorder(new LineBorder(Color.WHITE, 6));
-		scp_tab2.setViewportBorder(new LineBorder(Color.WHITE, 6));
-
-		tab1.add(scp_tab1, BorderLayout.CENTER);
-		tab1.add(input, BorderLayout.SOUTH);
-		tab2.add(scp_tab2, BorderLayout.CENTER);
-
+	private void consoleSettings(){
+		consoleTab.setLayout(new BorderLayout());
+		consoleTab.add(scp_tab1, BorderLayout.CENTER);
+		consoleTab.add(input, BorderLayout.SOUTH);
+		input.setFont(font);
 		input.addKeyListener(this);
 
-		// GUI Colours
-		input.setFont(font);
+		scp_tab1.setViewportBorder(new LineBorder(Color.WHITE, 6));
+
 		DefaultCaret caret = (DefaultCaret)display.getCaret();
 		display.setEditable(false);
 		display.setFont(font);
+		caret.setUpdatePolicy(2);
+		
+		tabbedPane.addTab("Console", null, consoleTab, null);
+	}
+
+	private void loggingSettings(){
+		loggingTab.setLayout(new BorderLayout());
+		scp_tab2.setViewportBorder(new LineBorder(Color.WHITE, 6));
+		loggingTab.add(scp_tab2, BorderLayout.CENTER);
+
 		log.setEditable(false);
 		log.setFont(font);
-
-		// Set Visibles and System.setProperties
-		caret.setUpdatePolicy(2);
-		frame.setVisible(true);
-		log.append("\nJava Swing GUI Initialised and Rendered");
+		tabbedPane.addTab("Log", null, loggingTab, null);
 	}
 
 	public static void launchGUI(){
@@ -175,17 +180,17 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					new Console();
-				} catch (Exception e) { System.out.println("CRITICAL FAILURE");
-				}
+					Console window = new Console();
+					window.frame.setVisible(true);
+				} catch (Exception e) { System.out.println("CRITICAL FAILURE"); }
 			}
 		});
 
 		// OS Restriction
 		if (isWindows()){
-			frame.setVisible(false);
 			log.append("\nWindows Detected. Disengaging.");
-			String temp = "Windows Detected. Disengaging to prevent havoc, as this is requires UNIX Commands.";
+			String temp = "Windows Detected. Disengaging to prevent damage," +
+					"\nas this is requires UNIX Commands and uses different FS.";
 			JOptionPane.showMessageDialog(null, temp, "OS Validation", -1);
 			try { Thread.sleep(10000);
 			} catch (InterruptedException e) { }
@@ -193,15 +198,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 
 		// Visible Housekeeping
-		display.append(starter);
+		display.append(Parametres.starter);
 		try { computername = InetAddress.getLocalHost().getHostName();
 		} catch (UnknownHostException e) { }
 		Date date = new Date();
-		log.append("iUtilities " + Parametres.version + " Initialised. Date: " + date);
-	}
-	
-	public static void tabAddConsole(){
-		
+		log.append("\niUtilities " + Parametres.version + " Initialised. Date: " + date);
 	}
 
 	// EVENT HANDLER
@@ -270,13 +271,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			GraphicsMethods.defaultCarat();
 		}
 		if (eventSource == newConsole){
-			GraphicsMethods.newConsole();
-			ConsoleIf.append(computername + "~ $ View>New Console Tab");
+			newConsole();
+			ConsoleIf.append(computername + "~ $ View>New Console Window");
 			ConsoleIf.log("New Console Tab.");
 		}
 		if (eventSource == logEnable){
 			ConsoleIf.append(computername + "~ $ View>Enable Log Tab");
-			GraphicsMethods.enableLogTab();
+			enableLogTab();
 		}
 		if (eventSource == metalInf){
 			ConsoleIf.append(computername + "~ $ View>Metal Interface");
@@ -318,5 +319,19 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static boolean isWindows() {
 		String OS = System.getProperty("os.name");
 		return (OS.indexOf("win") >= 0);
+	}
+	
+	/* ============================
+	 * iUTILITIES GRAPHICS METHODS
+	 * ============================
+	 */
+	
+	void enableLogTab(){
+		loggingSettings();
+	}
+
+	void newConsole() {
+		// TODO Find some way to add Console Tabs to this thing.
+		launchGUI();
 	}
 }

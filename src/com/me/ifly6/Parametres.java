@@ -10,13 +10,17 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public class Parametres {
 	// Name: Information (Holds Shared Information)
-
-	public static String computername = "Unknown";
-	public static String copyright = "(c) ifly6@me.com";
-
+	
 	// Version-based.
 	public static String password = "greenmont";
 	public static String version = "2.3_dev4Stable";
+	
+	// Strings
+	public static String computername = "Unknown";
+	public static String copyright = "(c) ifly6@me.com";
+	static final String starter = "== iUtilities Console " + version + " == " + 
+			"\nHello " + System.getProperty("user.name") + "!" + 
+			"\nType '/help' for help.";
 
 	// Configuration Files
 	public static String userName = System.getProperty("user.name");

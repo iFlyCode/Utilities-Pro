@@ -24,8 +24,8 @@ public class TextProc extends ConsoleIf {
 		commText[2] = "/help";
 		commText[3] = "/clear";
 		commText[4] = "/acknowledgements";
-		commText[5] = "/font [size]";
-		commText[6] = "/api";
+		commText[5] = "/font [name] [size]";
+		commText[6] = "/licence";
 		commText[7] = "/save";
 		commText[8] = "/saveLog";
 		commText[9] = "/delete";
@@ -71,8 +71,8 @@ public class TextProc extends ConsoleIf {
 			log("Font changed");
 		}
 		if (operand[0].equals(commText[6])){
-			CoreMethods.apiList();
-			log("Add-on List Called");
+			InfoMethods.licence();
+			log("EULA Triggered");
 		}
 		if (operand[0].equals(commText[7])){
 			InOutMethods.save();
@@ -95,7 +95,7 @@ public class TextProc extends ConsoleIf {
 			log("Mindterm Download Processing Trigger Called");
 		}
 		if (operand[0].equals(commText[12])){
-			InOutMethods.terminate();
+			CoreMethods.terminate();
 			log("Process Termination Processing Trigger Called");
 		}
 		/* if (operand[0].equals(commText[13])){

@@ -13,13 +13,14 @@ public class Parametres {
 	
 	// Version-based.
 	public static String password = "greenmont";
-	public static String version = "2.3_dev4Stable";
+	public static String version = "2.3_dev5Alpha";
 	
 	// Strings
 	public static String computername = "Unknown";
 	public static String copyright = "(c) ifly6@me.com";
 	static final String starter = "== iUtilities Console " + version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
+			"\nBy using this programme, you accept the EULA." +
 			"\nType '/help' for help.";
 
 	// Configuration Files

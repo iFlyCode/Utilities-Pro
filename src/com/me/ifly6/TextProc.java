@@ -25,7 +25,7 @@ public class TextProc extends ConsoleIf {
 		commText[3] = "/clear";
 		commText[4] = "/acknowledgements";
 		commText[5] = "/font [size]";
-		commText[6] = null;
+		commText[6] = "/licence";
 		commText[7] = "/save";
 		commText[8] = "/saveLog";
 		commText[9] = "/delete";
@@ -70,9 +70,10 @@ public class TextProc extends ConsoleIf {
 			display.setFont(font);
 			log("Font changed");
 		}
-		/* if (operand[0].equals(commText[6])){
-
-		} */
+		if (operand[0].equals(commText[6])){
+			InfoMethods.licence();
+			log("EULA Triggered");
+		}
 		if (operand[0].equals(commText[7])){
 			InOutMethods.save();
 			log("Saving Processing Trigger Called");

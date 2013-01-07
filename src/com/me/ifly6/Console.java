@@ -72,7 +72,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem changelog = new JMenuItem("Changelog");
 	JMenuItem updates = new JMenuItem("Updates");
 
-	Console()
+	public Console()
 	{
 		initialise();
 		consoleSettings();
@@ -80,7 +80,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	}
 
 	public void initialise(){
-		// Base GUI, in Swing.
+		// Window and MenuBar
 		frame.setBounds(0, 0, 670, 735);
 		frame.getContentPane().setLayout(new BorderLayout());
 		menubar.setBorderPainted(false);
@@ -91,7 +91,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		menufile.setBackground(Color.LIGHT_GRAY);
 		menufile.setForeground(Color.BLACK);
 
-		// MENUBAR CREATION
+		// MenuBar.add Menus
 		menubar.add(menufile);
 		menucomm.setBackground(Color.LIGHT_GRAY);
 		menubar.add(menucomm);
@@ -148,6 +148,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	}
 
 	private void consoleSettings(){
+		// Sets the Layout, and Adds things to the Console's Tab.
 		consoleTab.setLayout(new BorderLayout());
 		consoleTab.add(scp_tab1, BorderLayout.CENTER);
 		consoleTab.add(input, BorderLayout.SOUTH);
@@ -171,6 +172,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 		log.setEditable(false);
 		log.setFont(font);
+		
 		tabbedPane.addTab("Log", null, loggingTab, null);
 	}
 

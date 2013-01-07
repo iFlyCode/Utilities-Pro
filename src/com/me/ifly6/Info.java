@@ -8,7 +8,7 @@ public class Info {
 	
 	// Version-based.
 	public static String password = "greenmont";
-	public static String version = "0.1";
+	public static String version = "0.1_dev2BarelyStable";
 	
 	/*
 	 * System is: <type> <major>.<minor>_<revision>.<sub-revision>

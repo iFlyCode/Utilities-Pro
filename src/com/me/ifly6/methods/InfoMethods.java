@@ -1,6 +1,5 @@
 package com.me.ifly6.methods;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,13 +26,10 @@ public class InfoMethods extends TextProc {
 		mkdir();
 		String[] url = { "curl", "-o", IUTILITIES_DIR + "/acknowledgements.txt", "http://ifly6.no-ip.org/iUtilities/acknowledgements.txt" };
 		rt.exec(url);
-		String r = "\n";
 		fstream = new FileReader("/Users/" + userName + "/Library/Application Support/iUtilities/acknowledgements.txt");
-		BufferedReader br = new BufferedReader(fstream);
-		r = br.readLine();
-		while ((r = br.readLine()) != null){
-			ConsoleIf.append(r); }
-		br.close();
+		Scanner scan = new Scanner(fstream);
+		while (scan.hasNextLine()){
+			ConsoleIf.append(scan.nextLine()); }
 		log("Acknowledgements Processing Trigger Completed");
 	}
 
@@ -41,13 +37,10 @@ public class InfoMethods extends TextProc {
 		mkdir();
 		String[] url = { "curl","-o", IUTILITIES_DIR + "/changelog.txt", "http://ifly6.no-ip.org/iUtilities/changelog.txt" };
 		rt.exec(url);
-		String r = "\n";
 		fstream = new FileReader(IUTILITIES_DIR + "/changelog.txt");
-		br = new BufferedReader(fstream);
-		r = br.readLine();
-		while ((r = br.readLine()) != null) {
-			append(r); }
-		br.close();
+		Scanner scan = new Scanner(fstream);
+		while (scan.hasNextLine()){
+			ConsoleIf.append(scan.nextLine()); }
 		log("Changelog Processing Trigger Completed");
 	}
 

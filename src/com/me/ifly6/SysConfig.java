@@ -1,18 +1,17 @@
 package com.me.ifly6;
 
-import java.awt.EventQueue;
-
+import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JCheckBox;
-import javax.swing.BoxLayout;
+import javax.swing.SwingUtilities;
 
 public class SysConfig {
 
 	private JFrame frame;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
+	public static void sysConfig(String[] args) {
+		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					SysConfig window = new SysConfig();

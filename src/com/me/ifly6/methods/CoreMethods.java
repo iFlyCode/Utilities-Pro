@@ -18,12 +18,12 @@ public class CoreMethods extends TextProc{
 			public void run() {
 
 				// Output Stream
-				ProcessBuilder builder = new ProcessBuilder(operand);
+				Process p = null;
 				try {
-					process = builder.start();
+					p = Runtime.getRuntime().exec("cmd /c " + preoperand);
 					log("Execution of Operand Beginning.");
 				} catch (IOException e) { log("ProcessBuilder Error: IOException"); }
-				InputStream stdout = process.getInputStream();
+				InputStream stdout = p.getInputStream();
 				InputStreamReader inRead = new InputStreamReader(stdout);
 				Scanner scan = new Scanner(inRead);
 				while (scan.hasNextLine()) {
@@ -31,7 +31,7 @@ public class CoreMethods extends TextProc{
 				}
 
 				// Error Stream
-				InputStream stderr = process.getErrorStream();
+				InputStream stderr = p.getErrorStream();
 				InputStreamReader isr1 = new InputStreamReader(stderr);
 				Scanner scan1 = new Scanner(isr1);
 				while (scan1.hasNextLine()) {

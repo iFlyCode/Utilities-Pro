@@ -13,18 +13,7 @@ public class GraphicsMethods extends ConsoleIf{
 	}
 
 	public static void defaultCarat() {
-		DefaultCaret caret = (DefaultCaret)display.getCaret();
+		DefaultCaret caret = (DefaultCaret)output.getCaret();
 		caret.setUpdatePolicy(2);
 	}
-
-	public static void viewswitch() {
-		if (screen_state == 0){
-			setText(Console.log.getText());
-			screen_state = 1;
-		}
-		if (screen_state == 1){
-			setText(Console.output.getText());
-			screen_state = 0;
-		}
-	} 
 }

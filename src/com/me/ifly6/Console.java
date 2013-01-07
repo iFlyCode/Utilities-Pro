@@ -33,11 +33,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static JTabbedPane tabbedPane = new JTabbedPane();
 	JPanel consoleTab = new JPanel();
 	JPanel loggingTab = new JPanel();
-	public static JTextArea display = new JTextArea();
 	public static JTextArea output = new JTextArea();
 	public static JTextArea log = new JTextArea();
 	public static JTextField input = new JTextField();
-	JScrollPane scp = new JScrollPane(display);
+	JScrollPane scpOut = new JScrollPane(output);
+	JScrollPane scpLog = new JScrollPane(log);
 
 	// INTERNAL DATA
 	public static String preoperand;
@@ -46,20 +46,18 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	static final String starter = "== WinUtilities Console " + Info.version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
 			"\nType 'help' for help.";
-	public static int screen_state = 0;
-	public static String screen_stored = starter;
+	Font font = new Font("Courier", 0, 11);
 
 	JMenuBar menubar = new JMenuBar();
 	JMenu menufile = new JMenu("File");
 	JMenu menucomm = new JMenu("Commands");
 	JMenu menuview = new JMenu("View");
 	JMenu menuhelp = new JMenu("Help");
-	JMenuItem export = new JMenuItem("Exportation");
-	JMenuItem debug = new JMenuItem("Log Console");
+	JMenuItem exportOut = new JMenuItem("Export Output");
+	JMenuItem exportLog = new JMenuItem("Export Output");
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
-	JMenuItem viewswitch = new JMenuItem("Switch View");
 	JMenuItem del = new JMenuItem("Delete WinUtilities Files");
 	JMenuItem term = new JMenuItem("Terminate Process");
 	JMenuItem about = new JMenuItem("About");
@@ -73,24 +71,38 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		frame.setBounds(10, 10, 670, 735);
 		frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
-		frame.add(tabbedPane);
-		tabbedPane.add(consoleTab);
-		tabbedPane.add(loggingTab);
-		scp.setViewportBorder(new LineBorder(Color.white));
+		frame.add(menubar, BorderLayout.NORTH);
+		frame.add(tabbedPane, BorderLayout.CENTER);
+		menuBarInit();
+		
+		tabbedPane.addTab("Console", null, consoleTab, null);
+		tabbedPane.addTab("Log", null, loggingTab, null);
 
+		// Console Tab Settings
 		consoleTab.setLayout(new BorderLayout());
-		consoleTab.add(scp, BorderLayout.CENTER);
+		consoleTab.add(scpOut, BorderLayout.CENTER);
 		input.setToolTipText("Type Commands Here");
-		consoleTab.add(input, BorderLayout.SOUTH);
 		input.addKeyListener(this);
+		consoleTab.add(input, BorderLayout.SOUTH);
 
-		Font font = new Font("Courier", 0, 11);
-		display.setEditable(false);
-		display.setFont(font);
+		output.setEditable(false);
+		output.setFont(font);
 		input.setFont(font);
-		DefaultCaret caret = (DefaultCaret)display.getCaret();
-		caret.setUpdatePolicy(2);
+		DefaultCaret caretOut = (DefaultCaret)output.getCaret();
+		caretOut.setUpdatePolicy(2);
 
+		// Logging Tab Settings
+		loggingTab.setLayout(new BorderLayout());
+		loggingTab.add(scpLog, BorderLayout.CENTER);
+		log.setEditable(false);
+		log.setFont(font);
+		DefaultCaret caretLog = (DefaultCaret)output.getCaret();
+		caretLog.setUpdatePolicy(2);
+		
+		frame.setVisible(true);
+		log.append("\nJava Swing GUI Initialised and Rendered");
+	}
+	private void menuBarInit(){
 		// MENUBAR CREATION
 		menubar.add(menufile);
 		menubar.add(menucomm);
@@ -98,23 +110,21 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		menubar.add(menuhelp);
 
 		// File
-		menufile.add(export);
-		export.addActionListener(this);
+		menufile.add(exportOut);
+		menufile.add(exportLog);
+		exportOut.addActionListener(this);
+		exportLog.addActionListener(this);
 		// Commands
-		menucomm.add(debug);
 		menucomm.add(info);
 		menucomm.add(term);
-		debug.addActionListener(this);
 		info.addActionListener(this);
 		term.addActionListener(this);
 		// View
 		menuview.add(clear);
 		menuview.add(defaultCarat);
-		menuview.add(viewswitch);
 		menuview.add(del);
 		clear.addActionListener(this);
 		defaultCarat.addActionListener(this);
-		viewswitch.addActionListener(this);
 		del.addActionListener(this);
 		// Help
 		menuhelp.add(about);
@@ -125,15 +135,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		help.addActionListener(this);
 		changelog.addActionListener(this);
 		updates.addActionListener(this);
-
-		consoleTab.add(menubar, BorderLayout.NORTH);
-		frame.setVisible(true);
-		log.append("\nJava Swing GUI Initialised and Rendered");
 	}
 
 	// MAIN THREAD.
 	public static void main(String[] args) throws UnknownHostException, InterruptedException {
-		
+
 		// GUI Construction
 		try {
 			UIManager.setLookAndFeel(
@@ -142,13 +148,20 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		} catch (InstantiationException e) {
 		} catch (IllegalAccessException e) { 
 		} catch (UnsupportedLookAndFeelException e) {}
-		new Console();
+		
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					new Console();
+				} catch (Exception e) { System.out.println("CRITICAL FAILURE"); }
+			}
+		});
 
 		// Visible Housekeeping
-		display.append(starter);
+		output.append(starter);
 		computername = InetAddress.getLocalHost().getHostName();
 		Date date = new Date();
-		log.append("\nWinUtilities " + Info.version + " Initialised. Date: " + date);
+		log.append("WinUtilities " + Info.version + " Initialised. Date: " + date);
 	}
 
 	// EVENT HANDLER
@@ -168,17 +181,17 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// ACTIONPREFORMED LISTENER FOR ALL THE MENU BUTTONS
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
-		if (eventSource == export) {
-			display.append("\n" + computername + "~ $ File>Export ");
+		if (eventSource == exportOut) {
+			output.append("\n" + computername + "~ $ File>Export Output");
 			try {
 				InOutMethods.save();
 			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
 		}
-		if (eventSource == debug) {
-			ConsoleIf.append("\n" + computername + "~ $ Command>Debug");
+		if (eventSource == exportLog) {
+			ConsoleIf.append("\n" + computername + "~ $ File>Export Log");
 			try {
 				InOutMethods.saveLog();
-			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
+			} catch (IOException e1) { log.append("\nLog JTextArea Export Failed: IOException"); }
 		}
 		if (eventSource == info){
 			ConsoleIf.append(computername + "~ $ Command>System Readout");

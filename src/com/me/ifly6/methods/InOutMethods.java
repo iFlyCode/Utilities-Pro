@@ -19,7 +19,7 @@ public class InOutMethods extends TextProc {
 		Writer writer = null;
 		File file = new File(IUTILITIES_DIR + "\\report_display-out" + System.currentTimeMillis() + ".txt");
 		writer = new BufferedWriter(new FileWriter(file));
-		writer.write(display.getText());
+		writer.write(output.getText());
 		writer.close();
 		out("Contents Exported.");
 	}

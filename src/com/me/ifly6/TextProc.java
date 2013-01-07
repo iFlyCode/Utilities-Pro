@@ -67,7 +67,7 @@ public class TextProc extends ConsoleIf {
 			int tmp = 11;
 			tmp = java.lang.Integer.parseInt(operand[2]);
 			Font font = new Font(operand[1], 0, tmp);
-			display.setFont(font);
+			output.setFont(font);
 			log("Font changed");
 		}
 		/* if (operand[0].equals(commText[6])){

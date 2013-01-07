@@ -32,16 +32,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// SWING DATA
 	JFrame frame = new JFrame("iUtilities " + Parametres.version);
 
-<<<<<<< HEAD
-	protected static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-	protected static JPanel consoleTab = new JPanel();
-	protected static JPanel loggingTab = new JPanel();
-	protected static JTextArea display = new JTextArea();
-	protected static JTextArea log = new JTextArea();
-	protected static JTextField input = new JTextField();
-	protected JScrollPane scp_tab1 = new JScrollPane(display);
-	protected JScrollPane scp_tab2 = new JScrollPane(log);
-=======
 	public static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	public static JPanel consoleTab = new JPanel();
 	public static JPanel loggingTab = new JPanel();
@@ -50,7 +40,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public static JTextField input = new JTextField();
 	JScrollPane scpConsole = new JScrollPane(display);
 	JScrollPane scpLogging = new JScrollPane(log);
->>>>>>> alphaGUI
 
 	// INTERNAL DATA
 	protected static String preoperand;
@@ -333,19 +322,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		String OS = System.getProperty("os.name");
 		return (OS.indexOf("win") >= 0);
 	}
-<<<<<<< HEAD
-	
-	/* ============================
-	 * iUTILITIES GRAPHICS METHODS
-	 * ============================
-	 */
-	
-	private void enableLogTab(){
-=======
 
 	// iUtilities Graphics Methods
 	void enableLogTab(){
->>>>>>> alphaGUI
 		loggingSettings();
 	}
 

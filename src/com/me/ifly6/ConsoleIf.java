@@ -20,23 +20,10 @@ public class ConsoleIf extends Console {
 	protected static void append(String in){
 		Console.display.append("\n" + in);
 	}
-<<<<<<< HEAD
-	protected static void append(int in){
-		Console.display.append("\n" + in);
-	}
-	protected static void out(String in){
-		Console.display.append("\n " + in);
-	}
-	protected static void out(int in){
-		Console.display.append("\n " + in);
-	}
-	protected static void log(String in){ Console.log.append("\n" + in); }
-=======
 	public static void out(String in){
 		Console.display.append("\n " + in);
 	}
 	public static void log(String in){ Console.log.append("\n" + in); }
->>>>>>> alphaGUI
 	
 	// Getter and Setter
 	protected static String getText(){ return display.getText(); }

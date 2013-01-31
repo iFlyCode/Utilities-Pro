@@ -16,7 +16,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
-public class Console1 {
+public class Console {
 
 	private JFrame frm_iUtilities;
 	private JTextField textField;
@@ -38,7 +38,7 @@ public class Console1 {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Console1 window = new Console1();
+					Console window = new Console();
 					window.frm_iUtilities.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +50,7 @@ public class Console1 {
 	/**
 	 * Create the application.
 	 */
-	public Console1() {
+	public Console() {
 		initialize();
 	}
 

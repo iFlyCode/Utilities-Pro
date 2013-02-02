@@ -19,7 +19,6 @@ import javax.swing.JSeparator;
 public class Console {
 
 	private JFrame frm_iUtilities;
-	private JTextField textField;
 
 	// Data
 	public static String version = "3.0_alpha";
@@ -132,70 +131,74 @@ public class Console {
 		JSeparator separator_2 = new JSeparator();
 		mnCommands.add(separator_2);
 
-		JMenuItem menuItem_14 = new JMenuItem("Airport Toggle");
-		mnCommands.add(menuItem_14);
+		JMenuItem menuItem_AirportToggle = new JMenuItem("Airport Toggle");
+		mnCommands.add(menuItem_AirportToggle);
 
-		JMenuItem menuItem_15 = new JMenuItem("Terminate Running Process");
-		mnCommands.add(menuItem_15);
+		JMenuItem menuItem_termRun = new JMenuItem("Terminate Running Process");
+		mnCommands.add(menuItem_termRun);
 
-		JMenuItem menuItem_16 = new JMenuItem("Terminate Process...");
-		mnCommands.add(menuItem_16);
+		JMenuItem menuItem_termArbritrary = new JMenuItem("Terminate Process...");
+		mnCommands.add(menuItem_termArbritrary);
 
 		JSeparator separator_3 = new JSeparator();
 		mnCommands.add(separator_3);
 
-		JMenuItem menuItem_17 = new JMenuItem("Terminate Frivilous Processes");
-		mnCommands.add(menuItem_17);
+		JMenuItem menuItem_termFrivolous = new JMenuItem("Terminate Frivolous Processes");
+		mnCommands.add(menuItem_termFrivolous);
 
-		JMenuItem menuItem_18 = new JMenuItem("Purge");
-		mnCommands.add(menuItem_18);
+		JMenuItem menuItem_purge = new JMenuItem("Purge");
+		mnCommands.add(menuItem_purge);
 
-		JMenu menu_4 = new JMenu("Help");
-		menuBar.add(menu_4);
+		JMenu mnHelp = new JMenu("Help");
+		menuBar.add(mnHelp);
 
-		JMenuItem menuItem_19 = new JMenuItem("iUtilities Help");
-		menu_4.add(menuItem_19);
+		JMenuItem menuItem_iUtilitiesHelp = new JMenuItem("iUtilities Help");
+		mnHelp.add(menuItem_iUtilitiesHelp);
 
-		JMenuItem menuItem_20 = new JMenuItem("Acknowledgements");
-		menu_4.add(menuItem_20);
+		JMenuItem menuItem_Acknowledgements = new JMenuItem("Acknowledgements");
+		mnHelp.add(menuItem_Acknowledgements);
 
 		JSeparator separator_4 = new JSeparator();
-		menu_4.add(separator_4);
+		mnHelp.add(separator_4);
 
-		JMenuItem menuItem_21 = new JMenuItem("Changelog");
-		menu_4.add(menuItem_21);
+		JMenuItem menuItem_Changelog = new JMenuItem("Changelog");
+		mnHelp.add(menuItem_Changelog);
 
-		JMenuItem menuItem_22 = new JMenuItem("Updates");
-		menu_4.add(menuItem_22);
+		JMenuItem menuItem_Updates = new JMenuItem("Updates");
+		mnHelp.add(menuItem_Updates);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		frm_iUtilities.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Console", null, panel, null);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel consolePane = new JPanel();
+		tabbedPane.addTab("Console", null, consolePane, null);
+		consolePane.setLayout(new BorderLayout(0, 0));
 
 		JTextArea textArea = new JTextArea();
+		textArea.setEditable(false);
 		textArea.setFont(new Font("Monaco", Font.PLAIN, 11));
 		JScrollPane scrollPane = new JScrollPane(textArea);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		panel.add(scrollPane);
+		consolePane.add(scrollPane);
 
-		textField = new JTextField();
-		textField.setFont(new Font("Monaco", Font.PLAIN, 11));
-		textField.setToolTipText("Type Commands Here");
-		panel.add(textField, BorderLayout.SOUTH);
-		textField.setColumns(10);
+		JTextField consoleTextField = new JTextField();
+		consoleTextField.setFont(new Font("Monaco", Font.PLAIN, 11));
+		consoleTextField.setToolTipText("Type Commands Here");
+		consolePane.add(consoleTextField, BorderLayout.SOUTH);
 
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Log\n", null, panel_1, null);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		JPanel loggingPane = new JPanel();
+		tabbedPane.addTab("Log\n", null, loggingPane, null);
+		loggingPane.setLayout(new BorderLayout(0, 0));
 
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setFont(new Font("Monaco", Font.PLAIN, 11));
-		JScrollPane scrollPane_1 = new JScrollPane(textArea_1);
-		panel_1.add(scrollPane_1, BorderLayout.CENTER);
+		JTextArea logTextArea = new JTextArea();
+		logTextArea.setFont(new Font("Monaco", Font.PLAIN, 11));
+		JScrollPane scrollPane_1 = new JScrollPane(logTextArea);
+		loggingPane.add(scrollPane_1, BorderLayout.CENTER);
+		
+		actionListeners();
 	}
-
+	private void actionListeners(){
+		
+	}
 }

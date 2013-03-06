@@ -19,7 +19,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 	/*
 	 * THINGS TO DO:
-	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
+	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM. (No seriously, do this. We've been waiting for like 
+	 * a year for this now).
 	 */
 
 	private static final long serialVersionUID = 1L;
@@ -218,6 +219,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			input.setText(preoperand);
 		}
 	}
+	
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
 
@@ -279,7 +281,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == logEnable){
 			ConsoleIf.append(computername + "~ $ View>Enable Log Tab");
-			enableLogTab();
+			loggingSettings();
 		}
 		if (eventSource == metalInf){
 			ConsoleIf.append(computername + "~ $ View>Metal Interface");
@@ -321,11 +323,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	protected static boolean isWindows() {
 		String OS = System.getProperty("os.name");
 		return (OS.indexOf("win") >= 0);
-	}
-
-	// iUtilities Graphics Methods
-	void enableLogTab(){
-		loggingSettings();
 	}
 
 	private void newConsole() {

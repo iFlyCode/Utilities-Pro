@@ -74,8 +74,6 @@ public class Parametres {
 			} catch (IllegalAccessException e) { 
 			} catch (UnsupportedLookAndFeelException e) {}
 		}
-		// BufferedReader br = new BufferedReader(configRead);
-		// String r = br.readLine();
 
 		// GUI Look and Feel
 		if (look.equals("CrossPlatformLAF")){

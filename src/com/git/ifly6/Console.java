@@ -28,11 +28,11 @@ public class Console {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		
+
 		// Mac Properties
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iUtilities " + version);
-		
+
 		// Graphics Calling
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -44,6 +44,9 @@ public class Console {
 				}
 			}
 		});
+
+		// Listener Creation
+		Listener.listenerCreate();
 	}
 
 	/**
@@ -195,10 +198,10 @@ public class Console {
 		logTextArea.setFont(new Font("Monaco", Font.PLAIN, 11));
 		JScrollPane scrollPane_1 = new JScrollPane(logTextArea);
 		loggingPane.add(scrollPane_1, BorderLayout.CENTER);
-		
+
 		actionListeners();
 	}
 	private void actionListeners(){
-		
+
 	}
 }

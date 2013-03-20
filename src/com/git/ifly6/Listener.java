@@ -13,7 +13,7 @@ public class Listener extends Console implements ActionListener {
 		// TODO Add all the ActionListeners.
 	}
 	
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

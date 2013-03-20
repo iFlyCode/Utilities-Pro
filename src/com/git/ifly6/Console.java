@@ -74,14 +74,14 @@ public class Console {
 		JMenu mnFileNew = new JMenu("New");
 		mnFile.add(mnFileNew);
 
-		JMenuItem menuItem = new JMenuItem("Output File");
-		mnFileNew.add(menuItem);
+		JMenuItem menuItem_outPut = new JMenuItem("Output File");
+		mnFileNew.add(menuItem_outPut);
 
-		JMenuItem menuItem_1 = new JMenuItem("Log File");
-		mnFileNew.add(menuItem_1);
+		JMenuItem menuItem_outLog = new JMenuItem("Log File");
+		mnFileNew.add(menuItem_outLog);
 
-		JMenuItem menuItem_2 = new JMenuItem("Download Mindterm");
-		mnFile.add(menuItem_2);
+		JMenuItem menuItem_mindTerm = new JMenuItem("Download Mindterm");
+		mnFile.add(menuItem_mindTerm);
 
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);
@@ -201,7 +201,7 @@ public class Console {
 
 		actionListeners();
 	}
-	private void actionListeners(){
-
+	protected void actionListeners(){
+		
 	}
 }

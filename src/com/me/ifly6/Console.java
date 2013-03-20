@@ -174,7 +174,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		tabbedPane.addTab("Log", null, loggingTab, null);
 	}
 
-	protected static void launchGUI(){
+	public static void launchGUI(){
 
 		// OS Restriction
 		if (isWindows()){

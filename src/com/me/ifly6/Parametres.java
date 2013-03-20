@@ -55,7 +55,7 @@ public class Parametres {
 	 */
 
 	// Sets Pre-Launch Parameters and then Invokes the first Class.
-	public static void main() throws InterruptedException, IOException{
+	public static void main(String[] args) throws InterruptedException, IOException {
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iUtilities");
 

@@ -43,29 +43,6 @@ public class TextProc extends ConsoleIf {
 		operand = preoperand.split(" ");
 
 		// Command Evaluation
-<<<<<<< HEAD
-		if (commText[0].equals(operand[0])) {
-			InfoMethods.changelog();
-			log("Changelog Called");
-		}
-		if (commText[1].equals(operand[0])) {
-			InfoMethods.about();
-			log("'About' Processing Trigger Invoked");
-		}
-		if (commText[2].equals(operand[0])) {
-			CoreMethods.helpList();
-			log("Help Processing Trigger Invoked");
-		}
-		if (commText[3].equals(operand[0])) {
-			GraphicsMethods.clear();
-			log("JTextAreas Cleared");
-		}
-		if (commText[4].equals(operand[0])) {
-			InfoMethods.acknowledgements();
-			log("Acknowledgements Called");
-		}
-		if (commText[5].equals(operand[0])) {
-=======
 		if (commText[0].equals(operand[0])){
 			InfoMethods.changelog();
 			log("Changelog Called");
@@ -87,14 +64,12 @@ public class TextProc extends ConsoleIf {
 			log("Acknowledgements Called");
 		}
 		if (commText[5].equals(operand[0])){
->>>>>>> rewriteDev
 			int tmp = 11;
 			tmp = java.lang.Integer.parseInt(operand[2]);
 			Font font = new Font(operand[1], 0, tmp);
 			display.setFont(font);
 			log("Font changed");
 		}
-<<<<<<< HEAD
 		if (commText[6].equals(operand[0])) {
 			InfoMethods.licence();
 			log("EULA Triggered");
@@ -133,56 +108,13 @@ public class TextProc extends ConsoleIf {
 			System.exit(0);
 			log("System.exit(0)");
 		}
-		
+
 		// Calls Core Method Command Execution Stream
 		else {
 			if ((!operand[0].equals("bash"))) {
 				CoreMethods.exec();
 				log("\nBASH COMMAND INVOKED: " + preoperand);
 			}
-=======
-		if (commText[6].equals(operand[0])){
-			InfoMethods.licence();
-			log("EULA Triggered");
-		}
-		if (commText[7].equals(operand[0])){
-			InOutMethods.save();
-			log("Saving Processing Trigger Called");
-		}
-		if (commText[8].equals(operand[0])){
-			InOutMethods.saveLog();
-			log("SavingLog Processing Trigger Called");
-		}
-		if (commText[9].equals(operand[0])){
-			InOutMethods.delete();
-			log("Deletion Processing Trigger Called");
-		}
-		if (commText[10].equals(operand[0])){
-			InfoMethods.info();
-			log("System Information Processing Trigger Called");
-		}
-		if (commText[11].equals(operand[0])){
-			InOutMethods.mindterm();
-			log("Mindterm Download Processing Trigger Called");
-		}
-		if (commText[12].equals(operand[0])){
-			CoreMethods.terminate();
-			log("Process Termination Processing Trigger Called");
-		}
-		/* 	if (commText[13].equals(operand[0])){
-
-		}
-		if (commText[14].equals(operand[0])){
-
-		} */
-		if (commText[15].equals(operand[0])){
-			System.exit(0);
-			log("System.exit(0)");
-		}
-		else {
-			CoreMethods.exec();
-			log("BASH COMMAND INVOKED: " + preoperand);
->>>>>>> rewriteDev
 		}
 	}
 }

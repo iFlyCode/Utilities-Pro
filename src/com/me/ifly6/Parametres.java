@@ -12,7 +12,7 @@ public class Parametres {
 	// Name: Information (Holds Shared Information)
 	
 	// Version-based.
-	public static String password = "greenhill";
+	public static String keyword = "greenhill";
 	public static String version = "2.3_01";
 	
 	// Strings

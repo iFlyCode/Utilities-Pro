@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 import com.me.ifly6.TextProc;
 
-public class CoreMethods extends TextProc{
+public class CoreMethods extends TextProc {
 	// Name: Core Methods Required for Functioning
 
 	private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class CoreMethods extends TextProc{
 	}
 
 	public static void helpList() throws IOException{
-		for (int x = 0; x<50; x++){
+		for (int x = 0; x<20; x++){
 			if (!(commText[x].equals(null))){
 				out("* " + commText[x]);
 			}

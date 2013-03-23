@@ -18,8 +18,9 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	// Name: Console (GUI Class)
 
 	/*
-	 * THINGS TO DO:
-	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM.
+	 * TODO
+	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM. (No seriously, do this. We've been waiting for like 
+	 * a year for this now).
 	 */
 
 	private static final long serialVersionUID = 1L;
@@ -30,7 +31,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	protected static String currentDir = new File(".").getAbsolutePath();
 
 	// SWING DATA
-	JFrame frame = new JFrame("iUtilities " + Parametres.version);
+	JFrame frame = new JFrame("Utilities Pro " + Parametres.version);
 
 	public static JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 	public static JPanel consoleTab = new JPanel();
@@ -52,12 +53,12 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenu menucomm = new JMenu("Commands");
 	JMenu menuview = new JMenu("View");
 	JMenu menuhelp = new JMenu("Help");
-	JMenuItem del = new JMenuItem("Delete iUtilities Files");
+	JMenuItem del = new JMenuItem("Delete Utilities Pro Files");
 	JMenuItem export = new JMenuItem("Exportation");
 	JMenuItem script = new JMenuItem("Script Input");
 	JMenuItem mindterm = new JMenuItem("Mindterm");
 	JMenuItem purge = new JMenuItem("Inactive Memory Purge");
-	JMenuItem debug = new JMenuItem("Log Console");
+	JMenuItem debug = new JMenuItem("Log Export");
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
@@ -72,11 +73,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem changelog = new JMenuItem("Changelog");
 	JMenuItem updates = new JMenuItem("Updates");
 
-	protected Console()
+	Console()
 	{
 		initialise();
 		consoleSettings();
-		log.append("\nJava Swing GUI Initialised and Rendered");
+		log.append("\nSwing GUI Initialised and Rendered");
 	}
 
 	protected void initialise(){
@@ -173,7 +174,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		tabbedPane.addTab("Log", null, loggingTab, null);
 	}
 
-	protected static void launchGUI(){
+	public static void launchGUI(){
 
 		// OS Restriction
 		if (isWindows()){
@@ -201,7 +202,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		try { computername = InetAddress.getLocalHost().getHostName();
 		} catch (UnknownHostException e) { }
 		Date date = new Date();
-		log.append("\niUtilities " + Parametres.version + " Initialised. Date: " + date);
+		log.append("\nUtilities Pro " + Parametres.version + " Initialised. Date: " + date);
 	}
 
 	// EVENT HANDLER
@@ -218,6 +219,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			input.setText(preoperand);
 		}
 	}
+	
 	public void keyReleased(KeyEvent arg0) { }
 	public void keyTyped(KeyEvent arg0) { }
 
@@ -225,7 +227,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if (eventSource == del){
-			ConsoleIf.append(computername + "~ $ View>Delete iUtilities Files");
+			ConsoleIf.append(computername + "~ $ View>Delete Utilities Pro Files");
 			try {
 				InOutMethods.delete();
 			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
@@ -279,7 +281,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 		if (eventSource == logEnable){
 			ConsoleIf.append(computername + "~ $ View>Enable Log Tab");
-			enableLogTab();
+			loggingSettings();
 		}
 		if (eventSource == metalInf){
 			ConsoleIf.append(computername + "~ $ View>Metal Interface");
@@ -313,7 +315,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ Help>Updates");
 			try {
 				InOutMethods.update();
-			} catch (IOException e1) { log.append("\niUtilities Update FAILED: IOException"); }
+			} catch (IOException e1) { log.append("\nUtilities Pro Update FAILED: IOException"); }
 		}
 	}
 
@@ -321,11 +323,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	protected static boolean isWindows() {
 		String OS = System.getProperty("os.name");
 		return (OS.indexOf("win") >= 0);
-	}
-
-	// iUtilities Graphics Methods
-	void enableLogTab(){
-		loggingSettings();
 	}
 
 	private void newConsole() {

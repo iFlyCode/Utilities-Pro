@@ -13,19 +13,19 @@ public class Parametres {
 	
 	// Version-based.
 	public static String password = "greenhill";
-	public static String version = "2.3_dev6Stable";
+	public static String version = "2.3_01";
 	
 	// Strings
 	public static String computername = "Unknown";
 	public static String copyright = "(c) ifly6@me.com";
-	protected static final String starter = "== iUtilities Console " + version + " == " + 
+	protected static final String starter = "== Utilities Pro Console " + version + " == " + 
 			"\nHello " + System.getProperty("user.name") + "!" + 
 			"\nBy using this programme, you accept the Licence." +
 			"\nType '/help' for help.";
 
 	// Configuration Files
 	public static String userName = System.getProperty("user.name");
-	public static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
+	public static final String UtilitiesPro_DIR = "/Users/" + userName + "/Library/Application Support/Utilities Pro";
 
 	/* System is: <type> <major>.<minor>_<revision>.<sub-revision>
 	 * For example: alpha 2.2_01.2 = Major Version 2, Minor Version 2, Revision 01, Sub-Revision 2
@@ -57,13 +57,13 @@ public class Parametres {
 	// Sets Pre-Launch Parameters and then Invokes the first Class.
 	public static void main(String[] args) throws InterruptedException, IOException {
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iUtilities");
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Utilities Pro");
 
 		// Get GUI Settings
 		FileReader configRead = null;
 		String look = "Default";
 		try {
-			configRead = new FileReader(IUTILITIES_DIR + "/config");
+			configRead = new FileReader(UtilitiesPro_DIR + "/config");
 			Scanner scan = new Scanner(configRead);
 			look = scan.nextLine();
 		} catch (FileNotFoundException e1) {

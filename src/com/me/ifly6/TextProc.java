@@ -11,7 +11,7 @@ public class TextProc extends ConsoleIf {
 	private static final long serialVersionUID = 1L;
 	public static Runtime rt = Runtime.getRuntime();
 	public static String userName = System.getProperty("user.name");
-	public static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
+	public static final String UtilitiesPro_DIR = "/Users/" + userName + "/Library/Application Support/";
 	public static Process process;
 	public static String[] commText = new String[numArray];
 	// Processing Stream
@@ -108,9 +108,9 @@ public class TextProc extends ConsoleIf {
 			System.exit(0);
 			log("System.exit(0)");
 		}
-		else if ((!operand[0].equals("bash"))) {
+		else {
 			CoreMethods.exec();
-			log("\nBASH COMMAND INVOKED: " + preoperand);
+			log("BASH COMMAND INVOKED: " + preoperand);
 		}
 	}
 }

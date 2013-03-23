@@ -22,9 +22,9 @@ public class GraphicsMethods extends ConsoleIf {
 		caret.setUpdatePolicy(2);
 	}
 	public static void saveConfig(String config){
-		// String config should either be "Default" or "CrossPlatformLAF"
+		// String configuration should either be "Default" or "CrossPlatformLAF"
 		try{
-			FileWriter fstream = new FileWriter(IUTILITIES_DIR + "/config");
+			FileWriter fstream = new FileWriter(UtilitiesPro_DIR + "/config");
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(config);
 			out.close();

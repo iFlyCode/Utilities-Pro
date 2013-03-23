@@ -199,7 +199,6 @@ public class Console {
 		JScrollPane scrollPane_1 = new JScrollPane(logTextArea);
 		loggingPane.add(scrollPane_1, BorderLayout.CENTER);
 
-		actionListeners();
 	}
 	protected void actionListeners(){
 		

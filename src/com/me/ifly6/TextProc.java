@@ -3,7 +3,10 @@ package com.me.ifly6;
 import java.awt.Font;
 import java.io.IOException;
 
-import com.me.ifly6.methods.*;
+import com.me.ifly6.methods.CoreMethods;
+import com.me.ifly6.methods.GraphicsMethods;
+import com.me.ifly6.methods.InOutMethods;
+import com.me.ifly6.methods.InfoMethods;
 
 public class TextProc extends ConsoleIf {
 	// Name: Text Commands (Executes Necessary Text Data from Console/anything else)

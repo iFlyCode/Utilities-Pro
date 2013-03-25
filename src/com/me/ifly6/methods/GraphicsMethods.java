@@ -5,7 +5,7 @@ import java.io.FileWriter;
 
 import javax.swing.text.DefaultCaret;
 
-import com.me.ifly6.*;
+import com.me.ifly6.ConsoleIf;
 
 public class GraphicsMethods extends ConsoleIf {
 	private static final long serialVersionUID = 1L;

@@ -1,51 +1,87 @@
 package com.git.ifly6;
 
-import java.awt.EventQueue;
+/**
+ * @author ifly6
+ * @version 3.x
+ */
 
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
-import javax.swing.JMenuBar;
+import java.awt.Component;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.TextField;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Date;
+import java.util.Scanner;
+
+import javax.swing.Box;
+import javax.swing.JFrame;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-
-import java.awt.Component;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.util.Scanner;
-
-import javax.swing.Box;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import java.awt.TextField;
-import javax.swing.JTextArea;
 import javax.swing.text.DefaultEditorKit;
-
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
+import java.awt.event.KeyAdapter;
 
 public class Console {
 
-	/***
-	 * @author Kevin Wong, ifly6
-	 * @version v3.x
+	/* Naming Conventions: 
+	 * System is: <type> <major>.<minor>_<revision>.<subrevision>
+	 * Exempli Gratia: 2.2 = Release, Major Version 2, Minor Version 2, No revisions.
+	 * 
+	 * The 2.x Versions:
+	 * 2.0 = greentree
+	 * 2.1 = greenwell
+	 * 2.2 = greenmont
+	 * 2.3 = greenhill
+	 * 2.4 = greenfield
+	 * 2.5 = greenfall
+	 * 2.6 = greenpool
+	 * 2.7 = greenberg
+	 * 2.8 = greenland
+	 * 
+	 * The 3.x Versions
+	 * 3.0 = iceland
+	 * 3.1 = iceberg
+	 * 3.2 = icepool
+	 * 3.3 = skyfall
+	 * 3.4 = icefield
+	 * 3.5 = everest
+	 * 3.6 = icemont
+	 * 3.7 = icewell
+	 * 3.8 = icedtea
 	 */
 
 	private JFrame frame;
 	public static String version = "3.0_dev01";
-	
-	// Dependencies
+	public static String keyword = "iceland";
+
+	/**
+	 * @param userName			UserName for the User (used for opening greeting)
+	 * @param UtilitiesPro_DIR	Folder Location in Application Support for programme
+	 * @param Downloads_DIR		Folder Location for Downloads
+	 * @param rt				Runtime reference. Should be removed, but it is not deprecated
+	 * @param outText, logText	See JavaDoc before GUI initialisation
+	 */
 	public static String userName = System.getProperty("user.name");
 	public static String UtilitiesPro_DIR = "/Users/" + userName + "/Library/Application Support/Utilities Pro";
 	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
 	public static Runtime rt = Runtime.getRuntime();
+	private static JTextArea outText;
+	private static JTextArea logText;
 
 	/**
 	 * Launch the application.
@@ -108,10 +144,25 @@ public class Console {
 	}
 
 	/**
-	 * Initialise the contents of the frame.
+	 * TODO Add CD System (again, coming from the last time)
+	 * @param frame					JFrame for the programme
+	 * @param panel					Panel for the Console's Tab
+	 * @param scrollPane_logText	Pane for the Logging Tab
+	 * @param outText				JTextArea for the Console's output
+	 * @param logText				JTextArea for the Logging's output
+	 * @param inputField			TextField (AWT) for input into the programme
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int keyCode = e.getKeyCode();
+				if (keyCode == 10){
+					TextCommands.process();
+				}
+			}
+		});
 		frame.setBounds(0, 0, 670, 735);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Utilities Pro" + version);
@@ -127,13 +178,13 @@ public class Console {
 		inputField.setFont(new Font("Monaco", Font.PLAIN, 12));
 		panel.add(inputField, BorderLayout.SOUTH);
 
-		JTextArea outText = new JTextArea();
+		outText = new JTextArea();
 		outText.setEditable(false);
 		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
 		JScrollPane scrollPane_outPane = new JScrollPane(outText);
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 
-		JTextArea logText = new JTextArea();
+		logText = new JTextArea();
 		logText.setEditable(false);
 		logText.setFont(new Font("Monaco", Font.PLAIN, 12));
 		JScrollPane scrollPane_logText = new JScrollPane(logText);
@@ -170,7 +221,7 @@ public class Console {
 		mntmExportConsole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FileCommands.exportOutput();
+				FileCommands.export(1);
 			}
 		});
 		mnFile.add(mntmExportConsole);
@@ -179,66 +230,110 @@ public class Console {
 		mntmConsoleLog.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FileCommands.exportLog();
+				FileCommands.export(2);
 			}
 		});
 		mnFile.add(mntmConsoleLog);
 
 		JMenu mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
-		
+
 		JMenuItem mntmCut = new JMenuItem(new DefaultEditorKit.CutAction());
 		mntmCut.setText("Cut");
 		mntmCut.setAccelerator(
-			      KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.META_MASK));
+				KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.META_MASK));
 		mnEdit.add(mntmCut);
-		
+
 		JMenuItem mntmCopy = new JMenuItem(new DefaultEditorKit.CopyAction());
 		mntmCopy.setText("Copy");
 		mntmCopy.setAccelerator(
-			      KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK));
+				KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK));
 		mnEdit.add(mntmCopy);
-		
+
 		JMenuItem mntmPaste = new JMenuItem(new DefaultEditorKit.PasteAction());
 		mntmPaste.setText("Paste");
 		mntmPaste.setAccelerator(
-			      KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.META_MASK));
+				KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.META_MASK));
 		mnEdit.add(mntmPaste);
-		
+
 		JSeparator separator_4 = new JSeparator();
 		mnEdit.add(separator_4);
 
 		JMenuItem mntmClearConsole = new JMenuItem("Clear Console");
+		mntmClearConsole.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EditCommands.consoleClear();
+			}
+		});
 		mnEdit.add(mntmClearConsole);
 
 		JMenuItem mntmClearLog = new JMenuItem("Clear Log");
+		mntmClearLog.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				EditCommands.logClear();
+			}
+		});
 		mnEdit.add(mntmClearLog);
 
 		JMenu mnScripts = new JMenu("Scripts");
 		menuBar.add(mnScripts);
 
 		JMenuItem mntmPurge = new JMenuItem("Purge Memory");
+		mntmPurge.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScriptCommands.purge();
+			}
+		});
 		mnScripts.add(mntmPurge);
 
 		JMenuItem mntmRestartAirport = new JMenuItem("Restart Airport");
+		mntmRestartAirport.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScriptCommands.wireless();
+			}
+		});
 		mnScripts.add(mntmRestartAirport);
 
 		JSeparator separator_1 = new JSeparator();
 		mnScripts.add(separator_1);
 
 		JMenuItem mntmSystemInfo = new JMenuItem("System Information");
+		mntmSystemInfo.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScriptCommands.readout();
+			}
+		});
 		mnScripts.add(mntmSystemInfo);
 
 		JMenuItem mntmDownloadMindterm = new JMenuItem("Download Mindterm");
+		mntmDownloadMindterm.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ScriptCommands.mindterm();
+			}
+		});
 		mnScripts.add(mntmDownloadMindterm);
 
 		JMenu mnCommand = new JMenu("Command");
 		menuBar.add(mnCommand);
 
 		JMenuItem mntmTerminateUtilitiesPro = new JMenuItem("Terminate Utilities Pro Process");
+		mntmTerminateUtilitiesPro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mnCommand.add(mntmTerminateUtilitiesPro);
 
 		JMenuItem mntmTerminateArbitraryProcess = new JMenuItem("Terminate Arbitrary Process");
+		mntmTerminateArbitraryProcess.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		mnCommand.add(mntmTerminateArbitraryProcess);
 
 		JSeparator separator_3 = new JSeparator();
@@ -264,5 +359,45 @@ public class Console {
 
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mnHelp.add(mntmQuit);
+	}
+
+	public static void out(String in) {
+		outText.append("\n" + in);
+	}
+	public static void log(String in) {
+		logText.append("\n" + new Date() + " " + in);
+	}
+	public static String getOutText() {
+		return outText.getText();
+	}
+	public static String getLogText() {
+		return logText.getText();
+	}
+
+
+	public static void clearText(int which) {
+		/**
+		 * @author ifly6
+		 * @since 3.0
+		 * @param which		integer value, determines which JTextArea to clear (1, outText; 2, logText)
+		 */
+		if (which == 1){
+			outText.setText(null);
+		}
+		if (which == 2){
+			logText.setText(null);
+		}
+	}
+
+	public static void mkdir(){
+		/**
+		 * @author ifly6
+		 * @since 3.0
+		 * Used to create (if necessary) all folders for Utilities Pro
+		 */
+		File folder = new File(UtilitiesPro_DIR);
+		folder.mkdirs();
+		folder = new File(Downloads_DIR);
+		folder.mkdirs();
 	}
 }

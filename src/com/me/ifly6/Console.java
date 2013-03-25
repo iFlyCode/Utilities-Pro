@@ -1,26 +1,44 @@
 package com.me.ifly6;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.io.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Date;
 
-import javax.swing.*;
-import javax.swing.text.DefaultCaret;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
+import javax.swing.text.DefaultCaret;
 
-import com.me.ifly6.methods.*;
-import com.me.ifly6.Parametres;
+import com.me.ifly6.methods.CoreMethods;
+import com.me.ifly6.methods.GraphicsMethods;
+import com.me.ifly6.methods.InOutMethods;
+import com.me.ifly6.methods.InfoMethods;
 
 public class Console extends JFrame implements KeyListener, ActionListener{
 	// Name: Console (GUI Class)
 
-	/*
-	 * TODO
-	 * IMPLEMENT A CHANGE DIRECTORY SYSTEM. (No seriously, do this. We've been waiting for like 
-	 * a year for this now).
+	/**
+	 * @author ifly6, mudkip1123, DYNAbeast
+	 * 
+	 * TODO IMPLEMENT A CHANGE DIRECTORY SYSTEM.
+	 * @deprecated THIS ENTIRE PACKAGE (and com.me.ifly6.methods) is deprecated.
 	 */
 
 	private static final long serialVersionUID = 1L;
@@ -188,8 +206,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		display.append(Parametres.starter);
 		try { computername = InetAddress.getLocalHost().getHostName();
 		} catch (UnknownHostException e) { }
-		Date date = new Date();
-		log.append("\nUtilities Pro " + Parametres.version + " Initialised. Date: " + date);
+		log.append("\nUtilities Pro " + Parametres.version + " Initialised. Date: " + new Date());
 	}
 
 	// EVENT HANDLER

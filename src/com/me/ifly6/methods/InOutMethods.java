@@ -31,11 +31,9 @@ public class InOutMethods extends TextProc {
 	public static void mindterm() throws IOException {
 		mkdir();
 		log.append("\nMindterm Download Commenced.");
-		String[] url = { "curl", "-o", "/Users/" + userName + 
-				"/Library/Application Support/Utilities Pro/mindterm.jar", "http://ifly6.no-ip.org/Public/mindterm.jar" };
+		String[] url = { "curl", "-o", "/Users/" + userName + "/Downloads/", "http://ifly6.no-ip.org/Public/mindterm.jar" };
 		rt.exec(url);
-		out("Mindterm Downloaded to: " + UtilitiesPro_DIR);
-		out("Mindterm Downloaded to: " + UtilitiesPro_DIR + 
+		out("Mindterm Downloaded to: " + "/Users/" + userName + "/Downloads/" + 
 				"\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D." +
 				"\nIt is however, not made by the Utilities Pro Team, and therefore, does not fall under our perview.");
 	}

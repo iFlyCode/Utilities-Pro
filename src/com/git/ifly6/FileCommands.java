@@ -19,25 +19,25 @@ public class FileCommands extends Console {
 		String[] openConfig = {"/usr/bin/open", UtilitiesPro_DIR};
 		try {
 			rt.exec(openConfig);
-		} catch (IOException e) { }  
+		} catch (IOException e) { log("Open Failed"); }  
 	}
 
 	public static void DeleteConfig() {
 		String[] delConfig = {"rm -rf", UtilitiesPro_DIR};
 		try {
 			rt.exec(delConfig);
-		} catch (IOException e) { }  
+		} catch (IOException e) { log("Config Delete Failed"); }  
 	}
 
+	/**
+	 * @author ifly6
+	 * @param which		decides which JTextArea to export to file
+	 * @since 3.0 		(integrated from two seperate commands)
+	 */
 	public static void export(int which){
-		/**
-		 * @author ifly6
-		 * @param which		Decides which JTextArea to export to file
-		 * @since 3.0 		(integrated from two seperate commands)
-		 */
 		if (which == 1){
 			String outFile = Console.getOutText();
-			log("Display Saving System Invoked.");
+			log("Output Export Invoked.");
 			mkdir();
 			Writer writer = null;
 			File file = new File(UtilitiesPro_DIR  + "/report_display-out" + new Date() + ".txt");
@@ -45,12 +45,12 @@ public class FileCommands extends Console {
 				writer = new BufferedWriter(new FileWriter(file));
 				writer.write(outFile);
 				writer.close();
-			} catch (IOException e) {}
-			out("Contents Exported to " + UtilitiesPro_DIR);
+			} catch (IOException e) { log("Output Export Failed"); }
+			append("Contents Exported to " + UtilitiesPro_DIR);
 		}
 		if (which == 2){
 			String outFile = Console.getOutText();
-			log("Log Saving System Invoked.");
+			log("Log Export Invoked.");
 			mkdir();
 			Writer writer = null;
 			File file = new File(UtilitiesPro_DIR + "/report_display-out" + new Date() + ".txt");
@@ -58,8 +58,8 @@ public class FileCommands extends Console {
 				writer = new BufferedWriter(new FileWriter(file));
 				writer.write(outFile);
 				writer.close();
-			} catch (IOException e) { }
-			out("Contents Exported to " + UtilitiesPro_DIR);
+			} catch (IOException e) { log("Log Export Failed"); }
+			append("Contents Exported to " + UtilitiesPro_DIR);
 		}
 	}
 }

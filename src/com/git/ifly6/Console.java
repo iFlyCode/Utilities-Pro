@@ -325,6 +325,7 @@ public class Console {
 		JMenuItem mntmTerminateUtilitiesPro = new JMenuItem("Terminate Utilities Pro Process");
 		mntmTerminateUtilitiesPro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CommandCommands.terminateUtility();
 			}
 		});
 		mnCommand.add(mntmTerminateUtilitiesPro);
@@ -332,6 +333,7 @@ public class Console {
 		JMenuItem mntmTerminateArbitraryProcess = new JMenuItem("Terminate Arbitrary Process");
 		mntmTerminateArbitraryProcess.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				CommandCommands.terminate();
 			}
 		});
 		mnCommand.add(mntmTerminateArbitraryProcess);
@@ -361,12 +363,31 @@ public class Console {
 		mnHelp.add(mntmQuit);
 	}
 
-	public static void out(String in) {
+	/**
+	 * @since 2.2_01
+	 * @param in	String to append into the JTextArea outText
+	 */
+	public static void append(String in) {
+
 		outText.append("\n" + in);
 	}
+
+	/**
+	 * @since 2.2_02
+	 * @param in	String to append (with a space) into the JTextArea outText
+	 */
+	public static void out(String in){
+		outText.append("\n " + in);
+	}
+
+	/**
+	 * @since 2.2_01
+	 * @param in	String to append (with a space) into the JTextArea logText
+	 */
 	public static void log(String in) {
 		logText.append("\n" + new Date() + " " + in);
 	}
+
 	public static String getOutText() {
 		return outText.getText();
 	}
@@ -374,13 +395,12 @@ public class Console {
 		return logText.getText();
 	}
 
-
+	/**
+	 * @author ifly6
+	 * @since 3.0
+	 * @param which		integer value, determines which JTextArea to clear (1, outText; 2, logText)
+	 */
 	public static void clearText(int which) {
-		/**
-		 * @author ifly6
-		 * @since 3.0
-		 * @param which		integer value, determines which JTextArea to clear (1, outText; 2, logText)
-		 */
 		if (which == 1){
 			outText.setText(null);
 		}
@@ -389,12 +409,12 @@ public class Console {
 		}
 	}
 
+	/**
+	 * Used to create (if necessary) all folders for Utilities Pro
+	 * @author ifly6
+	 * @since 3.0
+	 */
 	public static void mkdir(){
-		/**
-		 * @author ifly6
-		 * @since 3.0
-		 * Used to create (if necessary) all folders for Utilities Pro
-		 */
 		File folder = new File(UtilitiesPro_DIR);
 		folder.mkdirs();
 		folder = new File(Downloads_DIR);

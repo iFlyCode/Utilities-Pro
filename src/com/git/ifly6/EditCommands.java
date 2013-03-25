@@ -4,7 +4,6 @@ package com.git.ifly6;
  * @author ifly6
  * @since 3.0
  */
-
 public class EditCommands {
 
 	public static void consoleClear() {

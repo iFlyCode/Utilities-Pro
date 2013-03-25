@@ -16,7 +16,7 @@ import java.util.Date;
 public class FileCommands extends Console {
 
 	public static void OpenConfig() {
-		String[] openConfig = {"/usr/bin/open", UtilitiesPro_DIR};
+		String[] openConfig = {"open", UtilitiesPro_DIR};
 		try {
 			rt.exec(openConfig);
 		} catch (IOException e) { log("Open Failed"); }  
@@ -30,6 +30,7 @@ public class FileCommands extends Console {
 	}
 
 	/**
+	 * This method chooses which JTextArea to export, then exports it.
 	 * @author ifly6
 	 * @param which		decides which JTextArea to export to file
 	 * @since 3.0 		(integrated from two seperate commands)

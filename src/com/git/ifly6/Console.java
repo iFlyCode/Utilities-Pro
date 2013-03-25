@@ -1,10 +1,5 @@
 package com.git.ifly6;
 
-/**
- * @author ifly6
- * @version 3.x
- */
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -16,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -36,11 +32,18 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.text.DefaultEditorKit;
 import java.awt.event.KeyAdapter;
 
+/**
+ * Main Class for Utilities Pro 3.x
+ * @author ifly6
+ * @version 3.x
+ */
 public class Console {
 
 	/* Naming Conventions: 
-	 * System is: <type> <major>.<minor>_<revision>.<subrevision>
-	 * Exempli Gratia: 2.2 = Release, Major Version 2, Minor Version 2, No revisions.
+	 * System is:	<major>.<minor>_<revision>
+	 * or:			<major>.<minor>_dev<#>
+	 * Exempli Gratia:	2.2_01		= Major Version 2, Minor Version 2, 1 Revision.
+	 * Exempli Gratia:	3.0_dev4	= Major Version 3, Minor Version 0, Development Version 4
 	 * 
 	 * The 2.x Versions:
 	 * 2.0 = greentree
@@ -85,8 +88,9 @@ public class Console {
 
 	/**
 	 * Launch the application.
+	 * @param inputArgs	When launched from command line, the programme will update Utilities Pro.
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] inputArgs) {
 
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Utilities Pro");
@@ -122,7 +126,21 @@ public class Console {
 			} catch (IllegalAccessException e) { 
 			} catch (UnsupportedLookAndFeelException e) {}
 		}
+		
+		if ("--update".equals(inputArgs[0]) || "-u".equals(inputArgs[0])){
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+								log("Utilities Pro Update Triggered");
+			String[] url = { "curl", "-o", Downloads_DIR, "http://ifly6.no-ip.org/UtilitiesPro/UtilitiesPro-latest.jar" };
+			try {
+				rt.exec(url);
+			} catch (IOException e) { log("Utilities Pro Download Failed"); }
+			append("Utilities Pro Updated. File in ~/Downloads.");
+				}
+			});
 
+		}
+		
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -144,7 +162,8 @@ public class Console {
 	}
 
 	/**
-	 * TODO Add CD System (again, coming from the last time)
+	 * TODO Add CD System (again, coming from the last time).
+	 * This system starts the main GUI for the programme.
 	 * @param frame					JFrame for the programme
 	 * @param panel					Panel for the Console's Tab
 	 * @param scrollPane_logText	Pane for the Logging Tab
@@ -396,6 +415,8 @@ public class Console {
 	}
 
 	/**
+	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside the
+	 * GUI's declaration class.
 	 * @author ifly6
 	 * @since 3.0
 	 * @param which		integer value, determines which JTextArea to clear (1, outText; 2, logText)

@@ -31,15 +31,16 @@ import com.me.ifly6.methods.GraphicsMethods;
 import com.me.ifly6.methods.InOutMethods;
 import com.me.ifly6.methods.InfoMethods;
 
-public class Console extends JFrame implements KeyListener, ActionListener{
+/**
+ * TODO IMPLEMENT A CHANGE DIRECTORY SYSTEM.
+ * 
+ * @since 1.0
+ * @author ifly6, mudkip1123, DYNAbeast
+ * @deprecated THIS ENTIRE PACKAGE (and com.me.ifly6.methods) is deprecated.
+ */
+@Deprecated
+public class Console extends JFrame implements KeyListener, ActionListener {
 	// Name: Console (GUI Class)
-
-	/**
-	 * @author ifly6, mudkip1123, DYNAbeast
-	 * 
-	 * TODO IMPLEMENT A CHANGE DIRECTORY SYSTEM.
-	 * @deprecated THIS ENTIRE PACKAGE (and com.me.ifly6.methods) is deprecated.
-	 */
 
 	private static final long serialVersionUID = 1L;
 
@@ -90,14 +91,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem changelog = new JMenuItem("Changelog");
 	JMenuItem updates = new JMenuItem("Updates");
 
-	Console()
-	{
+	Console() {
 		initialise();
 		consoleSettings();
 		log.append("\nSwing GUI Initialised and Rendered");
 	}
 
-	protected void initialise(){
+	protected void initialise() {
 		// Window and MenuBar
 		frame.setBounds(0, 0, 670, 735);
 		frame.getContentPane().setLayout(new BorderLayout());
@@ -138,7 +138,8 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		menuview.add(defaultCarat);
 		menuview.add(logEnable);
 		menuview.add(lookAndFeel);
-		lookAndFeel.add(metalInf); lookAndFeel.add(macIntrf);
+		lookAndFeel.add(metalInf);
+		lookAndFeel.add(macIntrf);
 		clear.addActionListener(this);
 		defaultCarat.addActionListener(this);
 		logEnable.addActionListener(this);
@@ -160,7 +161,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 	}
 
-	private void consoleSettings(){
+	private void consoleSettings() {
 		// Sets the Layout, and Adds things to the Console's Tab.
 		consoleTab.setLayout(new BorderLayout());
 		consoleTab.add(scpConsole, BorderLayout.CENTER);
@@ -170,7 +171,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 		scpConsole.setViewportBorder(new LineBorder(Color.WHITE, 6));
 
-		DefaultCaret caret = (DefaultCaret)display.getCaret();
+		DefaultCaret caret = (DefaultCaret) display.getCaret();
 		display.setEditable(false);
 		display.setFont(font);
 		caret.setUpdatePolicy(2);
@@ -178,7 +179,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		tabbedPane.addTab("Console", null, consoleTab, null);
 	}
 
-	private void loggingSettings(){
+	private void loggingSettings() {
 		loggingTab.setLayout(new BorderLayout());
 		scpLogging.setViewportBorder(new LineBorder(Color.WHITE, 6));
 		loggingTab.add(scpLogging, BorderLayout.CENTER);
@@ -189,7 +190,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		tabbedPane.addTab("Log", null, loggingTab, null);
 	}
 
-	public static void launchGUI(){
+	public static void launchGUI() {
 
 		// GUI Construction Call
 		SwingUtilities.invokeLater(new Runnable() {
@@ -198,15 +199,20 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				try {
 					Console window = new Console();
 					window.frame.setVisible(true);
-				} catch (Exception e) { System.out.println("CRITICAL FAILURE"); }
+				} catch (Exception e) {
+					System.out.println("CRITICAL FAILURE");
+				}
 			}
 		});
 
 		// Visible Housekeeping
 		display.append(Parametres.starter);
-		try { computername = InetAddress.getLocalHost().getHostName();
-		} catch (UnknownHostException e) { }
-		log.append("\nUtilities Pro " + Parametres.version + " Initialised. Date: " + new Date());
+		try {
+			computername = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+		}
+		log.append("\nUtilities Pro " + Parametres.version
+				+ " Initialised. Date: " + new Date());
 	}
 
 	// EVENT HANDLER
@@ -216,35 +222,46 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		if (keyCode == 10) {
 			try {
 				TextProc.proc();
-			} catch (IOException e1) { log.append("\nkeyPressed Error, IO Exception"); 
-			} catch (InterruptedException e1) { log.append("\nkeyPressed Error, InterruptedException"); }
+			} catch (IOException e1) {
+				log.append("\nkeyPressed Error, IO Exception");
+			} catch (InterruptedException e1) {
+				log.append("\nkeyPressed Error, InterruptedException");
+			}
 		}
-		if (keyCode == 38){
+		if (keyCode == 38) {
 			// TODO Memory for Commands when pressing UP.
 			input.setText(preoperand);
 		}
 	}
-	
+
 	@Override
-	public void keyReleased(KeyEvent arg0) { }
+	public void keyReleased(KeyEvent arg0) {
+	}
+
 	@Override
-	public void keyTyped(KeyEvent arg0) { }
+	public void keyTyped(KeyEvent arg0) {
+	}
 
 	// ACTIONPREFORMED LISTENER FOR ALL THE MENU BUTTONS
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
-		if (eventSource == del){
-			ConsoleIf.append(computername + "~ $ View>Delete Utilities Pro Files");
+		if (eventSource == del) {
+			ConsoleIf.append(computername
+					+ "~ $ View>Delete Utilities Pro Files");
 			try {
 				InOutMethods.delete();
-			} catch (IOException e1) { log.append("\nDeletion Failed: IOException"); }
+			} catch (IOException e1) {
+				log.append("\nDeletion Failed: IOException");
+			}
 		}
 		if (eventSource == export) {
 			display.append("\n" + computername + "~ $ File>Export ");
 			try {
 				InOutMethods.save();
-			} catch (IOException e1) { log.append("\nExport Failed, IOException"); }
+			} catch (IOException e1) {
+				log.append("\nExport Failed, IOException");
+			}
 		}
 		if (eventSource == script) {
 			display.append("\n" + computername + "~ $ File>Script");
@@ -254,47 +271,56 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			display.append("\n" + computername + "~ $ File>Mindterm");
 			try {
 				InOutMethods.mindterm();
-			} catch (IOException e1) { log.append("\nMindterm Download Failed: IOException"); }
+			} catch (IOException e1) {
+				log.append("\nMindterm Download Failed: IOException");
+			}
 		}
 		if (eventSource == purge) {
 			display.append("\n" + computername + "~ $ Command>Purge");
 			try {
 				InOutMethods.purge();
-			} catch (IOException e1) { log.append("\nPurge Failed: IOException");}
+			} catch (IOException e1) {
+				log.append("\nPurge Failed: IOException");
+			}
 		}
 		if (eventSource == debug) {
 			ConsoleIf.append("\n" + computername + "~ $ Command>Debug");
 			try {
 				InOutMethods.saveLog();
-			} catch (IOException e1) { log.append("\nBug JTextArea Export Failed: IOException"); }
+			} catch (IOException e1) {
+				log.append("\nBug JTextArea Export Failed: IOException");
+			}
 		}
-		if (eventSource == info){
+		if (eventSource == info) {
 			ConsoleIf.append(computername + "~ $ Command>System Readout");
 			try {
 				InfoMethods.info();
-			} catch (InterruptedException e1) { log.append("\nInformation Not Exported: InterruptedException");
-			} catch (IOException e1) { log.append("\nInformation Not Exported: IOException"); }
+			} catch (InterruptedException e1) {
+				log.append("\nInformation Not Exported: InterruptedException");
+			} catch (IOException e1) {
+				log.append("\nInformation Not Exported: IOException");
+			}
 		}
-		if (eventSource == clear){
+		if (eventSource == clear) {
 			GraphicsMethods.clear();
 		}
-		if (eventSource == defaultCarat){
+		if (eventSource == defaultCarat) {
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			GraphicsMethods.defaultCarat();
 		}
-		if (eventSource == logEnable){
+		if (eventSource == logEnable) {
 			ConsoleIf.append(computername + "~ $ View>Enable Log Tab");
 			loggingSettings();
 		}
-		if (eventSource == metalInf){
+		if (eventSource == metalInf) {
 			ConsoleIf.append(computername + "~ $ View>Metal Interface");
 			GraphicsMethods.saveConfig("CrossPlatformLAF");
 		}
-		if (eventSource == macIntrf){
+		if (eventSource == macIntrf) {
 			ConsoleIf.append(computername + "~ $ View>System Interface");
 			GraphicsMethods.saveConfig("Default");
 		}
-		if (eventSource == term){
+		if (eventSource == term) {
 			ConsoleIf.append(computername + "~ $ Commands>Terminate Process");
 			CoreMethods.terminate();
 		}
@@ -302,23 +328,29 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ Help>About");
 			InfoMethods.about();
 		}
-		if (eventSource == help){
+		if (eventSource == help) {
 			ConsoleIf.append(computername + "~ $ Help>Help");
 			try {
 				CoreMethods.helpList();
-			} catch (IOException e1) { log.append("\nHelp Invocation Failed: IOException"); }
+			} catch (IOException e1) {
+				log.append("\nHelp Invocation Failed: IOException");
+			}
 		}
-		if (eventSource == changelog){
+		if (eventSource == changelog) {
 			ConsoleIf.append(computername + "~ $ changelog");
 			try {
 				InfoMethods.changelog();
-			} catch (IOException e1) { log.append("\nChangelog Invocation Failed: IOException"); }
+			} catch (IOException e1) {
+				log.append("\nChangelog Invocation Failed: IOException");
+			}
 		}
-		if (eventSource == updates){
+		if (eventSource == updates) {
 			ConsoleIf.append(computername + "~ $ Help>Updates");
 			try {
 				InOutMethods.update();
-			} catch (IOException e1) { log.append("\nUtilities Pro Update FAILED: IOException"); }
+			} catch (IOException e1) {
+				log.append("\nUtilities Pro Update FAILED: IOException");
+			}
 		}
 	}
 }

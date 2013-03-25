@@ -7,6 +7,11 @@ import java.util.Scanner;
 
 import com.me.ifly6.TextProc;
 
+/**
+ * @since 2.2_01
+ * @deprecated
+ */
+@Deprecated
 public class CoreMethods extends TextProc {
 	// Name: Core Methods Required for Functioning
 
@@ -23,7 +28,9 @@ public class CoreMethods extends TextProc {
 				try {
 					process = builder.start();
 					log("Execution of Operand Beginning.");
-				} catch (IOException e) { log("ProcessBuilder Error: IOException"); }
+				} catch (IOException e) {
+					log("ProcessBuilder Error: IOException");
+				}
 				InputStream stdout = process.getInputStream();
 				InputStreamReader inRead = new InputStreamReader(stdout);
 				Scanner scan = new Scanner(inRead);
@@ -43,9 +50,9 @@ public class CoreMethods extends TextProc {
 		new Thread(runner).start();
 	}
 
-	public static void helpList() throws IOException{
-		for (int x = 0; x<20; x++){
-			if (!(commText[x].equals(null))){
+	public static void helpList() throws IOException {
+		for (int x = 0; x < 20; x++) {
+			if (!(commText[x].equals(null))) {
 				out("* " + commText[x]);
 			}
 		}

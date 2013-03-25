@@ -10,6 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.KeyStroke;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -87,6 +88,7 @@ public class Console {
 		}
 
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Console window = new Console();
@@ -114,7 +116,7 @@ public class Console {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Utilities Pro" + version);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
@@ -145,6 +147,7 @@ public class Console {
 
 		JMenuItem mntmOpenConfig = new JMenuItem("Open Configuration Folder");
 		mntmOpenConfig.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				FileCommands.OpenConfig();
 			}
@@ -153,6 +156,7 @@ public class Console {
 
 		JMenuItem mntmDeleteConfig = new JMenuItem("Delete Configuration");
 		mntmDeleteConfig.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				FileCommands.DeleteConfig();
 			}
@@ -164,6 +168,7 @@ public class Console {
 
 		JMenuItem mntmExportConsole = new JMenuItem("Export Console");
 		mntmExportConsole.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				FileCommands.exportOutput();
 			}
@@ -172,6 +177,7 @@ public class Console {
 
 		JMenuItem mntmConsoleLog = new JMenuItem("Export Log");
 		mntmConsoleLog.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				FileCommands.exportLog();
 			}

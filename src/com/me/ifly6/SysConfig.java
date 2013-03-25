@@ -5,6 +5,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
 
 public class SysConfig {
 
@@ -12,6 +13,7 @@ public class SysConfig {
 
 	public static void sysConfig(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					SysConfig window = new SysConfig();
@@ -30,7 +32,7 @@ public class SysConfig {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(0, 0, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
 		JLabel configLabel = new JLabel("System Configuration");

@@ -175,6 +175,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 
 		// GUI Construction Call
 		SwingUtilities.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					Console window = new Console();
@@ -192,6 +193,7 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	}
 
 	// EVENT HANDLER
+	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
 		if (keyCode == 10) {
@@ -206,10 +208,13 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		}
 	}
 	
+	@Override
 	public void keyReleased(KeyEvent arg0) { }
+	@Override
 	public void keyTyped(KeyEvent arg0) { }
 
 	// ACTIONPREFORMED LISTENER FOR ALL THE MENU BUTTONS
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		Object eventSource = e.getSource();
 		if (eventSource == del){

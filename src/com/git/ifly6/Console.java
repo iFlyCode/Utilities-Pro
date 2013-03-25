@@ -9,6 +9,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -22,9 +23,12 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import java.awt.TextField;
 import javax.swing.JTextArea;
+import javax.swing.text.DefaultEditorKit;
+
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 public class Console {
 
@@ -122,11 +126,13 @@ public class Console {
 		panel.add(inputField, BorderLayout.SOUTH);
 
 		JTextArea outText = new JTextArea();
+		outText.setEditable(false);
 		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
 		JScrollPane scrollPane_outPane = new JScrollPane(outText);
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 
 		JTextArea logText = new JTextArea();
+		logText.setEditable(false);
 		logText.setFont(new Font("Monaco", Font.PLAIN, 12));
 		JScrollPane scrollPane_logText = new JScrollPane(logText);
 		tabbedPane.addTab("Log", null, scrollPane_logText, "Shows a dynamic log of all functions run.");
@@ -174,6 +180,27 @@ public class Console {
 
 		JMenu mnEdit = new JMenu("Edit");
 		menuBar.add(mnEdit);
+		
+		JMenuItem mntmCut = new JMenuItem(new DefaultEditorKit.CutAction());
+		mntmCut.setText("Cut");
+		mntmCut.setAccelerator(
+			      KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.META_MASK));
+		mnEdit.add(mntmCut);
+		
+		JMenuItem mntmCopy = new JMenuItem(new DefaultEditorKit.CopyAction());
+		mntmCopy.setText("Copy");
+		mntmCopy.setAccelerator(
+			      KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK));
+		mnEdit.add(mntmCopy);
+		
+		JMenuItem mntmPaste = new JMenuItem(new DefaultEditorKit.PasteAction());
+		mntmPaste.setText("Paste");
+		mntmPaste.setAccelerator(
+			      KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.META_MASK));
+		mnEdit.add(mntmPaste);
+		
+		JSeparator separator_4 = new JSeparator();
+		mnEdit.add(separator_4);
 
 		JMenuItem mntmClearConsole = new JMenuItem("Clear Console");
 		mnEdit.add(mntmClearConsole);

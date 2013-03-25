@@ -70,47 +70,51 @@ public class TextProc extends ConsoleIf {
 			display.setFont(font);
 			log("Font changed");
 		}
-		if (commText[6].equals(operand[0])){
+		if (commText[6].equals(operand[0])) {
 			InfoMethods.licence();
 			log("EULA Triggered");
 		}
-		if (commText[7].equals(operand[0])){
+		if (commText[7].equals(operand[0])) {
 			InOutMethods.save();
 			log("Saving Processing Trigger Called");
 		}
-		if (commText[8].equals(operand[0])){
+		if (commText[8].equals(operand[0])) {
 			InOutMethods.saveLog();
 			log("SavingLog Processing Trigger Called");
 		}
-		if (commText[9].equals(operand[0])){
+		if (commText[9].equals(operand[0])) {
 			InOutMethods.delete();
 			log("Deletion Processing Trigger Called");
 		}
-		if (commText[10].equals(operand[0])){
+		if (commText[10].equals(operand[0])) {
 			InfoMethods.info();
 			log("System Information Processing Trigger Called");
 		}
-		if (commText[11].equals(operand[0])){
+		if (commText[11].equals(operand[0])) {
 			InOutMethods.mindterm();
 			log("Mindterm Download Processing Trigger Called");
 		}
-		if (commText[12].equals(operand[0])){
+		if (commText[12].equals(operand[0])) {
 			CoreMethods.terminate();
 			log("Process Termination Processing Trigger Called");
 		}
-		/* 	if (commText[13].equals(operand[0])){
+		/* 	if (commText[13].equals(operand[0])) {
 
 		}
-		if (commText[14].equals(operand[0])){
+		if (commText[14].equals(operand[0])) {
 
 		} */
-		if (commText[15].equals(operand[0])){
+		if (commText[15].equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
 		}
+
+		// Calls Core Method Command Execution Stream
 		else {
-			CoreMethods.exec();
-			log("BASH COMMAND INVOKED: " + preoperand);
+			if ((!operand[0].equals("bash"))) {
+				CoreMethods.exec();
+				log("\nBASH COMMAND INVOKED: " + preoperand);
+			}
 		}
 	}
 }

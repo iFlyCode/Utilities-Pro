@@ -62,7 +62,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	JMenuItem info = new JMenuItem("System Readout");
 	JMenuItem clear = new JMenuItem("Clear Screen");
 	JMenuItem defaultCarat = new JMenuItem("Snap to Bottom");
-	JMenuItem newConsole = new JMenuItem("New Console Window");
 	JMenuItem logEnable = new JMenuItem("Enable Log View");
 	JMenu lookAndFeel = new JMenu("Look and Feel");
 	JMenuItem metalInf = new JMenuItem("Metal Interface");
@@ -119,13 +118,11 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 		// View
 		menuview.add(clear);
 		menuview.add(defaultCarat);
-		menuview.add(newConsole);
 		menuview.add(logEnable);
 		menuview.add(lookAndFeel);
 		lookAndFeel.add(metalInf); lookAndFeel.add(macIntrf);
 		clear.addActionListener(this);
 		defaultCarat.addActionListener(this);
-		newConsole.addActionListener(this);
 		logEnable.addActionListener(this);
 		metalInf.addActionListener(this);
 		macIntrf.addActionListener(this);
@@ -175,17 +172,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 	}
 
 	public static void launchGUI(){
-
-		// OS Restriction
-		if (isWindows()){
-			log.append("\nWindows Detected. Disengaging.");
-			String temp = "Windows Detected. Disengaging to prevent damage," +
-					"\nas this is requires UNIX Commands and uses different FS.";
-			JOptionPane.showMessageDialog(null, temp, "OS Validation", -1);
-			try { Thread.sleep(500);
-			} catch (InterruptedException e) { }
-			System.exit(0);
-		}
 
 		// GUI Construction Call
 		SwingUtilities.invokeLater(new Runnable() {
@@ -274,11 +260,6 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 			ConsoleIf.append(computername + "~ $ View>Snap to Bottom");
 			GraphicsMethods.defaultCarat();
 		}
-		if (eventSource == newConsole){
-			newConsole();
-			ConsoleIf.append(computername + "~ $ View>New Console Window");
-			ConsoleIf.log("New Console Tab.");
-		}
 		if (eventSource == logEnable){
 			ConsoleIf.append(computername + "~ $ View>Enable Log Tab");
 			loggingSettings();
@@ -317,16 +298,5 @@ public class Console extends JFrame implements KeyListener, ActionListener{
 				InOutMethods.update();
 			} catch (IOException e1) { log.append("\nUtilities Pro Update FAILED: IOException"); }
 		}
-	}
-
-	// To Detect whether on Windows.
-	protected static boolean isWindows() {
-		String OS = System.getProperty("os.name");
-		return (OS.indexOf("win") >= 0);
-	}
-
-	private void newConsole() {
-		// TODO Find some way to add Console Tabs to this thing.
-		// launchGUI();
 	}
 }

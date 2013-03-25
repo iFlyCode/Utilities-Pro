@@ -5,48 +5,93 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import java.awt.BorderLayout;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTextArea;
-import java.awt.Font;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import java.awt.Component;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
+import javax.swing.Box;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import java.awt.TextField;
+import javax.swing.JTextArea;
+import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class Console {
 
-	private JFrame frm_iUtilities;
+	/***
+	 * @author Kevin Wong, ifly6
+	 * @version v3.x
+	 */
 
-	// Data
-	public static String version = "3.0_alpha";
-	public String keyword = "iceland";
+	private JFrame frame;
+	public static String version = "3.0_dev01";
+	
+	// Dependencies
+	public static String userName = System.getProperty("user.name");
+	public static String UtilitiesPro_DIR = "/Users/" + userName + "/Library/Application Support/Utilities Pro";
+	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
+	public static Runtime rt = Runtime.getRuntime();
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 
-		// Mac Properties
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "iUtilities " + version);
+		System.setProperty("com.apple.mrj.application.apple.menu.about.name", "Utilities Pro");
 
-		// Graphics Calling
+		FileReader configRead = null;
+		String look = "Default";
+		try {
+			configRead = new FileReader(UtilitiesPro_DIR + "/config");
+			Scanner scan = new Scanner(configRead);
+			look = scan.nextLine();
+		} catch (FileNotFoundException e1) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+			} catch (InstantiationException e) {
+			} catch (IllegalAccessException e) { 
+			} catch (UnsupportedLookAndFeelException e) {}
+		}
+
+		// GUI Look and Feel
+		if (look.equals("CrossPlatformLAF")){
+			try {
+				UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+			} catch (InstantiationException e) {
+			} catch (IllegalAccessException e) { 
+			} catch (UnsupportedLookAndFeelException e) {}
+		} else {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+			} catch (InstantiationException e) {
+			} catch (IllegalAccessException e) { 
+			} catch (UnsupportedLookAndFeelException e) {}
+		}
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					Console window = new Console();
-					window.frm_iUtilities.setVisible(true);
+					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-
-		// Listener Creation
-		Listener.listenerCreate();
 	}
 
 	/**
@@ -60,147 +105,131 @@ public class Console {
 	 * Initialise the contents of the frame.
 	 */
 	private void initialize() {
-		frm_iUtilities = new JFrame();
-		frm_iUtilities.setTitle("iUtilities " + version);
-		frm_iUtilities.setBounds(0, 15, 600, 700);
-		frm_iUtilities.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame = new JFrame();
+		frame.setBounds(0, 0, 670, 735);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Utilities Pro" + version);
+
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
+
+		JPanel panel = new JPanel();
+		tabbedPane.addTab("Console", null, panel, null);
+		panel.setLayout(new BorderLayout(0, 0));
+
+		TextField inputField = new TextField();
+		inputField.setFont(new Font("Monaco", Font.PLAIN, 12));
+		panel.add(inputField, BorderLayout.SOUTH);
+
+		JTextArea outText = new JTextArea();
+		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
+		JScrollPane scrollPane_outPane = new JScrollPane(outText);
+		panel.add(scrollPane_outPane, BorderLayout.CENTER);
+
+		JTextArea logText = new JTextArea();
+		logText.setFont(new Font("Monaco", Font.PLAIN, 12));
+		JScrollPane scrollPane_logText = new JScrollPane(logText);
+		tabbedPane.addTab("Log", null, scrollPane_logText, "Shows a dynamic log of all functions run.");
 
 		JMenuBar menuBar = new JMenuBar();
-		frm_iUtilities.setJMenuBar(menuBar);
+		frame.setJMenuBar(menuBar);
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 
-		JMenu mnFileNew = new JMenu("New");
-		mnFile.add(mnFileNew);
+		JMenuItem mntmOpenConfig = new JMenuItem("Open Configuration Folder");
+		mntmOpenConfig.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FileCommands.OpenConfig();
+			}
+		});
+		mnFile.add(mntmOpenConfig);
 
-		JMenuItem menuItem_outPut = new JMenuItem("Output File");
-		mnFileNew.add(menuItem_outPut);
-
-		JMenuItem menuItem_outLog = new JMenuItem("Log File");
-		mnFileNew.add(menuItem_outLog);
-
-		JMenuItem menuItem_mindTerm = new JMenuItem("Download Mindterm");
-		mnFile.add(menuItem_mindTerm);
+		JMenuItem mntmDeleteConfig = new JMenuItem("Delete Configuration");
+		mntmDeleteConfig.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FileCommands.DeleteConfig();
+			}
+		});
+		mnFile.add(mntmDeleteConfig);
 
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);
 
-		JMenuItem menuItem_quit = new JMenuItem("Quit");
-		mnFile.add(menuItem_quit);
+		JMenuItem mntmExportConsole = new JMenuItem("Export Console");
+		mntmExportConsole.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FileCommands.exportOutput();
+			}
+		});
+		mnFile.add(mntmExportConsole);
 
-		JMenu mnView = new JMenu("View");
-		menuBar.add(mnView);
+		JMenuItem mntmConsoleLog = new JMenuItem("Export Log");
+		mntmConsoleLog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				FileCommands.exportLog();
+			}
+		});
+		mnFile.add(mntmConsoleLog);
 
-		JMenuItem menuItem_log = new JMenuItem("Show Log");
-		mnView.add(menuItem_log);
+		JMenu mnEdit = new JMenu("Edit");
+		menuBar.add(mnEdit);
 
-		JMenuItem menuItem_showDIR = new JMenuItem("Show iUtilities Folder");
-		mnView.add(menuItem_showDIR);
+		JMenuItem mntmClearConsole = new JMenuItem("Clear Console");
+		mnEdit.add(mntmClearConsole);
 
-		JMenuItem menuItem_showDIRworking = new JMenuItem("Show Working DIR");
-		mnView.add(menuItem_showDIRworking);
+		JMenuItem mntmClearLog = new JMenuItem("Clear Log");
+		mnEdit.add(mntmClearLog);
 
-		JSeparator separator1 = new JSeparator();
-		mnView.add(separator1);
+		JMenu mnScripts = new JMenu("Scripts");
+		menuBar.add(mnScripts);
 
-		JMenuItem menuItem_defaults = new JMenuItem("Reset Defaults");
-		mnView.add(menuItem_defaults);
+		JMenuItem mntmPurge = new JMenuItem("Purge Memory");
+		mnScripts.add(mntmPurge);
 
-		JMenu menu_LookFeel = new JMenu("Look and Feel");
-		mnView.add(menu_LookFeel);
+		JMenuItem mntmRestartAirport = new JMenuItem("Restart Airport");
+		mnScripts.add(mntmRestartAirport);
 
-		JMenuItem menuItem_LookFeel_system = new JMenuItem("System");
-		menu_LookFeel.add(menuItem_LookFeel_system);
+		JSeparator separator_1 = new JSeparator();
+		mnScripts.add(separator_1);
 
-		JMenuItem menuItem_LookFeel_Metal = new JMenuItem("Metal");
-		menu_LookFeel.add(menuItem_LookFeel_Metal);
+		JMenuItem mntmSystemInfo = new JMenuItem("System Information");
+		mnScripts.add(mntmSystemInfo);
 
-		JMenuItem menuItem_LookFeel_Nimbus = new JMenuItem("Nimbus");
-		menu_LookFeel.add(menuItem_LookFeel_Nimbus);
+		JMenuItem mntmDownloadMindterm = new JMenuItem("Download Mindterm");
+		mnScripts.add(mntmDownloadMindterm);
 
-		JMenuItem menuItem_LookFeel_Motif = new JMenuItem("Motif");
-		menu_LookFeel.add(menuItem_LookFeel_Motif);
+		JMenu mnCommand = new JMenu("Command");
+		menuBar.add(mnCommand);
 
-		JMenu mnCommands = new JMenu("Commands");
-		menuBar.add(mnCommands);
+		JMenuItem mntmTerminateUtilitiesPro = new JMenuItem("Terminate Utilities Pro Process");
+		mnCommand.add(mntmTerminateUtilitiesPro);
 
-		JMenuItem menuItem_SysInfo = new JMenuItem("System Information");
-		mnCommands.add(menuItem_SysInfo);
-
-		JMenuItem menuItem_ifConfig = new JMenuItem("Interface Configuration");
-		mnCommands.add(menuItem_ifConfig);
-
-		JSeparator separator_2 = new JSeparator();
-		mnCommands.add(separator_2);
-
-		JMenuItem menuItem_AirportToggle = new JMenuItem("Airport Toggle");
-		mnCommands.add(menuItem_AirportToggle);
-
-		JMenuItem menuItem_termRun = new JMenuItem("Terminate Running Process");
-		mnCommands.add(menuItem_termRun);
-
-		JMenuItem menuItem_termArbritrary = new JMenuItem("Terminate Process...");
-		mnCommands.add(menuItem_termArbritrary);
+		JMenuItem mntmTerminateArbitraryProcess = new JMenuItem("Terminate Arbitrary Process");
+		mnCommand.add(mntmTerminateArbitraryProcess);
 
 		JSeparator separator_3 = new JSeparator();
-		mnCommands.add(separator_3);
+		mnCommand.add(separator_3);
 
-		JMenuItem menuItem_termFrivolous = new JMenuItem("Terminate Frivolous Processes");
-		mnCommands.add(menuItem_termFrivolous);
+		JMenuItem mntmAboutCommandLine = new JMenuItem("About Command Line");
+		mnCommand.add(mntmAboutCommandLine);
 
-		JMenuItem menuItem_purge = new JMenuItem("Purge");
-		mnCommands.add(menuItem_purge);
+		Component horizontalGlue = Box.createHorizontalGlue();
+		menuBar.add(horizontalGlue);
 
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
 
-		JMenuItem menuItem_iUtilitiesHelp = new JMenuItem("iUtilities Help");
-		mnHelp.add(menuItem_iUtilitiesHelp);
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mnHelp.add(mntmAbout);
 
-		JMenuItem menuItem_Acknowledgements = new JMenuItem("Acknowledgements");
-		mnHelp.add(menuItem_Acknowledgements);
+		JMenuItem mntmHelp = new JMenuItem("Utilities Pro Help");
+		mnHelp.add(mntmHelp);
 
-		JSeparator separator_4 = new JSeparator();
-		mnHelp.add(separator_4);
+		JSeparator separator_2 = new JSeparator();
+		mnHelp.add(separator_2);
 
-		JMenuItem menuItem_Changelog = new JMenuItem("Changelog");
-		mnHelp.add(menuItem_Changelog);
-
-		JMenuItem menuItem_Updates = new JMenuItem("Updates");
-		mnHelp.add(menuItem_Updates);
-
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		frm_iUtilities.getContentPane().add(tabbedPane, BorderLayout.CENTER);
-
-		JPanel consolePane = new JPanel();
-		tabbedPane.addTab("Console", null, consolePane, null);
-		consolePane.setLayout(new BorderLayout(0, 0));
-
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setFont(new Font("Monaco", Font.PLAIN, 11));
-		JScrollPane scrollPane = new JScrollPane(textArea);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		consolePane.add(scrollPane);
-
-		JTextField consoleTextField = new JTextField();
-		consoleTextField.setFont(new Font("Monaco", Font.PLAIN, 11));
-		consoleTextField.setToolTipText("Type Commands Here");
-		consolePane.add(consoleTextField, BorderLayout.SOUTH);
-
-		JPanel loggingPane = new JPanel();
-		tabbedPane.addTab("Log\n", null, loggingPane, null);
-		loggingPane.setLayout(new BorderLayout(0, 0));
-
-		JTextArea logTextArea = new JTextArea();
-		logTextArea.setFont(new Font("Monaco", Font.PLAIN, 11));
-		JScrollPane scrollPane_1 = new JScrollPane(logTextArea);
-		loggingPane.add(scrollPane_1, BorderLayout.CENTER);
-
-	}
-	protected void actionListeners(){
-		
+		JMenuItem mntmQuit = new JMenuItem("Quit");
+		mnHelp.add(mntmQuit);
 	}
 }

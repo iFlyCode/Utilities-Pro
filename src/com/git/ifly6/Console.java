@@ -12,7 +12,6 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -30,10 +29,17 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultEditorKit;
 
+import com.apple.eawt.Application;
+
 /**
- * Main Class for Utilities Pro 3.x
+ * Main Class for Utilities Pro 3.x. It initialises the GUI and contains all
+ * relevant pieces of data fundamental to the execution of the programme.
+ * Furthermore, it contains all necessary ActionListeners and GUI related
+ * methods (basically integrating the older Console Interface, Parameters, and
+ * Console classes from the last major version of Utilities Pro-2.x)
  * 
  * @author ifly6
  * @version 3.x
@@ -42,20 +48,21 @@ public class Console {
 
 	/*
 	 * Naming Conventions: System is: <major>.<minor>_<revision> or:
-	 * <major>.<minor>_dev<#> Exempli Gratia: 2.2_01 = Major Version 2, Minor
-	 * Version 2, 1 Revision. Exempli Gratia: 3.0_dev04 = Major Version 3, Minor
-	 * Version 0, Development Version 4
+	 * <major>.<minor>_dev<#> Eg: 2.2_01 = Major Version 2, Minor Version 2, 1
+	 * Revision. Eg: 3.0_dev04 = Major Version 3, Minor Version 0, Development
+	 * Version 4
 	 * 
-	 * The 2.x Versions: 2.0 = greentree 2.1 = greenwell 2.2 = greenmont 2.3 =
-	 * greenhill 2.4 = greenfield 2.5 = greenfall 2.6 = greenpool 2.7 =
-	 * greenberg 2.8 = greenland
+	 * The 2.x Versions: 2.0 = greentree, 2.1 = greenwell, 2.2 = greenmont, 2.3
+	 * = greenhill, 2.4 = greenfield, 2.5 = greenfall, 2.6 = greenpool, 2.7 =
+	 * greenberg, 2.8 = greenland
 	 * 
-	 * The 3.x Versions 3.0 = iceland 3.1 = iceberg 3.2 = icepool 3.3 = skyfall
-	 * 3.4 = icefield 3.5 = everest 3.6 = icemont 3.7 = icewell 3.8 = icedtea
+	 * The 3.x Versions 3.0 = iceland, 3.1 = iceberg, 3.2 = icepool, 3.3 =
+	 * skyfall, 3.4 = icefield, 3.5 = everest, 3.6 = icemont, 3.7 = icewell, 3.8
+	 * = icedtea
 	 */
 
 	private JFrame frame;
-	public static String version = "3.0_dev04";
+	public static String version = "3.0_dev05";
 	public static String keyword = "iceland";
 
 	/**
@@ -83,22 +90,33 @@ public class Console {
 	public static Process process;
 
 	/**
-	 * Launch the application.
+	 * Launch the application. Executes on a pipeline, going first to read the
+	 * GUI configuration file, with the Look and Feel of the GUI. Then it moves
+	 * to analyse whether there is a command-line argument for updating, then
+	 * launches the GUI.
 	 * 
 	 * @param inputArgs
-	 *            When launched from command line, the programme will update
-	 *            Utilities Pro.
+	 *            When launched from command line with "-u", the programme will
+	 *            update Utilities Pro.
 	 */
+	@SuppressWarnings("deprecation")
 	public static void main(String[] inputArgs) {
 
+		// Set Properties before GUI Calls
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
 				"Utilities Pro");
 
+		// Handling Mac Toolbar System
+		Application macApp = Application.getApplication();
+		MacHandler macAdapter = new MacHandler();
+		macApp.addApplicationListener(macAdapter);
+		macApp.setEnabledPreferencesMenu(true);
+
 		FileReader configRead = null;
 		String look = "Default";
 		try {
-			configRead = new FileReader(UtilitiesPro_DIR + "/config");
+			configRead = new FileReader(UtilitiesPro_DIR + "/config.txt");
 			Scanner scan = new Scanner(configRead);
 			look = scan.nextLine();
 		} catch (FileNotFoundException e1) {
@@ -133,22 +151,20 @@ public class Console {
 			}
 		}
 
-		if ("--update".equals(inputArgs[0]) || "-u".equals(inputArgs[0])) {
-			EventQueue.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					log("Utilities Pro Update Triggered");
-					String[] url = { "curl", "-o", Downloads_DIR,
-							"http://ifly6.no-ip.org/UtilitiesPro/UtilitiesPro-latest.jar" };
-					try {
-						rt.exec(url);
-					} catch (IOException e) {
-						log("Utilities Pro Download Failed");
-					}
-					append("Utilities Pro Updated. File in ~/Downloads.");
-				}
-			});
-		}
+		/*
+		 * TODO Prevent this from throwing an array out of bounds exception.
+		 * 
+		 * if ("--update".equals(inputArgs[0]) || "-u".equals(inputArgs[0])) {
+		 * EventQueue.invokeLater(new Runnable() {
+		 * 
+		 * @Override public void run() { log("Utilities Pro Update Triggered");
+		 * String[] url = { "curl", "-o", Downloads_DIR,
+		 * "http://ifly6.no-ip.org/UtilitiesPro/UtilitiesPro-latest.jar" }; try
+		 * { rt.exec(url); } catch (IOException e) {
+		 * log("Utilities Pro Download Failed");
+		 * append("Utilities Pro Download Failed"); }
+		 * append("Utilities Pro Updated. File in ~/Downloads."); } }); }
+		 */
 
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -164,7 +180,7 @@ public class Console {
 	}
 
 	/**
-	 * Create the application.
+	 * Create instance of the application.
 	 */
 	public Console() {
 		initialize();
@@ -172,7 +188,9 @@ public class Console {
 
 	/**
 	 * TODO Add CD System (again, coming from the last time). This system starts
-	 * the main GUI for the programme.
+	 * the main GUI for the programme. It also contains all GUI data for the
+	 * programme, causing a necessity for the method getters and setters which
+	 * are evident below.
 	 * 
 	 * @param frame
 	 *            JFrame for the programme
@@ -217,6 +235,7 @@ public class Console {
 		outText.setEditable(false);
 		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
 		JScrollPane scrollPane_outPane = new JScrollPane(outText);
+		scrollPane_outPane.setViewportBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 
 		logText = new JTextArea();
@@ -401,15 +420,19 @@ public class Console {
 
 		JMenuItem mntmQuit = new JMenuItem("Quit");
 		mnHelp.add(mntmQuit);
+
+		String greet = "Welcome, " + userName + " to Utilities Pro - "
+				+ version + " '" + keyword + "'\n===========";
+		outText.append(greet);
 	}
 
 	/**
 	 * @since 2.2_01
 	 * @param in
 	 *            String to append into the JTextArea outText
+	 * @see com.me.ifly6.ConsoleIf
 	 */
 	public static void append(String in) {
-
 		outText.append("\n" + in);
 	}
 
@@ -417,6 +440,7 @@ public class Console {
 	 * @since 2.2_02
 	 * @param in
 	 *            String to append (with a space) into the JTextArea outText
+	 * @see com.me.ifly6.ConsoleIf
 	 */
 	public static void out(String in) {
 		outText.append("\n " + in);
@@ -459,10 +483,14 @@ public class Console {
 	}
 
 	/**
-	 * Used to create (if necessary) all folders for Utilities Pro
+	 * Used to create (if necessary) all folders for Utilities Pro. Creates
+	 * ~/Library/Application Support/Utilities Pro folder and verifies that
+	 * ~/Downloads exists. This programme should be run on a Mac, as both are
+	 * only applicable under the File Structure of one (or very similar Linux
+	 * distributions)
 	 * 
 	 * @author ifly6
-	 * @since 3.0
+	 * @since 2.2_01
 	 */
 	public static void mkdir() {
 		File folder = new File(UtilitiesPro_DIR);

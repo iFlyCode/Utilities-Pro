@@ -6,6 +6,12 @@ import java.io.FileReader;
 import java.util.Date;
 
 /**
+ * Interface from all Data return for processing and data into the Console's
+ * declarations. It functions as the traditional pathway for data from any
+ * data's input into the JTextAreas associated with the Console. It also
+ * contains useful methods which are called programme-wide. All classes
+ * associated should extend this class at some point.
+ * 
  * @since 2.1
  * @author ifly6
  * @deprecated

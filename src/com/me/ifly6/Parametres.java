@@ -9,6 +9,11 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
+ * This is the launching class for the programme. It contains information
+ * relevant to the programme. Console.class should extend this class. The class
+ * launches after setting parameters which are used proramme-wide inside as data
+ * or as relevant data to operation.
+ * 
  * @since 2.0
  * @author ifly6
  * @deprecated

@@ -8,12 +8,15 @@ import java.util.Scanner;
 import com.me.ifly6.TextProc;
 
 /**
+ * Contains methods which are vital to the operation of the programme. These
+ * methods are of the highest importance, and should only be modified with
+ * significant thought on the consequences of their change.
+ * 
  * @since 2.2_01
  * @deprecated
  */
 @Deprecated
 public class CoreMethods extends TextProc {
-	// Name: Core Methods Required for Functioning
 
 	private static final long serialVersionUID = 1L;
 

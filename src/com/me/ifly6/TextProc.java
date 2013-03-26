@@ -3,17 +3,29 @@ package com.me.ifly6;
 import java.awt.Font;
 import java.io.IOException;
 
-import com.me.ifly6.methods.*;
+import com.me.ifly6.methods.CoreMethods;
+import com.me.ifly6.methods.GraphicsMethods;
+import com.me.ifly6.methods.InOutMethods;
+import com.me.ifly6.methods.InfoMethods;
 
+/**
+ * Text Processing, executes Necessary Text Data from Console/anything else
+ * 
+ * @since 2.2
+ * @author ifly6
+ * @deprecated
+ */
+@Deprecated
 public class TextProc extends ConsoleIf {
-	// Name: Text Commands (Executes Necessary Text Data from Console/anything else)
 
 	private static final long serialVersionUID = 1L;
 	public static Runtime rt = Runtime.getRuntime();
 	public static String userName = System.getProperty("user.name");
-	// TODO Change: public static final String IUTILITIES_DIR = "/Users/" + userName + "/Library/Application Support/iUtilities";
+	public static final String UtilitiesPro_DIR = "/Users/" + userName
+			+ "/Library/Application Support/";
 	public static Process process;
 	public static String[] commText = new String[numArray];
+
 	// Processing Stream
 
 	public static void proc() throws IOException, InterruptedException {
@@ -24,8 +36,8 @@ public class TextProc extends ConsoleIf {
 		commText[2] = "/help";
 		commText[3] = "/clear";
 		commText[4] = "/acknowledgements";
-		commText[5] = "/font [size]";
-		commText[6] = null;
+		commText[5] = "/font [name] [size]";
+		commText[6] = "/licence";
 		commText[7] = "/save";
 		commText[8] = "/saveLog";
 		commText[9] = "/delete";
@@ -43,73 +55,79 @@ public class TextProc extends ConsoleIf {
 		operand = preoperand.split(" ");
 
 		// Command Evaluation
-		if (operand[0].equals(commText[0])) {
+		if (commText[0].equals(operand[0])) {
 			InfoMethods.changelog();
 			log("Changelog Called");
 		}
-		if (operand[0].equals(commText[1])) {
+		if (commText[1].equals(operand[0])) {
 			InfoMethods.about();
 			log("'About' Processing Trigger Invoked");
 		}
-		if (operand[0].equals(commText[2])) {
+		if (commText[2].equals(operand[0])) {
 			CoreMethods.helpList();
 			log("Help Processing Trigger Invoked");
 		}
-		if (operand[0].equals(commText[3])) {
+		if (commText[3].equals(operand[0])) {
 			GraphicsMethods.clear();
 			log("JTextAreas Cleared");
 		}
-		if (operand[0].equals(commText[4])) {
+		if (commText[4].equals(operand[0])) {
 			InfoMethods.acknowledgements();
 			log("Acknowledgements Called");
 		}
-		if (operand[0].equals(commText[5])){
+		if (commText[5].equals(operand[0])) {
 			int tmp = 11;
 			tmp = java.lang.Integer.parseInt(operand[2]);
 			Font font = new Font(operand[1], 0, tmp);
-			output.setFont(font);
+			display.setFont(font);
 			log("Font changed");
 		}
-		/* if (operand[0].equals(commText[6])){
-			
-		} */
-		if (operand[0].equals(commText[7])){
+		if (commText[6].equals(operand[0])) {
+			InfoMethods.licence();
+			log("EULA Triggered");
+		}
+		if (commText[7].equals(operand[0])) {
 			InOutMethods.save();
 			log("Saving Processing Trigger Called");
 		}
-		if (operand[0].equals(commText[8])){
+		if (commText[8].equals(operand[0])) {
 			InOutMethods.saveLog();
 			log("SavingLog Processing Trigger Called");
 		}
-		if (operand[0].equals(commText[9])){
+		if (commText[9].equals(operand[0])) {
 			InOutMethods.delete();
 			log("Deletion Processing Trigger Called");
 		}
-		if (operand[0].equals(commText[10])){
+		if (commText[10].equals(operand[0])) {
 			InfoMethods.info();
 			log("System Information Processing Trigger Called");
 		}
-		if (operand[0].equals(commText[11])){
+		if (commText[11].equals(operand[0])) {
 			InOutMethods.mindterm();
 			log("Mindterm Download Processing Trigger Called");
 		}
-		if (operand[0].equals(commText[12])){
-			InOutMethods.terminate();
+		if (commText[12].equals(operand[0])) {
+			CoreMethods.terminate();
 			log("Process Termination Processing Trigger Called");
 		}
-		/* if (operand[0].equals(commText[13])){
-
-		}
-		if (operand[0].equals(commText[14])){
-
-		} */
-		if (operand[0].equals(commText[15])){
+		/*
+		 * if (commText[13].equals(operand[0])) {
+		 * 
+		 * } if (commText[14].equals(operand[0])) {
+		 * 
+		 * }
+		 */
+		if (commText[15].equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
 		}
-		else if ((!operand[0].equals("bash"))) {
-			CoreMethods.exec();
-			log("\nBASH COMMAND INVOKED: " + preoperand);
+
+		// Calls Core Method Command Execution Stream
+		else {
+			if ((!operand[0].equals("bash"))) {
+				CoreMethods.exec();
+				log("\nBASH COMMAND INVOKED: " + preoperand);
+			}
 		}
 	}
 }

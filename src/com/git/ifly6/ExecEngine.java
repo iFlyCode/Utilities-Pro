@@ -75,7 +75,6 @@ public class ExecEngine extends Console {
 	 * @see com.me.ifly6.TextProc
 	 */
 	public static void process() {
-
 		preoperand = Console.getInputField();
 
 		// Command Parsing

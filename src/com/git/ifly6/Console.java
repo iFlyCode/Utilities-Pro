@@ -28,6 +28,7 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -53,7 +54,7 @@ public class Console {
 	/**
 	 * Naming system is: <major>.<minor>_<revision> or <major>.<minor>_dev<#>
 	 */
-	public static String version = "3.0_dev06";
+	public static String version = "3.0_dev07";
 
 	/**
 	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For
@@ -90,11 +91,9 @@ public class Console {
 	/**
 	 * Runtime Handler. Can be called from anywhere to execute a String[]. When
 	 * we finish a system to return a Process, this shared resource will be
-	 * removed.
-	 * 
-	 * @deprecated
+	 * removed. However, as it appears that it is not happening, it will likely
+	 * never be removed.
 	 */
-	@Deprecated
 	public static Runtime rt = Runtime.getRuntime();
 
 	/**
@@ -270,7 +269,7 @@ public class Console {
 
 		frame.setBounds(0, 0, 670, 735);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Utilities Pro" + version);
+		frame.setTitle("Utilities Pro " + version);
 
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -304,6 +303,8 @@ public class Console {
 		outText.setEditable(false);
 		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
 		JScrollPane scrollPane_outPane = new JScrollPane(outText);
+		scrollPane_outPane
+				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane_outPane.setViewportBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 
@@ -324,6 +325,7 @@ public class Console {
 		mntmOpenConfig.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				command("File>Open Configuration Folder");
 				FileCommands.configManage(1);
 			}
 		});
@@ -333,6 +335,7 @@ public class Console {
 		mntmDeleteConfig.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("File>Delete Configuration");
 				FileCommands.configManage(2);
 			}
 		});
@@ -345,6 +348,7 @@ public class Console {
 		mntmExportConsole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("File>Export Console");
 				FileCommands.export(1);
 			}
 		});
@@ -354,6 +358,7 @@ public class Console {
 		mntmConsoleLog.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("File>Export Log");
 				FileCommands.export(2);
 			}
 		});
@@ -387,6 +392,7 @@ public class Console {
 		mntmClearConsole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// There is no need for command log here.
 				EditCommands.consoleClear();
 			}
 		});
@@ -396,6 +402,7 @@ public class Console {
 		mntmClearLog.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// There is no need for command log here.
 				EditCommands.logClear();
 			}
 		});
@@ -408,6 +415,7 @@ public class Console {
 		mntmPurge.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Scripts>Purge Memory");
 				ScriptCommands.purge();
 			}
 		});
@@ -417,6 +425,7 @@ public class Console {
 		mntmRestartAirport.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Scripts>Restart Airport");
 				ScriptCommands.wireless();
 			}
 		});
@@ -429,6 +438,7 @@ public class Console {
 		mntmSystemInfo.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Scripts>System Information");
 				ScriptCommands.readout();
 			}
 		});
@@ -438,6 +448,7 @@ public class Console {
 		mntmDownloadMindterm.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Scripts>Download Mindterm");
 				ScriptCommands.mindterm();
 			}
 		});
@@ -451,6 +462,7 @@ public class Console {
 		mntmTerminateUtilitiesPro.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Command>Terminate Utilities Pro Process");
 				CommandCommands.terminateUtility();
 			}
 		});
@@ -461,6 +473,7 @@ public class Console {
 		mntmTerminateArbitraryProcess.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Command>Terminate Arbitrary Process");
 				CommandCommands.terminateChoose();
 			}
 		});
@@ -470,6 +483,13 @@ public class Console {
 		mnCommand.add(separator_3);
 
 		JMenuItem mntmBombard = new JMenuItem("Bombard");
+		mntmBombard.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				command("Command>Bombard");
+				CommandCommands.bombard();
+			}
+		});
 		mnCommand.add(mntmBombard);
 
 		Component horizontalGlue = Box.createHorizontalGlue();
@@ -482,7 +502,8 @@ public class Console {
 		mntmAbout.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				HelpCommands.changeLog();
+				command("Help>About");
+				HelpCommands.about();
 			}
 		});
 		mnHelp.add(mntmAbout);
@@ -491,8 +512,8 @@ public class Console {
 		mntmHelp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Help>Utilities Pro Help");
 				HelpCommands.helpList();
-				HelpCommands.about();
 			}
 		});
 		mnHelp.add(mntmHelp);
@@ -501,6 +522,7 @@ public class Console {
 		mntmBashHelp.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				command("Help>Bash Help");
 				HelpCommands.bashHelp();
 			}
 		});
@@ -513,6 +535,7 @@ public class Console {
 		mntmQuit.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				// No Command log necessary.
 				System.exit(0);
 			}
 		});
@@ -546,16 +569,35 @@ public class Console {
 	/**
 	 * @since 2.2_01
 	 * @param in
-	 *            String to append (with a space) into the JTextArea logText
+	 *            String to append (with a date) into the JTextArea logText
 	 */
 	public static void log(String in) {
 		logText.append("\n" + new Date() + " " + in);
 	}
 
+	/**
+	 * @since 3.0_dev07
+	 * @param in
+	 *            String to append with the bash prompt to JTextArea outText.
+	 *            Also appends to logText.
+	 */
+	public static void command(String in) {
+		append(computername + "~ $ " + in);
+		log(computername + "~ $ " + in);
+	}
+
+	/**
+	 * @since 3.0_dev02
+	 * @return String with contents of JTextArea outText
+	 */
 	public static String getOutText() {
 		return outText.getText();
 	}
 
+	/**
+	 * @since 3.0_dev02
+	 * @return String with contents of JTextArea logText
+	 */
 	public static String getLogText() {
 		return logText.getText();
 	}

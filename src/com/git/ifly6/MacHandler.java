@@ -1,7 +1,5 @@
 package com.git.ifly6;
 
-import javax.swing.JOptionPane;
-
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
 
@@ -27,28 +25,38 @@ import com.apple.eawt.ApplicationEvent;
 @SuppressWarnings("deprecation")
 public class MacHandler extends ApplicationAdapter {
 
+	/**
+	 * Handles the Quit argument.
+	 * 
+	 * @since 3.0_dev05
+	 * @param e
+	 *            is not used
+	 */
 	@Override
 	public void handleQuit(ApplicationEvent e) {
 		System.exit(0);
 	}
 
+	/**
+	 * Handles the About argument.
+	 * 
+	 * @since 3.0_dev05
+	 * @param e
+	 *            is not used
+	 */
 	@Override
 	public void handleAbout(ApplicationEvent e) {
 		e.setHandled(true);
-		String about = ("Utilities Pro - "
-				+ Console.version
-				+ " '"
-				+ Console.keyword
-				+ "'\n"
-				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. "
-				+ "\nIt is to serve as a terminal in restricted enviornments, such as "
-				+ "\nschools or universities. Tapping Java's ProcessBuilder or Runtime"
-				+ "\ncommand system, its possible to bypass MCX, and most other" + "\ncontrols on effective computer work.");
-		JOptionPane.showMessageDialog(null, about);
-
-		HelpCommands.changeLog();
+		HelpCommands.about();
 	}
 
+	/**
+	 * Handles the Preferences argument.
+	 * 
+	 * @since 3.0_dev05
+	 * @param e
+	 *            is not used
+	 */
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
 		String[] input = { "open", Console.UtilitiesPro_DIR + "/config.txt" };

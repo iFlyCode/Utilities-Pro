@@ -71,7 +71,7 @@ public class Console {
 	protected static String computername = "Unknown";
 
 	/**
-	 * Used in the all following File systems, as the username of the user is
+	 * Used in the all following File systems, as the user name of the user is
 	 * not the same throughout all computers.
 	 */
 	public static String userName = System.getProperty("user.name");
@@ -109,7 +109,7 @@ public class Console {
 	private static JTextArea outText;
 
 	/**
-	 * JTextArea for the output of the log. Recieves strings to append to the
+	 * JTextArea for the output of the log. Receives strings to append to the
 	 * log from the method "log(String)"
 	 */
 	private static JTextArea logText;

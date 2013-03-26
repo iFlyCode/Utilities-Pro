@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 public class CommandCommands extends Console {
 
 	/**
-	 * Utility used to destory the process running in a seperate thread that is
+	 * Utility used to destroy the process running in a separate thread that is
 	 * created by the Process "process", usually by the
 	 * ExecEngine.engine(String[]).
 	 * 
@@ -28,10 +28,10 @@ public class CommandCommands extends Console {
 	 * 
 	 * @since 3.0_dev05
 	 * @param which
-	 *            is an int that selects what arbritrary process to terminate.
-	 *            Integer must be referring to the PID of a process. The PID of
-	 *            the process can be gotten by running through the PS AX
-	 *            directory.
+	 *            is an integer that selects what arbitrary process to
+	 *            terminate. Integer must be referring to the PID of a process.
+	 *            The PID of the process can be gotten by running through the PS
+	 *            AX directory.
 	 */
 	public static void terminate(int which) {
 		String PID = Integer.toString(which);

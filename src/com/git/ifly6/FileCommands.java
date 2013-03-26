@@ -86,7 +86,7 @@ public class FileCommands extends Console {
 	 * @param which
 	 *            decides which JTextArea to export to file. 1 = Export the
 	 *            outText JTextArea. 2 = Export the logText JTextArea.
-	 * @since 3.0_dev04 (integrated from two seperate commands)
+	 * @since 3.0_dev04 (integrated from two separate commands)
 	 */
 	public static void export(int which) {
 		if (which == 1) {

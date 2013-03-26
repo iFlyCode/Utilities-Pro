@@ -21,9 +21,9 @@ public class ScriptCommands extends Console {
 	}
 
 	/**
-	 * It turns off then 500 ms later, turns on wireless adaptor (en0) for the
-	 * computer. This is nearly word for word copied from iUtilities v1.0's
-	 * implementation
+	 * It turns off then 500 milliseconds later, turns on wireless adaptor (en0)
+	 * for the computer. This is nearly word for word copied from iUtilities
+	 * v1.0's implementation
 	 * 
 	 * @since iUtilities v1.0
 	 */

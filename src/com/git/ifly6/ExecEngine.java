@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  * All Command Line Initiated Commands go here, with relevant processing and
- * relevant execution pathlines.
+ * relevant execution path lines.
  * 
  * @author ifly6
  * @since 3.0_dev01
@@ -19,8 +19,8 @@ public class ExecEngine extends Console {
 	static String[] operand = preoperand.split(" ");
 
 	/**
-	 * Sets the input String array as the preoperand/contents of the inputField,
-	 * and calls the engine.
+	 * Sets the input String array as the pre-operand/contents of the
+	 * inputField, and calls the engine.
 	 * 
 	 * @since 3.0_dev05
 	 * @param input

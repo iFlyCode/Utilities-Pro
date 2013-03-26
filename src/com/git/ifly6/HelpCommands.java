@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 public class HelpCommands extends Console {
 
 	/**
-	 * Downloads a changelog file with the latest version stated at the top. It
+	 * Downloads a change-log file with the latest version stated at the top. It
 	 * then reads the file and displays the output.
 	 * 
 	 * @since 1.2
@@ -42,7 +42,7 @@ public class HelpCommands extends Console {
 
 	/**
 	 * Displays about text. Displays a long string, about in a JOptionPane. It
-	 * then calls the changelog method.
+	 * then calls the change-log method.
 	 * 
 	 * @since 3.0_dev07
 	 * @see com.git.ifly6.HelpCommands#changelog()
@@ -127,7 +127,7 @@ public class HelpCommands extends Console {
 	}
 
 	/**
-	 * Opens (in default browser) a website with an archive of A-Z OSX Bash
+	 * Opens (in default browser) a web site with an archive of A-Z OSX Bash
 	 * Commands.
 	 * 
 	 * @since 3.0_dev06

@@ -35,8 +35,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultEditorKit;
 
-import com.apple.eawt.Application;
-
 /**
  * Main Class for Utilities Pro 3.x. It initialises the GUI and contains all
  * relevant pieces of data fundamental to the execution of the programme.
@@ -54,7 +52,7 @@ public class Console {
 	/**
 	 * Naming system is: <major>.<minor>_<revision> or <major>.<minor>_dev<#>
 	 */
-	public static String version = "3.0_dev07";
+	public static String version = "0.1_dev01";
 
 	/**
 	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For
@@ -79,13 +77,19 @@ public class Console {
 	/**
 	 * A place in ~/Library/Application Support/ where we store all of our
 	 * configuration files.
+	 * 
+	 * @deprecated
 	 */
+	@Deprecated
 	public static String UtilitiesPro_DIR = "/Users/" + userName
 			+ "/Library/Application Support/Utilities Pro";
 
 	/**
 	 * The place to put any files we download.
+	 * 
+	 * @deprecated
 	 */
+	@Deprecated
 	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
 
 	/**
@@ -136,19 +140,7 @@ public class Console {
 	 *            TODO When launched from command line with "-u", the programme
 	 *            will update Utilities Pro.
 	 */
-	@SuppressWarnings("deprecation")
 	public static void main(String[] inputArgs) {
-
-		// Set Properties before GUI Calls
-		System.setProperty("apple.laf.useScreenMenuBar", "true");
-		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
-				"Utilities Pro");
-
-		// Handling Mac Toolbar System
-		Application macApp = Application.getApplication();
-		MacHandler macAdapter = new MacHandler();
-		macApp.addApplicationListener(macAdapter);
-		macApp.setEnabledPreferencesMenu(true);
 
 		// Look and Feel
 		FileReader configRead = null;
@@ -269,7 +261,7 @@ public class Console {
 
 		frame.setBounds(0, 0, 670, 735);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Utilities Pro " + version);
+		frame.setTitle("WinUtilities Pro " + version);
 
 		JTabbedPane tabbedPane = new JTabbedPane(SwingConstants.TOP);
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -279,7 +271,7 @@ public class Console {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		inputField = new TextField();
-		inputField.setFont(new Font("Monaco", Font.PLAIN, 12));
+		inputField.setFont(new Font("Courier", Font.PLAIN, 12));
 		panel.add(inputField, BorderLayout.SOUTH);
 		inputField.addKeyListener(new KeyListener() {
 			@Override
@@ -301,7 +293,7 @@ public class Console {
 
 		outText = new JTextArea();
 		outText.setEditable(false);
-		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
+		outText.setFont(new Font("Courier", Font.PLAIN, 12));
 		JScrollPane scrollPane_outPane = new JScrollPane(outText);
 		scrollPane_outPane
 				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
@@ -310,7 +302,7 @@ public class Console {
 
 		logText = new JTextArea();
 		logText.setEditable(false);
-		logText.setFont(new Font("Monaco", Font.PLAIN, 12));
+		logText.setFont(new Font("Courier", Font.PLAIN, 12));
 		JScrollPane scrollPane_logText = new JScrollPane(logText);
 		tabbedPane.addTab("Log", null, scrollPane_logText,
 				"Shows a dynamic log of all functions run.");
@@ -370,19 +362,19 @@ public class Console {
 		JMenuItem mntmCut = new JMenuItem(new DefaultEditorKit.CutAction());
 		mntmCut.setText("Cut");
 		mntmCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-				ActionEvent.META_MASK));
+				ActionEvent.CTRL_MASK));
 		mnEdit.add(mntmCut);
 
 		JMenuItem mntmCopy = new JMenuItem(new DefaultEditorKit.CopyAction());
 		mntmCopy.setText("Copy");
 		mntmCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C,
-				ActionEvent.META_MASK));
+				ActionEvent.CTRL_MASK));
 		mnEdit.add(mntmCopy);
 
 		JMenuItem mntmPaste = new JMenuItem(new DefaultEditorKit.PasteAction());
 		mntmPaste.setText("Paste");
 		mntmPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V,
-				ActionEvent.META_MASK));
+				ActionEvent.CTRL_MASK));
 		mnEdit.add(mntmPaste);
 
 		JSeparator separator_4 = new JSeparator();
@@ -411,15 +403,14 @@ public class Console {
 		JMenu mnScripts = new JMenu("Scripts");
 		menuBar.add(mnScripts);
 
-		JMenuItem mntmPurge = new JMenuItem("Purge Memory");
-		mntmPurge.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Scripts>Purge Memory");
-				ScriptCommands.purge();
-			}
-		});
-		mnScripts.add(mntmPurge);
+		/*
+		 * JMenuItem mntmPurge = new JMenuItem("Purge Memory");
+		 * mntmPurge.addActionListener(new ActionListener() {
+		 * 
+		 * @Override public void actionPerformed(ActionEvent e) {
+		 * command("Scripts>Purge Memory"); ScriptCommands.purge(); } });
+		 * mnScripts.add(mntmPurge);
+		 */
 
 		JMenuItem mntmRestartAirport = new JMenuItem("Restart Airport");
 		mntmRestartAirport.addActionListener(new ActionListener() {
@@ -541,7 +532,7 @@ public class Console {
 		});
 		mnHelp.add(mntmQuit);
 
-		String greet = "Welcome, " + userName + " to Utilities Pro - "
+		String greet = "Welcome, " + userName + " to WinUtilities Pro - "
 				+ version + " '" + keyword + "'\n===========";
 		outText.append(greet);
 	}

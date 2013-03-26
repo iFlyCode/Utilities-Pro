@@ -3,17 +3,29 @@ package com.me.ifly6;
 import java.awt.Font;
 import java.io.IOException;
 
-import com.me.ifly6.methods.*;
+import com.me.ifly6.methods.CoreMethods;
+import com.me.ifly6.methods.GraphicsMethods;
+import com.me.ifly6.methods.InOutMethods;
+import com.me.ifly6.methods.InfoMethods;
 
+/**
+ * Text Processing, executes Necessary Text Data from Console/anything else
+ * 
+ * @since 2.2
+ * @author ifly6
+ * @deprecated
+ */
+@Deprecated
 public class TextProc extends ConsoleIf {
-	// Name: Text Commands (Executes Necessary Text Data from Console/anything else)
 
 	private static final long serialVersionUID = 1L;
 	public static Runtime rt = Runtime.getRuntime();
 	public static String userName = System.getProperty("user.name");
-	public static final String UtilitiesPro_DIR = "/Users/" + userName + "/Library/Application Support/";
+	public static final String UtilitiesPro_DIR = "/Users/" + userName
+			+ "/Library/Application Support/";
 	public static Process process;
 	public static String[] commText = new String[numArray];
+
 	// Processing Stream
 
 	public static void proc() throws IOException, InterruptedException {
@@ -43,27 +55,27 @@ public class TextProc extends ConsoleIf {
 		operand = preoperand.split(" ");
 
 		// Command Evaluation
-		if (commText[0].equals(operand[0])){
+		if (commText[0].equals(operand[0])) {
 			InfoMethods.changelog();
 			log("Changelog Called");
 		}
-		if (commText[1].equals(operand[0])){
+		if (commText[1].equals(operand[0])) {
 			InfoMethods.about();
 			log("'About' Processing Trigger Invoked");
 		}
-		if (commText[2].equals(operand[0])){
+		if (commText[2].equals(operand[0])) {
 			CoreMethods.helpList();
 			log("Help Processing Trigger Invoked");
 		}
-		if (commText[3].equals(operand[0])){
+		if (commText[3].equals(operand[0])) {
 			GraphicsMethods.clear();
 			log("JTextAreas Cleared");
 		}
-		if (commText[4].equals(operand[0])){
+		if (commText[4].equals(operand[0])) {
 			InfoMethods.acknowledgements();
 			log("Acknowledgements Called");
 		}
-		if (commText[5].equals(operand[0])){
+		if (commText[5].equals(operand[0])) {
 			int tmp = 11;
 			tmp = java.lang.Integer.parseInt(operand[2]);
 			Font font = new Font(operand[1], 0, tmp);
@@ -98,12 +110,13 @@ public class TextProc extends ConsoleIf {
 			CoreMethods.terminate();
 			log("Process Termination Processing Trigger Called");
 		}
-		/* 	if (commText[13].equals(operand[0])) {
-
-		}
-		if (commText[14].equals(operand[0])) {
-
-		} */
+		/*
+		 * if (commText[13].equals(operand[0])) {
+		 * 
+		 * } if (commText[14].equals(operand[0])) {
+		 * 
+		 * }
+		 */
 		if (commText[15].equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");

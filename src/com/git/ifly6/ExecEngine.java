@@ -13,10 +13,10 @@ import java.util.Scanner;
  * @since 3.0_dev01
  */
 
-public class TextCommands extends Console {
+public class ExecEngine extends Console {
 
 	static String preoperand = Console.getInputField();
-	static final String[] operand = preoperand.split(" ");
+	static String[] operand = preoperand.split(" ");
 
 	/**
 	 * Sets the input String array as the preoperand/contents of the inputField,
@@ -26,6 +26,8 @@ public class TextCommands extends Console {
 	 * @param input
 	 *            a string to be run by the execution engine.
 	 * @see com.me.ifly6.TextProc
+	 * @see exec(String input)
+	 * @see exec(String[] input)
 	 */
 	public static void exec() {
 		log("Beginning Execution of : " + preoperand);
@@ -42,6 +44,8 @@ public class TextCommands extends Console {
 	 * @param input
 	 *            String to be executed. It is moved into String[] form for the
 	 *            execution engine. The input should be delimited by spaces.
+	 * @see exec()
+	 * @see exec(String[] input)
 	 */
 	public static void exec(String input) {
 		log("Beginning Execution of Arbitrary: " + input);
@@ -50,15 +54,108 @@ public class TextCommands extends Console {
 	}
 
 	/**
+	 * Added to ensure continuity with the other "exec" methods.
+	 * 
+	 * @since 3.0_dev06
+	 * @param input
+	 * @see exec()
+	 * @see exec(String input)
+	 */
+	public static void exec(String[] input) {
+		engine(input);
+	}
+
+	/**
 	 * Processes the Text for Application-specific functions. This should be the
 	 * only method called from this class. All others should be called from this
-	 * class under certain conditions.
+	 * class under certain conditions. All internal commands MUST begin with
+	 * "/", just like in Minecraft.
 	 * 
 	 * @since 1.2
 	 * @see com.me.ifly6.TextProc
 	 */
 	public static void process() {
 
+		preoperand = Console.getInputField();
+
+		// Command Parsing
+		append(computername + "~ $ " + preoperand);
+		Console.clearText(3);
+		operand = preoperand.split(" ");
+
+		// Command Evaluation
+		if (commText[0].equals(operand[0])) {
+			HelpCommands.changeLog();
+			log("Changelog Called");
+		}
+		if (commText[1].equals(operand[0])) {
+			HelpCommands.about();
+			log("'About' Processing Trigger Invoked");
+		}
+		if (commText[2].equals(operand[0])) {
+			HelpCommands.helpList();
+			log("Help Processing Trigger Invoked");
+		}
+		if (commText[3].equals(operand[0])) {
+			Console.clearText(1);
+			Console.clearText(2);
+			Console.clearText(3);
+			log("JTextAreas Cleared");
+		}
+		if (commText[4].equals(operand[0])) {
+			HelpCommands.acknowledgements();
+			log("Acknowledgements Called");
+		}
+		/*
+		 * if (commText[5].equals(operand[0])) { int tmp = 11; tmp =
+		 * java.lang.Integer.parseInt(operand[2]); Font font = new
+		 * Font(operand[1], 0, tmp); display.setFont(font); log("Font changed");
+		 * }
+		 */
+		if (commText[6].equals(operand[0])) {
+			HelpCommands.licence();
+			log("EULA Displayed");
+		}
+		if (commText[7].equals(operand[0])) {
+			FileCommands.export(1);
+			log("Invoked Export of outText");
+		}
+		if (commText[8].equals(operand[0])) {
+			FileCommands.export(2);
+			log("Invoked Export of logText");
+		}
+		if (commText[9].equals(operand[0])) {
+			FileCommands.configManage(2);
+			log("Deletion Processing Trigger Called");
+		}
+		if (commText[10].equals(operand[0])) {
+			ScriptCommands.readout();
+			log("System Information Processing Trigger Called");
+		}
+		if (commText[11].equals(operand[0])) {
+			ScriptCommands.mindterm();
+			log("Mindterm Download Processing Trigger Called");
+		}
+		if (commText[12].equals(operand[0])) {
+			CommandCommands.terminateChoose();
+			log("Process Termination Processing Trigger Called");
+		}
+		/*
+		 * if (commText[13].equals(operand[0])) {
+		 * 
+		 * } if (commText[14].equals(operand[0])) {
+		 * 
+		 * }
+		 */
+		if (commText[15].equals(operand[0])) {
+			System.exit(0);
+			log("System.exit(0)");
+		}
+
+		// If it does not start with "/", then treat it as a bash command.
+		if (!(operand[0].startsWith("/"))) {
+			exec();
+		}
 	}
 
 	/**

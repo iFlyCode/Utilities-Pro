@@ -21,7 +21,7 @@ public class ScriptCommands extends Console {
 	 * @since 2.3_dev3
 	 */
 	public static void purge() {
-		TextCommands.exec("purge");
+		ExecEngine.exec("purge");
 	}
 
 	/**
@@ -31,9 +31,9 @@ public class ScriptCommands extends Console {
 	 */
 	public static void wireless() {
 		try {
-			TextCommands.exec("networksetup -setairportpower en0 off");
+			ExecEngine.exec("networksetup -setairportpower en0 off");
 			Thread.sleep(500);
-			TextCommands.exec("networksetup -setairportpower en0 on");
+			ExecEngine.exec("networksetup -setairportpower en0 on");
 		} catch (InterruptedException e) {
 			log("Airport Restart Failed");
 		}
@@ -128,7 +128,7 @@ public class ScriptCommands extends Console {
 		log("Mindterm Download Commenced.");
 		String url = "curl -o /Users/" + userName
 				+ "/Downloads/ http://ifly6.no-ip.org/Public/mindterm.jar";
-		TextCommands.exec(url);
+		ExecEngine.exec(url);
 		append("Mindterm Downloaded to: "
 				+ "/Users/"
 				+ userName

@@ -7,11 +7,13 @@ import java.awt.Font;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -46,47 +48,83 @@ import com.apple.eawt.Application;
  */
 public class Console {
 
-	/*
-	 * Naming Conventions: System is: <major>.<minor>_<revision> or:
-	 * <major>.<minor>_dev<#> Eg: 2.2_01 = Major Version 2, Minor Version 2, 1
-	 * Revision. Eg: 3.0_dev04 = Major Version 3, Minor Version 0, Development
-	 * Version 4
-	 * 
-	 * The 2.x Versions: 2.0 = greentree, 2.1 = greenwell, 2.2 = greenmont, 2.3
-	 * = greenhill, 2.4 = greenfield, 2.5 = greenfall, 2.6 = greenpool, 2.7 =
-	 * greenberg, 2.8 = greenland
-	 * 
-	 * The 3.x Versions 3.0 = iceland, 3.1 = iceberg, 3.2 = icepool, 3.3 =
-	 * skyfall, 3.4 = icefield, 3.5 = everest, 3.6 = icemont, 3.7 = icewell, 3.8
-	 * = icedtea
-	 */
-
 	private JFrame frame;
-	public static String version = "3.0_dev05";
+
+	/**
+	 * Naming system is: <major>.<minor>_<revision> or <major>.<minor>_dev<#>
+	 */
+	public static String version = "3.0_dev06";
+
+	/**
+	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For
+	 * 3.x, its is 3.0 = iceland, 3.1 = iceberg, 3.2 = icepool, 3.3 = skyfall,
+	 * 3.4 = icefield, 3.5 = everest, 3.6 = icemont, 3.7 = icewell, 3.8 =
+	 * icedtea
+	 */
 	public static String keyword = "iceland";
 
 	/**
-	 * @param userName
-	 *            UserName for the User (used for opening greeting)
-	 * @param UtilitiesPro_DIR
-	 *            Folder Location in Application Support for programme
-	 * @param Downloads_DIR
-	 *            Folder Location for Downloads
-	 * @param rt
-	 *            Runtime reference. Should be removed, but it is not deprecated
-	 * @param outText
-	 *            logText See JavaDoc before GUI initialisation
-	 * @param Process
-	 *            used to make something to execute or destroy processes
+	 * Used for greeting the user. It should be replaced from Unknown to the
+	 * iNet name of the user inside Console.Main
+	 */
+	protected static String computername = "Unknown";
+
+	/**
+	 * Used in the all following File systems, as the username of the user is
+	 * not the same throughout all computers.
 	 */
 	public static String userName = System.getProperty("user.name");
+
+	/**
+	 * A place in ~/Library/Application Support/ where we store all of our
+	 * configuration files.
+	 */
 	public static String UtilitiesPro_DIR = "/Users/" + userName
 			+ "/Library/Application Support/Utilities Pro";
+
+	/**
+	 * The place to put any files we download.
+	 */
 	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
+
+	/**
+	 * Runtime Handler. Can be called from anywhere to execute a String[]. When
+	 * we finish a system to return a Process, this shared resource will be
+	 * removed.
+	 * 
+	 * @deprecated
+	 */
+	@Deprecated
 	public static Runtime rt = Runtime.getRuntime();
+
+	/**
+	 * List of all the internal commands inside a String Array. All unused
+	 * commands should be stated as nulls.
+	 */
+	public static String[] commText = new String[16];
+
+	/**
+	 * JTextArea for the output of the programme. Combines the Error and Output
+	 * Streams into one field.
+	 */
 	private static JTextArea outText;
+
+	/**
+	 * JTextArea for the output of the log. Recieves strings to append to the
+	 * log from the method "log(String)"
+	 */
 	private static JTextArea logText;
+
+	/**
+	 * TextField for the input of commands. When command engine is run, it
+	 * retrieves the contents of this field, then processes it.
+	 */
 	private static TextField inputField;
+
+	/**
+	 * Process is declared here to allow other classes to terminate that process
+	 * should it be necessary.
+	 */
 	public static Process process;
 
 	/**
@@ -96,8 +134,8 @@ public class Console {
 	 * launches the GUI.
 	 * 
 	 * @param inputArgs
-	 *            When launched from command line with "-u", the programme will
-	 *            update Utilities Pro.
+	 *            TODO When launched from command line with "-u", the programme
+	 *            will update Utilities Pro.
 	 */
 	@SuppressWarnings("deprecation")
 	public static void main(String[] inputArgs) {
@@ -113,6 +151,7 @@ public class Console {
 		macApp.addApplicationListener(macAdapter);
 		macApp.setEnabledPreferencesMenu(true);
 
+		// Look and Feel
 		FileReader configRead = null;
 		String look = "Default";
 		try {
@@ -166,6 +205,28 @@ public class Console {
 		 * append("Utilities Pro Updated. File in ~/Downloads."); } }); }
 		 */
 
+		// == CMD-String Array Settings ==
+		commText[0] = "/changelog";
+		commText[1] = "/about";
+		commText[2] = "/help";
+		commText[3] = "/clear";
+		commText[4] = "/acknowledgements";
+		commText[5] = null;
+		commText[6] = "/licence";
+		commText[7] = "/save";
+		commText[8] = "/saveLog";
+		commText[9] = "/delete";
+		commText[10] = "/info";
+		commText[11] = "/mindterm";
+		commText[12] = "/terminate";
+		commText[13] = null;
+		commText[14] = null;
+		commText[15] = "quit";
+
+		try {
+			computername = InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+		}
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -187,10 +248,9 @@ public class Console {
 	}
 
 	/**
-	 * TODO Add CD System (again, coming from the last time). This system starts
-	 * the main GUI for the programme. It also contains all GUI data for the
-	 * programme, causing a necessity for the method getters and setters which
-	 * are evident below.
+	 * This system starts the main GUI for the programme. It also contains all
+	 * GUI data for the programme, causing a necessity for the method getters
+	 * and setters which are evident below.
 	 * 
 	 * @param frame
 	 *            JFrame for the programme
@@ -207,15 +267,7 @@ public class Console {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				int keyCode = e.getKeyCode();
-				if (keyCode == 10) {
-					TextCommands.process();
-				}
-			}
-		});
+
 		frame.setBounds(0, 0, 670, 735);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Utilities Pro" + version);
@@ -230,6 +282,23 @@ public class Console {
 		inputField = new TextField();
 		inputField.setFont(new Font("Monaco", Font.PLAIN, 12));
 		panel.add(inputField, BorderLayout.SOUTH);
+		inputField.addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				int keyCode = e.getKeyCode();
+				if (keyCode == 10) {
+					ExecEngine.process();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+			}
+		});
 
 		outText = new JTextArea();
 		outText.setEditable(false);
@@ -255,7 +324,7 @@ public class Console {
 		mntmOpenConfig.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				FileCommands.OpenConfig();
+				FileCommands.configManage(1);
 			}
 		});
 		mnFile.add(mntmOpenConfig);
@@ -264,7 +333,7 @@ public class Console {
 		mntmDeleteConfig.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				FileCommands.DeleteConfig();
+				FileCommands.configManage(2);
 			}
 		});
 		mnFile.add(mntmDeleteConfig);
@@ -392,7 +461,7 @@ public class Console {
 		mntmTerminateArbitraryProcess.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CommandCommands.terminate();
+				CommandCommands.terminateChoose();
 			}
 		});
 		mnCommand.add(mntmTerminateArbitraryProcess);
@@ -400,8 +469,8 @@ public class Console {
 		JSeparator separator_3 = new JSeparator();
 		mnCommand.add(separator_3);
 
-		JMenuItem mntmAboutCommandLine = new JMenuItem("About Command Line");
-		mnCommand.add(mntmAboutCommandLine);
+		JMenuItem mntmBombard = new JMenuItem("Bombard");
+		mnCommand.add(mntmBombard);
 
 		Component horizontalGlue = Box.createHorizontalGlue();
 		menuBar.add(horizontalGlue);
@@ -410,15 +479,43 @@ public class Console {
 		menuBar.add(mnHelp);
 
 		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HelpCommands.changeLog();
+			}
+		});
 		mnHelp.add(mntmAbout);
 
 		JMenuItem mntmHelp = new JMenuItem("Utilities Pro Help");
+		mntmHelp.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HelpCommands.helpList();
+				HelpCommands.about();
+			}
+		});
 		mnHelp.add(mntmHelp);
+
+		JMenuItem mntmBashHelp = new JMenuItem("Bash Help");
+		mntmBashHelp.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				HelpCommands.bashHelp();
+			}
+		});
+		mnHelp.add(mntmBashHelp);
 
 		JSeparator separator_2 = new JSeparator();
 		mnHelp.add(separator_2);
 
 		JMenuItem mntmQuit = new JMenuItem("Quit");
+		mntmQuit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+			}
+		});
 		mnHelp.add(mntmQuit);
 
 		String greet = "Welcome, " + userName + " to Utilities Pro - "
@@ -468,10 +565,10 @@ public class Console {
 	 * location to be inside the GUI's declaration class.
 	 * 
 	 * @author ifly6
-	 * @since 3.0
+	 * @since 3.0_dev02
 	 * @param which
 	 *            integer value, determines which JTextArea to clear (1,
-	 *            outText; 2, logText)
+	 *            outText; 2, logText; 3, inputField)
 	 */
 	public static void clearText(int which) {
 		if (which == 1) {
@@ -479,6 +576,9 @@ public class Console {
 		}
 		if (which == 2) {
 			logText.setText(null);
+		}
+		if (which == 3) {
+			inputField.setText(null);
 		}
 	}
 
@@ -499,6 +599,10 @@ public class Console {
 		folder.mkdirs();
 	}
 
+	/**
+	 * @since 3.0_dev05
+	 * @return a string with the contents of TextArea inputField
+	 */
 	public static String getInputField() {
 		String a = inputField.getText();
 		inputField.setText(null);

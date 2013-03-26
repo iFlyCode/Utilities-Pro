@@ -34,8 +34,6 @@ public class MacHandler extends ApplicationAdapter {
 
 	@Override
 	public void handleAbout(ApplicationEvent e) {
-		// tell the system we're handling this, so it won't display
-		// the default system "about" dialog after ours is shown.
 		e.setHandled(true);
 		String about = ("Utilities Pro - "
 				+ Console.version
@@ -47,11 +45,13 @@ public class MacHandler extends ApplicationAdapter {
 				+ "\nschools or universities. Tapping Java's ProcessBuilder or Runtime"
 				+ "\ncommand system, its possible to bypass MCX, and most other" + "\ncontrols on effective computer work.");
 		JOptionPane.showMessageDialog(null, about);
+
+		HelpCommands.changeLog();
 	}
 
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
 		String[] input = { "open", Console.UtilitiesPro_DIR + "/config.txt" };
-		TextCommands.engine(input);
+		ExecEngine.engine(input);
 	}
 }

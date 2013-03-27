@@ -28,7 +28,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -303,8 +302,6 @@ public class Console {
 		outText.setEditable(false);
 		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
 		JScrollPane scrollPane_outPane = new JScrollPane(outText);
-		scrollPane_outPane
-				.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		scrollPane_outPane.setViewportBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 

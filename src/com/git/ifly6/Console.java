@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -48,20 +49,11 @@ import com.apple.eawt.Application;
  */
 public class Console {
 
-	private JFrame frame;
-
 	/**
-	 * Naming system is: <major>.<minor>_<revision> or <major>.<minor>_dev<#>
+	 * List of all the internal commands inside a String Array. All unused
+	 * commands should be stated as nulls.
 	 */
-	public static String version = "3.0_dev07";
-
-	/**
-	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For
-	 * 3.x, its is 3.0 = iceland, 3.1 = iceberg, 3.2 = icepool, 3.3 = skyfall,
-	 * 3.4 = icefield, 3.5 = everest, 3.6 = icemont, 3.7 = icewell, 3.8 =
-	 * icedtea
-	 */
-	public static String keyword = "iceland";
+	public static ArrayList<String> commText = new ArrayList<String>(16);
 
 	/**
 	 * Used for greeting the user. It should be replaced from Unknown to the
@@ -76,16 +68,41 @@ public class Console {
 	public static String userName = System.getProperty("user.name");
 
 	/**
-	 * A place in ~/Library/Application Support/ where we store all of our
-	 * configuration files.
-	 */
-	public static String UtilitiesPro_DIR = "/Users/" + userName
-			+ "/Library/Application Support/Utilities Pro";
-
-	/**
 	 * The place to put any files we download.
 	 */
 	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
+
+	/**
+	 * TextField for the input of commands. When command engine is run, it
+	 * retrieves the contents of this field, then processes it.
+	 */
+	private static TextField inputField;
+
+	/**
+	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For
+	 * 3.x, its is 3.0 = iceland, 3.1 = iceberg, 3.2 = icepool, 3.3 = skyfall,
+	 * 3.4 = icefield, 3.5 = everest, 3.6 = icemont, 3.7 = icewell, 3.8 =
+	 * icedtea
+	 */
+	public static String keyword = "iceland";
+
+	/**
+	 * JTextArea for the output of the log. Receives strings to append to the
+	 * log from the method "log(String)"
+	 */
+	private static JTextArea logText;
+
+	/**
+	 * JTextArea for the output of the programme. Combines the Error and Output
+	 * Streams into one field.
+	 */
+	private static JTextArea outText;
+
+	/**
+	 * Process is declared here to allow other classes to terminate that process
+	 * should it be necessary.
+	 */
+	public static Process process;
 
 	/**
 	 * Runtime Handler. Can be called from anywhere to execute a String[]. When
@@ -96,34 +113,94 @@ public class Console {
 	public static Runtime rt = Runtime.getRuntime();
 
 	/**
-	 * List of all the internal commands inside a String Array. All unused
-	 * commands should be stated as nulls.
+	 * A place in ~/Library/Application Support/ where we store all of our
+	 * configuration files.
 	 */
-	public static String[] commText = new String[16];
+	public static String UtilitiesPro_DIR = "/Users/" + userName
+			+ "/Library/Application Support/Utilities Pro";
 
 	/**
-	 * JTextArea for the output of the programme. Combines the Error and Output
-	 * Streams into one field.
+	 * Naming system is: <major>.<minor>_<revision> or <major>.<minor>_dev<#>
 	 */
-	private static JTextArea outText;
+	public static String version = "3.0_dev08";
 
 	/**
-	 * JTextArea for the output of the log. Receives strings to append to the
-	 * log from the method "log(String)"
+	 * @since 2.2_01
+	 * @param in
+	 *            String to append into the JTextArea outText
+	 * @see com.me.ifly6.ConsoleIf
 	 */
-	private static JTextArea logText;
+	public static void append(String in) {
+		outText.append("\n" + in);
+	}
 
 	/**
-	 * TextField for the input of commands. When command engine is run, it
-	 * retrieves the contents of this field, then processes it.
+	 * As it deals with the GUI's implementation (JTextArea), Java forces its
+	 * location to be inside the GUI's declaration class.
+	 * 
+	 * @author ifly6
+	 * @since 3.0_dev02
+	 * @param which
+	 *            integer value, determines which JTextArea to clear (1,
+	 *            outText; 2, logText; 3, inputField)
 	 */
-	private static TextField inputField;
+	public static void clearText(int which) {
+		if (which == 1) {
+			outText.setText(null);
+		}
+		if (which == 2) {
+			logText.setText(null);
+		}
+		if (which == 3) {
+			inputField.setText(null);
+		}
+	}
 
 	/**
-	 * Process is declared here to allow other classes to terminate that process
-	 * should it be necessary.
+	 * @since 3.0_dev07
+	 * @param in
+	 *            String to append with the bash prompt to JTextArea outText.
+	 *            Also appends to logText.
 	 */
-	public static Process process;
+	public static void command(String in) {
+		append(computername + "~ $ " + in);
+		log(computername + "~ $ " + in);
+	}
+
+	/**
+	 * @since 3.0_dev05
+	 * @return a string with the contents of TextArea inputField
+	 */
+	public static String getInputField() {
+		String a = inputField.getText();
+		inputField.setText(null);
+		return a;
+	}
+
+	/**
+	 * @since 3.0_dev02
+	 * @return String with contents of JTextArea logText
+	 */
+	public static String getLogText() {
+		return logText.getText();
+	}
+
+	/**
+	 * @since 3.0_dev02
+	 * @return String with contents of JTextArea outText
+	 */
+	public static String getOutText() {
+		return outText.getText();
+	}
+
+	/**
+	 * @since 2.2_01
+	 * @param in
+	 *            String to append (with a date) into the JTextArea logText
+	 */
+	public static void log(String in) {
+		logText.append("\n" + new Date() + " " + in);
+	}
 
 	/**
 	 * Launch the application. Executes on a pipeline, going first to read the
@@ -203,23 +280,7 @@ public class Console {
 		 * append("Utilities Pro Updated. File in ~/Downloads."); } }); }
 		 */
 
-		// == CMD-String Array Settings ==
-		commText[0] = "/changelog";
-		commText[1] = "/about";
-		commText[2] = "/help";
-		commText[3] = "/clear";
-		commText[4] = "/acknowledgements";
-		commText[5] = null;
-		commText[6] = "/licence";
-		commText[7] = "/save";
-		commText[8] = "/saveLog";
-		commText[9] = "/delete";
-		commText[10] = "/info";
-		commText[11] = "/mindterm";
-		commText[12] = "/terminate";
-		commText[13] = null;
-		commText[14] = null;
-		commText[15] = "quit";
+		setCommands();
 
 		try {
 			computername = InetAddress.getLocalHost().getHostName();
@@ -237,6 +298,56 @@ public class Console {
 			}
 		});
 	}
+
+	/**
+	 * Used to create (if necessary) all folders for Utilities Pro. Creates
+	 * ~/Library/Application Support/Utilities Pro folder and verifies that
+	 * ~/Downloads exists. This programme should be run on a Mac, as both are
+	 * only applicable under the File Structure of one (or very similar Linux
+	 * distributions)
+	 * 
+	 * @author ifly6
+	 * @since 2.2_01
+	 */
+	public static void mkdir() {
+		File folder = new File(UtilitiesPro_DIR);
+		folder.mkdirs();
+		folder = new File(Downloads_DIR);
+		folder.mkdirs();
+	}
+
+	/**
+	 * @since 2.2_02
+	 * @param in
+	 *            String to append (with a space) into the JTextArea outText
+	 * @see com.me.ifly6.ConsoleIf
+	 */
+	public static void out(String in) {
+		outText.append("\n " + in);
+	}
+
+	/**
+	 * Sets the arrayList of commands.
+	 * 
+	 * @since 3.0_dev08
+	 */
+	private static void setCommands() {
+		commText.add("/changelog");
+		commText.add("/about");
+		commText.add("/help");
+		commText.add("/clear");
+		commText.add("/acknowledgements");
+		commText.add("/licence");
+		commText.add("/save");
+		commText.add("/saveLog");
+		commText.add("/generateConfig");
+		commText.add("/sysInfo");
+		commText.add("/mindterm");
+		commText.add("/terminate");
+		commText.add("/quit");
+	}
+
+	private JFrame frame;
 
 	/**
 	 * Create instance of the application.
@@ -278,14 +389,14 @@ public class Console {
 		panel.setLayout(new BorderLayout(0, 0));
 
 		inputField = new TextField();
-		inputField.setFont(new Font("Monaco", Font.PLAIN, 12));
+		inputField.setFont(new Font("Monaco", Font.PLAIN, 11));
 		panel.add(inputField, BorderLayout.SOUTH);
 		inputField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
 				if (keyCode == 10) {
-					ExecEngine.process();
+					TextCommands.process();
 				}
 			}
 
@@ -300,14 +411,14 @@ public class Console {
 
 		outText = new JTextArea();
 		outText.setEditable(false);
-		outText.setFont(new Font("Monaco", Font.PLAIN, 12));
+		outText.setFont(new Font("Monaco", Font.PLAIN, 11));
 		JScrollPane scrollPane_outPane = new JScrollPane(outText);
 		scrollPane_outPane.setViewportBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 
 		logText = new JTextArea();
 		logText.setEditable(false);
-		logText.setFont(new Font("Monaco", Font.PLAIN, 12));
+		logText.setFont(new Font("Monaco", Font.PLAIN, 11));
 		JScrollPane scrollPane_logText = new JScrollPane(logText);
 		tabbedPane.addTab("Log", null, scrollPane_logText,
 				"Shows a dynamic log of all functions run.");
@@ -463,6 +574,8 @@ public class Console {
 				CommandCommands.terminateUtility();
 			}
 		});
+		mntmTerminateUtilitiesPro.setAccelerator(KeyStroke.getKeyStroke(
+				KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK));
 		mnCommand.add(mntmTerminateUtilitiesPro);
 
 		JMenuItem mntmTerminateArbitraryProcess = new JMenuItem(
@@ -541,110 +654,5 @@ public class Console {
 		String greet = "Welcome, " + userName + " to Utilities Pro - "
 				+ version + " '" + keyword + "'\n===========";
 		outText.append(greet);
-	}
-
-	/**
-	 * @since 2.2_01
-	 * @param in
-	 *            String to append into the JTextArea outText
-	 * @see com.me.ifly6.ConsoleIf
-	 */
-	public static void append(String in) {
-		outText.append("\n" + in);
-	}
-
-	/**
-	 * @since 2.2_02
-	 * @param in
-	 *            String to append (with a space) into the JTextArea outText
-	 * @see com.me.ifly6.ConsoleIf
-	 */
-	public static void out(String in) {
-		outText.append("\n " + in);
-	}
-
-	/**
-	 * @since 2.2_01
-	 * @param in
-	 *            String to append (with a date) into the JTextArea logText
-	 */
-	public static void log(String in) {
-		logText.append("\n" + new Date() + " " + in);
-	}
-
-	/**
-	 * @since 3.0_dev07
-	 * @param in
-	 *            String to append with the bash prompt to JTextArea outText.
-	 *            Also appends to logText.
-	 */
-	public static void command(String in) {
-		append(computername + "~ $ " + in);
-		log(computername + "~ $ " + in);
-	}
-
-	/**
-	 * @since 3.0_dev02
-	 * @return String with contents of JTextArea outText
-	 */
-	public static String getOutText() {
-		return outText.getText();
-	}
-
-	/**
-	 * @since 3.0_dev02
-	 * @return String with contents of JTextArea logText
-	 */
-	public static String getLogText() {
-		return logText.getText();
-	}
-
-	/**
-	 * As it deals with the GUI's implementation (JTextArea), Java forces its
-	 * location to be inside the GUI's declaration class.
-	 * 
-	 * @author ifly6
-	 * @since 3.0_dev02
-	 * @param which
-	 *            integer value, determines which JTextArea to clear (1,
-	 *            outText; 2, logText; 3, inputField)
-	 */
-	public static void clearText(int which) {
-		if (which == 1) {
-			outText.setText(null);
-		}
-		if (which == 2) {
-			logText.setText(null);
-		}
-		if (which == 3) {
-			inputField.setText(null);
-		}
-	}
-
-	/**
-	 * Used to create (if necessary) all folders for Utilities Pro. Creates
-	 * ~/Library/Application Support/Utilities Pro folder and verifies that
-	 * ~/Downloads exists. This programme should be run on a Mac, as both are
-	 * only applicable under the File Structure of one (or very similar Linux
-	 * distributions)
-	 * 
-	 * @author ifly6
-	 * @since 2.2_01
-	 */
-	public static void mkdir() {
-		File folder = new File(UtilitiesPro_DIR);
-		folder.mkdirs();
-		folder = new File(Downloads_DIR);
-		folder.mkdirs();
-	}
-
-	/**
-	 * @since 3.0_dev05
-	 * @return a string with the contents of TextArea inputField
-	 */
-	public static String getInputField() {
-		String a = inputField.getText();
-		inputField.setText(null);
-		return a;
 	}
 }

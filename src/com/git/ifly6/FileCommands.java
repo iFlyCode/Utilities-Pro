@@ -26,7 +26,7 @@ public class FileCommands extends Console {
 	 *            an integer which chooses which function to use on the
 	 *            configuration. There are three possibilities. 1) Open the
 	 *            configuration in Finder, 2) Delete the configuration folder,
-	 *            and 3) Generate configuration.
+	 *            3) Generate configuration, and 4) Change configuration.
 	 */
 	public static void configManage(int which) {
 		if (which == 1) {
@@ -36,12 +36,27 @@ public class FileCommands extends Console {
 		}
 		if (which == 2) {
 			log("Deleting Configuration");
-			String[] delConfig = { "rm -rf", UtilitiesPro_DIR };
+			String[] delConfig = { "rm", "-rf", UtilitiesPro_DIR };
 			ExecEngine.exec(delConfig);
 		}
 		if (which == 3) {
 			log("Generating Configuration");
-			// Generate Configuration
+
+			// The first line should either be "Default" or
+			// "CrossPlatformLAF".
+			try {
+				String config = "Default" + "\n100";
+				FileWriter fstream = new FileWriter(UtilitiesPro_DIR
+						+ "/config.txt");
+				BufferedWriter out = new BufferedWriter(fstream);
+				out.write(config);
+				out.close();
+			} catch (Exception e) {
+				log("Attempt to generate configuration Failed.");
+			}
+		}
+		if (which == 4) {
+			// TODO Configuration Management, through GUI or CLI
 		}
 	}
 

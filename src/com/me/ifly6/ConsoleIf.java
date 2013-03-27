@@ -32,37 +32,77 @@ public class ConsoleIf extends Console {
 	/*
 	 * ALL DATA TO PASS THROUGH THESE METHODS Standardised I/O Processing
 	 */
+
+	/**
+	 * Standard Display method. Displays a string (in), into the Console, with
+	 * the necessary line return.
+	 * 
+	 * @param in
+	 *            String to append with no space into Console.
+	 */
 	public static void append(String in) {
 		Console.display.append("\n" + in);
 	}
 
+	/**
+	 * Secondary Display method. Displays a string (in) into the Console, with
+	 * the necessary line return, and a space.
+	 * 
+	 * @param in
+	 *            String to append with a space into the Console.
+	 */
 	public static void out(String in) {
 		Console.display.append("\n " + in);
 	}
 
+	/**
+	 * Standard Method for giving data to the user in the Log. Auto-formats that
+	 * string, with the necessary line break and a date/time.
+	 * 
+	 * @param in
+	 *            String to be put into the log.
+	 */
 	public static void log(String in) {
 		Console.log.append("\n" + new Date() + " " + in);
 	}
 
-	// Getter and Setter
+	/**
+	 * Gets a String with all the contents of the Console.
+	 * 
+	 * @return String (contents of Console)
+	 */
 	public static String getText() {
 		return display.getText();
 	}
 
+	/**
+	 * Sets the Console as a certain String.
+	 * 
+	 * @param in
+	 */
 	public static void setText(String in) {
 		display.setText(in);
 	}
 
 	// Files and Clearing
+	/**
+	 * Destroys the process which is started in the CoreMethods Class.
+	 */
 	public static void term_proc() {
 		TextProc.process.destroy();
 	}
 
+	/**
+	 * Clears the Console and the Log.
+	 */
 	public static void clear() {
 		Console.display.setText(null);
 		Console.log.setText(null);
 	}
 
+	/**
+	 * Creates the directories required for standard functioning.
+	 */
 	public static void mkdir() {
 		File folder = new File("/Users/" + userName
 				+ "/Library/Application Support/Utilities Pro");

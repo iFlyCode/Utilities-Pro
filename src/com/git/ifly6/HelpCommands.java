@@ -1,8 +1,11 @@
 package com.git.ifly6;
 
+import java.awt.Desktop;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Scanner;
 
 import javax.swing.JOptionPane;
@@ -23,9 +26,9 @@ public class HelpCommands extends Console {
 	 */
 	public static void changeLog() {
 		try {
-			String[] url = { "curl", "-o", UtilitiesPro_DIR + "/changelog.txt",
-					"http://ifly6server.no-ip.org/UtilitiesPro/changelog.txt" };
-			rt.exec(url);
+			ExecEngine.download(
+					"http://ifly6server.no-ip.org/UtilitiesPro/changelog.txt",
+					UtilitiesPro_DIR + "/changelog.txt");
 			Thread.sleep(500);
 			FileReader fstream;
 			fstream = new FileReader(UtilitiesPro_DIR + "/changelog.txt");
@@ -36,7 +39,6 @@ public class HelpCommands extends Console {
 			log("Changelog Processing Trigger Completed");
 		} catch (FileNotFoundException e) {
 		} catch (InterruptedException e) {
-		} catch (IOException e) {
 		}
 	}
 
@@ -69,16 +71,13 @@ public class HelpCommands extends Console {
 	 */
 	public static void acknowledgements() {
 		try {
-			String[] url = { "curl", "-o",
-					UtilitiesPro_DIR + "/acknowledgements.txt",
-					"http://ifly6.no-ip.org/Utilities Pro/acknowledgements.txt" };
-			rt.exec(url);
+			ExecEngine
+					.download(
+							"http://ifly6.no-ip.org/Utilities Pro/acknowledgements.txt",
+							UtilitiesPro_DIR + "/acknowledgements.txt");
 			Thread.sleep(500);
 			FileReader fstream;
-			fstream = new FileReader(
-					"/Users/"
-							+ userName
-							+ "/Library/Application Support/Utilities Pro/acknowledgements.txt");
+			fstream = new FileReader(UtilitiesPro_DIR + "/acknowledgements.txt");
 			Scanner scan = new Scanner(fstream);
 			while (scan.hasNextLine()) {
 				out(scan.nextLine());
@@ -86,9 +85,6 @@ public class HelpCommands extends Console {
 			log("Acknowledgements Processing Trigger Completed");
 		} catch (FileNotFoundException e) {
 		} catch (InterruptedException e) {
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 	}
 
@@ -113,7 +109,7 @@ public class HelpCommands extends Console {
 	 * @since 2.3 (though there was one in iAccelerate)
 	 */
 	public static void licence() {
-		append("Utilities Pro Licence");
+		append("== Utilities Pro Licence ==");
 		out("* You accept all responsibility for anything caused by this programme.");
 		out("* You will not change this programme to preform malicious work.");
 		out("* You will credit the authors of this programme for anything based heavily upon it.");
@@ -133,7 +129,23 @@ public class HelpCommands extends Console {
 	 * @since 3.0_dev06
 	 */
 	public static void bashHelp() {
-		String[] command = { "open", "http://ss64.com/osx/" };
-		ExecEngine.exec(command);
+		try {
+			if (Desktop.isDesktopSupported()) {
+				Desktop.getDesktop().browse(new URI("http://ss64.com/osx/"));
+			}
+		} catch (IOException e) {
+			log("Cannot Open Webpage");
+		} catch (URISyntaxException e) {
+			log("Cannot Open Webpage");
+		}
+	}
+
+	public static void update() {
+		append("Downloading latest version of Utilities Pro");
+		ExecEngine
+				.download(
+						"http://ifly6server.no-ip.org/UtilitiesPro/UtilitiesPro-latest.jar",
+						Downloads_DIR);
+		append("Latest Version downloaded to ~/Downloads");
 	}
 }

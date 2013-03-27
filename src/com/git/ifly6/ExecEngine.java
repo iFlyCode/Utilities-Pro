@@ -1,8 +1,13 @@
 package com.git.ifly6;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.util.Scanner;
 
 /**
@@ -15,8 +20,36 @@ import java.util.Scanner;
 
 public class ExecEngine extends Console {
 
-	static String preoperand = Console.getInputField();
-	static String[] operand = preoperand.split(" ");
+	/**
+	 * Downloads a file. Replaces the place of "curl -o" in programme. For the
+	 * purposes of interoperability between Windows and Mac, we've begun to
+	 * remove our reliance on Mac-specific OS commands, such as CURL. This is
+	 * one of them. Though the differences in the FS will likely be too great to
+	 * warrant full interoperability, this is a step forward.
+	 * 
+	 * @since 3.0_dev09
+	 * @param urlFrom
+	 *            The URL to download from. This should go before the directory
+	 *            to put the file in.
+	 * @param directory
+	 *            The directory to download the file to. This should be after
+	 *            the URL.
+	 */
+	public static void download(String urlFrom, String directory) {
+		log("Downloading file from: " + urlFrom);
+		log("Downloading file to: " + directory);
+		try {
+			URL website = new URL(urlFrom);
+			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+			FileOutputStream fos = new FileOutputStream(directory);
+			fos.getChannel().transferFrom(rbc, 0, 1 << 24);
+			fos.close();
+		} catch (FileNotFoundException e) {
+			log("Download of File Failed");
+		} catch (IOException e) {
+			log("Download of File Failed");
+		}
+	}
 
 	/**
 	 * Sets the input String array as the pre-operand/contents of the
@@ -30,8 +63,8 @@ public class ExecEngine extends Console {
 	 * @see exec(String[] input)
 	 */
 	public static void exec() {
-		log("Beginning Execution of : " + preoperand);
-		final String[] input = operand;
+		log("Beginning Execution of : " + Console.getInputField());
+		final String[] input = Console.getInputField().split(" ");
 		engine(input);
 	}
 
@@ -77,7 +110,7 @@ public class ExecEngine extends Console {
 	 * @param input
 	 *            the String array used as the main execution parameters,
 	 *            getting all the data necessary for the execution
-	 * @since 3.0_dev05, though it's predecessor was implemented in v1.0
+	 * @since 3.0_dev05, though its predecessor was implemented in v1.0
 	 * @see com.me.ifly6.methods.CoreMethods
 	 */
 	public static void engine(final String[] input) {

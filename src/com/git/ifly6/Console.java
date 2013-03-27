@@ -122,7 +122,7 @@ public class Console {
 	/**
 	 * Naming system is: <major>.<minor>_<revision> or <major>.<minor>_dev<#>
 	 */
-	public static String version = "3.0_dev08";
+	public static String version = "3.0_dev09";
 
 	/**
 	 * @since 2.2_01
@@ -163,8 +163,8 @@ public class Console {
 	 *            Also appends to logText.
 	 */
 	public static void command(String in) {
-		append(computername + "~ $ " + in);
-		log(computername + "~ $ " + in);
+		append(computername + ":~ $ " + in);
+		log(computername + ":~ $ " + in);
 	}
 
 	/**
@@ -226,7 +226,10 @@ public class Console {
 		macApp.addApplicationListener(macAdapter);
 		macApp.setEnabledPreferencesMenu(true);
 
-		// Look and Feel
+		// Create Configuration Directory
+		Console.mkdir();
+
+		// Read Configuration
 		FileReader configRead = null;
 		String look = "Default";
 		try {
@@ -641,15 +644,15 @@ public class Console {
 		JSeparator separator_2 = new JSeparator();
 		mnHelp.add(separator_2);
 
-		JMenuItem mntmQuit = new JMenuItem("Quit");
-		mntmQuit.addActionListener(new ActionListener() {
+		JMenuItem mntmUpdate = new JMenuItem("Update");
+		mntmUpdate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// No Command log necessary.
-				System.exit(0);
+				command("Help>Update");
+				HelpCommands.update();
 			}
 		});
-		mnHelp.add(mntmQuit);
+		mnHelp.add(mntmUpdate);
 
 		String greet = "Welcome, " + userName + " to Utilities Pro - "
 				+ version + " '" + keyword + "'\n===========";

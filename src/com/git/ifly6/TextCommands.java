@@ -15,7 +15,7 @@ public class TextCommands extends Console {
 		String preoperand = Console.getInputField();
 
 		// Command Parsing
-		append(computername + "~ $ " + preoperand);
+		command(preoperand);
 		Console.clearText(3);
 		String[] operand = preoperand.split(" ");
 

@@ -61,40 +61,6 @@ public class FileCommands extends Console {
 	}
 
 	/**
-	 * Opens the folder in which all configuration files are kept for Utilities
-	 * Pro.
-	 * 
-	 * @since 3.0_dev02
-	 * @deprecated
-	 */
-	@Deprecated
-	public static void OpenConfig() {
-		String[] openConfig = { "open", UtilitiesPro_DIR };
-		try {
-			rt.exec(openConfig);
-		} catch (IOException e) {
-			log("Open Failed");
-		}
-	}
-
-	/**
-	 * Deletes the folder in which all configuration files are kept for
-	 * Utilities Pro.
-	 * 
-	 * @since 2.3
-	 * @deprecated
-	 */
-	@Deprecated
-	public static void DeleteConfig() {
-		String[] delConfig = { "rm -rf", UtilitiesPro_DIR };
-		try {
-			rt.exec(delConfig);
-		} catch (IOException e) {
-			log("Config Delete Failed");
-		}
-	}
-
-	/**
 	 * This method chooses which JTextArea to export, then exports it.
 	 * 
 	 * @author ifly6

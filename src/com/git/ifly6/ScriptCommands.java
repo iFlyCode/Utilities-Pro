@@ -17,6 +17,7 @@ public class ScriptCommands extends Console {
 	 * @since 2.3_dev3
 	 */
 	public static void purge() {
+		append("Please wait. Purging inactive memory cache...");
 		ExecEngine.exec("purge");
 	}
 
@@ -103,14 +104,11 @@ public class ScriptCommands extends Console {
 	 */
 	public static void mindterm() {
 		log("Mindterm Download Commenced.");
-		String url = "curl -o /Users/" + userName
-				+ "/Downloads/ http://ifly6.no-ip.org/Public/mindterm.jar";
-		ExecEngine.exec(url);
+		ExecEngine.download("http://ifly6.no-ip.org/Public/mindterm.jar",
+				Downloads_DIR);
 		append("Mindterm Downloaded to: "
-				+ "/Users/"
-				+ userName
-				+ "/Downloads/"
-				+ "\nThis is a full Java Based SSH/Telnet Client, capable of using SSH -D."
+				+ Downloads_DIR
+				+ "\nThis is a full Java Based SSH/Telnet Client, capable of using SOCKS."
 				+ "\nIt is however, not made by the Utilities Pro Team, and therefore, does not fall under our perview.");
 	}
 

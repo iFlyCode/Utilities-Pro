@@ -29,17 +29,18 @@ public class FileCommands extends Console {
 	 *            3) Generate configuration, and 4) Change configuration.
 	 */
 	public static void configManage(int which) {
-		if (which == 1) {
+		switch (which) {
+		case 1:
 			log("Opening Configuration");
 			String[] openConfig = { "open", UtilitiesPro_DIR };
 			ExecEngine.exec(openConfig);
-		}
-		if (which == 2) {
+			break;
+		case 2:
 			log("Deleting Configuration");
 			String[] delConfig = { "rm", "-rf", UtilitiesPro_DIR };
 			ExecEngine.exec(delConfig);
-		}
-		if (which == 3) {
+			break;
+		case 3:
 			log("Generating Configuration");
 
 			// The first line should either be "Default" or
@@ -51,12 +52,16 @@ public class FileCommands extends Console {
 				BufferedWriter out = new BufferedWriter(fstream);
 				out.write(config);
 				out.close();
-			} catch (Exception e) {
+			} catch (IOException e) {
 				log("Attempt to generate configuration Failed.");
 			}
-		}
-		if (which == 4) {
+			break;
+		case 4:
 			// TODO Configuration Management, through GUI or CLI
+			break;
+		default:
+			append("No valid configuration command specified.");
+			break;
 		}
 	}
 
@@ -70,7 +75,8 @@ public class FileCommands extends Console {
 	 * @since 3.0_dev04 (integrated from two separate commands)
 	 */
 	public static void export(int which) {
-		if (which == 1) {
+		switch (which) {
+		case 1:
 			String outFile = Console.getOutText();
 			log("Output Export Invoked.");
 			mkdir();
@@ -85,13 +91,13 @@ public class FileCommands extends Console {
 				log("Output Export Failed");
 			}
 			append("Contents Exported to " + UtilitiesPro_DIR);
-		}
-		if (which == 2) {
-			String outFile = Console.getOutText();
+			break;
+		case 2:
+			outFile = Console.getLogText();
 			log("Log Export Invoked.");
 			mkdir();
-			Writer writer = null;
-			File file = new File(UtilitiesPro_DIR + "/report_display-out"
+			writer = null;
+			file = new File(UtilitiesPro_DIR + "/report_display-out"
 					+ new Date() + ".txt");
 			try {
 				writer = new BufferedWriter(new FileWriter(file));
@@ -101,6 +107,10 @@ public class FileCommands extends Console {
 				log("Log Export Failed");
 			}
 			append("Contents Exported to " + UtilitiesPro_DIR);
+			break;
+		default:
+			append("No valid TextArea specified.");
+			break;
 		}
 	}
 }

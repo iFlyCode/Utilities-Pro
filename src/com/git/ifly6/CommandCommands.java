@@ -28,7 +28,7 @@ public class CommandCommands extends Console {
 	 * 
 	 * @since 3.0_dev05
 	 * @param which
-	 *            is an integer that selects what arbitrary process to
+	 *            - is an integer that selects what arbitrary process to
 	 *            terminate. Integer must be referring to the PID of a process.
 	 *            The PID of the process can be gotten by running through the PS
 	 *            AX directory.

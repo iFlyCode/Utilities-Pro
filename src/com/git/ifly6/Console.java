@@ -129,7 +129,7 @@ public class Console {
 	/**
 	 * @since 2.2_01
 	 * @param in
-	 *            String to append into the JTextArea outText
+	 *            - String to append into the JTextArea outText
 	 * @see com.me.ifly6.ConsoleIf
 	 */
 	public static void append(String in) {
@@ -143,7 +143,7 @@ public class Console {
 	 * @author ifly6
 	 * @since 3.0_dev02
 	 * @param which
-	 *            integer value, determines which JTextArea to clear (1,
+	 *            - integer value, determines which JTextArea to clear (1,
 	 *            outText; 2, logText; 3, inputField)
 	 */
 	public static void clearText(int which) {
@@ -161,7 +161,7 @@ public class Console {
 	/**
 	 * @since 3.0_dev07
 	 * @param in
-	 *            String to append with the bash prompt to JTextArea outText.
+	 *            - String to append with the bash prompt to JTextArea outText.
 	 *            Also appends to logText.
 	 */
 	public static void command(String in) {
@@ -197,7 +197,7 @@ public class Console {
 	/**
 	 * @since 2.2_01
 	 * @param in
-	 *            String to append (with a date) into the JTextArea logText
+	 *            - String to append (with a date) into the JTextArea logText
 	 */
 	public static void log(String in) {
 		logText.append("\n" + new Date() + " " + in);
@@ -210,8 +210,8 @@ public class Console {
 	 * launches the GUI.
 	 * 
 	 * @param inputArgs
-	 *            TODO When launched from command line with "-u", the programme
-	 *            will update Utilities Pro.
+	 *            - TODO When launched from command line with "-u", the
+	 *            programme will update Utilities Pro.
 	 */
 	@SuppressWarnings("deprecation")
 	public static void main(String[] inputArgs) {
@@ -231,10 +231,10 @@ public class Console {
 		Console.mkdir();
 
 		// Read Configuration
-		FileReader configRead = null;
 		String look = "Default";
 		try {
-			configRead = new FileReader(UtilitiesPro_DIR + "/config.txt");
+			FileReader configRead = new FileReader(UtilitiesPro_DIR
+					+ "/config.txt");
 			Scanner scan = new Scanner(configRead);
 			look = scan.nextLine();
 		} catch (FileNotFoundException e1) {
@@ -323,7 +323,7 @@ public class Console {
 	/**
 	 * @since 2.2_02
 	 * @param in
-	 *            String to append (with a space) into the JTextArea outText
+	 *            - String to append (with a space) into the JTextArea outText
 	 * @see com.me.ifly6.ConsoleIf
 	 */
 	public static void out(String in) {
@@ -366,17 +366,17 @@ public class Console {
 	 * and setters which are evident below.
 	 * 
 	 * @param frame
-	 *            JFrame for the programme
+	 *            - JFrame for the programme
 	 * @param panel
-	 *            Panel for the Console's Tab
+	 *            - Panel for the Console's Tab
 	 * @param scrollPane_logText
-	 *            Pane for the Logging Tab
+	 *            - Pane for the Logging Tab
 	 * @param outText
-	 *            JTextArea for the Console's output
+	 *            - JTextArea for the Console's output
 	 * @param logText
-	 *            JTextArea for the Logging's output
+	 *            - JTextArea for the Logging's output
 	 * @param inputField
-	 *            TextField (AWT) for input into the programme
+	 *            - TextField (AWT) for input into the programme
 	 */
 	private void initialize() {
 		frame = new JFrame();

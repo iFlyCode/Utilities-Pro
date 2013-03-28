@@ -29,7 +29,7 @@ public class HelpCommands extends Console {
 			ExecEngine.download(
 					"http://ifly6server.no-ip.org/UtilitiesPro/changelog.txt",
 					UtilitiesPro_DIR + "/changelog.txt");
-			Thread.sleep(500);
+			Thread.sleep(100);
 			FileReader fstream;
 			fstream = new FileReader(UtilitiesPro_DIR + "/changelog.txt");
 			Scanner scan = new Scanner(fstream);
@@ -43,8 +43,8 @@ public class HelpCommands extends Console {
 	}
 
 	/**
-	 * Displays about text. Displays a long string, about in a JOptionPane. It
-	 * then calls the change-log method.
+	 * Displays about text. Displays a long string, String about in a
+	 * JOptionPane. It then calls the change-log method.
 	 * 
 	 * @since 3.0_dev07
 	 * @see com.git.ifly6.HelpCommands#changelog()
@@ -54,7 +54,8 @@ public class HelpCommands extends Console {
 				+ Console.version
 				+ " '"
 				+ Console.keyword
-				+ "'\n"
+				+ "'"
+				+ "\n"
 				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. "
 				+ "\nIt is to serve as a terminal in restricted enviornments, such as "
 				+ "\nschools or universities. Tapping Java's ProcessBuilder or Runtime"
@@ -71,11 +72,10 @@ public class HelpCommands extends Console {
 	 */
 	public static void acknowledgements() {
 		try {
-			ExecEngine
-					.download(
-							"http://ifly6.no-ip.org/Utilities Pro/acknowledgements.txt",
-							UtilitiesPro_DIR + "/acknowledgements.txt");
-			Thread.sleep(500);
+			ExecEngine.download(
+					"http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt",
+					UtilitiesPro_DIR + "/acknowledgements.txt");
+			Thread.sleep(100);
 			FileReader fstream;
 			fstream = new FileReader(UtilitiesPro_DIR + "/acknowledgements.txt");
 			Scanner scan = new Scanner(fstream);
@@ -89,7 +89,8 @@ public class HelpCommands extends Console {
 	}
 
 	/**
-	 * Displays the non-null contents of Console.commText.
+	 * Displays the contents of Console.commText, which (due to design) is the
+	 * list of all internal commands for the programme.
 	 * 
 	 * @see Console.commText
 	 * @since 2.3
@@ -97,14 +98,13 @@ public class HelpCommands extends Console {
 	public static void helpList() {
 		append("== Utilities Pro Internal Commands ==");
 		for (String element : commText) {
-			if (!(("null").equals(element))) {
-				out("* " + element);
-			}
+			out("* " + element);
 		}
 	}
 
 	/**
-	 * Displays the End User Licence Agreement for this programme.
+	 * Displays the hardcoded (and therefore, version specific) End User Licence
+	 * Agreement for this programme.
 	 * 
 	 * @since 2.3 (though there was one in iAccelerate)
 	 */
@@ -112,10 +112,10 @@ public class HelpCommands extends Console {
 		append("== Utilities Pro Licence ==");
 		out("* You accept all responsibility for anything caused by this programme.");
 		out("* You will not change this programme to preform malicious work.");
-		out("* You will credit the authors of this programme for anything based heavily upon it.");
+		out("* You will credit the authors of this programme for anything based upon it.");
 		out("* You will not use this programme to accomplish anything illegal.");
 		out("* You will not claim warranty or mandate assistance from anyone on this programme.");
-		out("* You will not distribute any modified copies under the author's name.");
+		out("* You will not distribute any modified copies under the authors' name.");
 		out("* Any distribution of a modified version of this programme must be accompanied by public source.");
 		out("* Any distribution of a modified version of this programme will be following this same licence.");
 		out("By the way, if you actually read this, we are highly surprised.");

@@ -11,8 +11,9 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.Scanner;
 
 /**
- * All Command Line Initiated Commands go here, with relevant processing and
- * relevant execution path lines.
+ * All commands or methods which are associated with executing a command, or
+ * anything that relates to a File which is not directly covered by the File
+ * menu GUI commands class, should be here.
  * 
  * @author ifly6
  * @since 3.0_dev01
@@ -36,8 +37,14 @@ public class ExecEngine extends Console {
 	 *            the URL.
 	 */
 	public static void download(String urlFrom, String directory) {
+		// Make sure Utilities Pro's main folders exist.
+		Console.mkdir();
+
+		// Logging.
 		log("Downloading file from: " + urlFrom);
 		log("Downloading file to: " + directory);
+
+		// Downloading.
 		try {
 			URL website = new URL(urlFrom);
 			ReadableByteChannel rbc = Channels.newChannel(website.openStream());
@@ -45,9 +52,9 @@ public class ExecEngine extends Console {
 			fos.getChannel().transferFrom(rbc, 0, 1 << 24);
 			fos.close();
 		} catch (FileNotFoundException e) {
-			log("Download of File Failed");
+			log("Download of File Failed: File Not Found");
 		} catch (IOException e) {
-			log("Download of File Failed");
+			log("Download of File Failed: IO Exception");
 		}
 	}
 

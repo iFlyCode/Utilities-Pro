@@ -399,7 +399,7 @@ public class Console {
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
 				if (keyCode == 10) {
-					TextCommands.process();
+					TextCommands.processInputField();
 				}
 			}
 

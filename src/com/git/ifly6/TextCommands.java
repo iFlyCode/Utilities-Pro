@@ -2,6 +2,11 @@ package com.git.ifly6;
 
 public class TextCommands extends Console {
 
+	public static void processInputField() {
+		String preoperand = Console.getInputField();
+		process(preoperand);
+	}
+
 	/**
 	 * Processes the Text for Application-specific functions. This should be the
 	 * only method called from this class. All others should be called from this
@@ -11,8 +16,7 @@ public class TextCommands extends Console {
 	 * @since 1.2
 	 * @see com.me.ifly6.TextProc
 	 */
-	public static void process() {
-		String preoperand = Console.getInputField();
+	public static void process(String preoperand) {
 
 		// Command Parsing
 		command(preoperand);

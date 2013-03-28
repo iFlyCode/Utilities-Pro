@@ -120,9 +120,11 @@ public class Console {
 			+ "/Library/Application Support/Utilities Pro";
 
 	/**
-	 * Naming system is: <major>.<minor>_<revision> or <major>.<minor>_dev<#>
+	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#>
+	 * For the development number, it follows |major|.|minor|, but with no
+	 * revisions.
 	 */
-	public static String version = "3.0_dev09";
+	public static String version = "3.0_dev09.01";
 
 	/**
 	 * @since 2.2_01
@@ -172,9 +174,8 @@ public class Console {
 	 * @return a string with the contents of TextArea inputField
 	 */
 	public static String getInputField() {
-		String a = inputField.getText();
-		inputField.setText(null);
-		return a;
+		String contents = inputField.getText();
+		return contents;
 	}
 
 	/**
@@ -398,8 +399,11 @@ public class Console {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
-				if (keyCode == 10) {
+				if (keyCode == KeyEvent.VK_ENTER) {
 					TextCommands.processInputField();
+				}
+				if (keyCode == KeyEvent.VK_UP) {
+					inputField.setText(TextCommands.preoperand);
 				}
 			}
 

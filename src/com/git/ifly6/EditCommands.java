@@ -11,6 +11,7 @@ public class EditCommands {
 	/**
 	 * Calls the clearText method in console, with input of 1
 	 * 
+	 * @since 3.0_dev05
 	 * @see com.git.ifly6.Console#consoleClear
 	 */
 	public static void consoleClear() {
@@ -20,6 +21,7 @@ public class EditCommands {
 	/**
 	 * Calls the clearText method in console, with input of 2
 	 * 
+	 * @since 3.0_dev05
 	 * @see com.git.ifly6.Console#consoleClear
 	 */
 	public static void logClear() {

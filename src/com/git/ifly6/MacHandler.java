@@ -17,7 +17,6 @@ import com.apple.eawt.ApplicationEvent;
  * preferences dialogue should open the preferences page in UtilitiesPro_DIR.
  * The quit system should immediately System.exit(0) the programme.
  * 
- * @author ifly6
  * @since 3.0_dev05
  * @see com.apple.eawt
  */

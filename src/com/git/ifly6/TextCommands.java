@@ -2,8 +2,10 @@ package com.git.ifly6;
 
 public class TextCommands extends Console {
 
+	public static String preoperand = Console.getInputField();
+
 	public static void processInputField() {
-		String preoperand = Console.getInputField();
+		preoperand = Console.getInputField();
 		process(preoperand);
 	}
 

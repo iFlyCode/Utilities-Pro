@@ -1,4 +1,4 @@
-package com.git.ifly6;
+package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
 
@@ -30,9 +30,9 @@ public class ScriptCommands extends Console {
 	 */
 	public static void wireless() {
 		try {
-			ExecEngine.exec("networksetup -setairportpower en0 off");
+			ExecEngine.exec("networksetup -setairportpower en1 off");
 			Thread.sleep(500);
-			ExecEngine.exec("networksetup -setairportpower en0 on");
+			ExecEngine.exec("networksetup -setairportpower en1 on");
 		} catch (InterruptedException e) {
 			log("Airport Restart Failed");
 		}

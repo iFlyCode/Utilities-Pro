@@ -1,11 +1,11 @@
-package com.me.ifly6.methods;
+package com.me.ifly6.UtilitiesPro2.methods;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-import com.me.ifly6.TextProc;
+import com.me.ifly6.UtilitiesPro2.TextProc;
 
 /**
  * Contains methods which are vital to the operation of the programme. These

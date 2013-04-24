@@ -1,4 +1,4 @@
-package com.git.ifly6;
+package com.git.ifly6.UtilitiesPro3;
 
 import javax.swing.JOptionPane;
 
@@ -16,7 +16,7 @@ public class CommandCommands extends Console {
 	 * ExecEngine.engine(String[]).
 	 * 
 	 * @since 2.3
-	 * @see com.git.ifly6.ExecEngine.engine(String[])
+	 * @see com.git.ifly6.UtilitiesPro3.ExecEngine.engine(String[])
 	 */
 	public static void terminateUtility() {
 		Console.process.destroy();
@@ -62,7 +62,7 @@ public class CommandCommands extends Console {
 	 * hoping that nothing will be able to stop it fast enough.
 	 * 
 	 * @since 3.0_dev06
-	 * @see com.git.ifly6.terminate(int)
+	 * @see com.git.ifly6.UtilitiesPro3.terminate(int)
 	 */
 	public static void bombard() {
 		String choice = JOptionPane.showInputDialog(null,

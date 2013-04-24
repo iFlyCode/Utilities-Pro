@@ -1,4 +1,4 @@
-package com.git.ifly6;
+package com.git.ifly6.UtilitiesPro3;
 
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
@@ -42,7 +42,7 @@ public class MacHandler extends ApplicationAdapter {
 	 * @since 3.0_dev05
 	 * @param e
 	 *            is not used
-	 * @see com.git.ifly6.HelpCommands
+	 * @see com.git.ifly6.UtilitiesPro3.HelpCommands
 	 */
 	@Override
 	public void handleAbout(ApplicationEvent e) {
@@ -56,7 +56,7 @@ public class MacHandler extends ApplicationAdapter {
 	 * @since 3.0_dev05
 	 * @param e
 	 *            is not used
-	 * @see com.git.ifly6.FileCommands
+	 * @see com.git.ifly6.UtilitiesPro3.FileCommands
 	 */
 	@Override
 	public void handlePreferences(ApplicationEvent e) {

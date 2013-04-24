@@ -1,4 +1,4 @@
-package com.me.ifly6;
+package com.me.ifly6.UtilitiesPro2;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,10 +26,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 import javax.swing.text.DefaultCaret;
 
-import com.me.ifly6.methods.CoreMethods;
-import com.me.ifly6.methods.GraphicsMethods;
-import com.me.ifly6.methods.InOutMethods;
-import com.me.ifly6.methods.InfoMethods;
+import com.me.ifly6.UtilitiesPro2.methods.CoreMethods;
+import com.me.ifly6.UtilitiesPro2.methods.GraphicsMethods;
+import com.me.ifly6.UtilitiesPro2.methods.InOutMethods;
+import com.me.ifly6.UtilitiesPro2.methods.InfoMethods;
 
 /**
  * TODO IMPLEMENT A CHANGE DIRECTORY SYSTEM.

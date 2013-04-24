@@ -1,4 +1,4 @@
-package com.git.ifly6;
+package com.git.ifly6.UtilitiesPro3;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -65,7 +65,7 @@ public class ExecEngine extends Console {
 	 * @since 3.0_dev05
 	 * @param input
 	 *            a string to be run by the execution engine.
-	 * @see com.me.ifly6.TextProc
+	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 * @see exec(String input)
 	 * @see exec(String[] input)
 	 */
@@ -118,7 +118,7 @@ public class ExecEngine extends Console {
 	 *            the String array used as the main execution parameters,
 	 *            getting all the data necessary for the execution
 	 * @since 3.0_dev05, though its predecessor was implemented in v1.0
-	 * @see com.me.ifly6.methods.CoreMethods
+	 * @see com.me.ifly6.UtilitiesPro2.methods.CoreMethods
 	 */
 	public static void engine(final String[] input) {
 		Runnable runner = new Runnable() {

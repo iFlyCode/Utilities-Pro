@@ -1,11 +1,11 @@
-package com.me.ifly6.methods;
+package com.me.ifly6.UtilitiesPro2.methods;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 
 import javax.swing.text.DefaultCaret;
 
-import com.me.ifly6.ConsoleIf;
+import com.me.ifly6.UtilitiesPro2.ConsoleIf;
 
 /**
  * @since 2.2_01

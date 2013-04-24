@@ -1,4 +1,4 @@
-package com.git.ifly6;
+package com.git.ifly6.UtilitiesPro3;
 
 import java.awt.Desktop;
 import java.io.FileNotFoundException;
@@ -47,7 +47,7 @@ public class HelpCommands extends Console {
 	 * JOptionPane. It then calls the change-log method.
 	 * 
 	 * @since 3.0_dev07
-	 * @see com.git.ifly6.HelpCommands#changelog()
+	 * @see com.git.ifly6.UtilitiesPro3.HelpCommands#changelog()
 	 */
 	public static void about() {
 		String about = ("Utilities Pro - "

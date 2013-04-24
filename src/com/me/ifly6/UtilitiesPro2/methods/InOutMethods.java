@@ -1,4 +1,4 @@
-package com.me.ifly6.methods;
+package com.me.ifly6.UtilitiesPro2.methods;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,7 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import com.me.ifly6.TextProc;
+import com.me.ifly6.UtilitiesPro2.TextProc;
 
 /**
  * @since 2.2_01

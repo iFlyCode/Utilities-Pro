@@ -1,4 +1,4 @@
-package com.me.ifly6;
+package com.me.ifly6.UtilitiesPro2;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;

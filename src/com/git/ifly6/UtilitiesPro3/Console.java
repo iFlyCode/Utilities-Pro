@@ -1,4 +1,4 @@
-package com.git.ifly6;
+package com.git.ifly6.UtilitiesPro3;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -124,13 +124,13 @@ public class Console {
 	 * For the development number, it follows |major|.|minor|, but with no
 	 * revisions.
 	 */
-	public static String version = "3.0_dev09.01";
+	public static String version = "3.0_dev09.02";
 
 	/**
 	 * @since 2.2_01
 	 * @param in
 	 *            - String to append into the JTextArea outText
-	 * @see com.me.ifly6.ConsoleIf
+	 * @see com.me.ifly6.UtilitiesPro2.ConsoleIf
 	 */
 	public static void append(String in) {
 		outText.append("\n" + in);
@@ -324,7 +324,7 @@ public class Console {
 	 * @since 2.2_02
 	 * @param in
 	 *            - String to append (with a space) into the JTextArea outText
-	 * @see com.me.ifly6.ConsoleIf
+	 * @see com.me.ifly6.UtilitiesPro2.ConsoleIf
 	 */
 	public static void out(String in) {
 		outText.append("\n " + in);
@@ -658,7 +658,10 @@ public class Console {
 		});
 		mnHelp.add(mntmUpdate);
 
-		String greet = "Welcome, " + userName + " to Utilities Pro - "
+		Personal personal = new Personal();
+		personal.parameters();
+
+		String greet = "Welcome, " + userName + ", to Utilities Pro - "
 				+ version + " '" + keyword + "'\n===========";
 		outText.append(greet);
 	}

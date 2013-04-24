@@ -1,12 +1,12 @@
-package com.me.ifly6;
+package com.me.ifly6.UtilitiesPro2;
 
 import java.awt.Font;
 import java.io.IOException;
 
-import com.me.ifly6.methods.CoreMethods;
-import com.me.ifly6.methods.GraphicsMethods;
-import com.me.ifly6.methods.InOutMethods;
-import com.me.ifly6.methods.InfoMethods;
+import com.me.ifly6.UtilitiesPro2.methods.CoreMethods;
+import com.me.ifly6.UtilitiesPro2.methods.GraphicsMethods;
+import com.me.ifly6.UtilitiesPro2.methods.InOutMethods;
+import com.me.ifly6.UtilitiesPro2.methods.InfoMethods;
 
 /**
  * Text Processing, executes Necessary Text Data from Console/anything else

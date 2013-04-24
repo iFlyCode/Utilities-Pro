@@ -1,4 +1,4 @@
-package com.git.ifly6;
+package com.git.ifly6.UtilitiesPro3;
 
 public class TextCommands extends Console {
 
@@ -16,7 +16,7 @@ public class TextCommands extends Console {
 	 * "/", just like in Minecraft.
 	 * 
 	 * @since 1.2
-	 * @see com.me.ifly6.TextProc
+	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 */
 	public static void process(String preoperand) {
 

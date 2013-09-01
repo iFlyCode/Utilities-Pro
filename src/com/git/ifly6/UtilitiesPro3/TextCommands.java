@@ -29,62 +29,71 @@ public class TextCommands extends Console {
 		if ((commText.get(0)).equals(operand[0])) {
 			HelpCommands.changeLog();
 			log("Changelog Called");
-		}
-		if ((commText.get(1)).equals(operand[0])) {
+		} else if ((commText.get(1)).equals(operand[0])) {
 			HelpCommands.about();
 			log("'About' Processing Trigger Invoked");
-		}
-		if ((commText.get(2)).equals(operand[0])) {
+		} else if ((commText.get(2)).equals(operand[0])) {
 			HelpCommands.helpList();
 			log("Help Processing Trigger Invoked");
-		}
-		if ((commText.get(3)).equals(operand[0])) {
+		} else if ((commText.get(3)).equals(operand[0])) {
 			Console.clearText(1);
 			Console.clearText(2);
 			Console.clearText(3);
 			log("JTextAreas Cleared");
-		}
-		if ((commText.get(4)).equals(operand[0])) {
+		} else if ((commText.get(4)).equals(operand[0])) {
 			HelpCommands.acknowledgements();
 			log("Acknowledgements Called");
-		}
-		if ((commText.get(5)).equals(operand[0])) {
+		} else if ((commText.get(5)).equals(operand[0])) {
 			HelpCommands.licence();
 			log("EULA Displayed");
-		}
-		if ((commText.get(6)).equals(operand[0])) {
+		} else if ((commText.get(6)).equals(operand[0])) {
 			FileCommands.export(1);
 			log("Invoked Export of outText");
-		}
-		if ((commText.get(7)).equals(operand[0])) {
+		} else if ((commText.get(7)).equals(operand[0])) {
 			FileCommands.export(2);
 			log("Invoked Export of logText");
-		}
-		if ((commText.get(8)).equals(operand[0])) {
+		} else if ((commText.get(8)).equals(operand[0])) {
 			FileCommands.configManage(3);
 			log("Called Configuration Generation thru CLI");
-		}
-		if ((commText.get(9)).equals(operand[0])) {
+		} else if ((commText.get(9)).equals(operand[0])) {
 			ScriptCommands.readout();
 			log("System Information Processing Trigger Called");
-		}
-		if ((commText.get(10)).equals(operand[0])) {
+		} else if ((commText.get(10)).equals(operand[0])) {
 			ScriptCommands.mindterm();
 			log("Mindterm Download Processing Trigger Called");
-		}
-		if ((commText.get(11)).equals(operand[0])) {
+		} else if ((commText.get(11)).equals(operand[0])) {
 			CommandCommands.terminateChoose();
 			log("Process Termination Processing Trigger Called");
-		}
-		if ((commText.get(12)).equals(operand[0])) {
+		} else if ((commText.get(12)).equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
+		} else if (operand[0].equals("cd")) {
+			cd(operand);
 		}
 
+		// Finally at the end of the cascade of 'if' statements.
 		// If it does not start with "/", then treat it as a bash command.
-		if (!(operand[0].startsWith("/"))) {
+		else {
 			ExecEngine.exec(operand);
 		}
 	}
 
+	/**
+	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it
+	 * was solved.
+	 * 
+	 * @since 3.0_dev09.03
+	 * @param operand
+	 */
+	public static void cd(String[] operand) {
+		if (operand[1].startsWith("/")) {
+			Console.currentDir = operand[1];
+		} else if (operand[1].startsWith("~")) {
+			String newDir = operand[1].replaceAll("~",
+					System.getProperty("user.home"));
+			Console.currentDir = newDir;
+		} else {
+			Console.currentDir = Console.currentDir + "/" + operand[1];
+		}
+	}
 }

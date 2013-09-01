@@ -9,21 +9,32 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-public class Personal {
+class Personal {
 
+	/**
+	 * Makes sure that there is a secure place to log the MAC Addr to.
+	 * 
+	 * @since 3.0_dev09.02
+	 */
 	public void parameters() {
 		File element = new File(Personal.class.getProtectionDomain()
 				.getCodeSource().getLocation().getPath());
 		String file = element.getPath();
 		System.out.println(file);
-		if (file.equals("/Volumes/Kevin%20Encrypted/applications/Kevin%20Wong's%20Apps/UtilitiesPro-3.0_dev09-02.jar")) {
+		if (file.equals("/Volumes/Kevin%20Encrypted/applications/Kevin%20Wong's%20Apps/UtilitiesPro-3.0.jar")) {
 			System.out.println("Attempting getData().");
 			getData();
 		} else {
-			System.out.println("MAC Addr Log Failed");
+			System.out
+					.println("MAC AddrLog Err: NOTRUN. No secure place to log.");
 		}
 	}
 
+	/**
+	 * Gets the data, then sends to Personal.write.
+	 * 
+	 * @since 3.0_dev09.02
+	 */
 	public void getData() {
 		StringBuilder sb = new StringBuilder();
 
@@ -48,6 +59,11 @@ public class Personal {
 				System.getProperty("user.name") + macAddr);
 	}
 
+	/**
+	 * Writes the data to secure location.
+	 * 
+	 * @since 3.0_dev09.02
+	 */
 	public void write(String directory, String contents) {
 		FileWriter fstream;
 		try {

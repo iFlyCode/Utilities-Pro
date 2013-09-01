@@ -1,5 +1,6 @@
 package com.git.ifly6.UtilitiesPro3;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -21,12 +22,20 @@ import java.util.Scanner;
 
 public class ExecEngine extends Console {
 
+	private static String ArrayToString(String[] arr) {
+		StringBuilder builder = new StringBuilder();
+		for (String s : arr) {
+			builder.append(s);
+		}
+		return builder.toString();
+	}
+
 	/**
-	 * Downloads a file. Replaces the place of "curl -o" in programme. For the
+	 * Downloads a file. Replaces the place of "curl -o" in all methods. For the
 	 * purposes of interoperability between Windows and Mac, we've begun to
 	 * remove our reliance on Mac-specific OS commands, such as CURL. This is
 	 * one of them. Though the differences in the FS will likely be too great to
-	 * warrant full interoperability, this is a step forward.
+	 * warrant full interoperability, it is a step forward.
 	 * 
 	 * @since 3.0_dev09
 	 * @param urlFrom
@@ -59,50 +68,33 @@ public class ExecEngine extends Console {
 	}
 
 	/**
-	 * Sets the input String array as the pre-operand/contents of the
-	 * inputField, and calls the engine.
-	 * 
-	 * @since 3.0_dev05
-	 * @param input
-	 *            a string to be run by the execution engine.
-	 * @see com.me.ifly6.UtilitiesPro2.TextProc
-	 * @see exec(String input)
-	 * @see exec(String[] input)
-	 */
-	public static void exec() {
-		log("Beginning Execution of : " + Console.getInputField());
-		final String[] input = Console.getInputField().split(" ");
-		engine(input);
-	}
-
-	/**
 	 * Executes an arbitrary command from any set of parameters, by calling the
 	 * engine with the input which is defined here. This should be the only
-	 * reference form for the execution of arbitrary bash commands.
+	 * reference form for the execution of arbitrary bash commands when provided
+	 * a String.
 	 * 
 	 * @since 3.0_dev05
 	 * @param input
 	 *            String to be executed. It is moved into String[] form for the
 	 *            execution engine. The input should be delimited by spaces.
-	 * @see exec()
 	 * @see exec(String[] input)
 	 */
 	public static void exec(String input) {
-		log("Beginning Execution of Arbitrary: " + input);
+		log("Beginning Execution of String: " + input);
 		final String[] operand = input.split(" ");
 		engine(operand);
 	}
 
 	/**
-	 * Added to ensure continuity with the other "exec" methods.
+	 * Added so an autonomous script can directly execute a hardcoded String[]
+	 * input. Should not be used otherwise.
 	 * 
 	 * @since 3.0_dev06
 	 * @param input
-	 * @see exec()
 	 * @see exec(String input)
 	 */
 	public static void exec(String[] input) {
-		log("Beginning Execution of: " + input.toString());
+		log("Beginning Execution of String[]: " + ArrayToString(input));
 		engine(input);
 	}
 
@@ -121,14 +113,20 @@ public class ExecEngine extends Console {
 	 * @see com.me.ifly6.UtilitiesPro2.methods.CoreMethods
 	 */
 	public static void engine(final String[] input) {
+
+		// log("Current Directory is: " + Console.currentDir);
+
 		Runnable runner = new Runnable() {
 			@Override
 			public void run() {
 				try {
 					// Output Stream
+
 					ProcessBuilder builder = new ProcessBuilder(input);
+					builder.directory(new File(Console.currentDir));
 					process = builder.start();
-					log("Execution of String Input Beginning");
+
+					log("Execution of input is Beginning");
 					InputStream outStream = process.getInputStream();
 					InputStreamReader outRead = new InputStreamReader(outStream);
 					Scanner scan = new Scanner(outRead);
@@ -149,5 +147,8 @@ public class ExecEngine extends Console {
 			}
 		};
 		new Thread(runner).start();
+
+		Console.getOutTextCaret().setCaretPosition(
+				getOutTextCaret().getDocument().getLength());
 	}
 }

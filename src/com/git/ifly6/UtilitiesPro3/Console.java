@@ -50,6 +50,12 @@ import com.apple.eawt.Application;
 public class Console {
 
 	/**
+	 * Current Directory we are in. Change using our version of the CD command,
+	 * located in TextCommands.
+	 */
+	public static String currentDir = System.getProperty("user.dir");
+
+	/**
 	 * List of all the internal commands inside a String Array. All unused
 	 * commands should be stated as nulls.
 	 */
@@ -123,7 +129,7 @@ public class Console {
 	 * For the development number, it follows |major|.|minor|, but with no
 	 * revisions.
 	 */
-	public static String version = "3.0_dev09.02";
+	public static String version = "3.0_dev09.03";
 
 	/**
 	 * @since 2.2_01
@@ -132,7 +138,7 @@ public class Console {
 	 * @see com.me.ifly6.UtilitiesPro2.ConsoleIf
 	 */
 	public static void append(String in) {
-		outText.append("\n" + in);
+		getOutTextCaret().append("\n" + in);
 	}
 
 	/**
@@ -147,7 +153,7 @@ public class Console {
 	 */
 	public static void clearText(int which) {
 		if (which == 1) {
-			outText.setText(null);
+			getOutTextCaret().setText(null);
 		}
 		if (which == 2) {
 			logText.setText(null);
@@ -190,7 +196,7 @@ public class Console {
 	 * @return String with contents of JTextArea outText
 	 */
 	public static String getOutText() {
-		return outText.getText();
+		return getOutTextCaret().getText();
 	}
 
 	/**
@@ -326,11 +332,12 @@ public class Console {
 	 * @see com.me.ifly6.UtilitiesPro2.ConsoleIf
 	 */
 	public static void out(String in) {
-		outText.append("\n " + in);
+		getOutTextCaret().append("\n " + in);
 	}
 
 	/**
-	 * Sets the arrayList of commands.
+	 * Sets the arrayList of commands, as they are not hardcoded. This saves us
+	 * a lot of problems. Don't remove it.
 	 * 
 	 * @since 3.0_dev08
 	 */
@@ -415,10 +422,10 @@ public class Console {
 			}
 		});
 
-		outText = new JTextArea();
-		outText.setEditable(false);
-		outText.setFont(new Font("Monaco", Font.PLAIN, 11));
-		JScrollPane scrollPane_outPane = new JScrollPane(outText);
+		setOutTextCaret(new JTextArea());
+		getOutTextCaret().setEditable(false);
+		getOutTextCaret().setFont(new Font("Monaco", Font.PLAIN, 11));
+		JScrollPane scrollPane_outPane = new JScrollPane(getOutTextCaret());
 		scrollPane_outPane.setViewportBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 
@@ -657,11 +664,19 @@ public class Console {
 		});
 		mnHelp.add(mntmUpdate);
 
-		Personal personal = new Personal();
-		personal.parameters();
+		// MacAddrLog init = new MacAddrLog();
+		// init.parameters();
 
 		String greet = "Welcome, " + userName + ", to Utilities Pro - "
 				+ version + " '" + keyword + "'\n===========";
-		outText.append(greet);
+		getOutTextCaret().append(greet);
+	}
+
+	protected static JTextArea getOutTextCaret() {
+		return outText;
+	}
+
+	protected static void setOutTextCaret(JTextArea outText) {
+		Console.outText = outText;
 	}
 }

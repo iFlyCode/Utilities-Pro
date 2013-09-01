@@ -129,7 +129,7 @@ public class Console {
 	 * For the development number, it follows |major|.|minor|, but with no
 	 * revisions.
 	 */
-	public static String version = "3.0_dev09.03";
+	public static String version = "3.0";
 
 	/**
 	 * @since 2.2_01
@@ -170,8 +170,8 @@ public class Console {
 	 *            Also appends to logText.
 	 */
 	public static void command(String in) {
-		append(computername + ":~ $ " + in);
-		log(computername + ":~ $ " + in);
+		append(computername + ": $ " + in);
+		log(computername + ": $ " + in);
 	}
 
 	/**

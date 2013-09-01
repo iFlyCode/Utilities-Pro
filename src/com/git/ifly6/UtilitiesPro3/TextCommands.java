@@ -71,8 +71,8 @@ public class TextCommands extends Console {
 			cd(operand);
 		}
 
-		// Finally at the end of the cascade of 'if' statements.
-		// If it does not start with "/", then treat it as a bash command.
+		// Finally at the end of the cascade of 'if' statements,
+		// if operand does not start with "/", then treat it as a bash command.
 		else {
 			ExecEngine.exec(operand);
 		}

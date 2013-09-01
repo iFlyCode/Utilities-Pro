@@ -132,6 +132,8 @@ public class ExecEngine extends Console {
 					Scanner scan = new Scanner(outRead);
 					while (scan.hasNextLine()) {
 						out(scan.nextLine());
+						Console.getOutTextCaret().setCaretPosition(
+								getOutTextCaret().getDocument().getLength());
 					}
 
 					// Error Stream
@@ -140,6 +142,8 @@ public class ExecEngine extends Console {
 					scan = new Scanner(errRead);
 					while (scan.hasNextLine()) {
 						out(scan.nextLine());
+						Console.getOutTextCaret().setCaretPosition(
+								getOutTextCaret().getDocument().getLength());
 					}
 				} catch (IOException e) {
 					log("Running Failed");
@@ -147,8 +151,5 @@ public class ExecEngine extends Console {
 			}
 		};
 		new Thread(runner).start();
-
-		Console.getOutTextCaret().setCaretPosition(
-				getOutTextCaret().getDocument().getLength());
 	}
 }

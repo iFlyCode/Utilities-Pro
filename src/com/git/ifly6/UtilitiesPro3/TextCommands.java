@@ -92,7 +92,7 @@ public class TextCommands extends Utilities_Pro {
 			log("System.exit(0)");
 
 		} else if (operand[0].equals("cd")) {
-			evaluateCd(operand);
+			cd(operand);
 		}
 
 		// Finally at the end of the cascade of 'if' statements,
@@ -103,56 +103,10 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * A method to make sure that the folder you are trying to go to will
-	 * actually exist.
-	 * 
-	 * @since 3.2_dev01
-	 * @param operand
-	 */
-	public static void evaluateCd(String[] operand) {
-		String[] changeArray = preoperand.split(" ");
-		String evaluate = "";
-
-		if (operand[1].startsWith("/")) {
-			StringBuilder builder = new StringBuilder();
-			for (int x = 1; x < changeArray.length; x++) {
-				if (x != 1) {
-					builder.append(" " + changeArray[x]);
-				} else {
-					builder.append(changeArray[x]);
-				}
-			}
-			changeArray[1] = builder.toString();
-			evaluate = changeArray[1];
-		} else if (changeArray[1].startsWith("~")) {
-			StringBuilder builder = new StringBuilder();
-			for (int x = 1; x < changeArray.length; x++) {
-				if (x != 1) {
-					builder.append(" " + changeArray[x]);
-				} else {
-					builder.append(changeArray[x]);
-				}
-			}
-			changeArray[1] = builder.toString();
-			evaluate = changeArray[1].replaceAll("~",
-					System.getProperty("user.home"));
-		} else {
-			evaluate = Utilities_Pro.currentDir + "/" + changeArray[1];
-		}
-
-		// Test Whether whatever that came out here actually exists.
-		if (new File(evaluate).exists()) {
-			cd(operand);
-		} else {
-			out("That directory doesn't actually exist. Please specify a different one.");
-		}
-
-	}
-
-	/**
 	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it
 	 * was solved. Updated in 3.1 to include way of dealing with spaces in
-	 * filenames.
+	 * filenames. Since 3.2_dev02, it also checks whether the DIR you are trying
+	 * to go to actually exists.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
@@ -170,7 +124,11 @@ public class TextCommands extends Utilities_Pro {
 				}
 			}
 			operand[1] = builder.toString();
-			Utilities_Pro.currentDir = operand[1];
+			if (new File(operand[1]).exists()) {
+				Utilities_Pro.currentDir = operand[1];
+			} else {
+				out("The directory you are looking for does not exist.");
+			}
 		} else if (operand[1].startsWith("~")) {
 			StringBuilder builder = new StringBuilder();
 			for (int x = 1; x < operand.length; x++) {
@@ -183,10 +141,18 @@ public class TextCommands extends Utilities_Pro {
 			operand[1] = builder.toString();
 			String newDir = operand[1].replaceAll("~",
 					System.getProperty("user.home"));
-			Utilities_Pro.currentDir = newDir;
+			if (new File(newDir).exists()) {
+				Utilities_Pro.currentDir = newDir;
+			} else {
+				out("The directory you are looking for does not exist.");
+			}
 		} else {
-			Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/"
-					+ operand[1];
+			if (new File(Utilities_Pro.currentDir + "/" + operand[1]).exists()) {
+				Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/"
+						+ operand[1];
+			} else {
+				out("The directory you are looking for does not exist.");
+			}
 		}
 	}
 }

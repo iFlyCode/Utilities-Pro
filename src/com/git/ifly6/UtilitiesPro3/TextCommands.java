@@ -1,11 +1,11 @@
 package com.git.ifly6.UtilitiesPro3;
 
-public class TextCommands extends Console {
+public class TextCommands extends Utilities_Pro {
 
-	public static String preoperand = Console.getInputField();
+	public static String preoperand = Utilities_Pro.getInputField();
 
 	public static void processInputField() {
-		preoperand = Console.getInputField();
+		preoperand = Utilities_Pro.getInputField();
 		process(preoperand);
 	}
 
@@ -22,7 +22,7 @@ public class TextCommands extends Console {
 
 		// Command Parsing
 		command(preoperand);
-		Console.clearText(3);
+		Utilities_Pro.clearText(3);
 		String[] operand = preoperand.split(" ");
 
 		// Command Evaluation
@@ -36,9 +36,9 @@ public class TextCommands extends Console {
 			HelpCommands.helpList();
 			log("Help Processing Trigger Invoked");
 		} else if ((commText.get(3)).equals(operand[0])) {
-			Console.clearText(1);
-			Console.clearText(2);
-			Console.clearText(3);
+			Utilities_Pro.clearText(1);
+			Utilities_Pro.clearText(2);
+			Utilities_Pro.clearText(3);
 			log("JTextAreas Cleared");
 		} else if ((commText.get(4)).equals(operand[0])) {
 			HelpCommands.acknowledgements();
@@ -87,13 +87,13 @@ public class TextCommands extends Console {
 	 */
 	public static void cd(String[] operand) {
 		if (operand[1].startsWith("/")) {
-			Console.currentDir = operand[1];
+			Utilities_Pro.currentDir = operand[1];
 		} else if (operand[1].startsWith("~")) {
 			String newDir = operand[1].replaceAll("~",
 					System.getProperty("user.home"));
-			Console.currentDir = newDir;
+			Utilities_Pro.currentDir = newDir;
 		} else {
-			Console.currentDir = Console.currentDir + "/" + operand[1];
+			Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/" + operand[1];
 		}
 	}
 }

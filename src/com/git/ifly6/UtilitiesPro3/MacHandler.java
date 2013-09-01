@@ -60,7 +60,7 @@ public class MacHandler extends ApplicationAdapter {
 	 */
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
-		String[] input = { "open", Console.UtilitiesPro_DIR + "/config.txt" };
+		String[] input = { "open", Utilities_Pro.UtilitiesPro_DIR + "/config.txt" };
 		ExecEngine.engine(input);
 	}
 }

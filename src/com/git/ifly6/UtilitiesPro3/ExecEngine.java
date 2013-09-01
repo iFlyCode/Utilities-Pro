@@ -20,7 +20,7 @@ import java.util.Scanner;
  * @since 3.0_dev01
  */
 
-public class ExecEngine extends Console {
+public class ExecEngine extends Utilities_Pro {
 
 	private static String ArrayToString(String[] arr) {
 		StringBuilder builder = new StringBuilder();
@@ -47,7 +47,7 @@ public class ExecEngine extends Console {
 	 */
 	public static void download(String urlFrom, String directory) {
 		// Make sure Utilities Pro's main folders exist.
-		Console.mkdir();
+		Utilities_Pro.mkdir();
 
 		// Logging.
 		log("Downloading file from: " + urlFrom);
@@ -114,7 +114,7 @@ public class ExecEngine extends Console {
 	 */
 	public static void engine(final String[] input) {
 
-		// log("Current Directory is: " + Console.currentDir);
+		// log("Current Directory is: " + Utilities_Pro.currentDir);
 
 		Runnable runner = new Runnable() {
 			@Override
@@ -123,7 +123,7 @@ public class ExecEngine extends Console {
 					// Output Stream
 
 					ProcessBuilder builder = new ProcessBuilder(input);
-					builder.directory(new File(Console.currentDir));
+					builder.directory(new File(Utilities_Pro.currentDir));
 					process = builder.start();
 
 					log("Execution of input is Beginning");
@@ -132,7 +132,7 @@ public class ExecEngine extends Console {
 					Scanner scan = new Scanner(outRead);
 					while (scan.hasNextLine()) {
 						out(scan.nextLine());
-						Console.getOutTextCaret().setCaretPosition(
+						Utilities_Pro.getOutTextCaret().setCaretPosition(
 								getOutTextCaret().getDocument().getLength());
 					}
 
@@ -142,7 +142,7 @@ public class ExecEngine extends Console {
 					scan = new Scanner(errRead);
 					while (scan.hasNextLine()) {
 						out(scan.nextLine());
-						Console.getOutTextCaret().setCaretPosition(
+						Utilities_Pro.getOutTextCaret().setCaretPosition(
 								getOutTextCaret().getDocument().getLength());
 					}
 				} catch (IOException e) {

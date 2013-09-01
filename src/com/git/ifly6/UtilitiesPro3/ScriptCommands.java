@@ -8,7 +8,7 @@ import java.io.File;
  * @author ifly6
  * @since 3.0 All Toolbar>Script Commands go here
  */
-public class ScriptCommands extends Console {
+public class ScriptCommands extends Utilities_Pro {
 
 	/**
 	 * Method runs a Runtime section to purge inactive memory. It relies on a

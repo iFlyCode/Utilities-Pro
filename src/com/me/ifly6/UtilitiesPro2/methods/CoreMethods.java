@@ -1,20 +1,29 @@
-package com.me.ifly6.methods;
+package com.me.ifly6.UtilitiesPro2.methods;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
-import com.me.ifly6.TextProc;
+import com.me.ifly6.UtilitiesPro2.TextProc;
 
+/**
+ * Contains methods which are vital to the operation of the programme. These
+ * methods are of the highest importance, and should only be modified with
+ * significant thought on the consequences of their change.
+ * 
+ * @since 2.2_01
+ * @deprecated
+ */
+@Deprecated
 public class CoreMethods extends TextProc {
-	// Name: Core Methods Required for Functioning
 
 	private static final long serialVersionUID = 1L;
 
 	// EXECUTION STREAM
 	public static void exec() throws IOException {
 		Runnable runner = new Runnable() {
+			@Override
 			public void run() {
 
 				// Output Stream
@@ -22,7 +31,9 @@ public class CoreMethods extends TextProc {
 				try {
 					process = builder.start();
 					log("Execution of Operand Beginning.");
-				} catch (IOException e) { log("ProcessBuilder Error: IOException"); }
+				} catch (IOException e) {
+					log("ProcessBuilder Error: IOException");
+				}
 				InputStream stdout = process.getInputStream();
 				InputStreamReader inRead = new InputStreamReader(stdout);
 				Scanner scan = new Scanner(inRead);
@@ -42,9 +53,9 @@ public class CoreMethods extends TextProc {
 		new Thread(runner).start();
 	}
 
-	public static void helpList() throws IOException{
-		for (int x = 0; x<20; x++){
-			if (!(commText[x].equals(null))){
+	public static void helpList() throws IOException {
+		for (int x = 0; x < 20; x++) {
+			if (!(commText[x].equals(null))) {
 				out("* " + commText[x]);
 			}
 		}

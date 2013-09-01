@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="com/git/ifly6/UtilitiesPro3/Personal.java|com/git/ifly6/UtilitiesPro3/MacAddrLog.java|com/me/ifly6/UtilitiesPro2/|com/me/ifly6/UtilitiesPro2/methods/" kind="src" path="src"/>
+	<classpathentry excluding="com/git/ifly6/UtilitiesPro3/Personal.java|com/me/ifly6/UtilitiesPro2/|com/me/ifly6/UtilitiesPro2/methods/|com/git/ifly6/UtilitiesPro3/MacAddrLog.java|com/git/ifly6/notincluded/" kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,6 +1,9 @@
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
 
 /**
  * Contains all relevant scripts to the Script menu in the programme.
@@ -108,8 +111,34 @@ public class ScriptCommands extends Utilities_Pro {
 				Downloads_DIR);
 		append("Mindterm Downloaded to: "
 				+ Downloads_DIR
-				+ "\nThis is a full Java Based SSH/Telnet Client, capable of using SOCKS."
-				+ "\nIt is however, not made by the Utilities Pro Team, and therefore, does not fall under our perview.");
+				+ "\nThis is a full Java Based SSH/Telnet Client, capable of creating an SSH tunnel, and using it as a SOCKS proxy."
+				+ "\nIt is, however, not made by the Utilities Pro Team, and therefore, does not fall under our perview.");
 	}
 
+	/**
+	 * Loads and Executes a file.
+	 * 
+	 * @since 3.1_dev01
+	 * @param file
+	 *            - The file we want to load.
+	 */
+	public static void scriptExec(File file) {
+		log("ScriptExec looking for file: " + file);
+
+		try {
+			FileReader fileReader = new FileReader(file);
+			Scanner scan = new Scanner(fileReader);
+			while (scan.hasNextLine()) {
+				String operand = scan.nextLine();
+				if (operand.startsWith("#")) {
+					// Do absolutely nothing.
+				} else {
+					ExecEngine.exec(operand);
+				}
+			}
+		} catch (FileNotFoundException e) {
+			log("Script-File Not Found");
+			out("Script-File Not Found");
+		}
+	}
 }

@@ -1,5 +1,7 @@
 package com.git.ifly6.UtilitiesPro3;
 
+import java.io.File;
+
 public class TextCommands extends Utilities_Pro {
 
 	public static String preoperand = Utilities_Pro.getInputField();
@@ -61,12 +63,34 @@ public class TextCommands extends Utilities_Pro {
 		} else if ((commText.get(10)).equals(operand[0])) {
 			ScriptCommands.mindterm();
 			log("Mindterm Download Processing Trigger Called");
-		} else if ((commText.get(11)).equals(operand[0])) {
+		} else if (commText.get(11).equals(operand[0])) {
+			log("ScriptExecution Trigger Called");
+			try {
+				if (!(operand[1].startsWith("/"))) {
+					throw new ArrayIndexOutOfBoundsException();
+				} else {
+					StringBuilder builder = new StringBuilder();
+					for (int x = 1; x < operand.length; x++) {
+						if (x != 1) {
+							builder.append(" " + operand[x]);
+						} else {
+							builder.append(operand[x]);
+						}
+					}
+					operand[1] = builder.toString();
+					File scriptLoc = new File(operand[1]);
+					ScriptCommands.scriptExec(scriptLoc);
+				}
+			} catch (ArrayIndexOutOfBoundsException e) {
+				out("Please specify the absolute path of the file.");
+			}
+		} else if ((commText.get(12)).equals(operand[0])) {
 			CommandCommands.terminateChoose();
 			log("Process Termination Processing Trigger Called");
-		} else if ((commText.get(12)).equals(operand[0])) {
+		} else if (commText.get(13).equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
+
 		} else if (operand[0].equals("cd")) {
 			cd(operand);
 		}
@@ -80,20 +104,40 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it
-	 * was solved.
+	 * was solved. Updated in 3.1 to include way of dealing with spaces in
+	 * filenames.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
 	 */
 	public static void cd(String[] operand) {
 		if (operand[1].startsWith("/")) {
+			StringBuilder builder = new StringBuilder();
+			for (int x = 1; x < operand.length; x++) {
+				if (x != 1) {
+					builder.append(" " + operand[x]);
+				} else {
+					builder.append(operand[x]);
+				}
+			}
+			operand[1] = builder.toString();
 			Utilities_Pro.currentDir = operand[1];
 		} else if (operand[1].startsWith("~")) {
+			StringBuilder builder = new StringBuilder();
+			for (int x = 1; x < operand.length; x++) {
+				if (x != 1) {
+					builder.append(" " + operand[x]);
+				} else {
+					builder.append(operand[x]);
+				}
+			}
+			operand[1] = builder.toString();
 			String newDir = operand[1].replaceAll("~",
 					System.getProperty("user.home"));
 			Utilities_Pro.currentDir = newDir;
 		} else {
-			Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/" + operand[1];
+			Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/"
+					+ operand[1];
 		}
 	}
 }

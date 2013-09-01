@@ -80,9 +80,8 @@ public class Console {
 
 	/**
 	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For
-	 * 3.x, its is 3.0 = iceland, 3.1 = iceberg, 3.2 = icepool, 3.3 = skyfall,
-	 * 3.4 = icefield, 3.5 = everest, 3.6 = icemont, 3.7 = icewell, 3.8 =
-	 * icedtea
+	 * 3.x, its is 3.0) iceland, 3.1) iceberg, 3.2) icepool, 3.3) skyfall, 3.4)
+	 * icefield, 3.5) everest, 3.6) icemont, 3.7) icewell, 3.8) icedtea
 	 */
 	public static String keyword = "iceland";
 

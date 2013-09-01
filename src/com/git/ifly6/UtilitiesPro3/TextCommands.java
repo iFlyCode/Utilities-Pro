@@ -105,10 +105,13 @@ public class TextCommands extends Utilities_Pro {
 	/**
 	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it
 	 * was solved. Updated in 3.1 to include way of dealing with spaces in
-	 * filenames.
+	 * filenames. Since 3.2_dev02, it also checks whether the DIR you are trying
+	 * to go to actually exists.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
+	 *            - The command which was put in. This command can begin with
+	 *            anything, but when called, should only being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
 		if (operand[1].startsWith("/")) {
@@ -121,7 +124,11 @@ public class TextCommands extends Utilities_Pro {
 				}
 			}
 			operand[1] = builder.toString();
-			Utilities_Pro.currentDir = operand[1];
+			if (new File(operand[1]).exists()) {
+				Utilities_Pro.currentDir = operand[1];
+			} else {
+				out("The directory you are looking for does not exist.");
+			}
 		} else if (operand[1].startsWith("~")) {
 			StringBuilder builder = new StringBuilder();
 			for (int x = 1; x < operand.length; x++) {
@@ -134,10 +141,18 @@ public class TextCommands extends Utilities_Pro {
 			operand[1] = builder.toString();
 			String newDir = operand[1].replaceAll("~",
 					System.getProperty("user.home"));
-			Utilities_Pro.currentDir = newDir;
+			if (new File(newDir).exists()) {
+				Utilities_Pro.currentDir = newDir;
+			} else {
+				out("The directory you are looking for does not exist.");
+			}
 		} else {
-			Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/"
-					+ operand[1];
+			if (new File(Utilities_Pro.currentDir + "/" + operand[1]).exists()) {
+				Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/"
+						+ operand[1];
+			} else {
+				out("The directory you are looking for does not exist.");
+			}
 		}
 	}
 }

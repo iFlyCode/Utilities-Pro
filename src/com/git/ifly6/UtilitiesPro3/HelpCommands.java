@@ -27,7 +27,7 @@ public class HelpCommands extends Utilities_Pro {
 	public static void changeLog() {
 		try {
 			ExecEngine.download(
-					"http://ifly6server.no-ip.org/UtilitiesPro/changelog.txt",
+					"http://ifly6server.no-ip.org/utilities-pro/changelog.txt",
 					UtilitiesPro_DIR + "/changelog.txt");
 			Thread.sleep(100);
 			FileReader fstream;
@@ -89,8 +89,8 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the
-	 * list of all internal commands for the programme.
+	 * Displays the contents of Utilities_Pro.commText, which (due to design) is
+	 * the list of all internal commands for the programme.
 	 * 
 	 * @see Utilities_Pro.commText
 	 * @since 2.3

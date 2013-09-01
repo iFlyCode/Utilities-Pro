@@ -3,6 +3,7 @@ package com.git.ifly6.UtilitiesPro3;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
+import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
@@ -89,7 +90,7 @@ public class Utilities_Pro {
 	 * 3.x, its is 3.0) iceland, 3.1) iceberg, 3.2) icepool, 3.3) skyfall, 3.4)
 	 * icefield, 3.5) everest, 3.6) icemont, 3.7) icewell, 3.8) icedtea
 	 */
-	public static String keyword = "iceland";
+	public static String keyword = "iceberg";
 
 	/**
 	 * JTextArea for the output of the log. Receives strings to append to the
@@ -129,7 +130,7 @@ public class Utilities_Pro {
 	 * For the development number, it follows |major|.|minor|, but with no
 	 * revisions.
 	 */
-	public static String version = "3.0";
+	public static String version = "3.1";
 
 	/**
 	 * @since 2.2_01
@@ -359,6 +360,7 @@ public class Utilities_Pro {
 		commText.add("/generateConfig");
 		commText.add("/sysInfo");
 		commText.add("/mindterm");
+		commText.add("/execscript");
 		commText.add("/terminate");
 		commText.add("/quit");
 	}
@@ -401,7 +403,7 @@ public class Utilities_Pro {
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("Utilities_Pro", null, panel, null);
+		tabbedPane.addTab("Console", null, panel, null);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		inputField = new TextField();
@@ -580,6 +582,25 @@ public class Utilities_Pro {
 			}
 		});
 		mnScripts.add(mntmDownloadMindterm);
+
+		JSeparator separator_5 = new JSeparator();
+		mnScripts.add(separator_5);
+
+		JMenuItem mntmLoadAndExecute = new JMenuItem("Load and Execute Script");
+		mntmLoadAndExecute.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+
+				final FileDialog fileDialog = new FileDialog(frame);
+
+				command("Scripts>Load and Exec Script");
+				fileDialog.setVisible(true);
+				File selScript = new File(fileDialog.getDirectory()
+						+ fileDialog.getFile());
+				ScriptCommands.scriptExec(selScript);
+			}
+		});
+		mnScripts.add(mntmLoadAndExecute);
 
 		JMenu mnCommand = new JMenu("Command");
 		menuBar.add(mnCommand);

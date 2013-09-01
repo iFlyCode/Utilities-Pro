@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
  * @author ifly6
  * @since 3.0_dev06
  */
-public class HelpCommands extends Console {
+public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Downloads a change-log file with the latest version stated at the top. It
@@ -51,9 +51,9 @@ public class HelpCommands extends Console {
 	 */
 	public static void about() {
 		String about = ("Utilities Pro - "
-				+ Console.version
+				+ Utilities_Pro.version
 				+ " '"
-				+ Console.keyword
+				+ Utilities_Pro.keyword
 				+ "'"
 				+ "\n"
 				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. "
@@ -89,10 +89,10 @@ public class HelpCommands extends Console {
 	}
 
 	/**
-	 * Displays the contents of Console.commText, which (due to design) is the
+	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the
 	 * list of all internal commands for the programme.
 	 * 
-	 * @see Console.commText
+	 * @see Utilities_Pro.commText
 	 * @since 2.3
 	 */
 	public static void helpList() {

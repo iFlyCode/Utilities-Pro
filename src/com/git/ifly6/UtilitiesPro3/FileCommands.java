@@ -13,7 +13,7 @@ import java.util.Date;
  * @author ifly6
  * @since 3.0
  */
-public class FileCommands extends Console {
+public class FileCommands extends Utilities_Pro {
 
 	/**
 	 * Method to manage all things regarding the Utilities Pro configuration
@@ -77,7 +77,7 @@ public class FileCommands extends Console {
 	public static void export(int which) {
 		switch (which) {
 		case 1:
-			String outFile = Console.getOutText();
+			String outFile = Utilities_Pro.getOutText();
 			log("Output Export Invoked.");
 			mkdir();
 			Writer writer = null;
@@ -93,7 +93,7 @@ public class FileCommands extends Console {
 			append("Contents Exported to " + UtilitiesPro_DIR);
 			break;
 		case 2:
-			outFile = Console.getLogText();
+			outFile = Utilities_Pro.getLogText();
 			log("Log Export Invoked.");
 			mkdir();
 			writer = null;

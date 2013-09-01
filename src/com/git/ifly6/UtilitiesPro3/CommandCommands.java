@@ -8,7 +8,7 @@ import javax.swing.JOptionPane;
  * @author ifly6
  * @since 3.0_dev05
  */
-public class CommandCommands extends Console {
+public class CommandCommands extends Utilities_Pro {
 
 	/**
 	 * Utility used to destroy the process running in a separate thread that is
@@ -19,7 +19,7 @@ public class CommandCommands extends Console {
 	 * @see com.git.ifly6.UtilitiesPro3.ExecEngine.engine(String[])
 	 */
 	public static void terminateUtility() {
-		Console.process.destroy();
+		Utilities_Pro.process.destroy();
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class CommandCommands extends Console {
 		ExecEngine.exec("ps -ax");
 		String choice = JOptionPane.showInputDialog(null,
 				"Please input a Process ID"
-						+ "\nfrom the choices in the Console", "");
+						+ "\nfrom the choices in the Utilities_Pro", "");
 		terminate(Integer.parseInt(choice));
 	}
 
@@ -67,7 +67,7 @@ public class CommandCommands extends Console {
 	public static void bombard() {
 		String choice = JOptionPane.showInputDialog(null,
 				"Please input a Process ID"
-						+ "\nfrom the choices in the Console", "");
+						+ "\nfrom the choices in the Utilities_Pro", "");
 		for (int x = 0; x < 100; x++) {
 			ExecEngine.exec(choice);
 		}

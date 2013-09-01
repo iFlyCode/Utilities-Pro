@@ -41,13 +41,13 @@ import com.apple.eawt.Application;
  * Main Class for Utilities Pro 3.x. It initialises the GUI and contains all
  * relevant pieces of data fundamental to the execution of the programme.
  * Furthermore, it contains all necessary ActionListeners and GUI related
- * methods (basically integrating the older Console Interface, Parameters, and
- * Console classes from the last major version of Utilities Pro-2.x)
+ * methods (basically integrating the older Utilities_Pro Interface, Parameters,
+ * and Utilities_Pro classes from the last major version of Utilities Pro-2.x)
  * 
  * @author ifly6
  * @version 3.x
  */
-public class Console {
+public class Utilities_Pro {
 
 	/**
 	 * Current Directory we are in. Change using our version of the CD command,
@@ -63,7 +63,7 @@ public class Console {
 
 	/**
 	 * Used for greeting the user. It should be replaced from Unknown to the
-	 * iNet name of the user inside Console.Main
+	 * iNet name of the user inside Utilities_Pro.Main
 	 */
 	protected static String computername = "Unknown";
 
@@ -233,7 +233,7 @@ public class Console {
 		macApp.setEnabledPreferencesMenu(true);
 
 		// Create Configuration Directory
-		Console.mkdir();
+		Utilities_Pro.mkdir();
 
 		// Read Configuration
 		String look = "Default";
@@ -294,12 +294,18 @@ public class Console {
 		try {
 			computername = InetAddress.getLocalHost().getHostName();
 		} catch (UnknownHostException e) {
+			try {
+				computername = InetAddress.getLocalHost().getHostName();
+			} catch (UnknownHostException e1) {
+				log("Attempted to get Computer Name. Failed Twice. UnknownHostException.");
+			}
 		}
+
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 				try {
-					Console window = new Console();
+					Utilities_Pro window = new Utilities_Pro();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -362,7 +368,7 @@ public class Console {
 	/**
 	 * Create instance of the application.
 	 */
-	public Console() {
+	public Utilities_Pro() {
 		initialize();
 	}
 
@@ -374,11 +380,11 @@ public class Console {
 	 * @param frame
 	 *            - JFrame for the programme
 	 * @param panel
-	 *            - Panel for the Console's Tab
+	 *            - Panel for the Utilities_Pro's Tab
 	 * @param scrollPane_logText
 	 *            - Pane for the Logging Tab
 	 * @param outText
-	 *            - JTextArea for the Console's output
+	 *            - JTextArea for the Utilities_Pro's output
 	 * @param logText
 	 *            - JTextArea for the Logging's output
 	 * @param inputField
@@ -395,7 +401,7 @@ public class Console {
 		frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel panel = new JPanel();
-		tabbedPane.addTab("Console", null, panel, null);
+		tabbedPane.addTab("Utilities_Pro", null, panel, null);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		inputField = new TextField();
@@ -465,11 +471,11 @@ public class Console {
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);
 
-		JMenuItem mntmExportConsole = new JMenuItem("Export Console");
+		JMenuItem mntmExportConsole = new JMenuItem("Export Utilities_Pro");
 		mntmExportConsole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				command("File>Export Console");
+				command("File>Export Utilities_Pro");
 				FileCommands.export(1);
 			}
 		});
@@ -509,7 +515,7 @@ public class Console {
 		JSeparator separator_4 = new JSeparator();
 		mnEdit.add(separator_4);
 
-		JMenuItem mntmClearConsole = new JMenuItem("Clear Console");
+		JMenuItem mntmClearConsole = new JMenuItem("Clear Utilities_Pro");
 		mntmClearConsole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -677,6 +683,6 @@ public class Console {
 	}
 
 	protected static void setOutTextCaret(JTextArea outText) {
-		Console.outText = outText;
+		Utilities_Pro.outText = outText;
 	}
 }

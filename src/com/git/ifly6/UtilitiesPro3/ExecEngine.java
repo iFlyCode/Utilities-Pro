@@ -146,7 +146,8 @@ public class ExecEngine extends Utilities_Pro {
 								getOutTextCaret().getDocument().getLength());
 					}
 				} catch (IOException e) {
-					log("Running Failed");
+					out("Invalid Command");
+					log("Running Failed or Invalid Command");
 				}
 			}
 		};

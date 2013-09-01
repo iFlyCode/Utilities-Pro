@@ -243,6 +243,7 @@ public class Utilities_Pro {
 					+ "/config.txt");
 			Scanner scan = new Scanner(configRead);
 			look = scan.nextLine();
+			scan.close();
 		} catch (FileNotFoundException e1) {
 			try {
 				UIManager.setLookAndFeel(UIManager
@@ -298,7 +299,8 @@ public class Utilities_Pro {
 			try {
 				computername = InetAddress.getLocalHost().getHostName();
 			} catch (UnknownHostException e1) {
-				log("Attempted to get Computer Name. Failed Twice. UnknownHostException.");
+				System.out
+						.println("Attempted to get Computer Name. Failed Twice. UnknownHostException.");
 			}
 		}
 
@@ -443,6 +445,8 @@ public class Utilities_Pro {
 		JScrollPane scrollPane_logText = new JScrollPane(logText);
 		tabbedPane.addTab("Log", null, scrollPane_logText,
 				"Shows a dynamic log of all functions run.");
+
+		final FileDialog fileDialog = new FileDialog(frame);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -590,9 +594,6 @@ public class Utilities_Pro {
 		mntmLoadAndExecute.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				final FileDialog fileDialog = new FileDialog(frame);
-
 				command("Scripts>Load and Exec Script");
 				fileDialog.setVisible(true);
 				File selScript = new File(fileDialog.getDirectory()

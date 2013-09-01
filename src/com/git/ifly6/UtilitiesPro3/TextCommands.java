@@ -92,7 +92,7 @@ public class TextCommands extends Utilities_Pro {
 			log("System.exit(0)");
 
 		} else if (operand[0].equals("cd")) {
-			cd(operand);
+			evaluateCd(operand);
 		}
 
 		// Finally at the end of the cascade of 'if' statements,
@@ -103,12 +103,61 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
+	 * A method to make sure that the folder you are trying to go to will
+	 * actually exist.
+	 * 
+	 * @since 3.2_dev01
+	 * @param operand
+	 */
+	public static void evaluateCd(String[] operand) {
+		String[] changeArray = preoperand.split(" ");
+		String evaluate = "";
+
+		if (operand[1].startsWith("/")) {
+			StringBuilder builder = new StringBuilder();
+			for (int x = 1; x < changeArray.length; x++) {
+				if (x != 1) {
+					builder.append(" " + changeArray[x]);
+				} else {
+					builder.append(changeArray[x]);
+				}
+			}
+			changeArray[1] = builder.toString();
+			evaluate = changeArray[1];
+		} else if (changeArray[1].startsWith("~")) {
+			StringBuilder builder = new StringBuilder();
+			for (int x = 1; x < changeArray.length; x++) {
+				if (x != 1) {
+					builder.append(" " + changeArray[x]);
+				} else {
+					builder.append(changeArray[x]);
+				}
+			}
+			changeArray[1] = builder.toString();
+			evaluate = changeArray[1].replaceAll("~",
+					System.getProperty("user.home"));
+		} else {
+			evaluate = Utilities_Pro.currentDir + "/" + changeArray[1];
+		}
+
+		// Test Whether whatever that came out here actually exists.
+		if (new File(evaluate).exists()) {
+			cd(operand);
+		} else {
+			out("That directory doesn't actually exist. Please specify a different one.");
+		}
+
+	}
+
+	/**
 	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it
 	 * was solved. Updated in 3.1 to include way of dealing with spaces in
 	 * filenames.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
+	 *            - The command which was put in. This command can begin with
+	 *            anything, but when called, should only being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
 		if (operand[1].startsWith("/")) {

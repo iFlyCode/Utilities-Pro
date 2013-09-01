@@ -90,7 +90,7 @@ public class Utilities_Pro {
 	 * 3.x, its is 3.0) iceland, 3.1) iceberg, 3.2) icepool, 3.3) skyfall, 3.4)
 	 * icefield, 3.5) everest, 3.6) icemont, 3.7) icewell, 3.8) icedtea
 	 */
-	public static String keyword = "iceberg";
+	public static String keyword = "icepool";
 
 	/**
 	 * JTextArea for the output of the log. Receives strings to append to the
@@ -130,7 +130,7 @@ public class Utilities_Pro {
 	 * For the development number, it follows |major|.|minor|, but with no
 	 * revisions.
 	 */
-	public static String version = "3.1";
+	public static String version = "3.2";
 
 	/**
 	 * @since 2.2_01
@@ -299,8 +299,7 @@ public class Utilities_Pro {
 			try {
 				computername = InetAddress.getLocalHost().getHostName();
 			} catch (UnknownHostException e1) {
-				System.out
-						.println("Attempted to get Computer Name. Failed Twice. UnknownHostException.");
+				System.out.println("Localhost Name-Get failed.");
 			}
 		}
 

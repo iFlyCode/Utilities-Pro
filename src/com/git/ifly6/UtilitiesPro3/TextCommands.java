@@ -13,9 +13,9 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Processes the Text for Application-specific functions. This should be the only method called from this class. All
-	 * others should be called from this class under certain conditions. All internal commands MUST begin with "/", just
-	 * like in Minecraft.
+	 * Processes the Text for Application-specific functions. This should be the only method called
+	 * from this class. All others should be called from this class under certain conditions. All
+	 * internal commands MUST begin with "/", just like in Minecraft.
 	 * 
 	 * @since 1.2
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
@@ -65,6 +65,7 @@ public class TextCommands extends Utilities_Pro {
 			log("Mindterm Download Processing Trigger Called");
 		} else if (commText.get(11).equals(operand[0])) {
 			log("ScriptExecution Trigger Called");
+			// Command-Line execution of Script is more annoying than
 			try {
 				if (!(operand[1].startsWith("/"))) {
 					throw new ArrayIndexOutOfBoundsException();
@@ -78,8 +79,7 @@ public class TextCommands extends Utilities_Pro {
 						}
 					}
 					operand[1] = builder.toString();
-					File scriptLoc = new File(operand[1]);
-					ScriptCommands.scriptExec(scriptLoc);
+					ExecEngine.scriptEngine(operand[1]);
 				}
 			} catch (ArrayIndexOutOfBoundsException e) {
 				out("Please specify the absolute path of the file.");
@@ -90,29 +90,35 @@ public class TextCommands extends Utilities_Pro {
 		} else if (commText.get(13).equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
+		}
 
-		} else if (operand[0].equals("cd")) {
+		/*
+		 * If it is not a '/' type internal command, see if it is calling for the implementation of
+		 * 'cd' or anything else like that.
+		 */
+		else if (operand[0].equals("cd")) {
 			cd(operand);
 		} else if (operand[0].equals("path")) {
 			path();
 		}
 
-		// Finally at the end of the cascade of 'if' statements,
-		// if operand does not start with "/", then treat it as a bash command.
+		/*
+		 * If it is not a internal command, treat it as it it were a bash command.
+		 */
 		else {
 			ExecEngine.exec(operand);
 		}
 	}
 
 	/**
-	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it was solved. Updated in 3.1 to include
-	 * way of dealing with spaces in filenames. Since 3.2_dev02, it also checks whether the DIR you are trying to go to
-	 * actually exists.
+	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it was solved. Updated
+	 * in 3.1 to include way of dealing with spaces in filenames. Since 3.2_dev02, it also checks
+	 * whether the DIR you are trying to go to actually exists.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
-	 *            - The command which was put in. This command can begin with anything, but when called, should only
-	 *            being with 'cd'.
+	 *            - The command which was put in. This command can begin with anything, but when
+	 *            called, should only being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
 		String nonCanonical = "";

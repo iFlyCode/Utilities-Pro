@@ -15,8 +15,8 @@ import java.util.Scanner;
 public class ScriptCommands extends Utilities_Pro {
 
 	/**
-	 * Method runs a Runtime section to purge inactive memory. It relies on a
-	 * command inside OSX, called purge.
+	 * Method runs a Runtime section to purge inactive memory. It relies on a command inside OSX,
+	 * called purge.
 	 * 
 	 * @since 2.3_dev3
 	 */
@@ -26,9 +26,8 @@ public class ScriptCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * It turns off then 500 milliseconds later, turns on wireless adaptor (en0)
-	 * for the computer. This is nearly word for word copied from iUtilities
-	 * v1.0's implementation
+	 * It turns off then 500 milliseconds later, turns on wireless adaptor (en0) for the computer.
+	 * This is nearly word for word copied from iUtilities v1.0's implementation
 	 * 
 	 * @since iUtilities v1.0
 	 */
@@ -46,10 +45,9 @@ public class ScriptCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * This is a system using a runtime to get information about the system
-	 * which the programme is running upon. This entire section here, is very
-	 * messy. It has been pruned little since we just slammed every single thing
-	 * we could think of into it.
+	 * This is a system using a runtime to get information about the system which the programme is
+	 * running upon. This entire section here, is very messy. It has been pruned little since we
+	 * just slammed every single thing we could think of into it.
 	 * 
 	 * @since 2.2
 	 */
@@ -104,8 +102,7 @@ public class ScriptCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Method used to download the programme "Mindterm" from mirror at
-	 * ifly6.no-ip.org
+	 * Method used to download the programme "Mindterm" from mirror at ifly6.no-ip.org
 	 * 
 	 * @since 2.1
 	 * @see {@link http://www.cryptzone.com/products/mindterm/#editionsstart}
@@ -123,10 +120,12 @@ public class ScriptCommands extends Utilities_Pro {
 	/**
 	 * Loads and Executes a file.
 	 * 
+	 * @deprecated
 	 * @since 3.1_dev01
 	 * @param file
 	 *            - The file we want to load.
 	 */
+	@Deprecated
 	public static void scriptExec(File file) {
 		log("ScriptExec looking for file: " + file);
 

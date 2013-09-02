@@ -13,6 +13,7 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -39,11 +40,10 @@ import javax.swing.text.DefaultEditorKit;
 import com.apple.eawt.Application;
 
 /**
- * Main Class for Utilities Pro 3.x. It initialises the GUI and contains all
- * relevant pieces of data fundamental to the execution of the programme.
- * Furthermore, it contains all necessary ActionListeners and GUI related
- * methods (basically integrating the older Utilities_Pro Interface, Parameters,
- * and Utilities_Pro classes from the last major version of Utilities Pro-2.x)
+ * Main Class for Utilities Pro 3.x. It initialises the GUI and contains all relevant pieces of data
+ * fundamental to the execution of the programme. Furthermore, it contains all necessary
+ * ActionListeners and GUI related methods (basically integrating the older Utilities_Pro Interface,
+ * Parameters, and Utilities_Pro classes from the last major version of Utilities Pro-2.x)
  * 
  * @author ifly6
  * @version 3.x
@@ -51,97 +51,93 @@ import com.apple.eawt.Application;
 public class Utilities_Pro {
 
 	/**
-	 * Current Directory we are in. Change using our version of the CD command,
-	 * located in TextCommands.
+	 * Current Directory we are in. Change using our version of the CD command, located in
+	 * TextCommands.
 	 */
 	public static String currentDir = System.getProperty("user.dir");
 
 	/**
-	 * List of all the internal commands inside a String Array. All unused
-	 * commands should be stated as nulls.
+	 * List of all the internal commands inside a String Array. All unused commands should be stated
+	 * as nulls.
 	 */
 	public static ArrayList<String> commText = new ArrayList<String>(16);
 
 	/**
-	 * Used for greeting the user. It should be replaced from Unknown to the
-	 * iNet name of the user inside Utilities_Pro.Main
+	 * Used for greeting the user. It should be replaced from Unknown to the iNet name of the user
+	 * inside Utilities_Pro.Main
 	 */
 	protected static String computername = "Unknown";
 
 	/**
-	 * Used in the all following File systems, as the user name of the user is
-	 * not the same throughout all computers.
+	 * Used in the all following File systems, as the user name of the user is not the same
+	 * throughout all computers.
 	 */
 	public static String userName = System.getProperty("user.name");
 
 	/**
-	 * The place to put any files we download. For all OSX computers, it should
-	 * be exactly the same.
+	 * The place to put any files we download. For all OSX computers, it should be exactly the same.
 	 */
 	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
 
 	/**
-	 * TextField for the input of commands. When command engine is run, it
-	 * retrieves the contents of this field, then processes it.
+	 * TextField for the input of commands. When command engine is run, it retrieves the contents of
+	 * this field, then processes it.
 	 */
 	private static TextField inputField;
 
 	/**
-	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For
-	 * 3.x, its is 3.0) iceland, 3.1) iceberg, 3.2) icepool, 3.3) skyfall, 3.4)
-	 * icefield, 3.5) everest, 3.6) icemont, 3.7) icewell, 3.8) icedtea
+	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For 3.x, its is 3.0)
+	 * iceland, 3.1) iceberg, 3.2) icepool, 3.3) skyfall, 3.4) icefield, 3.5) everest, 3.6) icemont,
+	 * 3.7) icewell, 3.8) icedtea
 	 */
 	public static String keyword = "iceberg";
 
 	/**
-	 * JTextArea for the output of the log. Receives strings to append to the
-	 * log from the method "log(String)"
+	 * JTextArea for the output of the log. Receives strings to append to the log from the method
+	 * "log(String)"
 	 */
 	private static JTextArea logText;
 
 	/**
-	 * JTextArea for the output of the programme. Combines the Error and Output
-	 * Streams into one field.
+	 * JTextArea for the output of the programme. Combines the Error and Output Streams into one
+	 * field.
 	 */
 	private static JTextArea outText;
 
 	/**
-	 * Process is declared here to allow other classes to terminate that process
-	 * should it be necessary.
+	 * Process is declared here to allow other classes to terminate that process should it be
+	 * necessary.
 	 */
 	public static Process process;
 
 	/**
-	 * Runtime Handler. Can be called from anywhere to execute a String[]. When
-	 * we finish a system to return a Process, this shared resource will be
-	 * removed. However, as it appears that it is not happening, it will likely
-	 * never be removed.
+	 * Runtime Handler. Can be called from anywhere to execute a String[]. When we finish a system
+	 * to return a Process, this shared resource will be removed. However, as it appears that it is
+	 * not happening, it will likely never be removed.
 	 */
 	public static Runtime rt = Runtime.getRuntime();
 
 	/**
-	 * A place in ~/Library/Application Support/ where we store all of our
-	 * configuration files.
+	 * A place in ~/Library/Application Support/ where we store all of our configuration files.
 	 */
 	public static String UtilitiesPro_DIR = "/Users/" + userName
 			+ "/Library/Application Support/Utilities Pro";
 
 	/**
-	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#>
-	 * For the development number, it follows |major|.|minor|, but with no
-	 * revisions.
+	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development
+	 * number, it follows |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.1_03";
+	public static String version = "3.1_04";
 
 	/**
-	 * As it deals with the GUI's implementation (JTextArea), Java forces its
-	 * location to be inside the GUI's declaration class.
+	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside
+	 * the GUI's declaration class.
 	 * 
 	 * @author ifly6
 	 * @since 3.0_dev02
 	 * @param which
-	 *            - integer value, determines which JTextArea to clear (1,
-	 *            outText; 2, logText; 3, inputField)
+	 *            - integer value, determines which JTextArea to clear (1, outText; 2, logText; 3,
+	 *            inputField)
 	 */
 	public static void clearText(int which) {
 		if (which == 1) {
@@ -158,8 +154,8 @@ public class Utilities_Pro {
 	/**
 	 * @since 3.0_dev07
 	 * @param in
-	 *            - String to append with the bash prompt to JTextArea outText.
-	 *            Also appends to logText.
+	 *            - String to append with the bash prompt to JTextArea outText. Also appends to
+	 *            logText.
 	 */
 	public static void command(String in) {
 		// Get Name of Current Directory (as we now use Canonical names)
@@ -211,9 +207,8 @@ public class Utilities_Pro {
 	}
 
 	/**
-	 * Launch the application. Executes on a pipeline, going first to read the
-	 * GUI configuration file, with the Look and Feel of the GUI. Then
-	 * initialises the GUI.
+	 * Launch the application. Executes on a pipeline, going first to read the GUI configuration
+	 * file, with the Look and Feel of the GUI. Then initialises the GUI.
 	 * 
 	 * @param inputArgs
 	 *            - there are no command-line arguments.
@@ -308,11 +303,10 @@ public class Utilities_Pro {
 	}
 
 	/**
-	 * Used to create (if necessary) all folders for Utilities Pro. Creates
-	 * ~/Library/Application Support/Utilities Pro folder and verifies that
-	 * ~/Downloads exists. This programme should be run on a Mac, as both are
-	 * only applicable under the File Structure of one (or very similar Linux
-	 * distributions)
+	 * Used to create (if necessary) all folders for Utilities Pro. Creates ~/Library/Application
+	 * Support/Utilities Pro folder and verifies that ~/Downloads exists. This programme should be
+	 * run on a Mac, as both are only applicable under the File Structure of one (or very similar
+	 * Linux distributions)
 	 * 
 	 * @author ifly6
 	 * @since 2.2_01
@@ -325,6 +319,9 @@ public class Utilities_Pro {
 	}
 
 	/**
+	 * Added in version 2.2_02 of Utilities Pro. Replaces 'append'. Difference is that it
+	 * automatically formats the text.
+	 * 
 	 * @since 2.2_02
 	 * @param in
 	 *            - String to append (with a space) into the JTextArea outText
@@ -332,11 +329,13 @@ public class Utilities_Pro {
 	 */
 	public static void out(String in) {
 		outText.append("\n " + in);
+		Utilities_Pro.getOutText().setCaretPosition(
+				getOutText().getDocument().getLength());
 	}
 
 	/**
-	 * Sets the arrayList of commands, as they are not hardcoded. This saves us
-	 * a lot of problems. Don't remove it.
+	 * Sets the arrayList of commands, as they are not hardcoded. This saves us a lot of problems.
+	 * Don't remove it.
 	 * 
 	 * @since 3.0_dev08
 	 */
@@ -367,9 +366,8 @@ public class Utilities_Pro {
 	}
 
 	/**
-	 * This system starts the main GUI for the programme. It also contains all
-	 * GUI data for the programme, causing a necessity for the method getters
-	 * and setters which are evident below.
+	 * This system starts the main GUI for the programme. It also contains all GUI data for the
+	 * programme, causing a necessity for the method getters and setters which are evident below.
 	 * 
 	 * @param frame
 	 *            - JFrame for the programme
@@ -588,7 +586,12 @@ public class Utilities_Pro {
 				fileDialog.setVisible(true);
 				File selScript = new File(fileDialog.getDirectory()
 						+ fileDialog.getFile());
-				ScriptCommands.scriptExec(selScript);
+				try {
+					ExecEngine.scriptEngine(selScript.getCanonicalPath());
+				} catch (IOException e) {
+					out("Script Load Failed.");
+					log("Script Load Failed for: " + selScript);
+				}
 			}
 		});
 		mnScripts.add(mntmLoadAndExecute);

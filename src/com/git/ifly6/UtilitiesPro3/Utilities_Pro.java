@@ -276,21 +276,6 @@ public class Utilities_Pro {
 			}
 		}
 
-		/*
-		 * TODO Prevent this from throwing an array out of bounds exception.
-		 * 
-		 * if ("--update".equals(inputArgs[0]) || "-u".equals(inputArgs[0])) {
-		 * EventQueue.invokeLater(new Runnable() {
-		 * 
-		 * @Override public void run() { log("Utilities Pro Update Triggered");
-		 * String[] url = { "curl", "-o", Downloads_DIR,
-		 * "http://ifly6.no-ip.org/UtilitiesPro/UtilitiesPro-latest.jar" }; try
-		 * { rt.exec(url); } catch (IOException e) {
-		 * log("Utilities Pro Download Failed");
-		 * append("Utilities Pro Download Failed"); }
-		 * append("Utilities Pro Updated. File in ~/Downloads."); } }); }
-		 */
-
 		setCommands();
 
 		try {
@@ -476,7 +461,7 @@ public class Utilities_Pro {
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);
 
-		JMenuItem mntmExportConsole = new JMenuItem("Export Utilities_Pro");
+		JMenuItem mntmExportConsole = new JMenuItem("Export Console\n");
 		mntmExportConsole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -520,7 +505,7 @@ public class Utilities_Pro {
 		JSeparator separator_4 = new JSeparator();
 		mnEdit.add(separator_4);
 
-		JMenuItem mntmClearConsole = new JMenuItem("Clear Utilities_Pro");
+		JMenuItem mntmClearConsole = new JMenuItem("Clear Console");
 		mntmClearConsole.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

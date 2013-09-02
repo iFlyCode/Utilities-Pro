@@ -141,11 +141,8 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	public static void update() {
-		append("Downloading latest version of Utilities Pro");
+		out("Fetch the latest version from: https://github.com/iFlyCode/Utilities-Pro/releases");
 		ExecEngine
-				.download(
-						"http://ifly6server.no-ip.org/UtilitiesPro/UtilitiesPro-latest.jar",
-						Downloads_DIR);
-		append("Latest Version downloaded to ~/Downloads");
+				.exec("open https://github.com/iFlyCode/Utilities-Pro/releases");
 	}
 }

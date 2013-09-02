@@ -1,6 +1,7 @@
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
+import java.io.IOException;
 
 public class TextCommands extends Utilities_Pro {
 
@@ -93,6 +94,8 @@ public class TextCommands extends Utilities_Pro {
 
 		} else if (operand[0].equals("cd")) {
 			cd(operand);
+		} else if (operand[0].equals("path")) {
+			path();
 		}
 
 		// Finally at the end of the cascade of 'if' statements,
@@ -114,6 +117,8 @@ public class TextCommands extends Utilities_Pro {
 	 *            anything, but when called, should only being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
+		String nonCanonical = "";
+
 		if (operand[1].startsWith("/")) {
 			StringBuilder builder = new StringBuilder();
 			for (int x = 1; x < operand.length; x++) {
@@ -125,7 +130,7 @@ public class TextCommands extends Utilities_Pro {
 			}
 			operand[1] = builder.toString();
 			if (new File(operand[1]).exists()) {
-				Utilities_Pro.currentDir = operand[1];
+				nonCanonical = operand[1];
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
@@ -142,17 +147,41 @@ public class TextCommands extends Utilities_Pro {
 			String newDir = operand[1].replaceAll("~",
 					System.getProperty("user.home"));
 			if (new File(newDir).exists()) {
-				Utilities_Pro.currentDir = newDir;
+				nonCanonical = newDir;
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
 		} else {
+			StringBuilder builder = new StringBuilder();
+			for (int x = 1; x < operand.length; x++) {
+				if (x != 1) {
+					builder.append(" " + operand[x]);
+				} else {
+					builder.append(operand[x]);
+				}
+			}
+			operand[1] = builder.toString();
 			if (new File(Utilities_Pro.currentDir + "/" + operand[1]).exists()) {
-				Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/"
-						+ operand[1];
+				nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
 		}
+
+		// Set and Canonicalise the Path
+		try {
+			currentDir = new File(nonCanonical).getCanonicalPath();
+		} catch (IOException e) {
+			out("Changing Directory somehow failed. Report this error to GitHub.");
+		}
+	}
+
+	/**
+	 * Display the current Path.
+	 * 
+	 * @since 3.1_02_dev01
+	 */
+	public static void path() {
+		out(currentDir);
 	}
 }

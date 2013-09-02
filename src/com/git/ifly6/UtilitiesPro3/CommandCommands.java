@@ -65,10 +65,12 @@ public class CommandCommands extends Utilities_Pro {
 	 * @see com.git.ifly6.UtilitiesPro3.terminate(int)
 	 */
 	public static void bombard() {
-		String choice = JOptionPane.showInputDialog(null,
-				"Please input a Process ID"
-						+ "\nfrom the choices in the Utilities_Pro", "");
-		for (int x = 0; x < 100; x++) {
+		String choice = JOptionPane
+				.showInputDialog(
+						null,
+						"Please input a bash command to try 250 times, repeatedly.",
+						"");
+		for (int x = 0; x < 250; x++) {
 			ExecEngine.exec(choice);
 		}
 	}

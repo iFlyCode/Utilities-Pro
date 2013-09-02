@@ -1,6 +1,7 @@
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
+import java.io.IOException;
 
 public class TextCommands extends Utilities_Pro {
 
@@ -12,147 +13,162 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Processes the Text for Application-specific functions. This should be the
-	 * only method called from this class. All others should be called from this
-	 * class under certain conditions. All internal commands MUST begin with
-	 * "/", just like in Minecraft.
+	 * Processes the Text for Application-specific functions. This should be the only method called
+	 * from this class. All others should be called from this class under certain conditions. All
+	 * internal commands MUST begin with "/", just like in Minecraft. Updated in 3.2 to accept
+	 * escape characters for space (that being '\ ').
 	 * 
 	 * @since 1.2
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 */
 	public static void process(String preoperand) {
 
-		// Command Parsing
+		// Get and Save Command
 		command(preoperand);
+		addToHistory(preoperand);
 		Utilities_Pro.clearText(3);
-		String[] operand = preoperand.split(" ");
+
+		// Split this using this Regular Expression
+		String[] operand = preoperand.split("(?<!\\\\)\\s+");
+
+		// Remove all remaining backslashes, as Java doesn't like them.
+		for (int x = 0; x < operand.length; x++) {
+			if (operand[x].contains("\\")) {
+				operand[x] = operand[x].replace("\\", "");
+			}
+		}
 
 		// Command Evaluation
-		if ((commText.get(0)).equals(operand[0])) {
+		if (commText.get(0).equals(operand[0])) {
 			HelpCommands.changeLog();
 			log("Changelog Called");
-		} else if ((commText.get(1)).equals(operand[0])) {
+		} else if (commText.get(1).equals(operand[0])) {
 			HelpCommands.about();
 			log("'About' Processing Trigger Invoked");
-		} else if ((commText.get(2)).equals(operand[0])) {
+		} else if (commText.get(2).equals(operand[0])) {
 			HelpCommands.helpList();
 			log("Help Processing Trigger Invoked");
-		} else if ((commText.get(3)).equals(operand[0])) {
+		} else if (commText.get(3).equals(operand[0])) {
 			Utilities_Pro.clearText(1);
 			Utilities_Pro.clearText(2);
 			Utilities_Pro.clearText(3);
 			log("JTextAreas Cleared");
-		} else if ((commText.get(4)).equals(operand[0])) {
-			HelpCommands.acknowledgements();
-			log("Acknowledgements Called");
-		} else if ((commText.get(5)).equals(operand[0])) {
+		} else if (commText.get(4).equals(operand[0])) {
 			HelpCommands.licence();
 			log("EULA Displayed");
-		} else if ((commText.get(6)).equals(operand[0])) {
+		} else if (commText.get(5).equals(operand[0])) {
 			FileCommands.export(1);
 			log("Invoked Export of outText");
-		} else if ((commText.get(7)).equals(operand[0])) {
+		} else if (commText.get(6).equals(operand[0])) {
 			FileCommands.export(2);
 			log("Invoked Export of logText");
-		} else if ((commText.get(8)).equals(operand[0])) {
+		} else if (commText.get(7).equals(operand[0])) {
 			FileCommands.configManage(3);
 			log("Called Configuration Generation thru CLI");
-		} else if ((commText.get(9)).equals(operand[0])) {
+		} else if (commText.get(8).equals(operand[0])) {
 			ScriptCommands.readout();
 			log("System Information Processing Trigger Called");
-		} else if ((commText.get(10)).equals(operand[0])) {
+		} else if ((commText.get(9)).equals(operand[0])) {
 			ScriptCommands.mindterm();
 			log("Mindterm Download Processing Trigger Called");
-		} else if (commText.get(11).equals(operand[0])) {
+		} else if (commText.get(10).equals(operand[0])) {
 			log("ScriptExecution Trigger Called");
-			try {
-				if (!(operand[1].startsWith("/"))) {
-					throw new ArrayIndexOutOfBoundsException();
-				} else {
-					StringBuilder builder = new StringBuilder();
-					for (int x = 1; x < operand.length; x++) {
-						if (x != 1) {
-							builder.append(" " + operand[x]);
-						} else {
-							builder.append(operand[x]);
-						}
-					}
-					operand[1] = builder.toString();
-					File scriptLoc = new File(operand[1]);
-					ScriptCommands.scriptExec(scriptLoc);
-				}
-			} catch (ArrayIndexOutOfBoundsException e) {
-				out("Please specify the absolute path of the file.");
-			}
-		} else if ((commText.get(12)).equals(operand[0])) {
+			ExecEngine.scriptEngine(operand[1]);
+		} else if ((commText.get(11)).equals(operand[0])) {
 			CommandCommands.terminateChoose();
 			log("Process Termination Processing Trigger Called");
-		} else if (commText.get(13).equals(operand[0])) {
+		} else if (commText.get(12).equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
-
-		} else if (operand[0].equals("cd")) {
-			cd(operand);
 		}
 
-		// Finally at the end of the cascade of 'if' statements,
-		// if operand does not start with "/", then treat it as a bash command.
+		/*
+		 * If it is not a '/' type internal command, see if it is calling for the implementation of
+		 * 'cd' or anything else like that.
+		 */
+		else if (operand[0].equals("cd")) {
+			cd(operand);
+		} else if (operand[0].equals("path")) {
+			path();
+		}
+
+		/*
+		 * If it is not a internal command, treat it as it it were a bash command.
+		 */
 		else {
 			ExecEngine.exec(operand);
 		}
+
 	}
 
 	/**
-	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it
-	 * was solved. Updated in 3.1 to include way of dealing with spaces in
-	 * filenames. Since 3.2_dev02, it also checks whether the DIR you are trying
-	 * to go to actually exists.
+	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it was solved. Updated
+	 * in 3.1 to include way of dealing with spaces in filenames. However, when the entire space
+	 * system was overhauled in 3.2, it became unnecessary due to the escape char for space ('\ ').
+	 * Since 3.1_03, it also checks whether the DIR you are trying to go to actually exists.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
-	 *            - The command which was put in. This command can begin with
-	 *            anything, but when called, should only being with 'cd'.
+	 *            - The command which was put in. This command can begin with anything, but when
+	 *            called, should only being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
+		String nonCanonical = "";
+
+		// Deal with Files that start with '/'
 		if (operand[1].startsWith("/")) {
-			StringBuilder builder = new StringBuilder();
-			for (int x = 1; x < operand.length; x++) {
-				if (x != 1) {
-					builder.append(" " + operand[x]);
-				} else {
-					builder.append(operand[x]);
-				}
-			}
-			operand[1] = builder.toString();
 			if (new File(operand[1]).exists()) {
-				Utilities_Pro.currentDir = operand[1];
+				nonCanonical = operand[1];
+				try {
+					currentDir = new File(nonCanonical).getCanonicalPath();
+				} catch (IOException e) {
+					out("Changing Directory somehow failed. Report this error to GitHub.");
+				}
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
-		} else if (operand[1].startsWith("~")) {
-			StringBuilder builder = new StringBuilder();
-			for (int x = 1; x < operand.length; x++) {
-				if (x != 1) {
-					builder.append(" " + operand[x]);
-				} else {
-					builder.append(operand[x]);
-				}
-			}
-			operand[1] = builder.toString();
+
+		}
+
+		// Deal with things that start with '~'
+		else if (operand[1].startsWith("~")) {
 			String newDir = operand[1].replaceAll("~",
 					System.getProperty("user.home"));
 			if (new File(newDir).exists()) {
-				Utilities_Pro.currentDir = newDir;
+				nonCanonical = newDir;
+				try {
+					currentDir = new File(nonCanonical).getCanonicalPath();
+				} catch (IOException e) {
+					out("Changing Directory somehow failed. Report this error to GitHub.");
+				}
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
-		} else {
+
+		}
+
+		// Deal with Everything Else
+		else {
 			if (new File(Utilities_Pro.currentDir + "/" + operand[1]).exists()) {
-				Utilities_Pro.currentDir = Utilities_Pro.currentDir + "/"
-						+ operand[1];
+				nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
+				try {
+					currentDir = new File(nonCanonical).getCanonicalPath();
+				} catch (IOException e) {
+					out("Changing Directory somehow failed. Report this error to GitHub.");
+				}
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
 		}
+
+	}
+
+	/**
+	 * Display the current Path.
+	 * 
+	 * @since 3.1_02_dev01
+	 */
+	static void path() {
+		out(currentDir);
 	}
 }

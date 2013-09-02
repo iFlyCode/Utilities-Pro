@@ -75,7 +75,8 @@ public class Utilities_Pro {
 	public static String userName = System.getProperty("user.name");
 
 	/**
-	 * The place to put any files we download.
+	 * The place to put any files we download. For all OSX computers, it should
+	 * be exactly the same.
 	 */
 	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
 
@@ -130,17 +131,7 @@ public class Utilities_Pro {
 	 * For the development number, it follows |major|.|minor|, but with no
 	 * revisions.
 	 */
-	public static String version = "3.1_01";
-
-	/**
-	 * @since 2.2_01
-	 * @param in
-	 *            - String to append into the JTextArea outText
-	 * @see com.me.ifly6.UtilitiesPro2.ConsoleIf
-	 */
-	public static void append(String in) {
-		getOutTextCaret().append("\n" + in);
-	}
+	public static String version = "3.1_03";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its
@@ -154,7 +145,7 @@ public class Utilities_Pro {
 	 */
 	public static void clearText(int which) {
 		if (which == 1) {
-			getOutTextCaret().setText(null);
+			outText.setText(null);
 		}
 		if (which == 2) {
 			logText.setText(null);
@@ -171,8 +162,18 @@ public class Utilities_Pro {
 	 *            Also appends to logText.
 	 */
 	public static void command(String in) {
-		append(computername + ": $ " + in);
-		log(computername + ": $ " + in);
+		// Get Name of Current Directory (as we now use Canonical names)
+		String[] directories = currentDir.split("/");
+		int temp = (directories.length) - 1;
+
+		try {
+			outText.append("\n" + computername + ":" + directories[temp]
+					+ " $ " + in);
+			log(computername + ":" + directories[temp] + " $ " + in);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			outText.append("\n" + computername + ": $ " + in);
+			log(computername + ": $ " + in);
+		}
 	}
 
 	/**
@@ -186,18 +187,18 @@ public class Utilities_Pro {
 
 	/**
 	 * @since 3.0_dev02
-	 * @return String with contents of JTextArea logText
+	 * @return JTextArea logText
 	 */
-	public static String getLogText() {
-		return logText.getText();
+	public static JTextArea getLogText() {
+		return logText;
 	}
 
 	/**
 	 * @since 3.0_dev02
-	 * @return String with contents of JTextArea outText
+	 * @return JTextArea OutText
 	 */
-	public static String getOutText() {
-		return getOutTextCaret().getText();
+	public static JTextArea getOutText() {
+		return outText;
 	}
 
 	/**
@@ -211,13 +212,11 @@ public class Utilities_Pro {
 
 	/**
 	 * Launch the application. Executes on a pipeline, going first to read the
-	 * GUI configuration file, with the Look and Feel of the GUI. Then it moves
-	 * to analyse whether there is a command-line argument for updating, then
-	 * launches the GUI.
+	 * GUI configuration file, with the Look and Feel of the GUI. Then
+	 * initialises the GUI.
 	 * 
 	 * @param inputArgs
-	 *            - TODO When launched from command line with "-u", the
-	 *            programme will update Utilities Pro.
+	 *            - there are no command-line arguments.
 	 */
 	@SuppressWarnings("deprecation")
 	public static void main(String[] inputArgs) {
@@ -233,18 +232,19 @@ public class Utilities_Pro {
 		macApp.addApplicationListener(macAdapter);
 		macApp.setEnabledPreferencesMenu(true);
 
-		// Create Configuration Directory
-		Utilities_Pro.mkdir();
-
 		// Read Configuration
 		String look = "Default";
 		try {
 			FileReader configRead = new FileReader(UtilitiesPro_DIR
 					+ "/config.txt");
 			Scanner scan = new Scanner(configRead);
+
+			// String = Lines in Order.
 			look = scan.nextLine();
-			scan.close();
+			scan.close(); // Close Scanner
+
 		} catch (FileNotFoundException e1) {
+			// If Configuration is not found, Do this stuff.
 			try {
 				UIManager.setLookAndFeel(UIManager
 						.getSystemLookAndFeelClassName());
@@ -276,8 +276,13 @@ public class Utilities_Pro {
 			}
 		}
 
+		// Create Configuration Directory
+		Utilities_Pro.mkdir();
+
+		// Populate the List of Internal Commands
 		setCommands();
 
+		// Get the name of the Computer
 		try {
 			computername = InetAddress.getLocalHost().getHostName();
 		} catch (UnknownHostException e) {
@@ -288,6 +293,7 @@ public class Utilities_Pro {
 			}
 		}
 
+		// Launch the GUI.
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -325,7 +331,7 @@ public class Utilities_Pro {
 	 * @see com.me.ifly6.UtilitiesPro2.ConsoleIf
 	 */
 	public static void out(String in) {
-		getOutTextCaret().append("\n " + in);
+		outText.append("\n " + in);
 	}
 
 	/**
@@ -416,10 +422,10 @@ public class Utilities_Pro {
 			}
 		});
 
-		setOutTextCaret(new JTextArea());
-		getOutTextCaret().setEditable(false);
-		getOutTextCaret().setFont(new Font("Monaco", Font.PLAIN, 11));
-		JScrollPane scrollPane_outPane = new JScrollPane(getOutTextCaret());
+		outText = new JTextArea();
+		outText.setEditable(false);
+		outText.setFont(new Font("Monaco", Font.PLAIN, 11));
+		JScrollPane scrollPane_outPane = new JScrollPane(outText);
 		scrollPane_outPane.setViewportBorder(new EmptyBorder(5, 5, 5, 5));
 		panel.add(scrollPane_outPane, BorderLayout.CENTER);
 
@@ -681,14 +687,6 @@ public class Utilities_Pro {
 
 		String greet = "Welcome, " + userName + ", to Utilities Pro - "
 				+ version + " '" + keyword + "'\n===========";
-		getOutTextCaret().append(greet);
-	}
-
-	protected static JTextArea getOutTextCaret() {
-		return outText;
-	}
-
-	protected static void setOutTextCaret(JTextArea outText) {
-		Utilities_Pro.outText = outText;
+		outText.append(greet);
 	}
 }

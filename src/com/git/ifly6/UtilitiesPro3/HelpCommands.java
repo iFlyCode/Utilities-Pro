@@ -96,7 +96,7 @@ public class HelpCommands extends Utilities_Pro {
 	 * @since 2.3
 	 */
 	public static void helpList() {
-		append("== Utilities Pro Internal Commands ==");
+		out("== Utilities Pro Internal Commands ==");
 		for (String element : commText) {
 			out("* " + element);
 		}
@@ -109,7 +109,7 @@ public class HelpCommands extends Utilities_Pro {
 	 * @since 2.3 (though there was one in iAccelerate)
 	 */
 	public static void licence() {
-		append("== Utilities Pro Licence ==");
+		out("== Utilities Pro Licence ==");
 		out("* You accept all responsibility for anything caused by this programme.");
 		out("* You will not change this programme to preform malicious work.");
 		out("* You will credit the authors of this programme for anything based upon it.");

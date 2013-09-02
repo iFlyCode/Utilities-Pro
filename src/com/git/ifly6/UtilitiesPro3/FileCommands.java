@@ -60,7 +60,7 @@ public class FileCommands extends Utilities_Pro {
 			// TODO Configuration Management, through GUI or CLI
 			break;
 		default:
-			append("No valid configuration command specified.");
+			out("No valid configuration command specified.");
 			break;
 		}
 	}
@@ -77,7 +77,7 @@ public class FileCommands extends Utilities_Pro {
 	public static void export(int which) {
 		switch (which) {
 		case 1:
-			String outFile = Utilities_Pro.getOutText();
+			String outFile = Utilities_Pro.getOutText().getText();
 			log("Output Export Invoked.");
 			mkdir();
 			Writer writer = null;
@@ -90,10 +90,10 @@ public class FileCommands extends Utilities_Pro {
 			} catch (IOException e) {
 				log("Output Export Failed");
 			}
-			append("Contents Exported to " + UtilitiesPro_DIR);
+			out("Contents Exported to " + UtilitiesPro_DIR);
 			break;
 		case 2:
-			outFile = Utilities_Pro.getLogText();
+			outFile = Utilities_Pro.getLogText().getText();
 			log("Log Export Invoked.");
 			mkdir();
 			writer = null;
@@ -106,10 +106,10 @@ public class FileCommands extends Utilities_Pro {
 			} catch (IOException e) {
 				log("Log Export Failed");
 			}
-			append("Contents Exported to " + UtilitiesPro_DIR);
+			out("Contents Exported to " + UtilitiesPro_DIR);
 			break;
 		default:
-			append("No valid TextArea specified.");
+			out("No valid TextArea specified.");
 			break;
 		}
 	}

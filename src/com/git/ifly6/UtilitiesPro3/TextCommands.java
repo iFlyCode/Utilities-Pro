@@ -13,10 +13,9 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Processes the Text for Application-specific functions. This should be the
-	 * only method called from this class. All others should be called from this
-	 * class under certain conditions. All internal commands MUST begin with
-	 * "/", just like in Minecraft.
+	 * Processes the Text for Application-specific functions. This should be the only method called from this class. All
+	 * others should be called from this class under certain conditions. All internal commands MUST begin with "/", just
+	 * like in Minecraft.
 	 * 
 	 * @since 1.2
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
@@ -106,19 +105,19 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it
-	 * was solved. Updated in 3.1 to include way of dealing with spaces in
-	 * filenames. Since 3.2_dev02, it also checks whether the DIR you are trying
-	 * to go to actually exists.
+	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it was solved. Updated in 3.1 to include
+	 * way of dealing with spaces in filenames. Since 3.2_dev02, it also checks whether the DIR you are trying to go to
+	 * actually exists.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
-	 *            - The command which was put in. This command can begin with
-	 *            anything, but when called, should only being with 'cd'.
+	 *            - The command which was put in. This command can begin with anything, but when called, should only
+	 *            being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
 		String nonCanonical = "";
 
+		// Deal with Files that start with '/'
 		if (operand[1].startsWith("/")) {
 			StringBuilder builder = new StringBuilder();
 			for (int x = 1; x < operand.length; x++) {
@@ -131,10 +130,16 @@ public class TextCommands extends Utilities_Pro {
 			operand[1] = builder.toString();
 			if (new File(operand[1]).exists()) {
 				nonCanonical = operand[1];
+				try {
+					currentDir = new File(nonCanonical).getCanonicalPath();
+				} catch (IOException e) {
+					out("Changing Directory somehow failed. Report this error to GitHub.");
+				}
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
-		} else if (operand[1].startsWith("~")) {
+
+		} else if (operand[1].startsWith("~")) {// Deal with things that start with '~'
 			StringBuilder builder = new StringBuilder();
 			for (int x = 1; x < operand.length; x++) {
 				if (x != 1) {
@@ -148,10 +153,16 @@ public class TextCommands extends Utilities_Pro {
 					System.getProperty("user.home"));
 			if (new File(newDir).exists()) {
 				nonCanonical = newDir;
+				try {
+					currentDir = new File(nonCanonical).getCanonicalPath();
+				} catch (IOException e) {
+					out("Changing Directory somehow failed. Report this error to GitHub.");
+				}
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
-		} else {
+
+		} else { // Deal with Everything Else
 			StringBuilder builder = new StringBuilder();
 			for (int x = 1; x < operand.length; x++) {
 				if (x != 1) {
@@ -163,16 +174,14 @@ public class TextCommands extends Utilities_Pro {
 			operand[1] = builder.toString();
 			if (new File(Utilities_Pro.currentDir + "/" + operand[1]).exists()) {
 				nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
+				try {
+					currentDir = new File(nonCanonical).getCanonicalPath();
+				} catch (IOException e) {
+					out("Changing Directory somehow failed. Report this error to GitHub.");
+				}
 			} else {
 				out("The directory you are looking for does not exist.");
 			}
-		}
-
-		// Set and Canonicalise the Path
-		try {
-			currentDir = new File(nonCanonical).getCanonicalPath();
-		} catch (IOException e) {
-			out("Changing Directory somehow failed. Report this error to GitHub.");
 		}
 	}
 

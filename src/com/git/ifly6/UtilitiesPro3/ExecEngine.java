@@ -132,8 +132,8 @@ public class ExecEngine extends Utilities_Pro {
 					Scanner scan = new Scanner(outRead);
 					while (scan.hasNextLine()) {
 						out(scan.nextLine());
-						Utilities_Pro.getOutTextCaret().setCaretPosition(
-								getOutTextCaret().getDocument().getLength());
+						Utilities_Pro.getOutText().setCaretPosition(
+								getOutText().getDocument().getLength());
 					}
 
 					// Error Stream
@@ -142,8 +142,8 @@ public class ExecEngine extends Utilities_Pro {
 					scan = new Scanner(errRead);
 					while (scan.hasNextLine()) {
 						out(scan.nextLine());
-						Utilities_Pro.getOutTextCaret().setCaretPosition(
-								getOutTextCaret().getDocument().getLength());
+						Utilities_Pro.getOutText().setCaretPosition(
+								getOutText().getDocument().getLength());
 					}
 				} catch (IOException e) {
 					out("Invalid Command");

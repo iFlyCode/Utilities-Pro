@@ -143,7 +143,7 @@ public class Utilities_Pro {
 	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development
 	 * number, it follows |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.2";
+	public static String version = "3.2_01";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside
@@ -422,13 +422,18 @@ public class Utilities_Pro {
 				if (keyCode == KeyEvent.VK_ENTER) {
 					TextCommands.processInputField();
 				}
-				if (keyCode == KeyEvent.VK_UP) {
-					recall--;
-					inputField.setText(history.get(recall));
-				}
-				if (keyCode == KeyEvent.VK_DOWN) {
-					recall++;
-					inputField.setText(history.get(recall));
+				try {
+					if (keyCode == KeyEvent.VK_UP) {
+						recall--;
+						inputField.setText(history.get(recall));
+					}
+					if (keyCode == KeyEvent.VK_DOWN) {
+						recall++;
+						inputField.setText(history.get(recall));
+					}
+				} catch (IndexOutOfBoundsException ex) {
+					recall = history.size();
+					inputField.setText(null);
 				}
 			}
 

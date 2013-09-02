@@ -19,8 +19,8 @@ import javax.swing.JOptionPane;
 public class HelpCommands extends Utilities_Pro {
 
 	/**
-	 * Downloads a change-log file with the latest version stated at the top. It
-	 * then reads the file and displays the output.
+	 * Downloads a change-log file with the latest version stated at the top. It then reads the file
+	 * and displays the output.
 	 * 
 	 * @since 1.2
 	 */
@@ -43,8 +43,8 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Displays about text. Displays a long string, String about in a
-	 * JOptionPane. It then calls the change-log method.
+	 * Displays about text. Displays a long string, String about in a JOptionPane. It then calls the
+	 * change-log method.
 	 * 
 	 * @since 3.0_dev07
 	 * @see com.git.ifly6.UtilitiesPro3.HelpCommands#changelog()
@@ -65,11 +65,13 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Downloads an acknowledgements file from ifly6.no-ip.org. It then reads it
-	 * and displays the output.
+	 * Downloads an acknowledgements file from ifly6.no-ip.org. It then reads it and displays the
+	 * output.
 	 * 
+	 * @deprecated
 	 * @since 1.3
 	 */
+	@Deprecated
 	public static void acknowledgements() {
 		try {
 			ExecEngine.download(
@@ -89,8 +91,8 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Displays the contents of Utilities_Pro.commText, which (due to design) is
-	 * the list of all internal commands for the programme.
+	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the list of all
+	 * internal commands for the programme.
 	 * 
 	 * @see Utilities_Pro.commText
 	 * @since 2.3
@@ -98,13 +100,13 @@ public class HelpCommands extends Utilities_Pro {
 	public static void helpList() {
 		out("== Utilities Pro Internal Commands ==");
 		for (String element : commText) {
-			out("* " + element);
+			out(" * " + element);
 		}
 	}
 
 	/**
-	 * Displays the hardcoded (and therefore, version specific) End User Licence
-	 * Agreement for this programme.
+	 * Displays the hard-coded (and therefore, version specific) End User Licence Agreement for this
+	 * programme.
 	 * 
 	 * @since 2.3 (though there was one in iAccelerate)
 	 */
@@ -123,8 +125,7 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Opens (in default browser) a web site with an archive of A-Z OSX Bash
-	 * Commands.
+	 * Opens (in default browser) a web site with an archive of A-Z OSX Bash Commands.
 	 * 
 	 * @since 3.0_dev06
 	 */
@@ -140,9 +141,24 @@ public class HelpCommands extends Utilities_Pro {
 		}
 	}
 
+	/**
+	 * Opens the release page for Utilities Pro on GitHub. This entire method was changed in 3.1_02.
+	 * It now directs to the GitHub release section for Utilities Pro.
+	 * 
+	 * @since 3.1_02
+	 */
 	public static void update() {
 		out("Fetch the latest version from: https://github.com/iFlyCode/Utilities-Pro/releases");
-		ExecEngine
-				.exec("open https://github.com/iFlyCode/Utilities-Pro/releases");
+		try {
+			if (Desktop.isDesktopSupported()) {
+				Desktop.getDesktop()
+						.browse(new URI(
+								"https://github.com/iFlyCode/Utilities-Pro/releases"));
+			}
+		} catch (IOException e) {
+			log("Cannot Open GitHub Releases");
+		} catch (URISyntaxException e) {
+			log("Cannot Open GitHub Releases");
+		}
 	}
 }

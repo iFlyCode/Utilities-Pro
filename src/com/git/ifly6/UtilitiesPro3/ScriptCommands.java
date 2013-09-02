@@ -20,7 +20,7 @@ public class ScriptCommands extends Utilities_Pro {
 	 * 
 	 * @since 2.3_dev3
 	 */
-	public static void purge() {
+	static void purge() {
 		out("Please wait. Purging inactive memory cache...");
 		ExecEngine.exec("purge");
 	}
@@ -31,7 +31,7 @@ public class ScriptCommands extends Utilities_Pro {
 	 * 
 	 * @since iUtilities v1.0
 	 */
-	public static void wireless() {
+	static void wireless() {
 		try {
 			ExecEngine.exec("networksetup -setairportpower en1 off");
 			Thread.sleep(500);
@@ -51,7 +51,7 @@ public class ScriptCommands extends Utilities_Pro {
 	 * 
 	 * @since 2.2
 	 */
-	public static void readout() {
+	static void readout() {
 		String[] com0 = { "ps", "ax" };
 		String[] com1 = { "ifconfig" };
 		String[] com2 = { "lsof", "-i" };
@@ -107,7 +107,7 @@ public class ScriptCommands extends Utilities_Pro {
 	 * @since 2.1
 	 * @see {@link http://www.cryptzone.com/products/mindterm/#editionsstart}
 	 */
-	public static void mindterm() {
+	static void mindterm() {
 		log("Mindterm Download Commenced.");
 		ExecEngine.download("http://ifly6.no-ip.org/Public/mindterm.jar",
 				Downloads_DIR);
@@ -118,7 +118,7 @@ public class ScriptCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Loads and Executes a file.
+	 * Loads and Executes a file. It has been replaced by ExecEngine.scriptEnigne.
 	 * 
 	 * @deprecated
 	 * @since 3.1_dev01
@@ -126,7 +126,7 @@ public class ScriptCommands extends Utilities_Pro {
 	 *            - The file we want to load.
 	 */
 	@Deprecated
-	public static void scriptExec(File file) {
+	static void scriptExec(File file) {
 		log("ScriptExec looking for file: " + file);
 
 		try {

@@ -81,7 +81,7 @@ public class ExecEngine extends Utilities_Pro {
 	}
 
 	/**
-	 * Added so an autonomous script can directly execute a hardcoded String[] input. Should not be
+	 * Added so an autonomous script can directly execute a hard-coded String[] input. Should not be
 	 * used otherwise.
 	 * 
 	 * @since 3.0_dev06

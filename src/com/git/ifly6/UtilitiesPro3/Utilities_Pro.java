@@ -51,8 +51,24 @@ import com.apple.eawt.Application;
 public class Utilities_Pro {
 
 	/**
-	 * Current Directory we are in. Change using our version of the CD command, located in
+	 * Remembers all commands done in the session.
+	 * 
+	 * @since 3.2
+	 */
+	static ArrayList<String> history = new ArrayList<String>();
+
+	/**
+	 * The number which tells us where we are looking in the ArrayList.
+	 * 
+	 * @since 3.2
+	 */
+	static int recall = history.size();
+
+	/**
+	 * Current Directory we are in. Change using our implementation of the CD command, located in
 	 * TextCommands.
+	 * 
+	 * @since 3.0_dev09.03
 	 */
 	public static String currentDir = System.getProperty("user.dir");
 
@@ -60,7 +76,7 @@ public class Utilities_Pro {
 	 * List of all the internal commands inside a String Array. All unused commands should be stated
 	 * as nulls.
 	 */
-	public static ArrayList<String> commText = new ArrayList<String>(16);
+	public static ArrayList<String> commText = new ArrayList<String>();
 
 	/**
 	 * Used for greeting the user. It should be replaced from Unknown to the iNet name of the user
@@ -77,7 +93,7 @@ public class Utilities_Pro {
 	/**
 	 * The place to put any files we download. For all OSX computers, it should be exactly the same.
 	 */
-	public static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
+	static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
 
 	/**
 	 * TextField for the input of commands. When command engine is run, it retrieves the contents of
@@ -90,7 +106,7 @@ public class Utilities_Pro {
 	 * iceland, 3.1) iceberg, 3.2) icepool, 3.3) skyfall, 3.4) icefield, 3.5) everest, 3.6) icemont,
 	 * 3.7) icewell, 3.8) icedtea
 	 */
-	public static String keyword = "iceberg";
+	static String keyword = "skyfall";
 
 	/**
 	 * JTextArea for the output of the log. Receives strings to append to the log from the method
@@ -108,26 +124,26 @@ public class Utilities_Pro {
 	 * Process is declared here to allow other classes to terminate that process should it be
 	 * necessary.
 	 */
-	public static Process process;
+	static Process process;
 
 	/**
 	 * Runtime Handler. Can be called from anywhere to execute a String[]. When we finish a system
 	 * to return a Process, this shared resource will be removed. However, as it appears that it is
 	 * not happening, it will likely never be removed.
 	 */
-	public static Runtime rt = Runtime.getRuntime();
+	static Runtime rt = Runtime.getRuntime();
 
 	/**
 	 * A place in ~/Library/Application Support/ where we store all of our configuration files.
 	 */
-	public static String UtilitiesPro_DIR = "/Users/" + userName
+	static String UtilitiesPro_DIR = "/Users/" + userName
 			+ "/Library/Application Support/Utilities Pro";
 
 	/**
 	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development
 	 * number, it follows |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.1_04";
+	public static String version = "3.2";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside
@@ -158,6 +174,7 @@ public class Utilities_Pro {
 	 *            logText.
 	 */
 	public static void command(String in) {
+
 		// Get Name of Current Directory (as we now use Canonical names)
 		String[] directories = currentDir.split("/");
 		int temp = (directories.length) - 1;
@@ -344,7 +361,6 @@ public class Utilities_Pro {
 		commText.add("/about");
 		commText.add("/help");
 		commText.add("/clear");
-		commText.add("/acknowledgements");
 		commText.add("/licence");
 		commText.add("/save");
 		commText.add("/saveLog");
@@ -407,7 +423,12 @@ public class Utilities_Pro {
 					TextCommands.processInputField();
 				}
 				if (keyCode == KeyEvent.VK_UP) {
-					inputField.setText(TextCommands.preoperand);
+					recall--;
+					inputField.setText(history.get(recall));
+				}
+				if (keyCode == KeyEvent.VK_DOWN) {
+					recall++;
+					inputField.setText(history.get(recall));
 				}
 			}
 
@@ -691,5 +712,10 @@ public class Utilities_Pro {
 		String greet = "Welcome, " + userName + ", to Utilities Pro - "
 				+ version + " '" + keyword + "'\n===========";
 		outText.append(greet);
+	}
+
+	protected static void addToHistory(String input) {
+		history.add(input);
+		recall = history.size();
 	}
 }

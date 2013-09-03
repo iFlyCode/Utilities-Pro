@@ -2,13 +2,12 @@ package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class TextCommands extends Utilities_Pro {
 
-	public static String preoperand = Utilities_Pro.getInputField();
-
 	public static void processInputField() {
-		preoperand = Utilities_Pro.getInputField();
+		String preoperand = getInputField().getText();
 		process(preoperand);
 	}
 
@@ -102,10 +101,10 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * The CD Subsystem. Much waiting was done for this. One epiphany later, it was solved. Updated
-	 * in 3.1 to include way of dealing with spaces in filenames. However, when the entire space
-	 * system was overhauled in 3.2, it became unnecessary due to the escape char for space ('\ ').
-	 * Since 3.1_03, it also checks whether the DIR you are trying to go to actually exists.
+	 * The CD entire Subsystem. Much waiting was done for this. One epiphany later, it was solved.
+	 * Updated in 3.1 to include way of dealing with spaces in filenames. However, when the entire
+	 * space system was overhauled in 3.2, it became unnecessary due to the escape char for space
+	 * ('\ '). Since 3.1_03, it also checks whether the DIR you are trying to go to actually exists.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
@@ -114,10 +113,11 @@ public class TextCommands extends Utilities_Pro {
 	 */
 	public static void cd(String[] operand) {
 		String nonCanonical = "";
+		String error = "The directory you are looking for does not exist, or is not a directory";
 
 		// Deal with Files that start with '/'
 		if (operand[1].startsWith("/")) {
-			if (new File(operand[1]).exists()) {
+			if (new File(operand[1]).isDirectory()) {
 				nonCanonical = operand[1];
 				try {
 					currentDir = new File(nonCanonical).getCanonicalPath();
@@ -125,7 +125,7 @@ public class TextCommands extends Utilities_Pro {
 					out("Changing Directory somehow failed. Report this error to GitHub.");
 				}
 			} else {
-				out("The directory you are looking for does not exist.");
+				out(error);
 			}
 
 		}
@@ -134,7 +134,7 @@ public class TextCommands extends Utilities_Pro {
 		else if (operand[1].startsWith("~")) {
 			String newDir = operand[1].replaceAll("~",
 					System.getProperty("user.home"));
-			if (new File(newDir).exists()) {
+			if (new File(newDir).isDirectory()) {
 				nonCanonical = newDir;
 				try {
 					currentDir = new File(nonCanonical).getCanonicalPath();
@@ -142,14 +142,15 @@ public class TextCommands extends Utilities_Pro {
 					out("Changing Directory somehow failed. Report this error to GitHub.");
 				}
 			} else {
-				out("The directory you are looking for does not exist.");
+				out(error);
 			}
 
 		}
 
 		// Deal with Everything Else
 		else {
-			if (new File(Utilities_Pro.currentDir + "/" + operand[1]).exists()) {
+			if (new File(Utilities_Pro.currentDir + "/" + operand[1])
+					.isDirectory()) {
 				nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
 				try {
 					currentDir = new File(nonCanonical).getCanonicalPath();
@@ -157,7 +158,7 @@ public class TextCommands extends Utilities_Pro {
 					out("Changing Directory somehow failed. Report this error to GitHub.");
 				}
 			} else {
-				out("The directory you are looking for does not exist.");
+				out(error);
 			}
 		}
 
@@ -170,5 +171,44 @@ public class TextCommands extends Utilities_Pro {
 	 */
 	static void path() {
 		out(currentDir);
+	}
+
+	/**
+	 * Uses advanced recognition technology to auto-complete what is being looked for.
+	 * 
+	 * @since 3.3
+	 */
+	static String tabComplete() {
+		command("> Tab Auto-Complete");
+
+		String preoperand = getInputField().getText();
+
+		String[] operand = preoperand.split("(?<!\\\\)\\s+");
+		String[] fileList = new File(currentDir).list();
+		ArrayList<String> narrowList = new ArrayList<String>();
+
+		for (String element : fileList) {
+			if (element.startsWith(operand[operand.length - 1])) {
+				narrowList.add(element);
+			}
+		}
+
+		if (narrowList.isEmpty()) {
+			// If no matches, report that.
+			out("No Directory Match");
+		} else if (narrowList.size() == 1) {
+			// If one match, set that.
+			operand[1] = narrowList.get(0);
+			String reinput = operand[0] + " " + operand[1];
+			return reinput;
+		} else if (narrowList.size() > 1) {
+			// If more than one match, report that.
+			out("There is more than one option available. Please continue typing.");
+			for (String element : narrowList) {
+				out(" * " + element);
+			}
+			return getInputField().getText();
+		}
+		return null;
 	}
 }

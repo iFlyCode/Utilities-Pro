@@ -1,10 +1,12 @@
 package com.git.ifly6.UtilitiesPro3;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FileDialog;
 import java.awt.Font;
+import java.awt.Robot;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -157,13 +159,13 @@ public class Utilities_Pro {
 	 */
 	public static void clearText(int which) {
 		if (which == 1) {
-			outText.setText(null);
+			outText.setText("");
 		}
 		if (which == 2) {
-			logText.setText(null);
+			logText.setText("");
 		}
 		if (which == 3) {
-			inputField.setText(null);
+			inputField.setText("");
 		}
 	}
 
@@ -183,22 +185,25 @@ public class Utilities_Pro {
 			outText.append("\n" + computername + ":" + directories[temp]
 					+ " $ " + in);
 			log(computername + ":" + directories[temp] + " $ " + in);
-		} catch (ArrayIndexOutOfBoundsException e) {
+		} catch (Exception e) {
 			outText.append("\n" + computername + ": $ " + in);
 			log(computername + ": $ " + in);
 		}
 	}
 
 	/**
+	 * Returns inputField.
+	 * 
 	 * @since 3.0_dev05
 	 * @return a string with the contents of TextArea inputField
 	 */
-	public static String getInputField() {
-		String contents = inputField.getText();
-		return contents;
+	public static TextField getInputField() {
+		return inputField;
 	}
 
 	/**
+	 * Get and Return LogText for direct manipulation.
+	 * 
 	 * @since 3.0_dev02
 	 * @return JTextArea logText
 	 */
@@ -207,6 +212,8 @@ public class Utilities_Pro {
 	}
 
 	/**
+	 * Get and return OutText for direct manipulation.
+	 * 
 	 * @since 3.0_dev02
 	 * @return JTextArea OutText
 	 */
@@ -328,7 +335,7 @@ public class Utilities_Pro {
 	 * @author ifly6
 	 * @since 2.2_01
 	 */
-	public static void mkdir() {
+	static void mkdir() {
 		File folder = new File(UtilitiesPro_DIR);
 		folder.mkdirs();
 		folder = new File(Downloads_DIR);
@@ -347,7 +354,7 @@ public class Utilities_Pro {
 	public static void out(String in) {
 		outText.append("\n " + in);
 		Utilities_Pro.getOutText().setCaretPosition(
-				getOutText().getDocument().getLength());
+				outText.getDocument().getLength());
 	}
 
 	/**
@@ -414,26 +421,42 @@ public class Utilities_Pro {
 
 		inputField = new TextField();
 		inputField.setFont(new Font("Monaco", Font.PLAIN, 11));
+		inputField.setFocusTraversalKeysEnabled(false);
 		panel.add(inputField, BorderLayout.SOUTH);
 		inputField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				int keyCode = e.getKeyCode();
+
 				if (keyCode == KeyEvent.VK_ENTER) {
 					TextCommands.processInputField();
-				}
-				try {
-					if (keyCode == KeyEvent.VK_UP) {
+				} else if (keyCode == KeyEvent.VK_UP) {
+					try {
 						recall--;
 						inputField.setText(history.get(recall));
+					} catch (IndexOutOfBoundsException ex) {
+						recall = 0;
+						inputField.setText(history.get(0));
 					}
-					if (keyCode == KeyEvent.VK_DOWN) {
+				} else if (keyCode == KeyEvent.VK_DOWN) {
+					try {
 						recall++;
 						inputField.setText(history.get(recall));
+					} catch (IndexOutOfBoundsException ex) {
+						recall = history.size();
+						inputField.setText(null);
 					}
-				} catch (IndexOutOfBoundsException ex) {
-					recall = history.size();
-					inputField.setText(null);
+				} else if (keyCode == KeyEvent.VK_TAB) {
+					String reinput = TextCommands.tabComplete();
+					inputField.setText(reinput);
+					Robot rob;
+					try {
+						rob = new Robot();
+						rob.keyPress(KeyEvent.VK_RIGHT);
+						rob.keyRelease(KeyEvent.VK_RIGHT);
+					} catch (AWTException ex) {
+						log("Robot Failure on Pressing Right Key.");
+					}
 				}
 			}
 
@@ -719,7 +742,7 @@ public class Utilities_Pro {
 		outText.append(greet);
 	}
 
-	protected static void addToHistory(String input) {
+	static void addToHistory(String input) {
 		history.add(input);
 		recall = history.size();
 	}

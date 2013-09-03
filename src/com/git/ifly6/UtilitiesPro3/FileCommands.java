@@ -16,19 +16,16 @@ import java.util.Date;
 public class FileCommands extends Utilities_Pro {
 
 	/**
-	 * Method to manage all things regarding the Utilities Pro configuration
-	 * file. Which function therein is selected using the provided integer,
-	 * which.
+	 * Method to manage all things regarding the Utilities Pro configuration file. Which function
+	 * therein is selected using the provided integer, which.
 	 * 
-	 * @since 3.0_dev06, though component parts (1,2) are from 3.0_dev02 and
-	 *        2.3, respectively.
+	 * @since 3.0_dev06, though component parts (1,2) are from 3.0_dev02 and 2.3, respectively.
 	 * @param which
-	 *            an integer which chooses which function to use on the
-	 *            configuration. There are three possibilities. 1) Open the
-	 *            configuration in Finder, 2) Delete the configuration folder,
-	 *            3) Generate configuration, and 4) Change configuration.
+	 *            an integer which chooses which function to use on the configuration. There are
+	 *            three possibilities. 1) Open the configuration in Finder, 2) Delete the
+	 *            configuration folder, 3) Generate default configuration.
 	 */
-	public static void configManage(int which) {
+	static void configManage(int which) {
 		switch (which) {
 		case 1:
 			log("Opening Configuration");
@@ -56,9 +53,6 @@ public class FileCommands extends Utilities_Pro {
 				log("Attempt to generate configuration Failed.");
 			}
 			break;
-		case 4:
-			// TODO Configuration Management, through GUI or CLI
-			break;
 		default:
 			out("No valid configuration command specified.");
 			break;
@@ -66,12 +60,21 @@ public class FileCommands extends Utilities_Pro {
 	}
 
 	/**
+	 * Configuration Changer and Manager. Added in 3.3, the Interface Update.
+	 * 
+	 * @since 3.3
+	 */
+	static void configChange() {
+
+	}
+
+	/**
 	 * This method chooses which JTextArea to export, then exports it.
 	 * 
 	 * @author ifly6
 	 * @param which
-	 *            decides which JTextArea to export to file. 1 = Export the
-	 *            outText JTextArea. 2 = Export the logText JTextArea.
+	 *            decides which JTextArea to export to file. 1 = Export the outText JTextArea. 2 =
+	 *            Export the logText JTextArea.
 	 * @since 3.0_dev04 (integrated from two separate commands)
 	 */
 	public static void export(int which) {

@@ -1,12 +1,11 @@
 package com.git.ifly6.UtilitiesPro3;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FileDialog;
 import java.awt.Font;
-import java.awt.Robot;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +34,7 @@ import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultEditorKit;
@@ -51,6 +51,14 @@ import com.apple.eawt.Application;
  * @version 3.x
  */
 public class Utilities_Pro {
+
+	/**
+	 * This ArrayList contains the data which we will use to load the data off of. 0) The look and
+	 * feel setting for the programme to load. 1)
+	 * 
+	 * @since 3.3
+	 */
+	protected static ArrayList<String> configuration = new ArrayList<String>();
 
 	/**
 	 * Remembers all commands done in the session.
@@ -105,10 +113,10 @@ public class Utilities_Pro {
 
 	/**
 	 * The Keyword is like "Sandy Bridge". There is a defined list of them. For 3.x, its is 3.0)
-	 * iceland, 3.1) iceberg, 3.2) icepool, 3.3) skyfall, 3.4) icefield, 3.5) everest, 3.6) icemont,
+	 * iceland, 3.1) iceberg, 3.2) skyfall, 3.3) icepool, 3.4) icefield, 3.5) everest, 3.6) icemont,
 	 * 3.7) icewell, 3.8) icedtea
 	 */
-	static String keyword = "skyfall";
+	static String keyword = "icepool";
 
 	/**
 	 * JTextArea for the output of the log. Receives strings to append to the log from the method
@@ -145,7 +153,7 @@ public class Utilities_Pro {
 	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development
 	 * number, it follows |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.2_01";
+	public static String version = "3.3_dev02";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside
@@ -240,6 +248,9 @@ public class Utilities_Pro {
 	@SuppressWarnings("deprecation")
 	public static void main(String[] inputArgs) {
 
+		// Create Configuration Directory
+		Utilities_Pro.mkdir();
+
 		// Set Properties before GUI Calls
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
 		System.setProperty("com.apple.mrj.application.apple.menu.about.name",
@@ -252,14 +263,14 @@ public class Utilities_Pro {
 		macApp.setEnabledPreferencesMenu(true);
 
 		// Read Configuration
-		String look = "Default";
 		try {
 			FileReader configRead = new FileReader(UtilitiesPro_DIR
 					+ "/config.txt");
 			Scanner scan = new Scanner(configRead);
 
 			// String = Lines in Order.
-			look = scan.nextLine();
+			configuration.add(scan.nextLine()); // Look and Feel
+
 			scan.close(); // Close Scanner
 
 		} catch (FileNotFoundException e1) {
@@ -275,28 +286,62 @@ public class Utilities_Pro {
 		}
 
 		// GUI Look and Feel
-		if (look.equals("CrossPlatformLAF")) {
-			try {
-				UIManager.setLookAndFeel(UIManager
-						.getCrossPlatformLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
-			}
-		} else {
-			try {
-				UIManager.setLookAndFeel(UIManager
-						.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
+		if (!(configuration.isEmpty())) {
+			if (configuration.get(0).equals("CrossPlatformLAF")) {
+				try {
+					UIManager.setLookAndFeel(UIManager
+							.getCrossPlatformLookAndFeelClassName());
+				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException e) {
+				} catch (IllegalAccessException e) {
+				} catch (UnsupportedLookAndFeelException e) {
+				}
+			} else if (configuration.get(0).equals("Nimbus")) {
+				try {
+					for (LookAndFeelInfo info : UIManager
+							.getInstalledLookAndFeels()) {
+						if ("Nimbus".equals(info.getName())) {
+							UIManager.setLookAndFeel(info.getClassName());
+							break;
+						}
+					}
+				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException e) {
+				} catch (IllegalAccessException e) {
+				} catch (UnsupportedLookAndFeelException e) {
+				}
+			} else if (configuration.get(0).equals("A Tasting")) {
+				try {
+					// Find and Set Nimbus
+					for (LookAndFeelInfo info : UIManager
+							.getInstalledLookAndFeels()) {
+						if ("Nimbus".equals(info.getName())) {
+							UIManager.setLookAndFeel(info.getClassName());
+							break;
+						}
+					}
+
+					// Set Colours for Nimbus
+					UIManager.put("nimbusBase", Color.black);
+					UIManager.put("nimbusBlueGrey", Color.DARK_GRAY);
+					UIManager.put("control", Color.GRAY);
+
+				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException e) {
+				} catch (IllegalAccessException e) {
+				} catch (UnsupportedLookAndFeelException e) {
+				}
+			} else {
+				try {
+					UIManager.setLookAndFeel(UIManager
+							.getSystemLookAndFeelClassName());
+				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException e) {
+				} catch (IllegalAccessException e) {
+				} catch (UnsupportedLookAndFeelException e) {
+				}
 			}
 		}
-
-		// Create Configuration Directory
-		Utilities_Pro.mkdir();
 
 		// Populate the List of Internal Commands
 		setCommands();
@@ -353,8 +398,8 @@ public class Utilities_Pro {
 	 */
 	public static void out(String in) {
 		outText.append("\n " + in);
-		Utilities_Pro.getOutText().setCaretPosition(
-				outText.getDocument().getLength());
+		Utilities_Pro.outText.setCaretPosition(outText.getDocument()
+				.getLength());
 	}
 
 	/**
@@ -371,7 +416,7 @@ public class Utilities_Pro {
 		commText.add("/licence");
 		commText.add("/save");
 		commText.add("/saveLog");
-		commText.add("/generateConfig");
+		commText.add("/config");
 		commText.add("/sysInfo");
 		commText.add("/mindterm");
 		commText.add("/execscript");
@@ -436,7 +481,11 @@ public class Utilities_Pro {
 						inputField.setText(history.get(recall));
 					} catch (IndexOutOfBoundsException ex) {
 						recall = 0;
-						inputField.setText(history.get(0));
+						try {
+							inputField.setText(history.get(0));
+						} catch (IndexOutOfBoundsException ex_again) {
+							inputField.setText(null);
+						}
 					}
 				} else if (keyCode == KeyEvent.VK_DOWN) {
 					try {
@@ -449,14 +498,6 @@ public class Utilities_Pro {
 				} else if (keyCode == KeyEvent.VK_TAB) {
 					String reinput = TextCommands.tabComplete();
 					inputField.setText(reinput);
-					Robot rob;
-					try {
-						rob = new Robot();
-						rob.keyPress(KeyEvent.VK_RIGHT);
-						rob.keyRelease(KeyEvent.VK_RIGHT);
-					} catch (AWTException ex) {
-						log("Robot Failure on Pressing Right Key.");
-					}
 				}
 			}
 
@@ -509,6 +550,16 @@ public class Utilities_Pro {
 				FileCommands.configManage(2);
 			}
 		});
+
+		JMenuItem mntmChangeConfiguration = new JMenuItem(
+				"Change Configuration");
+		mntmChangeConfiguration.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				FileCommands.configHandler();
+			}
+		});
+		mnFile.add(mntmChangeConfiguration);
 		mnFile.add(mntmDeleteConfig);
 
 		JSeparator separator = new JSeparator();

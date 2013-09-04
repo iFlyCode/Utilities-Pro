@@ -2,10 +2,14 @@ package com.git.ifly6.UtilitiesPro3;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Scanner;
 
 /**
  * Programme contains all relevant scripts to the File menu in the GUI.
@@ -39,11 +43,10 @@ public class FileCommands extends Utilities_Pro {
 			break;
 		case 3:
 			log("Generating Configuration");
+			mkdir();
 
-			// The first line should either be "Default" or
-			// "CrossPlatformLAF".
 			try {
-				String config = "Default" + "\n100";
+				String config = "Default";
 				FileWriter fstream = new FileWriter(UtilitiesPro_DIR
 						+ "/config.txt");
 				BufferedWriter out = new BufferedWriter(fstream);
@@ -63,9 +66,40 @@ public class FileCommands extends Utilities_Pro {
 	 * Configuration Changer and Manager. Added in 3.3, the Interface Update.
 	 * 
 	 * @since 3.3
+	 * @param line
+	 *            - the line at which we are going to write the data to. Each line means something
+	 *            different in the configuration format.
+	 * @param contents
+	 *            - the contents that we are going to write to the line. The contents determine what
+	 *            the setting for a certain thing <b>is</b> in the configuration.
 	 */
-	static void configChange() {
+	static void configChange(int line, String contents) {
+		ArrayList<String> fileCont = new ArrayList<String>();
+		log("Writing to: line " + line + ", " + contents);
 
+		// Code is copied from iFlyCode's JavaPy.
+		try {
+			FileReader configRead = new FileReader(UtilitiesPro_DIR
+					+ "/config.txt");
+			Scanner scan = new Scanner(configRead);
+			fileCont.add(scan.nextLine());
+			fileCont.set(line, contents);
+
+			String rewrite = contents.toString();
+			FileWriter fstream = new FileWriter(UtilitiesPro_DIR
+					+ "/config.txt");
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(rewrite);
+			out.close();
+			scan.close();
+		} catch (FileNotFoundException e) { // Show Error if there is no configuration.
+			out("As configuration does not exist, we are generating a configuration file.");
+			configManage(3);
+		} catch (IOException e) { // Show Error for IO Exceptions.
+			String temp = "Error in I/O Stream. Configuration Change Failed.";
+			out(temp);
+			log(temp);
+		}
 	}
 
 	/**
@@ -77,7 +111,7 @@ public class FileCommands extends Utilities_Pro {
 	 *            Export the logText JTextArea.
 	 * @since 3.0_dev04 (integrated from two separate commands)
 	 */
-	public static void export(int which) {
+	static void export(int which) {
 		switch (which) {
 		case 1:
 			String outFile = Utilities_Pro.getOutText().getText();
@@ -115,5 +149,15 @@ public class FileCommands extends Utilities_Pro {
 			out("No valid TextArea specified.");
 			break;
 		}
+	}
+
+	/**
+	 * Part of the Interface Update, where we add a configuration manager to load and set
+	 * configurations.
+	 * 
+	 * @since 3.3
+	 */
+	static void configHandler() {
+
 	}
 }

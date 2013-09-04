@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class TextCommands extends Utilities_Pro {
 
-	public static void processInputField() {
+	protected static void processInputField() {
 		String preoperand = getInputField().getText();
 		process(preoperand);
 	}
@@ -20,7 +20,7 @@ public class TextCommands extends Utilities_Pro {
 	 * @since 1.2
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 */
-	public static void process(String preoperand) {
+	static void process(String preoperand) {
 
 		// Get and Save Command
 		command(preoperand);
@@ -62,8 +62,8 @@ public class TextCommands extends Utilities_Pro {
 			FileCommands.export(2);
 			log("Invoked Export of logText");
 		} else if (commText.get(7).equals(operand[0])) {
-			FileCommands.configManage(3);
-			log("Called Configuration Generation thru CLI");
+			// Call textConfig and pass information to it.
+			textConfig(operand);
 		} else if (commText.get(8).equals(operand[0])) {
 			ScriptCommands.readout();
 			log("System Information Processing Trigger Called");
@@ -115,51 +115,54 @@ public class TextCommands extends Utilities_Pro {
 		String nonCanonical = "";
 		String error = "The directory you are looking for does not exist, or is not a directory";
 
-		// Deal with Files that start with '/'
-		if (operand[1].startsWith("/")) {
-			if (new File(operand[1]).isDirectory()) {
-				nonCanonical = operand[1];
-				try {
-					currentDir = new File(nonCanonical).getCanonicalPath();
-				} catch (IOException e) {
-					out("Changing Directory somehow failed. Report this error to GitHub.");
+		try {
+			// Deal with Files that start with '/'
+			if (operand[1].startsWith("/")) {
+				if (new File(operand[1]).isDirectory()) {
+					nonCanonical = operand[1];
+					try {
+						currentDir = new File(nonCanonical).getCanonicalPath();
+					} catch (IOException e) {
+						out("Changing Directory somehow failed. Report this error to GitHub.");
+					}
+				} else {
+					out(error);
 				}
-			} else {
-				out(error);
 			}
 
-		}
-
-		// Deal with things that start with '~'
-		else if (operand[1].startsWith("~")) {
-			String newDir = operand[1].replaceAll("~",
-					System.getProperty("user.home"));
-			if (new File(newDir).isDirectory()) {
-				nonCanonical = newDir;
-				try {
-					currentDir = new File(nonCanonical).getCanonicalPath();
-				} catch (IOException e) {
-					out("Changing Directory somehow failed. Report this error to GitHub.");
+			// Deal with things that start with '~'
+			else if (operand[1].startsWith("~")) {
+				String newDir = operand[1].replaceAll("~",
+						System.getProperty("user.home"));
+				if (new File(newDir).isDirectory()) {
+					nonCanonical = newDir;
+					try {
+						currentDir = new File(nonCanonical).getCanonicalPath();
+					} catch (IOException e) {
+						out("Changing Directory somehow failed. Report this error to GitHub.");
+					}
+				} else {
+					out(error);
 				}
-			} else {
-				out(error);
+
 			}
 
-		}
-
-		// Deal with Everything Else
-		else {
-			if (new File(Utilities_Pro.currentDir + "/" + operand[1])
-					.isDirectory()) {
-				nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
-				try {
-					currentDir = new File(nonCanonical).getCanonicalPath();
-				} catch (IOException e) {
-					out("Changing Directory somehow failed. Report this error to GitHub.");
+			// Deal with Everything Else
+			else {
+				if (new File(Utilities_Pro.currentDir + "/" + operand[1])
+						.isDirectory()) {
+					nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
+					try {
+						currentDir = new File(nonCanonical).getCanonicalPath();
+					} catch (IOException e) {
+						out("Changing Directory somehow failed. Report this error to GitHub.");
+					}
+				} else {
+					out(error);
 				}
-			} else {
-				out(error);
 			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			out("Add argument to change directory command.");
 		}
 
 	}
@@ -174,7 +177,8 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Uses advanced recognition technology to auto-complete what is being looked for.
+	 * Uses advanced recognition technology to auto-complete what is being looked for. Since 3.3, it
+	 * also includes directory confirmation, and support for space-escape auto-formatting.
 	 * 
 	 * @since 3.3
 	 */
@@ -188,27 +192,73 @@ public class TextCommands extends Utilities_Pro {
 		ArrayList<String> narrowList = new ArrayList<String>();
 
 		for (String element : fileList) {
-			if (element.startsWith(operand[operand.length - 1])) {
-				narrowList.add(element);
+			if (operand[0].equals("cd")) { // With Directory Confirmation!
+				if (element.startsWith(operand[operand.length - 1])
+						&& new File(currentDir + "/" + element).isDirectory()) {
+					narrowList.add(element);
+				}
+			} else { // To get completed file names!
+				if (element.startsWith(operand[operand.length - 1])) {
+					narrowList.add(element);
+				}
 			}
 		}
 
-		if (narrowList.isEmpty()) {
-			// If no matches, report that.
+		if (narrowList.isEmpty()) { // No Matches
 			out("No Directory Match");
-		} else if (narrowList.size() == 1) {
+		} else if (narrowList.size() == 1) { // One Match
 			// If one match, set that.
 			operand[1] = narrowList.get(0);
+
+			// Deal with possible spaces.
+			if (operand[1].contains(" ")) {
+				operand[1] = operand[1].replace(" ", "\\ ");
+			}
+
 			String reinput = operand[0] + " " + operand[1];
 			return reinput;
-		} else if (narrowList.size() > 1) {
-			// If more than one match, report that.
+
+		} else if (narrowList.size() > 1) { // More than 1 Match
 			out("There is more than one option available. Please continue typing.");
 			for (String element : narrowList) {
 				out(" * " + element);
 			}
 			return getInputField().getText();
 		}
-		return null;
+
+		// If none of these Returns Work, return what was already typed in.
+		return getInputField().getText();
+	}
+
+	/**
+	 * A private method for processing the operand command and its arguments.
+	 * 
+	 * @since 3.3
+	 * @param operand
+	 *            - String[] containing all the pertinent information.
+	 */
+	private static void textConfig(String[] operand) {
+		log("Called Configuration Generation thru CLI");
+
+		if (operand[1].equals("generate") || operand[0].equals("delete")) {
+			if (operand[1].equals("generate")) {
+				FileCommands.configManage(3);
+				out("Configuation Generated");
+			} else if (operand[1].equals("delete")) {
+				FileCommands.configManage(2);
+				out("Configuration Deleted");
+			} else if ((operand.length - 1) >= 1) {
+				out("Error. Generate and Delete should only have one argument.");
+			}
+		} else if (operand[1].equals("change")) {
+			try {
+				FileCommands.configChange(Integer.parseInt(operand[2]),
+						operand[3]);
+			} catch (ArrayIndexOutOfBoundsException e) {
+				out("Correct format is /config change [line] [contents]");
+			}
+		} else {
+			out("Type in a function: generate, delete, and change.");
+		}
 	}
 }

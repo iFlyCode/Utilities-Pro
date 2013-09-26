@@ -4,18 +4,16 @@ import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
 
 /**
- * Note: Please do not change anything with this class. It needs to stay Static.
- * This class here is filled with deprecated references, as the the methods of
- * the Java implementation for OSX are gradually being faded out, to my chagrin.
- * Anyway, the application is given a handler for the ToolBar Menu under its
- * name. We are going to handle the About, Preferences, and Quit dialogues.
- * Unfortunately, as the non-deprecated classes are not used by anyone
- * (apparently) and there is less documentation on them than on THIS project, it
- * is generally useless. However, because of our handling of the three buttons,
- * they are to function. Anyway... the About dialogue should open a small
- * dialogue telling the world of the version and a short description. The
- * preferences dialogue should open the preferences page in UtilitiesPro_DIR.
- * The quit system should immediately System.exit(0) the programme.
+ * Note: Please do not change anything with this class. It needs to stay Static. This class here is
+ * filled with deprecated references, as the the methods of the Java implementation for OSX are
+ * gradually being faded out, to my chagrin. Anyway, the application is given a handler for the
+ * ToolBar Menu under its name. We are going to handle the About, Preferences, and Quit dialogues.
+ * Unfortunately, as the non-deprecated classes are not used by anyone (apparently) and there is
+ * less documentation on them than on THIS project, it is generally useless. However, because of our
+ * handling of the three buttons, they are to function. Anyway... the About dialogue should open a
+ * small dialogue telling the world of the version and a short description. The preferences dialogue
+ * should open the preferences page in UtilitiesPro_DIR. The quit system should immediately
+ * System.exit(0) the programme.
  * 
  * @since 3.0_dev05
  * @see com.apple.eawt
@@ -60,7 +58,8 @@ public class MacHandler extends ApplicationAdapter {
 	 */
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
-		String[] input = { "open", Utilities_Pro.UtilitiesPro_DIR + "/config.txt" };
-		ExecEngine.engine(input);
+		String[] input = { "open",
+				Utilities_Pro.UtilitiesPro_DIR + "/config.txt" };
+		ExecEngine.exec(input);
 	}
 }

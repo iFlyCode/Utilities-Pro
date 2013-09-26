@@ -106,7 +106,7 @@ public class ExecEngine extends Utilities_Pro {
 	 * @since 3.0_dev05, though its predecessor was implemented in v1.0
 	 * @see com.me.ifly6.UtilitiesPro2.methods.CoreMethods
 	 */
-	public static void engine(final String[] input) {
+	private static void engine(final String[] input) {
 
 		// log("Current Directory is: " + Utilities_Pro.currentDir);
 

@@ -65,18 +65,15 @@ public class TextCommands extends Utilities_Pro {
 			// Call textConfig and pass information to it.
 			textConfig(operand);
 		} else if (commText.get(8).equals(operand[0])) {
-			ScriptCommands.readout();
-			log("System Information Processing Trigger Called");
-		} else if ((commText.get(9)).equals(operand[0])) {
 			ScriptCommands.mindterm();
 			log("Mindterm Download Processing Trigger Called");
-		} else if (commText.get(10).equals(operand[0])) {
+		} else if (commText.get(9).equals(operand[0])) {
 			log("ScriptExecution Trigger Called");
 			ExecEngine.scriptEngine(operand[1]);
-		} else if ((commText.get(11)).equals(operand[0])) {
+		} else if ((commText.get(10)).equals(operand[0])) {
 			CommandCommands.terminateChoose();
 			log("Process Termination Processing Trigger Called");
-		} else if (commText.get(12).equals(operand[0])) {
+		} else if (commText.get(11).equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
 		}
@@ -177,8 +174,9 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Uses advanced recognition technology to auto-complete what is being looked for. Since 3.3, it
-	 * also includes directory confirmation, and support for space-escape auto-formatting.
+	 * Uses advanced recognition technology to auto-complete what is being looked for. Since
+	 * 3.3_dev01, it also includes directory confirmation, and support for space-escape
+	 * auto-formatting. Since 3.3_dev02, it also includes infinite file list comparation.
 	 * 
 	 * @since 3.3
 	 */
@@ -188,17 +186,47 @@ public class TextCommands extends Utilities_Pro {
 		String preoperand = getInputField().getText();
 
 		String[] operand = preoperand.split("(?<!\\\\)\\s+");
-		String[] fileList = new File(currentDir).list();
+		String[] dirLayer = operand[operand.length - 1].split("/");
+		boolean absPath = operand[operand.length - 1].startsWith("/");
+		boolean usrPath = operand[operand.length - 1].startsWith("~");
+		String lookDir = currentDir;
+
+		System.out.println("Raw: " + preoperand);
+		System.out.println("Search Term: " + dirLayer[dirLayer.length - 1]);
+
+		if ((dirLayer.length - 1) >= 1) {
+			StringBuilder builder = new StringBuilder();
+
+			if (absPath) { // Is it an absolute Path?
+				for (int x = 0; x < (dirLayer.length - 1); x++) {
+					builder.append("/" + dirLayer[x]);
+				}
+			} else if (usrPath) { // Is it a ~ Path?
+				builder.append(System.getProperty("user.home"));
+				for (int x = 1; x < (dirLayer.length - 1); x++) {
+					builder.append("/" + dirLayer[x]);
+				}
+			} else {
+				builder.append(currentDir);
+				for (int x = 0; x < (dirLayer.length - 1); x++) {
+					builder.append("/" + dirLayer[x]);
+				}
+			}
+			lookDir = builder.toString();
+			System.out.println("LOG: Looking At " + lookDir);
+		}
+
+		String[] fileList = new File(lookDir).list();
 		ArrayList<String> narrowList = new ArrayList<String>();
 
 		for (String element : fileList) {
 			if (operand[0].equals("cd")) { // With Directory Confirmation!
-				if (element.startsWith(operand[operand.length - 1])
-						&& new File(currentDir + "/" + element).isDirectory()) {
+				if (element.startsWith(dirLayer[dirLayer.length - 1])
+						&& new File(lookDir + "/" + element).isDirectory()) {
 					narrowList.add(element);
 				}
 			} else { // To get completed file names!
-				if (element.startsWith(operand[operand.length - 1])) {
+				if (element.startsWith(dirLayer[dirLayer.length - 1])) {
 					narrowList.add(element);
 				}
 			}
@@ -207,15 +235,29 @@ public class TextCommands extends Utilities_Pro {
 		if (narrowList.isEmpty()) { // No Matches
 			out("No Directory Match");
 		} else if (narrowList.size() == 1) { // One Match
-			// If one match, set that.
-			operand[1] = narrowList.get(0);
+
+			StringBuilder builder = new StringBuilder();
+			String selected = narrowList.get(0);
+			String reinput = narrowList.get(0);
 
 			// Deal with possible spaces.
-			if (operand[1].contains(" ")) {
-				operand[1] = operand[1].replace(" ", "\\ ");
+			if (selected.contains(" ")) {
+				selected = selected.replace(" ", "\\ ");
 			}
 
-			String reinput = operand[0] + " " + operand[1];
+			// Deal with possible Path Issues
+			if (absPath || usrPath) {
+				selected = lookDir + "/" + selected;
+			}
+
+			operand[operand.length - 1] = selected; // Load
+
+			// Recombine the String
+			for (String element : operand) {
+				builder.append(element + " ");
+			}
+
+			reinput = builder.toString().trim();
 			return reinput;
 
 		} else if (narrowList.size() > 1) { // More than 1 Match
@@ -223,10 +265,11 @@ public class TextCommands extends Utilities_Pro {
 			for (String element : narrowList) {
 				out(" * " + element);
 			}
+
 			return getInputField().getText();
 		}
 
-		// If none of these Returns Work, return what was already typed in.
+		// If none of these Returns are triggered, return what was already typed in.
 		return getInputField().getText();
 	}
 

@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
@@ -103,7 +104,8 @@ public class Utilities_Pro {
 	/**
 	 * The place to put any files we download. For all OSX computers, it should be exactly the same.
 	 */
-	static String Downloads_DIR = "/Users/" + userName + "/Downloads/";
+	static String Downloads_DIR = System.getProperty("user.home")
+			+ "/Downloads/";
 
 	/**
 	 * TextField for the input of commands. When command engine is run, it retrieves the contents of
@@ -153,7 +155,7 @@ public class Utilities_Pro {
 	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development
 	 * number, it follows |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.3_dev02";
+	public static String version = "3.3_dev03";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside
@@ -261,6 +263,11 @@ public class Utilities_Pro {
 		MacHandler macAdapter = new MacHandler();
 		macApp.addApplicationListener(macAdapter);
 		macApp.setEnabledPreferencesMenu(true);
+
+		// Deal with CSA should it be an LMSD computer
+		if (computername.startsWith("HH-S") && userName.startsWith("s")) {
+			ExecEngine.exec("killall CSA");
+		}
 
 		// Read Configuration
 		try {
@@ -417,7 +424,6 @@ public class Utilities_Pro {
 		commText.add("/save");
 		commText.add("/saveLog");
 		commText.add("/config");
-		commText.add("/sysInfo");
 		commText.add("/mindterm");
 		commText.add("/execscript");
 		commText.add("/terminate");
@@ -652,18 +658,35 @@ public class Utilities_Pro {
 		});
 		mnScripts.add(mntmRestartAirport);
 
-		JSeparator separator_1 = new JSeparator();
-		mnScripts.add(separator_1);
-
-		JMenuItem mntmSystemInfo = new JMenuItem("System Information");
-		mntmSystemInfo.addActionListener(new ActionListener() {
+		JMenuItem mntmFinderChange = new JMenuItem("Change Finder Options");
+		mntmFinderChange.addActionListener(new ActionListener() {
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Scripts>System Information");
-				ScriptCommands.readout();
+			public void actionPerformed(ActionEvent arg0) {
+				command("Scripts>Change Finder Options");
+
+				Object[] options = { "Cancel", "False", "True" };
+				int n = JOptionPane
+						.showOptionDialog(frame,
+								"Select what setting to change to",
+								"Utilities Pro OptionPane",
+								JOptionPane.YES_NO_CANCEL_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, options,
+								options[0]);
+				System.out.println(n);
+
+				if (n == 2) { // True
+					ScriptCommands.finderConfig(true);
+				} else if (n == 1) { // False
+					ScriptCommands.finderConfig(false);
+				} else if (n == 0) { // Cancel
+
+				}
 			}
 		});
-		mnScripts.add(mntmSystemInfo);
+		mnScripts.add(mntmFinderChange);
+
+		JSeparator separator_1 = new JSeparator();
+		mnScripts.add(separator_1);
 
 		JMenuItem mntmDownloadMindterm = new JMenuItem("Download Mindterm");
 		mntmDownloadMindterm.addActionListener(new ActionListener() {

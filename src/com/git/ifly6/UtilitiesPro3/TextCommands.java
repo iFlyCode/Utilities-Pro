@@ -12,15 +12,16 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Processes the Text for Application-specific functions. This should be the only method called
-	 * from this class. All others should be called from this class under certain conditions. All
-	 * internal commands MUST begin with "/", just like in Minecraft. Updated in 3.2 to accept
-	 * escape characters for space (that being '\ ').
+	 * Processes the Text for Application-specific functions. This should be the only method called from this class. All
+	 * others should be called from this class under certain conditions. All internal commands MUST begin with "/", just
+	 * like in Minecraft. Updated in 3.2 to accept escape characters for space (that being '\ ').
 	 * 
 	 * @since 1.2
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 */
 	static void process(String preoperand) {
+
+		System.out.println("Called TextCommands.process(String preoperand)");
 
 		// Get and Save Command
 		command(preoperand);
@@ -78,19 +79,15 @@ public class TextCommands extends Utilities_Pro {
 			log("System.exit(0)");
 		}
 
-		/*
-		 * If it is not a '/' type internal command, see if it is calling for the implementation of
-		 * 'cd' or anything else like that.
-		 */
+		/* If it is not a '/' type internal command, see if it is calling for the implementation of 'cd' or anything
+		 * else like that. */
 		else if (operand[0].equals("cd")) {
 			cd(operand);
 		} else if (operand[0].equals("path")) {
 			path();
 		}
 
-		/*
-		 * If it is not a internal command, treat it as it it were a bash command.
-		 */
+		/* If it is not a internal command, treat it as it it were a bash command. */
 		else {
 			ExecEngine.exec(operand);
 		}
@@ -98,64 +95,69 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * The CD entire Subsystem. Much waiting was done for this. One epiphany later, it was solved.
-	 * Updated in 3.1 to include way of dealing with spaces in filenames. However, when the entire
-	 * space system was overhauled in 3.2, it became unnecessary due to the escape char for space
-	 * ('\ '). Since 3.1_03, it also checks whether the DIR you are trying to go to actually exists.
+	 * The CD entire Subsystem. Much waiting was done for this. One epiphany later, it was solved. Updated in 3.1 to
+	 * include way of dealing with spaces in filenames. However, when the entire space system was overhauled in 3.2, it
+	 * became unnecessary due to the escape char for space ('\ '). Since 3.1_03, it also checks whether the DIR you are
+	 * trying to go to actually exists.
 	 * 
 	 * @since 3.0_dev09.03
 	 * @param operand
-	 *            - The command which was put in. This command can begin with anything, but when
-	 *            called, should only being with 'cd'.
+	 *            - The command which was put in. This command can begin with anything, but when called, should only
+	 *            being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
 		String nonCanonical = "";
-		String error = "The directory you are looking for does not exist, or is not a directory";
+		String dirExists = "The directory you are looking for does not exist, is not a directory, or there has been an error.";
+		String dirPerms = "The directory have selected is restricted";
 
 		try {
 			// Deal with Files that start with '/'
 			if (operand[1].startsWith("/")) {
-				if (new File(operand[1]).isDirectory()) {
+				if (new File(operand[1]).isDirectory() && new File(operand[1]).canRead()) {
 					nonCanonical = operand[1];
 					try {
 						currentDir = new File(nonCanonical).getCanonicalPath();
 					} catch (IOException e) {
 						out("Changing Directory somehow failed. Report this error to GitHub.");
 					}
+				} else if (!(new File(operand[1]).canRead())) {
+					out(dirPerms);
 				} else {
-					out(error);
+					out(dirExists);
 				}
 			}
 
 			// Deal with things that start with '~'
 			else if (operand[1].startsWith("~")) {
-				String newDir = operand[1].replaceAll("~",
-						System.getProperty("user.home"));
-				if (new File(newDir).isDirectory()) {
+				String newDir = operand[1].replaceAll("~", System.getProperty("user.home"));
+				if (new File(newDir).isDirectory() && new File(newDir).canRead()) {
 					nonCanonical = newDir;
 					try {
 						currentDir = new File(nonCanonical).getCanonicalPath();
 					} catch (IOException e) {
 						out("Changing Directory somehow failed. Report this error to GitHub.");
 					}
+				} else if (!(new File(newDir).canRead())) {
+					out(dirPerms);
 				} else {
-					out(error);
+					out(dirExists);
 				}
-
 			}
 
 			// Deal with Everything Else
 			else {
-				if (new File(Utilities_Pro.currentDir + "/" + operand[1])
-						.isDirectory()) {
+				if (new File(Utilities_Pro.currentDir + "/" + operand[1]).isDirectory()
+						&& new File(Utilities_Pro.currentDir + "/" + operand[1]).canRead()) {
 					nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
 					try {
 						currentDir = new File(nonCanonical).getCanonicalPath();
 					} catch (IOException e) {
 						out("Changing Directory somehow failed. Report this error to GitHub.");
 					}
+				} else if (!(new File(Utilities_Pro.currentDir + "/" + operand[1]).canRead())) {
+					out(dirPerms);
 				} else {
-					out(error);
+					out(dirExists);
 				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
@@ -174,9 +176,9 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Uses advanced recognition technology to auto-complete what is being looked for. Since
-	 * 3.3_dev01, it also includes directory confirmation, and support for space-escape
-	 * auto-formatting. Since 3.3_dev02, it also includes infinite file list comparation.
+	 * Uses advanced recognition technology to auto-complete what is being looked for. Since 3.3_dev01, it also includes
+	 * directory confirmation, and support for space-escape auto-formatting. Since 3.3_dev02, it also includes infinite
+	 * file list comparation.
 	 * 
 	 * @since 3.3
 	 */
@@ -233,7 +235,7 @@ public class TextCommands extends Utilities_Pro {
 		}
 
 		if (narrowList.isEmpty()) { // No Matches
-			out("No Directory Match");
+			out("No Directory Match for keyword: " + dirLayer[dirLayer.length - 1]);
 		} else if (narrowList.size() == 1) { // One Match
 
 			StringBuilder builder = new StringBuilder();
@@ -295,8 +297,7 @@ public class TextCommands extends Utilities_Pro {
 			}
 		} else if (operand[1].equals("change")) {
 			try {
-				FileCommands.configChange(Integer.parseInt(operand[2]),
-						operand[3]);
+				FileCommands.configChange(Integer.parseInt(operand[2]), operand[3]);
 			} catch (ArrayIndexOutOfBoundsException e) {
 				out("Correct format is /config change [line] [contents]");
 			}

@@ -135,7 +135,8 @@ public class ExecEngine extends Utilities_Pro {
 					while (scan.hasNextLine()) {
 						out(scan.nextLine());
 					}
-				} catch (IOException e) {
+				} catch (IOException e) { // Must distinguish between 'Invalid Commands' and
+											// 'Running Faileds'
 					out("Invalid Command");
 					log("Running Failed or Invalid Command");
 				}

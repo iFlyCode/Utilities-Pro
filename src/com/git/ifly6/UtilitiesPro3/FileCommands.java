@@ -20,14 +20,14 @@ import java.util.Scanner;
 public class FileCommands extends Utilities_Pro {
 
 	/**
-	 * Method to manage all things regarding the Utilities Pro configuration file. Which function
-	 * therein is selected using the provided integer, which.
+	 * Method to manage all things regarding the Utilities Pro configuration file. Which function therein is selected
+	 * using the provided integer, which.
 	 * 
 	 * @since 3.0_dev06, though component parts (1,2) are from 3.0_dev02 and 2.3, respectively.
 	 * @param which
-	 *            an integer which chooses which function to use on the configuration. There are
-	 *            three possibilities. 1) Open the configuration in Finder, 2) Delete the
-	 *            configuration folder, 3) Generate default configuration.
+	 *            an integer which chooses which function to use on the configuration. There are three possibilities. 1)
+	 *            Open the configuration in Finder, 2) Delete the configuration folder, 3) Generate default
+	 *            configuration.
 	 */
 	static void configManage(int which) {
 		switch (which) {
@@ -47,8 +47,7 @@ public class FileCommands extends Utilities_Pro {
 
 			try {
 				String config = "Default";
-				FileWriter fstream = new FileWriter(UtilitiesPro_DIR
-						+ "/config.txt");
+				FileWriter fstream = new FileWriter(UtilitiesPro_DIR + "/config.txt");
 				BufferedWriter out = new BufferedWriter(fstream);
 				out.write(config);
 				out.close();
@@ -63,15 +62,15 @@ public class FileCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Configuration Changer and Manager. Added in 3.3, the Interface Update.
+	 * Configuration Changer and Manager. Added for 3.3, the Interface Update.
 	 * 
 	 * @since 3.3
 	 * @param line
-	 *            - the line at which we are going to write the data to. Each line means something
-	 *            different in the configuration format.
+	 *            - the line at which we are going to write the data to. Each line means something different in the
+	 *            configuration format.
 	 * @param contents
-	 *            - the contents that we are going to write to the line. The contents determine what
-	 *            the setting for a certain thing <b>is</b> in the configuration.
+	 *            - the contents that we are going to write to the line. The contents determine what the setting for a
+	 *            certain thing <b>is</b> in the configuration.
 	 */
 	static void configChange(int line, String contents) {
 		ArrayList<String> fileCont = new ArrayList<String>();
@@ -79,15 +78,13 @@ public class FileCommands extends Utilities_Pro {
 
 		// Code is copied from iFlyCode's JavaPy.
 		try {
-			FileReader configRead = new FileReader(UtilitiesPro_DIR
-					+ "/config.txt");
+			FileReader configRead = new FileReader(UtilitiesPro_DIR + "/config.txt");
 			Scanner scan = new Scanner(configRead);
 			fileCont.add(scan.nextLine());
 			fileCont.set(line, contents);
 
 			String rewrite = contents.toString();
-			FileWriter fstream = new FileWriter(UtilitiesPro_DIR
-					+ "/config.txt");
+			FileWriter fstream = new FileWriter(UtilitiesPro_DIR + "/config.txt");
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(rewrite);
 			out.close();
@@ -107,8 +104,8 @@ public class FileCommands extends Utilities_Pro {
 	 * 
 	 * @author ifly6
 	 * @param which
-	 *            decides which JTextArea to export to file. 1 = Export the outText JTextArea. 2 =
-	 *            Export the logText JTextArea.
+	 *            decides which JTextArea to export to file. 1 = Export the outText JTextArea. 2 = Export the logText
+	 *            JTextArea.
 	 * @since 3.0_dev04 (integrated from two separate commands)
 	 */
 	static void export(int which) {
@@ -118,8 +115,7 @@ public class FileCommands extends Utilities_Pro {
 			log("Output Export Invoked.");
 			mkdir();
 			Writer writer = null;
-			File file = new File(UtilitiesPro_DIR + "/report_display-out"
-					+ new Date() + ".txt");
+			File file = new File(UtilitiesPro_DIR + "/report_display-out" + new Date() + ".txt");
 			try {
 				writer = new BufferedWriter(new FileWriter(file));
 				writer.write(outFile);
@@ -134,8 +130,7 @@ public class FileCommands extends Utilities_Pro {
 			log("Log Export Invoked.");
 			mkdir();
 			writer = null;
-			file = new File(UtilitiesPro_DIR + "/report_display-out"
-					+ new Date() + ".txt");
+			file = new File(UtilitiesPro_DIR + "/report_display-out" + new Date() + ".txt");
 			try {
 				writer = new BufferedWriter(new FileWriter(file));
 				writer.write(outFile);
@@ -152,8 +147,7 @@ public class FileCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Part of the Interface Update, where we add a configuration manager to load and set
-	 * configurations.
+	 * Part of the Interface Update, where we add a configuration manager to load and set configurations.
 	 * 
 	 * @since 3.3
 	 */

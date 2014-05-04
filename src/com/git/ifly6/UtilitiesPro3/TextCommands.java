@@ -2,9 +2,35 @@ package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Properties;
 
 public class TextCommands extends Utilities_Pro {
+
+	/**
+	 * Logs with a change to reflect a different section of the log.
+	 * 
+	 * @param input
+	 *            - String to be logged.
+	 * @param type
+	 *            - If true, it logs with 2 equals signs before it, saying it is a subset of the log above. If false, it
+	 *            is logged normally.
+	 * @since 3.3_dev05
+	 */
+	static void log(String input, int type) {
+		if (type == 0) {
+			log(input);
+		}
+		if (type == 1) {
+			log("== " + input);
+		} else if (type == 2) { // other types of logs should be added here. create numbers as necessary.
+
+		} else {
+			log("Section is attempting to TextCommands.log with an invalid integer specification.");
+		}
+	}
 
 	protected static void processInputField() {
 		String preoperand = getInputField().getText();
@@ -21,7 +47,7 @@ public class TextCommands extends Utilities_Pro {
 	 */
 	static void process(String preoperand) {
 
-		System.out.println("Called TextCommands.process(String preoperand)");
+		System.out.println("Called TextCommands.process(String preoperand), preoperand was: " + preoperand);
 
 		// Get and Save Command
 		command(preoperand);
@@ -71,10 +97,13 @@ public class TextCommands extends Utilities_Pro {
 		} else if (commText.get(9).equals(operand[0])) {
 			log("ScriptExecution Trigger Called");
 			ExecEngine.scriptEngine(operand[1]);
-		} else if ((commText.get(10)).equals(operand[0])) {
+		} else if (commText.get(10).equals(operand[0])) {
+			log("Plugin Loader Called");
+			pluginLogic(operand);
+		} else if ((commText.get(11)).equals(operand[0])) {
 			CommandCommands.terminateChoose();
 			log("Process Termination Processing Trigger Called");
-		} else if (commText.get(11).equals(operand[0])) {
+		} else if (commText.get(12).equals(operand[0])) {
 			System.exit(0);
 			log("System.exit(0)");
 		}
@@ -171,7 +200,7 @@ public class TextCommands extends Utilities_Pro {
 	 * 
 	 * @since 3.1_02_dev01
 	 */
-	static void path() {
+	public static void path() {
 		out(currentDir);
 	}
 
@@ -276,33 +305,124 @@ public class TextCommands extends Utilities_Pro {
 	}
 
 	/**
+	 * A private method for processing the plugin command and its arguments
+	 * 
+	 * @since 3.3_dev05
+	 * @param operand
+	 *            - a String[] containing all the pertinent operands for the plugin command.
+	 */
+	private static void pluginLogic(String[] operand) {
+		// Make sure the initial operand is correct.
+		if (!(operand[0].equals("/plugin")) || operand[1].equals(null)) {
+			return;
+		} else {
+			if (operand[1].equals("list")) {
+				// List all plugins in the folder.
+				out("== Plugins ==");
+				try {
+					for (File element : new File(UtilitiesPro_DIR + "/plugins/").listFiles()) {
+						// Only list files with and ending of '.class'
+						if (element.toString().endsWith(".class")) {
+							out(" * " + element.getName());
+						}
+					}
+				} catch (NullPointerException questionExistence) {
+					out("Either the plugin directory does not exist, or there are no plugins.");
+					log(questionExistence.toString(), 1);
+				}
+			} else if (operand[1].equals("help")) {
+				// Gives some helpful help information.
+				out("== Plugin Help ==");
+				out(" Simply find and load a plugin from the list given by '/plugin list'");
+				out(" then, execute any public method contained within that plugin using:");
+				out(" '/plugin [pluginName] [methodName] [arguments separated by spaces]'");
+			} else {
+				/* Actually execute the plugin. Due to logic, once cannot have a plugin called 'list' or 'help'.
+				 * Furthermore, this operates by using the apiImplementation earlier to execute a method with the
+				 * arguments passed to it. */
+				String pluginName = operand[1];
+				apiImplementation plugin = new apiImplementation(new File(UtilitiesPro_DIR + "/plugins/" + pluginName
+						+ ".class"));
+				if (operand.length < 3) {
+					out("Specify a methodName to pass to the plugin.");
+				} else {
+					ArrayList<String> args = (ArrayList<String>) Arrays.asList(operand);
+					args.remove(0);
+					args.remove(0);
+					plugin.methodInvoke(operand[2], args.toArray());
+				}
+			}
+		}
+	}
+
+	/**
 	 * A private method for processing the operand command and its arguments.
 	 * 
-	 * @since 3.3
+	 * @since 3.3_dev02
 	 * @param operand
 	 *            - String[] containing all the pertinent information.
 	 */
 	private static void textConfig(String[] operand) {
-		log("Called Configuration Generation thru CLI");
-
-		if (operand[1].equals("generate") || operand[0].equals("delete")) {
+		log("Called Configuration Handler through CLI");
+		try {
 			if (operand[1].equals("generate")) {
-				FileCommands.configManage(3);
-				out("Configuation Generated");
-			} else if (operand[1].equals("delete")) {
-				FileCommands.configManage(2);
-				out("Configuration Deleted");
-			} else if ((operand.length - 1) >= 1) {
-				out("Error. Generate and Delete should only have one argument.");
+				System.out.println("Generation Triggered");
+				FileCommands.configGen();
+			} else if (operand[1].equals("change")) {
+				log("Attempt to Change Configuration Logged.");
+				try {
+					if (operand[2].equals("Look&Feel")) {
+						try {
+							FileCommands.configHandler(operand[2], operand[3]);
+						} catch (NullPointerException NPE) {
+							out("Input a value to change the value to.");
+							log("Lack of 4th Operand for TextConfig/Change triggered NPE");
+						}
+					} else if (operand[2].equals("QuitFunction")) {
+						try {
+							FileCommands.configHandler(operand[2], operand[3]);
+						} catch (NullPointerException NPE) {
+							out("Input a value to change the value to.");
+							log("Lack of 4th Operand for TextConfig/Change triggered NPE");
+						}
+					}
+				} catch (NullPointerException NPE) {
+					out("Input a valid value to change. They are 'Look&Feel' and 'QuitFunction'");
+					log("Lack of 3rd Operand for TextConfig/Change triggered NPE");
+				}
+			} else {
+				out("Input a valid second operand for '/config'. It may be 'generate' or 'change [value] [key]'");
 			}
-		} else if (operand[1].equals("change")) {
-			try {
-				FileCommands.configChange(Integer.parseInt(operand[2]), operand[3]);
-			} catch (ArrayIndexOutOfBoundsException e) {
-				out("Correct format is /config change [line] [contents]");
+		} catch (NullPointerException NPE) {
+			out("Place an operand after '/config'. It may be 'generate' or 'change [value] [key]'");
+			log("Lack of Operand for TextConfig triggered NPE");
+		}
+	}
+
+	public static void quitHandler() {
+		Properties prop = new Properties();
+		ClassLoader loader = Thread.currentThread().getContextClassLoader();
+		InputStream stream = loader.getResourceAsStream(Utilities_Pro.UtilitiesPro_DIR + "/config.properties");
+		try {
+			prop.load(stream);
+
+			// If it matches any of these keywords, do it.
+			if (prop.getProperty("QuitFunction").equals("purgeMemory")) {
+				ScriptCommands.purge();
+			} else if (prop.getProperty("QuitFunction").equals("purgeConfiguration")) {
+				ScriptCommands.purge();
+				FileCommands.deleteConfig(false); // Deletes Configuration
+			} else if (prop.getProperty("QuitFunction").equals("purgeFolder")) {
+				ScriptCommands.purge();
+				FileCommands.deleteConfig(true); // Deletes Utilities Pro DIR
 			}
-		} else {
-			out("Type in a function: generate, delete, and change.");
+
+			// Finally, kill the program.
+			System.exit(0);
+		} catch (IOException e1) {
+			System.exit(0);
+		} catch (NullPointerException e1) {
+			System.exit(0);
 		}
 	}
 }

@@ -13,14 +13,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
+import java.util.Properties;
 
 import javax.swing.Box;
 import javax.swing.JFrame;
@@ -53,14 +53,6 @@ import com.apple.eawt.Application;
  * @version 3.x
  */
 public class Utilities_Pro {
-
-	/**
-	 * This ArrayList contains the data which we will use to load the data off of. 0) The look and feel setting for the
-	 * programme to load. 1)
-	 * 
-	 * @since 3.3
-	 */
-	protected static ArrayList<String> configuration = new ArrayList<String>();
 
 	/**
 	 * Remembers all commands done in the session.
@@ -147,7 +139,7 @@ public class Utilities_Pro {
 	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development number, it follows
 	 * |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.3_dev04";
+	public static String version = "3.3_dev05";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside the GUI's
@@ -231,7 +223,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Launch the application. Executes on a pipeline, going first to read the GUI configuration file, with the Look and
-	 * Feel of the GUI. Then initialises the GUI.
+	 * Feel of the GUI. It then populates the internal commands, finds the computer name, and initialises the GUI.
 	 * 
 	 * @param inputArgs
 	 *            - there are no command-line arguments.
@@ -240,7 +232,7 @@ public class Utilities_Pro {
 	public static void main(String[] inputArgs) {
 
 		// Create Configuration Directory
-		Utilities_Pro.mkdir();
+		Utilities_Pro.mkdirs();
 
 		// Set Properties before GUI Calls
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -258,39 +250,16 @@ public class Utilities_Pro {
 			Utilities_Pro.log("CSA terminated on Startup.");
 		}
 
-		// Read Configuration
+		// Read Properties
 		try {
-			FileReader configRead = new FileReader(UtilitiesPro_DIR + "/config.txt");
-			Scanner scan = new Scanner(configRead);
+			// Create Local Properties Instance
+			Properties prop = new Properties();
+			ClassLoader loader = Thread.currentThread().getContextClassLoader();
+			InputStream stream = loader.getResourceAsStream(UtilitiesPro_DIR + "/config.properties");
+			prop.load(stream);
 
-			// String = Lines in Order.
-			configuration.add(scan.nextLine()); // Look and Feel
-
-			scan.close(); // Close Scanner
-
-		} catch (FileNotFoundException e1) {
-			// If Configuration is not found, Do this stuff.
-			try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
-			}
-		} catch (NoSuchElementException e1) {
-			// If Configuation is empty, Do this stuff.
-			try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
-			}
-		}
-
-		// GUI Look and Feel
-		if (!(configuration.isEmpty())) {
-			if (configuration.get(0).equals("CrossPlatformLAF")) {
+			// Logic for Properties
+			if (prop.getProperty("Look&Feel").equals("CrossPlatformLAF")) {
 				try {
 					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
 				} catch (ClassNotFoundException e) {
@@ -298,7 +267,7 @@ public class Utilities_Pro {
 				} catch (IllegalAccessException e) {
 				} catch (UnsupportedLookAndFeelException e) {
 				}
-			} else if (configuration.get(0).equals("Nimbus")) {
+			} else if (prop.getProperty("Look&Feel").equals("Nimbus")) {
 				try {
 					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 						if ("Nimbus".equals(info.getName())) {
@@ -311,7 +280,7 @@ public class Utilities_Pro {
 				} catch (IllegalAccessException e) {
 				} catch (UnsupportedLookAndFeelException e) {
 				}
-			} else if (configuration.get(0).equals("A Tasting")) {
+			} else if (prop.getProperty("Look&Feel").equals("A Tasting")) {
 				try {
 					// Find and Set Nimbus
 					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -331,6 +300,14 @@ public class Utilities_Pro {
 				} catch (IllegalAccessException e) {
 				} catch (UnsupportedLookAndFeelException e) {
 				}
+			} else if (prop.getProperty("Look&Feel").equals("System")) {
+				try {
+					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+				} catch (ClassNotFoundException e) {
+				} catch (InstantiationException e) {
+				} catch (IllegalAccessException e) {
+				} catch (UnsupportedLookAndFeelException e) {
+				}
 			} else {
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -339,6 +316,40 @@ public class Utilities_Pro {
 				} catch (IllegalAccessException e) {
 				} catch (UnsupportedLookAndFeelException e) {
 				}
+			}
+		} catch (FileNotFoundException e1) {
+			// If Configuration is not found, Do this stuff.
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+			} catch (InstantiationException e) {
+			} catch (IllegalAccessException e) {
+			} catch (UnsupportedLookAndFeelException e) {
+			}
+		} catch (NoSuchElementException e1) {
+			// If Configuation is empty, Do this stuff.
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+			} catch (InstantiationException e) {
+			} catch (IllegalAccessException e) {
+			} catch (UnsupportedLookAndFeelException e) {
+			}
+		} catch (IOException e1) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+			} catch (InstantiationException e) {
+			} catch (IllegalAccessException e) {
+			} catch (UnsupportedLookAndFeelException e) {
+			}
+		} catch (NullPointerException e1) {
+			try {
+				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			} catch (ClassNotFoundException e) {
+			} catch (InstantiationException e) {
+			} catch (IllegalAccessException e) {
+			} catch (UnsupportedLookAndFeelException e) {
 			}
 		}
 
@@ -373,17 +384,19 @@ public class Utilities_Pro {
 	/**
 	 * Used to create (if necessary) all folders for Utilities Pro. Creates ~/Library/Application Support/Utilities Pro
 	 * folder and verifies that ~/Downloads exists. This programme should be run on a Mac, as both are only applicable
-	 * under the File Structure of one (or very similar Linux distributions)
+	 * under the File Structure of one (or very similar Linux distributions).
 	 * 
 	 * @author ifly6
 	 * @since 2.2_01
 	 */
-	static void mkdir() {
-		File folder = new File(UtilitiesPro_DIR); // Utilities Pro Directory
-		folder.mkdirs();
-		folder = new File(UtilitiesPro_DIR + "/plugins/"); // Utilities Pro Plugins
-		folder = new File(Downloads_DIR); // Making sure the Downloads Directory Exists
-		folder.mkdirs();
+	static void mkdirs() {
+		// A list of folders to create.
+		File[] folders = { new File(UtilitiesPro_DIR), new File(UtilitiesPro_DIR + "/plugins/"),
+				new File(Downloads_DIR) };
+		// Folders created.
+		for (File dir : folders) {
+			dir.mkdirs();
+		}
 	}
 
 	/**
@@ -416,6 +429,7 @@ public class Utilities_Pro {
 		commText.add("/config");
 		commText.add("/mindterm");
 		commText.add("/execscript");
+		commText.add("/plugin");
 		commText.add("/terminate");
 		commText.add("/quit");
 	}
@@ -532,7 +546,7 @@ public class Utilities_Pro {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				command("File>Open Configuration Folder");
-				FileCommands.configManage(1);
+				FileCommands.openConfig();
 			}
 		});
 		mnFile.add(mntmOpenConfig);
@@ -542,19 +556,29 @@ public class Utilities_Pro {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				command("File>Delete Configuration");
-				FileCommands.configManage(2);
+				FileCommands.deleteConfig(false);
 			}
 		});
+		mnFile.add(mntmDeleteConfig);
+
+		JMenuItem mntmDeleteUtilitiesProFolder = new JMenuItem("Delete Utilities Pro Folder");
+		mntmDeleteUtilitiesProFolder.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				command("File>Delete Configuration Folder");
+				FileCommands.deleteConfig(true);
+			}
+		});
+		mnFile.add(mntmDeleteUtilitiesProFolder);
 
 		JMenuItem mntmChangeConfiguration = new JMenuItem("Change Configuration");
 		mntmChangeConfiguration.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				FileCommands.configHandler();
+				// TODO FileCommands.configHandler();
 			}
 		});
 		mnFile.add(mntmChangeConfiguration);
-		mnFile.add(mntmDeleteConfig);
 
 		JSeparator separator = new JSeparator();
 		mnFile.add(separator);

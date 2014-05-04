@@ -2,14 +2,13 @@ package com.git.ifly6.UtilitiesPro3;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Scanner;
+import java.util.Properties;
 
 /**
  * Programme contains all relevant scripts to the File menu in the GUI.
@@ -20,82 +19,82 @@ import java.util.Scanner;
 public class FileCommands extends Utilities_Pro {
 
 	/**
-	 * Method to manage all things regarding the Utilities Pro configuration file. Which function therein is selected
-	 * using the provided integer, which.
+	 * Deletes the configuration file if marked 'false'. If marked 'true', it deletes the entire Utilities Pro folder in
+	 * Application Support.
 	 * 
-	 * @since 3.0_dev06, though component parts (1,2) are from 3.0_dev02 and 2.3, respectively.
-	 * @param which
-	 *            an integer which chooses which function to use on the configuration. There are three possibilities. 1)
-	 *            Open the configuration in Finder, 2) Delete the configuration folder, 3) Generate default
-	 *            configuration.
+	 * @since 3.3_dev05
 	 */
-	static void configManage(int which) {
-		switch (which) {
-		case 1:
-			log("Opening Configuration");
-			String[] openConfig = { "open", UtilitiesPro_DIR };
-			ExecEngine.exec(openConfig);
-			break;
-		case 2:
+	public static void deleteConfig(boolean all) {
+		if (all) {
 			log("Deleting Configuration");
 			String[] delConfig = { "rm", "-rf", UtilitiesPro_DIR };
 			ExecEngine.exec(delConfig);
-			break;
-		case 3:
-			log("Generating Configuration");
-			mkdir();
-
-			try {
-				String config = "Default";
-				FileWriter fstream = new FileWriter(UtilitiesPro_DIR + "/config.txt");
-				BufferedWriter out = new BufferedWriter(fstream);
-				out.write(config);
-				out.close();
-			} catch (IOException e) {
-				log("Attempt to generate configuration Failed.");
-			}
-			break;
-		default:
-			out("No valid configuration command specified.");
-			break;
+		} else {
+			String[] delConfig = { "rm", UtilitiesPro_DIR + "/config.properties" };
+			ExecEngine.exec(delConfig);
 		}
 	}
 
 	/**
-	 * Configuration Changer and Manager. Added for 3.3, the Interface Update.
-	 * 
-	 * @since 3.3
-	 * @param line
-	 *            - the line at which we are going to write the data to. Each line means something different in the
-	 *            configuration format.
-	 * @param contents
-	 *            - the contents that we are going to write to the line. The contents determine what the setting for a
-	 *            certain thing <b>is</b> in the configuration.
+	 * Open the configuration folder.
 	 */
-	static void configChange(int line, String contents) {
-		ArrayList<String> fileCont = new ArrayList<String>();
-		log("Writing to: line " + line + ", " + contents);
+	public static void openConfig() {
+		String[] command = { "open", UtilitiesPro_DIR };
+		ExecEngine.exec(command);
+	}
 
-		// Code is copied from iFlyCode's JavaPy.
+	/**
+	 * Creates a configuration file with the default values.
+	 * 
+	 * @since 3.3_dev05
+	 */
+	protected static void configGen() {
+		Properties prop = new Properties();
+
 		try {
-			FileReader configRead = new FileReader(UtilitiesPro_DIR + "/config.txt");
-			Scanner scan = new Scanner(configRead);
-			fileCont.add(scan.nextLine());
-			fileCont.set(line, contents);
+			FileOutputStream output = new FileOutputStream(UtilitiesPro_DIR + "/config.properties");
 
-			String rewrite = contents.toString();
-			FileWriter fstream = new FileWriter(UtilitiesPro_DIR + "/config.txt");
-			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(rewrite);
-			out.close();
-			scan.close();
-		} catch (FileNotFoundException e) { // Show Error if there is no configuration.
-			out("As configuration does not exist, we are generating a configuration file.");
-			configManage(3);
-		} catch (IOException e) { // Show Error for IO Exceptions.
-			String temp = "Error in I/O Stream. Configuration Change Failed.";
-			out(temp);
-			log(temp);
+			// Set Default Values
+			prop.setProperty("Look&Feel", "System");
+			prop.setProperty("QuitFunction", "persist");
+
+			// Save Properties
+			prop.store(output, "== Utilities Pro Properties ==");
+			output.close();
+		} catch (IOException e) {
+			out("Could not Generate Properties. IOException.");
+			log("Could not Generate Properties. IOException.");
+		}
+	}
+
+	/**
+	 * Part of the Interface Update, where we add a configuration manager to load and set configurations.
+	 * 
+	 * @since 3.3_dev05
+	 */
+	protected static void configHandler(String key, String value) {
+		Properties prop = new Properties();
+		OutputStream output = null;
+
+		try {
+			output = new FileOutputStream(UtilitiesPro_DIR + "/config.properties");
+
+			// Set
+			prop.setProperty(key, value);
+
+			// Save
+			prop.store(output, null);
+		} catch (IOException io) {
+			io.printStackTrace();
+		} finally {
+			if (output != null) {
+				try {
+					output.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
 		}
 	}
 
@@ -113,7 +112,7 @@ public class FileCommands extends Utilities_Pro {
 		case 1:
 			String outFile = Utilities_Pro.getOutText().getText();
 			log("Output Export Invoked.");
-			mkdir();
+			mkdirs();
 			Writer writer = null;
 			File file = new File(UtilitiesPro_DIR + "/report_display-out" + new Date() + ".txt");
 			try {
@@ -128,7 +127,7 @@ public class FileCommands extends Utilities_Pro {
 		case 2:
 			outFile = Utilities_Pro.getLogText().getText();
 			log("Log Export Invoked.");
-			mkdir();
+			mkdirs();
 			writer = null;
 			file = new File(UtilitiesPro_DIR + "/report_display-out" + new Date() + ".txt");
 			try {
@@ -144,14 +143,5 @@ public class FileCommands extends Utilities_Pro {
 			out("No valid TextArea specified.");
 			break;
 		}
-	}
-
-	/**
-	 * Part of the Interface Update, where we add a configuration manager to load and set configurations.
-	 * 
-	 * @since 3.3
-	 */
-	static void configHandler() {
-
 	}
 }

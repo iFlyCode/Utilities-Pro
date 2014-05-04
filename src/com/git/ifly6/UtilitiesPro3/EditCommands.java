@@ -1,12 +1,5 @@
 package com.git.ifly6.UtilitiesPro3;
 
-/**
- * All Commands relevant to "Edit" are located here. Deprecated until further notice as part of the
- * instance implementation programme.
- * 
- * @author ifly6
- * @since 3.0
- */
 public class EditCommands {
 
 	/**

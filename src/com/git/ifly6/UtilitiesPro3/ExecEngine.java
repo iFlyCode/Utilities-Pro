@@ -43,7 +43,7 @@ public class ExecEngine extends Utilities_Pro {
 	 */
 	public static void download(String urlFrom, String directory) {
 		// Make sure Utilities Pro's main folders exist.
-		Utilities_Pro.mkdir();
+		Utilities_Pro.mkdirs();
 
 		// Logging.
 		log("Downloading file from: " + urlFrom);

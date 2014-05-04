@@ -10,13 +10,44 @@ package com.git.ifly6.UtilitiesPro3;
  * @since 3.3_dev04
  */
 public interface apiDefinitions {
+
+	/**
+	 * Defines the name of the plugin. Note that the plugin name cannot be 'list', or it will be excluded from an
+	 * attempt to run by the program.
+	 * 
+	 * @since 3.3_dev04
+	 **/
 	public String getPluginName();
 
+	/**
+	 * Gives an input to the plugin. The plugin will then call the input from this string and use it as the primary form
+	 * of operation. Naturally, it shall execute inside a sandbox.
+	 * 
+	 * @since 3.3_dev04
+	 **/
 	public void setInput(String input);
 
+	/**
+	 * The plugin should route all of its output into a string. That string should be accessible by the method
+	 * getOutput.
+	 * 
+	 * @since 3.3_dev04
+	 **/
 	public String getOutput();
 
+	/**
+	 * In the same way as getOutput(), another string should contain an error log of all errors thrown by the
+	 * application. It should then route all those errors into a string which is accessible by getLog().
+	 * 
+	 * @since 3.3_dev04
+	 **/
 	public String getLog();
 
+	/**
+	 * This flag tells us whether there is an error. A boolean regarding errors should be set, and if an error is
+	 * present, it should be shown by a 'true' on this flag.
+	 * 
+	 * @since 3.3_dev04
+	 **/
 	public boolean hasError();
 }

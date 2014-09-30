@@ -22,8 +22,7 @@ public class TextCommands extends Utilities_Pro {
 	static void log(String input, int type) {
 		if (type == 0) {
 			log(input);
-		}
-		if (type == 1) {
+		} else if (type == 1) {
 			log("== " + input);
 		} else if (type == 2) { // other types of logs should be added here. create numbers as necessary.
 
@@ -47,7 +46,7 @@ public class TextCommands extends Utilities_Pro {
 	 */
 	static void process(String preoperand) {
 
-		System.out.println("Called TextCommands.process(String preoperand), preoperand was: " + preoperand);
+		log("Processing operand: " + preoperand);
 
 		// Get and Save Command
 		command(preoperand);
@@ -71,7 +70,7 @@ public class TextCommands extends Utilities_Pro {
 		} else if (commText.get(1).equals(operand[0])) {
 			HelpCommands.about();
 			log("'About' Processing Trigger Invoked");
-		} else if (commText.get(2).equals(operand[0])) {
+		} else if (commText.get(2).equals(operand[0]) || "?".equals(operand[0]) || "help".equals(operand[0])) {
 			HelpCommands.helpList();
 			log("Help Processing Trigger Invoked");
 		} else if (commText.get(3).equals(operand[0])) {
@@ -98,22 +97,29 @@ public class TextCommands extends Utilities_Pro {
 			log("ScriptExecution Trigger Called");
 			ExecEngine.scriptEngine(operand[1]);
 		} else if (commText.get(10).equals(operand[0])) {
+			log("Monitor Trigger Called");
+			// TODO Create Monitor
+		} else if (commText.get(11).equals(operand[0])) {
 			log("Plugin Loader Called");
 			pluginLogic(operand);
-		} else if ((commText.get(11)).equals(operand[0])) {
+		} else if ((commText.get(12)).equals(operand[0])) {
 			CommandCommands.terminateChoose();
 			log("Process Termination Processing Trigger Called");
-		} else if (commText.get(12).equals(operand[0])) {
+		} else if (commText.get(13).equals(operand[0])) {
 			System.exit(0);
-			log("System.exit(0)");
 		}
 
 		/* If it is not a '/' type internal command, see if it is calling for the implementation of 'cd' or anything
 		 * else like that. */
 		else if (operand[0].equals("cd")) {
-			cd(operand);
+			cd(operand); // Engage change directory engine
+		} else if (operand[0].equals("clear")) {
+			Utilities_Pro.clearText(1); // Clear the output JTextArea
 		} else if (operand[0].equals("path")) {
-			path();
+			path(); // Show Path
+		} else if (operand[0].equals("top") || operand[0].equals("htop")) {
+			out("The command 'top' is not supported because of technical limitations of Java. \n Please use the string "
+					+ "'ps -arxo cpu,pid,args' instead.");
 		}
 
 		/* If it is not a internal command, treat it as it it were a bash command. */
@@ -222,8 +228,8 @@ public class TextCommands extends Utilities_Pro {
 		boolean usrPath = operand[operand.length - 1].startsWith("~");
 		String lookDir = currentDir;
 
-		System.out.println("Raw: " + preoperand);
-		System.out.println("Search Term: " + dirLayer[dirLayer.length - 1]);
+		log("Raw: " + preoperand);
+		log("Search Term: " + dirLayer[dirLayer.length - 1]);
 
 		if ((dirLayer.length - 1) >= 1) {
 			StringBuilder builder = new StringBuilder();
@@ -244,7 +250,7 @@ public class TextCommands extends Utilities_Pro {
 				}
 			}
 			lookDir = builder.toString();
-			System.out.println("LOG: Looking At " + lookDir);
+			log("LOG: Looking At " + lookDir);
 		}
 
 		String[] fileList = new File(lookDir).list();
@@ -409,16 +415,21 @@ public class TextCommands extends Utilities_Pro {
 			// If it matches any of these keywords, do it.
 			if (prop.getProperty("QuitFunction").equals("purgeMemory")) {
 				ScriptCommands.purge();
+				System.exit(0);
 			} else if (prop.getProperty("QuitFunction").equals("purgeConfiguration")) {
 				ScriptCommands.purge();
 				FileCommands.deleteConfig(false); // Deletes Configuration
+				System.exit(0);
 			} else if (prop.getProperty("QuitFunction").equals("purgeFolder")) {
 				ScriptCommands.purge();
 				FileCommands.deleteConfig(true); // Deletes Utilities Pro DIR
+				System.exit(0);
+			} else if (prop.getProperty("QuitFunction").equals("persist")) {
+				System.exit(0);
+			} else {
+				System.exit(0);
 			}
 
-			// Finally, kill the program.
-			System.exit(0);
 		} catch (IOException e1) {
 			System.exit(0);
 		} catch (NullPointerException e1) {

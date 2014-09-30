@@ -19,43 +19,31 @@ import javax.swing.JOptionPane;
 public class HelpCommands extends Utilities_Pro {
 
 	/**
-	 * Downloads a change-log file with the latest version stated at the top. It then reads the file
-	 * and displays the output.
+	 * Opens the GitHub versions page. Used to download an actual changelog, then read it, but that was changed as we
+	 * stopped maintaining it. Uses same code from update().
 	 * 
 	 * @since 1.2
 	 */
 	public static void changeLog() {
 		try {
-			ExecEngine.download(
-					"http://ifly6server.no-ip.org/utilities-pro/changelog.txt",
-					UtilitiesPro_DIR + "/changelog.txt");
-			Thread.sleep(100);
-			FileReader fstream;
-			fstream = new FileReader(UtilitiesPro_DIR + "/changelog.txt");
-			Scanner scan = new Scanner(fstream);
-			while (scan.hasNextLine()) {
-				out(scan.nextLine());
+			if (Desktop.isDesktopSupported()) {
+				Desktop.getDesktop().browse(new URI("https://github.com/iFlyCode/Utilities-Pro/releases"));
 			}
-			log("Changelog Processing Trigger Completed");
-		} catch (FileNotFoundException e) {
-		} catch (InterruptedException e) {
+		} catch (IOException e) {
+			log("Cannot Open GitHub Releases");
+		} catch (URISyntaxException e) {
+			log("Cannot Open GitHub Releases");
 		}
 	}
 
 	/**
-	 * Displays about text. Displays a long string, String about in a JOptionPane. It then calls the
-	 * change-log method.
+	 * Displays about text. Displays a long string, String about in a JOptionPane. It then calls the change-log method.
 	 * 
 	 * @since 3.0_dev07
 	 * @see com.git.ifly6.UtilitiesPro3.HelpCommands#changelog()
 	 */
 	public static void about() {
-		String about = ("Utilities Pro - "
-				+ Utilities_Pro.version
-				+ " '"
-				+ Utilities_Pro.keyword
-				+ "'"
-				+ "\n"
+		String about = ("Utilities Pro - " + Utilities_Pro.version + " '" + Utilities_Pro.keyword + "'" + "\n"
 				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. "
 				+ "\nIt is to serve as a terminal in restricted enviornments, such as "
 				+ "\nschools or universities. Tapping Java's ProcessBuilder or Runtime"
@@ -65,8 +53,7 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Downloads an acknowledgements file from ifly6.no-ip.org. It then reads it and displays the
-	 * output.
+	 * Downloads an acknowledgements file from ifly6.no-ip.org. It then reads it and displays the output.
 	 * 
 	 * @deprecated
 	 * @since 1.3
@@ -74,9 +61,8 @@ public class HelpCommands extends Utilities_Pro {
 	@Deprecated
 	public static void acknowledgements() {
 		try {
-			ExecEngine.download(
-					"http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt",
-					UtilitiesPro_DIR + "/acknowledgements.txt");
+			ExecEngine.download("http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt", UtilitiesPro_DIR
+					+ "/acknowledgements.txt");
 			Thread.sleep(100);
 			FileReader fstream;
 			fstream = new FileReader(UtilitiesPro_DIR + "/acknowledgements.txt");
@@ -91,8 +77,8 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the list of all
-	 * internal commands for the programme.
+	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the list of all internal commands for
+	 * the programme.
 	 * 
 	 * @see Utilities_Pro.commText
 	 * @since 2.3
@@ -105,8 +91,7 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Displays the hard-coded (and therefore, version specific) End User Licence Agreement for this
-	 * programme.
+	 * Displays the hard-coded (and therefore, version specific) End User Licence Agreement for this programme.
 	 * 
 	 * @since 2.3 (though there was one in iAccelerate)
 	 */
@@ -142,8 +127,8 @@ public class HelpCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Opens the release page for Utilities Pro on GitHub. This entire method was changed in 3.1_02.
-	 * It now directs to the GitHub release section for Utilities Pro.
+	 * Opens the release page for Utilities Pro on GitHub. This entire method was changed in 3.1_02. It now directs to
+	 * the GitHub release section for Utilities Pro.
 	 * 
 	 * @since 3.1_02
 	 */
@@ -151,9 +136,7 @@ public class HelpCommands extends Utilities_Pro {
 		out("Fetch the latest version from: https://github.com/iFlyCode/Utilities-Pro/releases");
 		try {
 			if (Desktop.isDesktopSupported()) {
-				Desktop.getDesktop()
-						.browse(new URI(
-								"https://github.com/iFlyCode/Utilities-Pro/releases"));
+				Desktop.getDesktop().browse(new URI("https://github.com/iFlyCode/Utilities-Pro/releases"));
 			}
 		} catch (IOException e) {
 			log("Cannot Open GitHub Releases");

@@ -139,7 +139,7 @@ public class Utilities_Pro {
 	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development number, it follows
 	 * |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.3_dev05";
+	public static String version = "3.3_dev07";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside the GUI's
@@ -175,10 +175,8 @@ public class Utilities_Pro {
 
 		try {
 			outText.append("\n" + computername + ":" + directories[temp] + " $ " + in);
-			log(computername + ":" + directories[temp] + " $ " + in);
 		} catch (Exception e) {
 			outText.append("\n" + computername + ": $ " + in);
-			log(computername + ": $ " + in);
 		}
 	}
 
@@ -219,6 +217,7 @@ public class Utilities_Pro {
 	 */
 	public static void log(String in) {
 		logText.append("\n" + new Date() + " " + in);
+		System.out.println(new Date() + " " + in);
 	}
 
 	/**
@@ -413,6 +412,12 @@ public class Utilities_Pro {
 		Utilities_Pro.outText.setCaretPosition(outText.getDocument().getLength());
 	}
 
+	public static void out(String in, boolean bool) {
+		outText.append("\n " + in);
+		logText.append("\n" + in);
+		Utilities_Pro.outText.setCaretPosition(outText.getDocument().getLength());
+	}
+
 	/**
 	 * Sets the arrayList of commands, as they are not hardcoded. This saves us a lot of problems. Don't remove it.
 	 * 
@@ -429,6 +434,7 @@ public class Utilities_Pro {
 		commText.add("/config");
 		commText.add("/mindterm");
 		commText.add("/execscript");
+		commText.add("/monitor");
 		commText.add("/plugin");
 		commText.add("/terminate");
 		commText.add("/quit");

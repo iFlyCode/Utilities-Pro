@@ -1,6 +1,5 @@
 package com.git.ifly6.UtilitiesPro3;
 
-
 /**
  * Contains all relevant scripts to the Script menu in the programme.
  * 
@@ -21,10 +20,8 @@ public class ScriptCommands extends Utilities_Pro {
 		}
 		System.out.println(truths);
 
-		String[] finderHidden = { "defaults", "write", "com.apple.Finder",
-				"AppleShowAllFiles", truths };
-		String[] finderQuit = { "defaults", "write", "com.apple.Finder",
-				"QuitMenuItem", truths };
+		String[] finderHidden = { "defaults", "write", "com.apple.Finder", "AppleShowAllFiles", truths };
+		String[] finderQuit = { "defaults", "write", "com.apple.Finder", "QuitMenuItem", truths };
 
 		ExecEngine.exec(finderHidden);
 		ExecEngine.exec(finderQuit);
@@ -33,20 +30,23 @@ public class ScriptCommands extends Utilities_Pro {
 	}
 
 	/**
-	 * Method runs a Runtime section to purge inactive memory. It relies on a command inside OSX,
-	 * called purge.
+	 * Method runs a Runtime section to purge inactive memory. It relies on a command inside OSX, called purge.
 	 * 
 	 * @since 2.3_dev3
 	 */
 	static void purge() {
-		out("Please wait. Purging inactive memory cache...");
-		ExecEngine.exec("purge");
-		out("Purge Complete.");
+		if (System.getProperty("os.name").startsWith("10.8")) {
+			out("Please wait. Purging inactive memory cache...");
+			ExecEngine.exec("purge");
+			out("Purge Complete.");
+		} else {
+			out("This computer uses Compressed Memory and cannot be purged without super-user authorisation.", true);
+		}
 	}
 
 	/**
-	 * It turns off then 500 milliseconds later, turns on wireless adaptor (en0) for the computer.
-	 * This is nearly word for word copied from iUtilities v1.0's implementation
+	 * It turns off then 500 milliseconds later, turns on wireless adaptor (en0) for the computer. This is nearly word
+	 * for word copied from iUtilities v1.0's implementation
 	 * 
 	 * @since iUtilities v1.0
 	 */
@@ -71,8 +71,7 @@ public class ScriptCommands extends Utilities_Pro {
 	 */
 	static void mindterm() {
 		log("Mindterm Download Commenced.");
-		ExecEngine.download("http://ifly6.no-ip.org/Public/mindterm.jar",
-				Downloads_DIR);
+		ExecEngine.download("http://ifly6.no-ip.org/Public/mindterm.jar", Downloads_DIR);
 		out("Mindterm Downloaded to: "
 				+ Downloads_DIR
 				+ "\nThis is a full Java Based SSH/Telnet Client, capable of creating an SSH tunnel, and using it as a SOCKS proxy."

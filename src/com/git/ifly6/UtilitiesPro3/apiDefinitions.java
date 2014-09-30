@@ -29,7 +29,9 @@ public interface apiDefinitions {
 
 	/**
 	 * The plugin should route all of its output into a string. That string should be accessible by the method
-	 * getOutput.
+	 * getOutput. getOutput should also be the execution thread of the programme, as this is more in line with an idea
+	 * of lazy-evaluation, lowering the amount of work necessary in the programme. getOutput as a execution thread helps
+	 * a lot in keeping the plugin under control.
 	 * 
 	 * @since 3.3_dev04
 	 **/

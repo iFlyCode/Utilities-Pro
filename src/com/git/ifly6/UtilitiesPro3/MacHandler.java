@@ -12,7 +12,7 @@ import com.apple.eawt.ApplicationEvent;
  * of our handling of the three buttons, they are to function. Anyway... the About dialogue should open a small dialogue
  * telling the world of the version and a short description. The preferences dialogue should open the preferences page
  * in UtilitiesPro_DIR. The quit system should immediately System.exit(0) the programme.
- * 
+ *
  * @since 3.0_dev05
  * @see com.apple.eawt
  */
@@ -22,19 +22,20 @@ public class MacHandler extends ApplicationAdapter {
 
 	/**
 	 * Handles the Quit menu by System.exit(0).
-	 * 
+	 *
 	 * @since 3.0_dev05
 	 * @param e
 	 *            is not used
 	 */
 	@Override
 	public void handleQuit(ApplicationEvent e) {
-		TextCommands.quitHandler();
+		TextCommands textParse = new TextCommands();
+		textParse.quitHandler();
 	}
 
 	/**
 	 * Handles the About argument by calling the helpCommands command, about.
-	 * 
+	 *
 	 * @since 3.0_dev05
 	 * @param e
 	 *            is not used
@@ -48,7 +49,7 @@ public class MacHandler extends ApplicationAdapter {
 
 	/**
 	 * Handles the Preferences argument by opening the configuration file.
-	 * 
+	 *
 	 * @since 3.0_dev05
 	 * @param e
 	 *            is not used
@@ -57,6 +58,6 @@ public class MacHandler extends ApplicationAdapter {
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
 		String[] input = { "open", Utilities_Pro.UtilitiesPro_DIR + "/config.txt" };
-		ExecEngine.exec(input);
+		new ExecEngine().exec(input);
 	}
 }

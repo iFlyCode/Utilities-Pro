@@ -11,11 +11,11 @@ import java.util.ArrayList;
 /**
  * This is the implementation of the API defined in apiDefinitions. It should be a single class file. Follow all the
  * necessary definitions in apiDefinitions for that each class.
- * 
+ *
  * Implementation should work by creating a new apiImplementation based around a certain file. From there, it should use
  * that apiImplementation to do certain things. Note that the first implementation of a plugin system should run on a
  * load-a-single-class basis.
- * 
+ *
  * @since 3.3_dev04
  */
 public class apiImplementation extends ClassLoader {
@@ -27,8 +27,26 @@ public class apiImplementation extends ClassLoader {
 		Utilities_Pro.out(input);
 	}
 
-	private void log(String input, int type) {
-		TextCommands.log(input, type);
+	/**
+	 * Logs with a change to reflect a different section of the log.
+	 *
+	 * @param input
+	 *            - String to be logged.
+	 * @param type
+	 *            - If true, it logs with 2 equals signs before it, saying it is a subset of the log above. If false, it
+	 *            is logged normally.
+	 * @since 3.3_dev05
+	 */
+	void log(String input, int type) {
+		if (type == 0) {
+			Utilities_Pro.log(input);
+		} else if (type == 1) {
+			Utilities_Pro.log("== " + input);
+		} else if (type == 2) { // other types of logs should be added here. create numbers as necessary.
+
+		} else {
+			Utilities_Pro.log("Section is attempting to TextCommands.log with an invalid integer specification.");
+		}
 	}
 
 	private void error(Exception e) {
@@ -37,10 +55,11 @@ public class apiImplementation extends ClassLoader {
 
 	/**
 	 * This is the constructor. An apiImplementation is created for the plugin system to use.
-	 * 
+	 *
 	 * @param classPath
 	 * @since 3.3_dev05
 	 */
+	@SuppressWarnings("resource")
 	apiImplementation(File classPath) {
 		try {
 			URL[] urls = { classPath.toURI().toURL() };
@@ -179,20 +198,20 @@ public class apiImplementation extends ClassLoader {
 	}
 
 	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
 	 */
 
 	/**
 	 * Loads all classes inside the plugins folder. This unified plugin system is currently under development and is
 	 * slated for completion in version 3.4.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	@SuppressWarnings("unused")
@@ -213,6 +232,7 @@ public class apiImplementation extends ClassLoader {
 			}
 
 			urls = urlList.toArray(urls);
+			@SuppressWarnings("resource")
 			ClassLoader cl = new URLClassLoader(urls);
 
 			for (URL url : urls) {

@@ -12,7 +12,7 @@ import java.util.Properties;
 
 /**
  * Programme contains all relevant scripts to the File menu in the GUI.
- * 
+ *
  * @author ifly6
  * @since 3.0
  */
@@ -21,17 +21,19 @@ public class FileCommands extends Utilities_Pro {
 	/**
 	 * Deletes the configuration file if marked 'false'. If marked 'true', it deletes the entire Utilities Pro folder in
 	 * Application Support.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	public static void deleteConfig(boolean all) {
+		ExecEngine executor = new ExecEngine();
+
 		if (all) {
 			log("Deleting Configuration");
 			String[] delConfig = { "rm", "-rf", UtilitiesPro_DIR };
-			ExecEngine.exec(delConfig);
+			executor.exec(delConfig);
 		} else {
 			String[] delConfig = { "rm", UtilitiesPro_DIR + "/config.properties" };
-			ExecEngine.exec(delConfig);
+			executor.exec(delConfig);
 		}
 	}
 
@@ -40,12 +42,12 @@ public class FileCommands extends Utilities_Pro {
 	 */
 	public static void openConfig() {
 		String[] command = { "open", UtilitiesPro_DIR };
-		ExecEngine.exec(command);
+		new ExecEngine().exec(command);
 	}
 
 	/**
 	 * Creates a configuration file with the default values.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	protected static void configGen() {
@@ -69,7 +71,7 @@ public class FileCommands extends Utilities_Pro {
 
 	/**
 	 * Part of the Interface Update, where we add a configuration manager to load and set configurations.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	protected static void configHandler(String key, String value) {
@@ -100,7 +102,7 @@ public class FileCommands extends Utilities_Pro {
 
 	/**
 	 * This method chooses which JTextArea to export, then exports it.
-	 * 
+	 *
 	 * @author ifly6
 	 * @param which
 	 *            decides which JTextArea to export to file. 1 = Export the outText JTextArea. 2 = Export the logText

@@ -35,6 +35,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -48,7 +49,7 @@ import com.apple.eawt.Application;
  * execution of the programme. Furthermore, it contains all necessary ActionListeners and GUI related methods (basically
  * integrating the older Utilities_Pro Interface, Parameters, and Utilities_Pro classes from the last major version of
  * Utilities Pro-2.x)
- * 
+ *
  * @author ifly6
  * @version 3.x
  */
@@ -56,21 +57,21 @@ public class Utilities_Pro {
 
 	/**
 	 * Remembers all commands done in the session.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	static ArrayList<String> history = new ArrayList<String>();
 
 	/**
 	 * The number which tells us where we are looking in the ArrayList.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	static int recall = history.size();
 
 	/**
 	 * Current Directory we are in. Change using our implementation of the CD command, located in TextCommands.
-	 * 
+	 *
 	 * @since 3.0_dev09.03
 	 */
 	public static String currentDir = System.getProperty("user.dir");
@@ -139,12 +140,12 @@ public class Utilities_Pro {
 	 * Naming system is: |major|.|minor|_|revision| or |major|.|minor|_|dev|<#> For the development number, it follows
 	 * |major|.|minor|, but with no revisions.
 	 */
-	public static String version = "3.3_dev07";
+	public static String version = "3.3_dev08";
 
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside the GUI's
 	 * declaration class.
-	 * 
+	 *
 	 * @author ifly6
 	 * @since 3.0_dev02
 	 * @param which
@@ -182,7 +183,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Returns inputField.
-	 * 
+	 *
 	 * @since 3.0_dev05
 	 * @return a string with the contents of TextArea inputField
 	 */
@@ -192,7 +193,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Get and Return LogText for direct manipulation.
-	 * 
+	 *
 	 * @since 3.0_dev02
 	 * @return JTextArea logText
 	 */
@@ -202,7 +203,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Get and return OutText for direct manipulation.
-	 * 
+	 *
 	 * @since 3.0_dev02
 	 * @return JTextArea OutText
 	 */
@@ -223,7 +224,7 @@ public class Utilities_Pro {
 	/**
 	 * Launch the application. Executes on a pipeline, going first to read the GUI configuration file, with the Look and
 	 * Feel of the GUI. It then populates the internal commands, finds the computer name, and initialises the GUI.
-	 * 
+	 *
 	 * @param inputArgs
 	 *            - there are no command-line arguments.
 	 */
@@ -245,8 +246,8 @@ public class Utilities_Pro {
 
 		// Deal with CSA should it be an LMSD computer
 		if (computername.startsWith("HH-S") && userName.startsWith("s")) {
-			ExecEngine.exec("killall CSA");
-			Utilities_Pro.log("CSA terminated on Startup.");
+			new ExecEngine().exec("killall CSA");
+			log("CSA terminated on Startup.");
 		}
 
 		// Read Properties
@@ -384,7 +385,7 @@ public class Utilities_Pro {
 	 * Used to create (if necessary) all folders for Utilities Pro. Creates ~/Library/Application Support/Utilities Pro
 	 * folder and verifies that ~/Downloads exists. This programme should be run on a Mac, as both are only applicable
 	 * under the File Structure of one (or very similar Linux distributions).
-	 * 
+	 *
 	 * @author ifly6
 	 * @since 2.2_01
 	 */
@@ -401,7 +402,7 @@ public class Utilities_Pro {
 	/**
 	 * Added in version 2.2_02 of Utilities Pro. Replaces 'append'. Difference is that it automatically formats the
 	 * text.
-	 * 
+	 *
 	 * @since 2.2_02
 	 * @param in
 	 *            - String to append (with a space) into the JTextArea outText
@@ -420,7 +421,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Sets the arrayList of commands, as they are not hardcoded. This saves us a lot of problems. Don't remove it.
-	 * 
+	 *
 	 * @since 3.0_dev08
 	 */
 	private static void setCommands() {
@@ -452,7 +453,7 @@ public class Utilities_Pro {
 	/**
 	 * This system starts the main GUI for the programme. It also contains all GUI data for the programme, causing a
 	 * necessity for the method getters and setters which are evident below.
-	 * 
+	 *
 	 * @param frame
 	 *            - JFrame for the programme
 	 * @param panel
@@ -487,10 +488,11 @@ public class Utilities_Pro {
 		inputField.addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				TextCommands textParser = new TextCommands();
 				int keyCode = e.getKeyCode();
 
 				if (keyCode == KeyEvent.VK_ENTER) {
-					TextCommands.processInputField();
+					textParser.processInputField();
 				} else if (keyCode == KeyEvent.VK_UP) {
 					try {
 						recall--;
@@ -512,7 +514,7 @@ public class Utilities_Pro {
 						inputField.setText(null);
 					}
 				} else if (keyCode == KeyEvent.VK_TAB) {
-					String reinput = TextCommands.tabComplete();
+					String reinput = textParser.tabComplete();
 					inputField.setText(reinput);
 				}
 			}
@@ -555,6 +557,29 @@ public class Utilities_Pro {
 				FileCommands.openConfig();
 			}
 		});
+
+		JMenuItem mntmNewWindow = new JMenuItem("New Window");
+		mntmNewWindow.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Utilities_Pro window = new Utilities_Pro();
+				window.frame.setVisible(true);
+			}
+		});
+		mnFile.add(mntmNewWindow);
+
+		JMenuItem mntmCloseWindow = new JMenuItem("Close Window");
+		mntmCloseWindow.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JFrame window = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
+				window.dispose();
+			}
+		});
+		mnFile.add(mntmCloseWindow);
+
+		JSeparator separator_6 = new JSeparator();
+		mnFile.add(separator_6);
 		mnFile.add(mntmOpenConfig);
 
 		JMenuItem mntmDeleteConfig = new JMenuItem("Delete Configuration");
@@ -721,7 +746,7 @@ public class Utilities_Pro {
 				fileDialog.setVisible(true);
 				File selScript = new File(fileDialog.getDirectory() + fileDialog.getFile());
 				try {
-					ExecEngine.scriptEngine(selScript.getCanonicalPath());
+					new ExecEngine().scriptEngine(selScript.getCanonicalPath());
 				} catch (IOException e) {
 					out("Script Load Failed.");
 					log("Script Load Failed for: " + selScript);

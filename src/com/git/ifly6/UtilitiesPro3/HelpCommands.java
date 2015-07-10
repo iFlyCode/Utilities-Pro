@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 /**
  * All Commands relevant to "Help" are located here.
- * 
+ *
  * @author ifly6
  * @since 3.0_dev06
  */
@@ -21,7 +21,7 @@ public class HelpCommands extends Utilities_Pro {
 	/**
 	 * Opens the GitHub versions page. Used to download an actual changelog, then read it, but that was changed as we
 	 * stopped maintaining it. Uses same code from update().
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static void changeLog() {
@@ -38,7 +38,7 @@ public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Displays about text. Displays a long string, String about in a JOptionPane. It then calls the change-log method.
-	 * 
+	 *
 	 * @since 3.0_dev07
 	 * @see com.git.ifly6.UtilitiesPro3.HelpCommands#changelog()
 	 */
@@ -54,14 +54,16 @@ public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Downloads an acknowledgements file from ifly6.no-ip.org. It then reads it and displays the output.
-	 * 
+	 *
 	 * @deprecated
 	 * @since 1.3
 	 */
 	@Deprecated
 	public static void acknowledgements() {
+		ExecEngine executor = new ExecEngine();
+
 		try {
-			ExecEngine.download("http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt", UtilitiesPro_DIR
+			executor.download("http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt", UtilitiesPro_DIR
 					+ "/acknowledgements.txt");
 			Thread.sleep(100);
 			FileReader fstream;
@@ -70,6 +72,7 @@ public class HelpCommands extends Utilities_Pro {
 			while (scan.hasNextLine()) {
 				out(scan.nextLine());
 			}
+			scan.close();
 			log("Acknowledgements Processing Trigger Completed");
 		} catch (FileNotFoundException e) {
 		} catch (InterruptedException e) {
@@ -79,7 +82,7 @@ public class HelpCommands extends Utilities_Pro {
 	/**
 	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the list of all internal commands for
 	 * the programme.
-	 * 
+	 *
 	 * @see Utilities_Pro.commText
 	 * @since 2.3
 	 */
@@ -92,7 +95,7 @@ public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Displays the hard-coded (and therefore, version specific) End User Licence Agreement for this programme.
-	 * 
+	 *
 	 * @since 2.3 (though there was one in iAccelerate)
 	 */
 	public static void licence() {
@@ -111,7 +114,7 @@ public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Opens (in default browser) a web site with an archive of A-Z OSX Bash Commands.
-	 * 
+	 *
 	 * @since 3.0_dev06
 	 */
 	public static void bashHelp() {
@@ -129,7 +132,7 @@ public class HelpCommands extends Utilities_Pro {
 	/**
 	 * Opens the release page for Utilities Pro on GitHub. This entire method was changed in 3.1_02. It now directs to
 	 * the GitHub release section for Utilities Pro.
-	 * 
+	 *
 	 * @since 3.1_02
 	 */
 	public static void update() {

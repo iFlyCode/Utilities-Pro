@@ -9,29 +9,7 @@ import java.util.Properties;
 
 public class TextCommands extends Utilities_Pro {
 
-	/**
-	 * Logs with a change to reflect a different section of the log.
-	 * 
-	 * @param input
-	 *            - String to be logged.
-	 * @param type
-	 *            - If true, it logs with 2 equals signs before it, saying it is a subset of the log above. If false, it
-	 *            is logged normally.
-	 * @since 3.3_dev05
-	 */
-	static void log(String input, int type) {
-		if (type == 0) {
-			log(input);
-		} else if (type == 1) {
-			log("== " + input);
-		} else if (type == 2) { // other types of logs should be added here. create numbers as necessary.
-
-		} else {
-			log("Section is attempting to TextCommands.log with an invalid integer specification.");
-		}
-	}
-
-	protected static void processInputField() {
+	protected void processInputField() {
 		String preoperand = getInputField().getText();
 		process(preoperand);
 	}
@@ -40,12 +18,13 @@ public class TextCommands extends Utilities_Pro {
 	 * Processes the Text for Application-specific functions. This should be the only method called from this class. All
 	 * others should be called from this class under certain conditions. All internal commands MUST begin with "/", just
 	 * like in Minecraft. Updated in 3.2 to accept escape characters for space (that being '\ ').
-	 * 
+	 *
 	 * @since 1.2
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 */
-	static void process(String preoperand) {
+	void process(String preoperand) {
 
+		ExecEngine executor = new ExecEngine();
 		log("Processing operand: " + preoperand);
 
 		// Get and Save Command
@@ -95,7 +74,7 @@ public class TextCommands extends Utilities_Pro {
 			log("Mindterm Download Processing Trigger Called");
 		} else if (commText.get(9).equals(operand[0])) {
 			log("ScriptExecution Trigger Called");
-			ExecEngine.scriptEngine(operand[1]);
+			executor.scriptEngine(operand[1]);
 		} else if (commText.get(10).equals(operand[0])) {
 			log("Monitor Trigger Called");
 			// TODO Create Monitor
@@ -124,7 +103,7 @@ public class TextCommands extends Utilities_Pro {
 
 		/* If it is not a internal command, treat it as it it were a bash command. */
 		else {
-			ExecEngine.exec(operand);
+			executor.exec(operand);
 		}
 
 	}
@@ -134,13 +113,13 @@ public class TextCommands extends Utilities_Pro {
 	 * include way of dealing with spaces in filenames. However, when the entire space system was overhauled in 3.2, it
 	 * became unnecessary due to the escape char for space ('\ '). Since 3.1_03, it also checks whether the DIR you are
 	 * trying to go to actually exists.
-	 * 
+	 *
 	 * @since 3.0_dev09.03
 	 * @param operand
 	 *            - The command which was put in. This command can begin with anything, but when called, should only
 	 *            being with 'cd'.
 	 */
-	public static void cd(String[] operand) {
+	public void cd(String[] operand) {
 		String nonCanonical = "";
 		String dirExists = "The directory you are looking for does not exist, is not a directory, or there has been an error.";
 		String dirPerms = "The directory have selected is restricted";
@@ -203,10 +182,10 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * Display the current Path.
-	 * 
+	 *
 	 * @since 3.1_02_dev01
 	 */
-	public static void path() {
+	public void path() {
 		out(currentDir);
 	}
 
@@ -214,10 +193,10 @@ public class TextCommands extends Utilities_Pro {
 	 * Uses advanced recognition technology to auto-complete what is being looked for. Since 3.3_dev01, it also includes
 	 * directory confirmation, and support for space-escape auto-formatting. Since 3.3_dev02, it also includes infinite
 	 * file list comparation.
-	 * 
+	 *
 	 * @since 3.3
 	 */
-	static String tabComplete() {
+	String tabComplete() {
 		command("> Tab Auto-Complete");
 
 		String preoperand = getInputField().getText();
@@ -312,12 +291,12 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * A private method for processing the plugin command and its arguments
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 * @param operand
 	 *            - a String[] containing all the pertinent operands for the plugin command.
 	 */
-	private static void pluginLogic(String[] operand) {
+	private void pluginLogic(String[] operand) {
 		// Make sure the initial operand is correct.
 		if (!(operand[0].equals("/plugin")) || operand[1].equals(null)) {
 			return;
@@ -334,7 +313,7 @@ public class TextCommands extends Utilities_Pro {
 					}
 				} catch (NullPointerException questionExistence) {
 					out("Either the plugin directory does not exist, or there are no plugins.");
-					log(questionExistence.toString(), 1);
+					log("== " + questionExistence.toString());
 				}
 			} else if (operand[1].equals("help")) {
 				// Gives some helpful help information.
@@ -363,12 +342,12 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * A private method for processing the operand command and its arguments.
-	 * 
+	 *
 	 * @since 3.3_dev02
 	 * @param operand
 	 *            - String[] containing all the pertinent information.
 	 */
-	private static void textConfig(String[] operand) {
+	private void textConfig(String[] operand) {
 		log("Called Configuration Handler through CLI");
 		try {
 			if (operand[1].equals("generate")) {
@@ -405,7 +384,7 @@ public class TextCommands extends Utilities_Pro {
 		}
 	}
 
-	public static void quitHandler() {
+	public void quitHandler() {
 		Properties prop = new Properties();
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		InputStream stream = loader.getResourceAsStream(Utilities_Pro.UtilitiesPro_DIR + "/config.properties");

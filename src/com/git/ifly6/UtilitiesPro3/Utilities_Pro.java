@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 Kevin Wong
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.awt.BorderLayout;
@@ -148,8 +163,7 @@ public class Utilities_Pro {
 	 *
 	 * @author ifly6
 	 * @since 3.0_dev02
-	 * @param which
-	 *            - integer value, determines which JTextArea to clear (1, outText; 2, logText; 3, inputField)
+	 * @param which - integer value, determines which JTextArea to clear (1, outText; 2, logText; 3, inputField)
 	 */
 	public static void clearText(int which) {
 		if (which == 1) {
@@ -165,8 +179,7 @@ public class Utilities_Pro {
 
 	/**
 	 * @since 3.0_dev07
-	 * @param in
-	 *            - String to append with the bash prompt to JTextArea outText. Also appends to logText.
+	 * @param in - String to append with the bash prompt to JTextArea outText. Also appends to logText.
 	 */
 	public static void command(String in) {
 
@@ -213,8 +226,7 @@ public class Utilities_Pro {
 
 	/**
 	 * @since 2.2_01
-	 * @param in
-	 *            - String to append (with a date) into the JTextArea logText
+	 * @param in - String to append (with a date) into the JTextArea logText
 	 */
 	public static void log(String in) {
 		logText.append("\n" + new Date() + " " + in);
@@ -225,11 +237,9 @@ public class Utilities_Pro {
 	 * Launch the application. Executes on a pipeline, going first to read the GUI configuration file, with the Look and
 	 * Feel of the GUI. It then populates the internal commands, finds the computer name, and initialises the GUI.
 	 *
-	 * @param inputArgs
-	 *            - there are no command-line arguments.
+	 * @param inputArgs - there are no command-line arguments.
 	 */
-	@SuppressWarnings("deprecation")
-	public static void main(String[] inputArgs) {
+	@SuppressWarnings("deprecation") public static void main(String[] inputArgs) {
 
 		// Create Configuration Directory
 		Utilities_Pro.mkdirs();
@@ -369,8 +379,7 @@ public class Utilities_Pro {
 
 		// Launch the GUI.
 		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
+			@Override public void run() {
 				try {
 					Utilities_Pro window = new Utilities_Pro();
 					window.frame.setVisible(true);
@@ -391,8 +400,7 @@ public class Utilities_Pro {
 	 */
 	static void mkdirs() {
 		// A list of folders to create.
-		File[] folders = { new File(UtilitiesPro_DIR), new File(UtilitiesPro_DIR + "/plugins/"),
-				new File(Downloads_DIR) };
+		File[] folders = { new File(UtilitiesPro_DIR), new File(UtilitiesPro_DIR + "/plugins/"), new File(Downloads_DIR) };
 		// Folders created.
 		for (File dir : folders) {
 			dir.mkdirs();
@@ -404,8 +412,7 @@ public class Utilities_Pro {
 	 * text.
 	 *
 	 * @since 2.2_02
-	 * @param in
-	 *            - String to append (with a space) into the JTextArea outText
+	 * @param in - String to append (with a space) into the JTextArea outText
 	 * @see com.me.ifly6.UtilitiesPro2.ConsoleIf
 	 */
 	public static void out(String in) {
@@ -454,18 +461,12 @@ public class Utilities_Pro {
 	 * This system starts the main GUI for the programme. It also contains all GUI data for the programme, causing a
 	 * necessity for the method getters and setters which are evident below.
 	 *
-	 * @param frame
-	 *            - JFrame for the programme
-	 * @param panel
-	 *            - Panel for the Utilities_Pro's Tab
-	 * @param scrollPane_logText
-	 *            - Pane for the Logging Tab
-	 * @param outText
-	 *            - JTextArea for the Utilities_Pro's output
-	 * @param logText
-	 *            - JTextArea for the Logging's output
-	 * @param inputField
-	 *            - TextField (AWT) for input into the programme
+	 * @param frame - JFrame for the programme
+	 * @param panel - Panel for the Utilities_Pro's Tab
+	 * @param scrollPane_logText - Pane for the Logging Tab
+	 * @param outText - JTextArea for the Utilities_Pro's output
+	 * @param logText - JTextArea for the Logging's output
+	 * @param inputField - TextField (AWT) for input into the programme
 	 */
 	private void initialize() {
 		frame = new JFrame();
@@ -486,8 +487,7 @@ public class Utilities_Pro {
 		inputField.setFocusTraversalKeysEnabled(false);
 		panel.add(inputField, BorderLayout.SOUTH);
 		inputField.addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent e) {
+			@Override public void keyPressed(KeyEvent e) {
 				TextCommands textParser = new TextCommands();
 				int keyCode = e.getKeyCode();
 
@@ -519,12 +519,10 @@ public class Utilities_Pro {
 				}
 			}
 
-			@Override
-			public void keyReleased(KeyEvent arg0) {
+			@Override public void keyReleased(KeyEvent arg0) {
 			}
 
-			@Override
-			public void keyTyped(KeyEvent arg0) {
+			@Override public void keyTyped(KeyEvent arg0) {
 			}
 		});
 
@@ -551,8 +549,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmOpenConfig = new JMenuItem("Open Configuration Folder");
 		mntmOpenConfig.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			@Override public void actionPerformed(ActionEvent arg0) {
 				command("File>Open Configuration Folder");
 				FileCommands.openConfig();
 			}
@@ -560,8 +557,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmNewWindow = new JMenuItem("New Window");
 		mntmNewWindow.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				Utilities_Pro window = new Utilities_Pro();
 				window.frame.setVisible(true);
 			}
@@ -570,8 +566,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmCloseWindow = new JMenuItem("Close Window");
 		mntmCloseWindow.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				JFrame window = (JFrame) SwingUtilities.getWindowAncestor((Component) e.getSource());
 				window.dispose();
 			}
@@ -584,8 +579,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmDeleteConfig = new JMenuItem("Delete Configuration");
 		mntmDeleteConfig.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("File>Delete Configuration");
 				FileCommands.deleteConfig(false);
 			}
@@ -594,8 +588,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmDeleteUtilitiesProFolder = new JMenuItem("Delete Utilities Pro Folder");
 		mntmDeleteUtilitiesProFolder.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("File>Delete Configuration Folder");
 				FileCommands.deleteConfig(true);
 			}
@@ -604,8 +597,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmChangeConfiguration = new JMenuItem("Change Configuration");
 		mntmChangeConfiguration.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			@Override public void actionPerformed(ActionEvent arg0) {
 				// TODO FileCommands.configHandler();
 			}
 		});
@@ -616,8 +608,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmExportConsole = new JMenuItem("Export Console\n");
 		mntmExportConsole.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("File>Export Utilities_Pro");
 				FileCommands.export(1);
 			}
@@ -626,8 +617,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmConsoleLog = new JMenuItem("Export Log");
 		mntmConsoleLog.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("File>Export Log");
 				FileCommands.export(2);
 			}
@@ -657,8 +647,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmClearConsole = new JMenuItem("Clear Console");
 		mntmClearConsole.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				// There is no need for command log here.
 				EditCommands.consoleClear();
 			}
@@ -667,8 +656,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmClearLog = new JMenuItem("Clear Log");
 		mntmClearLog.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				// There is no need for command log here.
 				EditCommands.logClear();
 			}
@@ -680,8 +668,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmPurge = new JMenuItem("Purge Memory");
 		mntmPurge.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Scripts>Purge Memory");
 				ScriptCommands.purge();
 			}
@@ -690,8 +677,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmRestartAirport = new JMenuItem("Restart Airport");
 		mntmRestartAirport.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Scripts>Restart Airport");
 				ScriptCommands.wireless();
 			}
@@ -700,15 +686,12 @@ public class Utilities_Pro {
 
 		JMenuItem mntmFinderChange = new JMenuItem("Change Finder Options");
 		mntmFinderChange.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			@Override public void actionPerformed(ActionEvent arg0) {
 				command("Scripts>Change Finder Options");
 
 				Object[] options = { "Cancel", "Hidden", "Visible" };
-				int n = JOptionPane.showOptionDialog(frame,
-						"Select an option to change the visibility of the Finder Quit opton and hidden files to.",
-						"Utilities Pro OptionPane", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-						null, options, options[0]);
+				int n = JOptionPane.showOptionDialog(frame, "Select an option to change the visibility of the Finder Quit opton and hidden files to.",
+						"Utilities Pro OptionPane", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 				System.out.println(n);
 
 				if (n == 2) { // Visible
@@ -727,8 +710,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmDownloadMindterm = new JMenuItem("Download Mindterm");
 		mntmDownloadMindterm.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Scripts>Download Mindterm");
 				ScriptCommands.mindterm();
 			}
@@ -740,8 +722,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmLoadAndExecute = new JMenuItem("Load and Execute Script");
 		mntmLoadAndExecute.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			@Override public void actionPerformed(ActionEvent arg0) {
 				command("Scripts>Load and Exec Script");
 				fileDialog.setVisible(true);
 				File selScript = new File(fileDialog.getDirectory() + fileDialog.getFile());
@@ -760,8 +741,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmTerminateUtilitiesPro = new JMenuItem("Terminate Utilities Pro Process");
 		mntmTerminateUtilitiesPro.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Command>Terminate Utilities Pro Process");
 				CommandCommands.terminateUtility();
 			}
@@ -771,8 +751,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmTerminateArbitraryProcess = new JMenuItem("Terminate Arbitrary Process");
 		mntmTerminateArbitraryProcess.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Command>Terminate Arbitrary Process");
 				CommandCommands.terminateChoose();
 			}
@@ -784,8 +763,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmBombard = new JMenuItem("Bombard");
 		mntmBombard.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Command>Bombard");
 				CommandCommands.bombard();
 			}
@@ -800,8 +778,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Help>About");
 				HelpCommands.about();
 			}
@@ -810,8 +787,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmHelp = new JMenuItem("Utilities Pro Help");
 		mntmHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Help>Utilities Pro Help");
 				HelpCommands.helpList();
 			}
@@ -820,8 +796,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmBashHelp = new JMenuItem("Bash Help");
 		mntmBashHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Help>Bash Help");
 				HelpCommands.bashHelp();
 			}
@@ -833,8 +808,7 @@ public class Utilities_Pro {
 
 		JMenuItem mntmUpdate = new JMenuItem("Update");
 		mntmUpdate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+			@Override public void actionPerformed(ActionEvent e) {
 				command("Help>Update");
 				HelpCommands.update();
 			}

@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 Kevin Wong
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
@@ -115,8 +130,7 @@ public class TextCommands extends Utilities_Pro {
 	 * trying to go to actually exists.
 	 *
 	 * @since 3.0_dev09.03
-	 * @param operand
-	 *            - The command which was put in. This command can begin with anything, but when called, should only
+	 * @param operand - The command which was put in. This command can begin with anything, but when called, should only
 	 *            being with 'cd'.
 	 */
 	public void cd(String[] operand) {
@@ -237,8 +251,7 @@ public class TextCommands extends Utilities_Pro {
 
 		for (String element : fileList) {
 			if (operand[0].equals("cd")) { // With Directory Confirmation!
-				if (element.startsWith(dirLayer[dirLayer.length - 1])
-						&& new File(lookDir + "/" + element).isDirectory()) {
+				if (element.startsWith(dirLayer[dirLayer.length - 1]) && new File(lookDir + "/" + element).isDirectory()) {
 					narrowList.add(element);
 				}
 			} else { // To get completed file names!
@@ -293,8 +306,7 @@ public class TextCommands extends Utilities_Pro {
 	 * A private method for processing the plugin command and its arguments
 	 *
 	 * @since 3.3_dev05
-	 * @param operand
-	 *            - a String[] containing all the pertinent operands for the plugin command.
+	 * @param operand - a String[] containing all the pertinent operands for the plugin command.
 	 */
 	private void pluginLogic(String[] operand) {
 		// Make sure the initial operand is correct.
@@ -326,8 +338,7 @@ public class TextCommands extends Utilities_Pro {
 				 * Furthermore, this operates by using the apiImplementation earlier to execute a method with the
 				 * arguments passed to it. */
 				String pluginName = operand[1];
-				apiImplementation plugin = new apiImplementation(new File(UtilitiesPro_DIR + "/plugins/" + pluginName
-						+ ".class"));
+				apiImplementation plugin = new apiImplementation(new File(UtilitiesPro_DIR + "/plugins/" + pluginName + ".class"));
 				if (operand.length < 3) {
 					out("Specify a methodName to pass to the plugin.");
 				} else {
@@ -344,8 +355,7 @@ public class TextCommands extends Utilities_Pro {
 	 * A private method for processing the operand command and its arguments.
 	 *
 	 * @since 3.3_dev02
-	 * @param operand
-	 *            - String[] containing all the pertinent information.
+	 * @param operand - String[] containing all the pertinent information.
 	 */
 	private void textConfig(String[] operand) {
 		log("Called Configuration Handler through CLI");

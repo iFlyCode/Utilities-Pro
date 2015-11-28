@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 Kevin Wong
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import javax.swing.JOptionPane;
@@ -26,9 +41,8 @@ public class CommandCommands extends Utilities_Pro {
 	 * the process.
 	 *
 	 * @since 3.0_dev05
-	 * @param which
-	 *            - is an integer that selects what arbitrary process to terminate. Integer must be referring to the PID
-	 *            of a process. The PID of the process can be gotten by running through the PS AX directory.
+	 * @param which - is an integer that selects what arbitrary process to terminate. Integer must be referring to the
+	 *            PID of a process. The PID of the process can be gotten by running through the PS AX directory.
 	 */
 	static void terminate(int which) {
 		String PID = Integer.toString(which);
@@ -47,8 +61,7 @@ public class CommandCommands extends Utilities_Pro {
 	 */
 	static void terminateChoose() {
 		new ExecEngine().exec("ps -ax");
-		String choice = JOptionPane.showInputDialog(null, "Please input a Process ID"
-				+ "\nfrom the choices in the Console", "");
+		String choice = JOptionPane.showInputDialog(null, "Please input a Process ID" + "\nfrom the choices in the Console", "");
 		terminate(Integer.parseInt(choice));
 	}
 
@@ -60,8 +73,7 @@ public class CommandCommands extends Utilities_Pro {
 	 * @see com.git.ifly6.UtilitiesPro3.terminate(int)
 	 */
 	static void bombard() {
-		String choice = JOptionPane.showInputDialog(null, "Please input a bash command to try 250 times, repeatedly.",
-				"");
+		String choice = JOptionPane.showInputDialog(null, "Please input a bash command to try 250 times, repeatedly.", "");
 		for (int x = 0; x < 250; x++) {
 			new ExecEngine().exec(choice);
 		}

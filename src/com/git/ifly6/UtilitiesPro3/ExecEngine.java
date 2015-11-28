@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 Kevin Wong
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
@@ -36,10 +51,8 @@ public class ExecEngine extends Utilities_Pro {
 	 * forward.
 	 *
 	 * @since 3.0_dev09
-	 * @param urlFrom
-	 *            The URL to download from. This should go before the directory to put the file in.
-	 * @param directory
-	 *            The directory to download the file to. This should be after the URL.
+	 * @param urlFrom The URL to download from. This should go before the directory to put the file in.
+	 * @param directory The directory to download the file to. This should be after the URL.
 	 */
 	public void download(String urlFrom, String directory) {
 		// Make sure Utilities Pro's main folders exist.
@@ -68,8 +81,7 @@ public class ExecEngine extends Utilities_Pro {
 	 * here. This should be the only reference form for the execution of arbitrary bash commands when provided a String.
 	 *
 	 * @since 3.0_dev05
-	 * @param input
-	 *            String to be executed. It is moved into String[] form for the execution engine. The input should be
+	 * @param input String to be executed. It is moved into String[] form for the execution engine. The input should be
 	 *            delimited by spaces.
 	 * @see exec(String[] input)
 	 */
@@ -97,8 +109,7 @@ public class ExecEngine extends Utilities_Pro {
 	 * discouraged to directly reference this, if you want to, go ahead. Furthermore, when doing File I/O, it is
 	 * imperative to reference this method. There is no real other way of doing so.
 	 *
-	 * @param input
-	 *            the String array used as the main execution parameters, getting all the data necessary for the
+	 * @param input the String array used as the main execution parameters, getting all the data necessary for the
 	 *            execution
 	 * @since 3.0_dev05, though its predecessor was implemented in v1.0
 	 * @see com.me.ifly6.UtilitiesPro2.methods.CoreMethods
@@ -108,9 +119,7 @@ public class ExecEngine extends Utilities_Pro {
 		// log("Current Directory is: " + Utilities_Pro.currentDir);
 
 		Runnable runner = new Runnable() {
-			@SuppressWarnings("resource")
-			@Override
-			public void run() {
+			@SuppressWarnings("resource") @Override public void run() {
 				try {
 					// Output Stream
 
@@ -149,17 +158,14 @@ public class ExecEngine extends Utilities_Pro {
 	 * problems, solving a major problem in our last implementation of scripting.
 	 *
 	 * @since 3.1_04
-	 * @param script
-	 *            - The location of the script we are trying to run.
+	 * @param script - The location of the script we are trying to run.
 	 */
 	public void scriptEngine(final String script) {
 
 		// log("Current Directory is: " + Utilities_Pro.currentDir);
 
 		Runnable runner = new Runnable() {
-			@SuppressWarnings("resource")
-			@Override
-			public void run() {
+			@SuppressWarnings("resource") @Override public void run() {
 				try {
 					// Output Stream
 

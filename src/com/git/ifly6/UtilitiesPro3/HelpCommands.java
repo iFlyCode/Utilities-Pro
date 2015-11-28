@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 Kevin Wong
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.awt.Desktop;
@@ -44,8 +59,7 @@ public class HelpCommands extends Utilities_Pro {
 	 */
 	public static void about() {
 		String about = ("Utilities Pro - " + Utilities_Pro.version + " '" + Utilities_Pro.keyword + "'" + "\n"
-				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. "
-				+ "\nIt is to serve as a terminal in restricted enviornments, such as "
+				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. " + "\nIt is to serve as a terminal in restricted enviornments, such as "
 				+ "\nschools or universities. Tapping Java's ProcessBuilder or Runtime"
 				+ "\ncommand system, its possible to bypass MCX, and most other" + "\ncontrols on effective computer work.");
 		JOptionPane.showMessageDialog(null, about);
@@ -58,13 +72,11 @@ public class HelpCommands extends Utilities_Pro {
 	 * @deprecated
 	 * @since 1.3
 	 */
-	@Deprecated
-	public static void acknowledgements() {
+	@Deprecated public static void acknowledgements() {
 		ExecEngine executor = new ExecEngine();
 
 		try {
-			executor.download("http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt", UtilitiesPro_DIR
-					+ "/acknowledgements.txt");
+			executor.download("http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt", UtilitiesPro_DIR + "/acknowledgements.txt");
 			Thread.sleep(100);
 			FileReader fstream;
 			fstream = new FileReader(UtilitiesPro_DIR + "/acknowledgements.txt");

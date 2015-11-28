@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 Kevin Wong
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
@@ -30,11 +45,9 @@ public class apiImplementation extends ClassLoader {
 	/**
 	 * Logs with a change to reflect a different section of the log.
 	 *
-	 * @param input
-	 *            - String to be logged.
-	 * @param type
-	 *            - If true, it logs with 2 equals signs before it, saying it is a subset of the log above. If false, it
-	 *            is logged normally.
+	 * @param input - String to be logged.
+	 * @param type - If true, it logs with 2 equals signs before it, saying it is a subset of the log above. If false,
+	 *            it is logged normally.
 	 * @since 3.3_dev05
 	 */
 	void log(String input, int type) {
@@ -59,8 +72,7 @@ public class apiImplementation extends ClassLoader {
 	 * @param classPath
 	 * @since 3.3_dev05
 	 */
-	@SuppressWarnings("resource")
-	apiImplementation(File classPath) {
+	@SuppressWarnings("resource") apiImplementation(File classPath) {
 		try {
 			URL[] urls = { classPath.toURI().toURL() };
 
@@ -214,8 +226,7 @@ public class apiImplementation extends ClassLoader {
 	 *
 	 * @since 3.3_dev05
 	 */
-	@SuppressWarnings("unused")
-	public void pluginsLoader() {
+	@SuppressWarnings("unused") public void pluginsLoader() {
 		try {
 			File[] fileList = plugin_dir.listFiles();
 			URL[] urls = {};
@@ -232,8 +243,7 @@ public class apiImplementation extends ClassLoader {
 			}
 
 			urls = urlList.toArray(urls);
-			@SuppressWarnings("resource")
-			ClassLoader cl = new URLClassLoader(urls);
+			@SuppressWarnings("resource") ClassLoader cl = new URLClassLoader(urls);
 
 			for (URL url : urls) {
 				String className = url.toString().substring(0, url.toString().length() - 6);

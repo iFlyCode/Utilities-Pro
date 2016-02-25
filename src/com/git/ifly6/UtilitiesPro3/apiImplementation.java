@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 ifly6
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
@@ -11,11 +26,11 @@ import java.util.ArrayList;
 /**
  * This is the implementation of the API defined in apiDefinitions. It should be a single class file. Follow all the
  * necessary definitions in apiDefinitions for that each class.
- * 
+ *
  * Implementation should work by creating a new apiImplementation based around a certain file. From there, it should use
  * that apiImplementation to do certain things. Note that the first implementation of a plugin system should run on a
  * load-a-single-class basis.
- * 
+ *
  * @since 3.3_dev04
  */
 public class apiImplementation extends ClassLoader {
@@ -37,7 +52,7 @@ public class apiImplementation extends ClassLoader {
 
 	/**
 	 * This is the constructor. An apiImplementation is created for the plugin system to use.
-	 * 
+	 *
 	 * @param classPath
 	 * @since 3.3_dev05
 	 */
@@ -179,20 +194,20 @@ public class apiImplementation extends ClassLoader {
 	}
 
 	/*
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
+	 *
 	 */
 
 	/**
 	 * Loads all classes inside the plugins folder. This unified plugin system is currently under development and is
 	 * slated for completion in version 3.4.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	@SuppressWarnings("unused")

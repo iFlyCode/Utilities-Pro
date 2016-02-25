@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 ifly6
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
@@ -14,7 +29,7 @@ import java.util.Scanner;
 /**
  * All commands or methods which are associated with executing a command, or anything that relates to a File which is
  * not directly covered by the File menu GUI commands class, should be here.
- * 
+ *
  * @author ifly6
  * @since 3.0_dev01
  */
@@ -34,7 +49,7 @@ public class ExecEngine extends Utilities_Pro {
 	 * Windows and Mac, we've begun to remove our reliance on Mac-specific OS commands, such as CURL. This is one of
 	 * them. Though the differences in the FS will likely be too great to warrant full interoperability, it is a step
 	 * forward.
-	 * 
+	 *
 	 * @since 3.0_dev09
 	 * @param urlFrom
 	 *            The URL to download from. This should go before the directory to put the file in.
@@ -66,7 +81,7 @@ public class ExecEngine extends Utilities_Pro {
 	/**
 	 * Executes an arbitrary command from any set of parameters, by calling the engine with the input which is defined
 	 * here. This should be the only reference form for the execution of arbitrary bash commands when provided a String.
-	 * 
+	 *
 	 * @since 3.0_dev05
 	 * @param input
 	 *            String to be executed. It is moved into String[] form for the execution engine. The input should be
@@ -81,7 +96,7 @@ public class ExecEngine extends Utilities_Pro {
 
 	/**
 	 * Added so an autonomous script can directly execute a hard-coded String[] input. Should not be used otherwise.
-	 * 
+	 *
 	 * @since 3.0_dev06
 	 * @param input
 	 * @see exec(String input)
@@ -96,7 +111,7 @@ public class ExecEngine extends Utilities_Pro {
 	 * execution engines around, and all should give a String[] into here for execution by the system. Though it is
 	 * discouraged to directly reference this, if you want to, go ahead. Furthermore, when doing File I/O, it is
 	 * imperative to reference this method. There is no real other way of doing so.
-	 * 
+	 *
 	 * @param input
 	 *            the String array used as the main execution parameters, getting all the data necessary for the
 	 *            execution
@@ -111,13 +126,16 @@ public class ExecEngine extends Utilities_Pro {
 			@Override
 			public void run() {
 				try {
-					// Output Stream
 
+					// ProcessBuilder
 					ProcessBuilder builder = new ProcessBuilder(input);
+					builder.redirectErrorStream(true);
 					builder.directory(new File(Utilities_Pro.currentDir));
 					process = builder.start();
 
 					log("Execution of input is Beginning");
+
+					// Output Stream
 					InputStream outStream = process.getInputStream();
 					InputStreamReader outRead = new InputStreamReader(outStream);
 					Scanner scan = new Scanner(outRead);
@@ -125,15 +143,8 @@ public class ExecEngine extends Utilities_Pro {
 						out(scan.nextLine());
 					}
 
-					// Error Stream
-					InputStream errStream = process.getErrorStream();
-					InputStreamReader errRead = new InputStreamReader(errStream);
-					scan = new Scanner(errRead);
-					while (scan.hasNextLine()) {
-						out(scan.nextLine());
-					}
 				} catch (IOException e) { // Must distinguish between 'Invalid Commands' and
-											// 'Running Faileds'
+											// 'Running Failed'
 					out("Invalid Command");
 					log("Running Failed or Invalid Command");
 				}
@@ -145,7 +156,7 @@ public class ExecEngine extends Utilities_Pro {
 	/**
 	 * Passes the bash script to bash instead of trying to run it through Java. This allows us to do bash logic without
 	 * problems, solving a major problem in our last implementation of scripting.
-	 * 
+	 *
 	 * @since 3.1_04
 	 * @param script
 	 *            - The location of the script we are trying to run.

@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 ifly6
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.awt.BorderLayout;
@@ -48,7 +63,7 @@ import com.apple.eawt.Application;
  * execution of the programme. Furthermore, it contains all necessary ActionListeners and GUI related methods (basically
  * integrating the older Utilities_Pro Interface, Parameters, and Utilities_Pro classes from the last major version of
  * Utilities Pro-2.x)
- * 
+ *
  * @author ifly6
  * @version 3.x
  */
@@ -56,21 +71,21 @@ public class Utilities_Pro {
 
 	/**
 	 * Remembers all commands done in the session.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	static ArrayList<String> history = new ArrayList<String>();
 
 	/**
 	 * The number which tells us where we are looking in the ArrayList.
-	 * 
+	 *
 	 * @since 3.2
 	 */
 	static int recall = history.size();
 
 	/**
 	 * Current Directory we are in. Change using our implementation of the CD command, located in TextCommands.
-	 * 
+	 *
 	 * @since 3.0_dev09.03
 	 */
 	public static String currentDir = System.getProperty("user.dir");
@@ -144,7 +159,7 @@ public class Utilities_Pro {
 	/**
 	 * As it deals with the GUI's implementation (JTextArea), Java forces its location to be inside the GUI's
 	 * declaration class.
-	 * 
+	 *
 	 * @author ifly6
 	 * @since 3.0_dev02
 	 * @param which
@@ -182,7 +197,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Returns inputField.
-	 * 
+	 *
 	 * @since 3.0_dev05
 	 * @return a string with the contents of TextArea inputField
 	 */
@@ -192,7 +207,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Get and Return LogText for direct manipulation.
-	 * 
+	 *
 	 * @since 3.0_dev02
 	 * @return JTextArea logText
 	 */
@@ -202,7 +217,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Get and return OutText for direct manipulation.
-	 * 
+	 *
 	 * @since 3.0_dev02
 	 * @return JTextArea OutText
 	 */
@@ -223,7 +238,7 @@ public class Utilities_Pro {
 	/**
 	 * Launch the application. Executes on a pipeline, going first to read the GUI configuration file, with the Look and
 	 * Feel of the GUI. It then populates the internal commands, finds the computer name, and initialises the GUI.
-	 * 
+	 *
 	 * @param inputArgs
 	 *            - there are no command-line arguments.
 	 */
@@ -384,7 +399,7 @@ public class Utilities_Pro {
 	 * Used to create (if necessary) all folders for Utilities Pro. Creates ~/Library/Application Support/Utilities Pro
 	 * folder and verifies that ~/Downloads exists. This programme should be run on a Mac, as both are only applicable
 	 * under the File Structure of one (or very similar Linux distributions).
-	 * 
+	 *
 	 * @author ifly6
 	 * @since 2.2_01
 	 */
@@ -401,7 +416,7 @@ public class Utilities_Pro {
 	/**
 	 * Added in version 2.2_02 of Utilities Pro. Replaces 'append'. Difference is that it automatically formats the
 	 * text.
-	 * 
+	 *
 	 * @since 2.2_02
 	 * @param in
 	 *            - String to append (with a space) into the JTextArea outText
@@ -420,7 +435,7 @@ public class Utilities_Pro {
 
 	/**
 	 * Sets the arrayList of commands, as they are not hardcoded. This saves us a lot of problems. Don't remove it.
-	 * 
+	 *
 	 * @since 3.0_dev08
 	 */
 	private static void setCommands() {
@@ -452,7 +467,7 @@ public class Utilities_Pro {
 	/**
 	 * This system starts the main GUI for the programme. It also contains all GUI data for the programme, causing a
 	 * necessity for the method getters and setters which are evident below.
-	 * 
+	 *
 	 * @param frame
 	 *            - JFrame for the programme
 	 * @param panel

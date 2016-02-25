@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 ifly6
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.BufferedWriter;
@@ -12,7 +27,7 @@ import java.util.Properties;
 
 /**
  * Programme contains all relevant scripts to the File menu in the GUI.
- * 
+ *
  * @author ifly6
  * @since 3.0
  */
@@ -21,7 +36,7 @@ public class FileCommands extends Utilities_Pro {
 	/**
 	 * Deletes the configuration file if marked 'false'. If marked 'true', it deletes the entire Utilities Pro folder in
 	 * Application Support.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	public static void deleteConfig(boolean all) {
@@ -45,7 +60,7 @@ public class FileCommands extends Utilities_Pro {
 
 	/**
 	 * Creates a configuration file with the default values.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	protected static void configGen() {
@@ -69,7 +84,7 @@ public class FileCommands extends Utilities_Pro {
 
 	/**
 	 * Part of the Interface Update, where we add a configuration manager to load and set configurations.
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 */
 	protected static void configHandler(String key, String value) {
@@ -100,7 +115,7 @@ public class FileCommands extends Utilities_Pro {
 
 	/**
 	 * This method chooses which JTextArea to export, then exports it.
-	 * 
+	 *
 	 * @author ifly6
 	 * @param which
 	 *            decides which JTextArea to export to file. 1 = Export the outText JTextArea. 2 = Export the logText

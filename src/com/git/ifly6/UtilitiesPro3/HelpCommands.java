@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 ifly6
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.awt.Desktop;
@@ -12,7 +27,7 @@ import javax.swing.JOptionPane;
 
 /**
  * All Commands relevant to "Help" are located here.
- * 
+ *
  * @author ifly6
  * @since 3.0_dev06
  */
@@ -21,7 +36,7 @@ public class HelpCommands extends Utilities_Pro {
 	/**
 	 * Opens the GitHub versions page. Used to download an actual changelog, then read it, but that was changed as we
 	 * stopped maintaining it. Uses same code from update().
-	 * 
+	 *
 	 * @since 1.2
 	 */
 	public static void changeLog() {
@@ -38,7 +53,7 @@ public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Displays about text. Displays a long string, String about in a JOptionPane. It then calls the change-log method.
-	 * 
+	 *
 	 * @since 3.0_dev07
 	 * @see com.git.ifly6.UtilitiesPro3.HelpCommands#changelog()
 	 */
@@ -47,22 +62,23 @@ public class HelpCommands extends Utilities_Pro {
 				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. "
 				+ "\nIt is to serve as a terminal in restricted enviornments, such as "
 				+ "\nschools or universities. Tapping Java's ProcessBuilder or Runtime"
-				+ "\ncommand system, its possible to bypass MCX, and most other" + "\ncontrols on effective computer work.");
+				+ "\ncommand system, its possible to bypass MCX, and most other"
+				+ "\ncontrols on effective computer work.");
 		JOptionPane.showMessageDialog(null, about);
 		HelpCommands.changeLog();
 	}
 
 	/**
 	 * Downloads an acknowledgements file from ifly6.no-ip.org. It then reads it and displays the output.
-	 * 
+	 *
 	 * @deprecated
 	 * @since 1.3
 	 */
 	@Deprecated
 	public static void acknowledgements() {
 		try {
-			ExecEngine.download("http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt", UtilitiesPro_DIR
-					+ "/acknowledgements.txt");
+			ExecEngine.download("http://ifly6.no-ip.org/UtilitiesPro/acknowledgements.txt",
+					UtilitiesPro_DIR + "/acknowledgements.txt");
 			Thread.sleep(100);
 			FileReader fstream;
 			fstream = new FileReader(UtilitiesPro_DIR + "/acknowledgements.txt");
@@ -79,7 +95,7 @@ public class HelpCommands extends Utilities_Pro {
 	/**
 	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the list of all internal commands for
 	 * the programme.
-	 * 
+	 *
 	 * @see Utilities_Pro.commText
 	 * @since 2.3
 	 */
@@ -92,7 +108,7 @@ public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Displays the hard-coded (and therefore, version specific) End User Licence Agreement for this programme.
-	 * 
+	 *
 	 * @since 2.3 (though there was one in iAccelerate)
 	 */
 	public static void licence() {
@@ -111,7 +127,7 @@ public class HelpCommands extends Utilities_Pro {
 
 	/**
 	 * Opens (in default browser) a web site with an archive of A-Z OSX Bash Commands.
-	 * 
+	 *
 	 * @since 3.0_dev06
 	 */
 	public static void bashHelp() {
@@ -129,7 +145,7 @@ public class HelpCommands extends Utilities_Pro {
 	/**
 	 * Opens the release page for Utilities Pro on GitHub. This entire method was changed in 3.1_02. It now directs to
 	 * the GitHub release section for Utilities Pro.
-	 * 
+	 *
 	 * @since 3.1_02
 	 */
 	public static void update() {

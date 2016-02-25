@@ -1,3 +1,18 @@
+/* Copyright (c) 2015 ifly6
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+ * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+ * Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+ * WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+ * COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 package com.git.ifly6.UtilitiesPro3;
 
 import java.io.File;
@@ -11,7 +26,7 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * Logs with a change to reflect a different section of the log.
-	 * 
+	 *
 	 * @param input
 	 *            - String to be logged.
 	 * @param type
@@ -40,7 +55,7 @@ public class TextCommands extends Utilities_Pro {
 	 * Processes the Text for Application-specific functions. This should be the only method called from this class. All
 	 * others should be called from this class under certain conditions. All internal commands MUST begin with "/", just
 	 * like in Minecraft. Updated in 3.2 to accept escape characters for space (that being '\ ').
-	 * 
+	 *
 	 * @since 1.2
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 */
@@ -134,7 +149,7 @@ public class TextCommands extends Utilities_Pro {
 	 * include way of dealing with spaces in filenames. However, when the entire space system was overhauled in 3.2, it
 	 * became unnecessary due to the escape char for space ('\ '). Since 3.1_03, it also checks whether the DIR you are
 	 * trying to go to actually exists.
-	 * 
+	 *
 	 * @since 3.0_dev09.03
 	 * @param operand
 	 *            - The command which was put in. This command can begin with anything, but when called, should only
@@ -203,7 +218,7 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * Display the current Path.
-	 * 
+	 *
 	 * @since 3.1_02_dev01
 	 */
 	public static void path() {
@@ -214,7 +229,7 @@ public class TextCommands extends Utilities_Pro {
 	 * Uses advanced recognition technology to auto-complete what is being looked for. Since 3.3_dev01, it also includes
 	 * directory confirmation, and support for space-escape auto-formatting. Since 3.3_dev02, it also includes infinite
 	 * file list comparation.
-	 * 
+	 *
 	 * @since 3.3
 	 */
 	static String tabComplete() {
@@ -312,7 +327,7 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * A private method for processing the plugin command and its arguments
-	 * 
+	 *
 	 * @since 3.3_dev05
 	 * @param operand
 	 *            - a String[] containing all the pertinent operands for the plugin command.
@@ -347,8 +362,8 @@ public class TextCommands extends Utilities_Pro {
 				 * Furthermore, this operates by using the apiImplementation earlier to execute a method with the
 				 * arguments passed to it. */
 				String pluginName = operand[1];
-				apiImplementation plugin = new apiImplementation(new File(UtilitiesPro_DIR + "/plugins/" + pluginName
-						+ ".class"));
+				apiImplementation plugin = new apiImplementation(
+						new File(UtilitiesPro_DIR + "/plugins/" + pluginName + ".class"));
 				if (operand.length < 3) {
 					out("Specify a methodName to pass to the plugin.");
 				} else {
@@ -363,7 +378,7 @@ public class TextCommands extends Utilities_Pro {
 
 	/**
 	 * A private method for processing the operand command and its arguments.
-	 * 
+	 *
 	 * @since 3.3_dev02
 	 * @param operand
 	 *            - String[] containing all the pertinent information.

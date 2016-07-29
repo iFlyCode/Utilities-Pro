@@ -23,15 +23,13 @@ import java.util.Arrays;
 import java.util.Properties;
 
 public class TextCommands extends Utilities_Pro {
-
+	
 	/**
 	 * Logs with a change to reflect a different section of the log.
 	 *
-	 * @param input
-	 *            - String to be logged.
-	 * @param type
-	 *            - If true, it logs with 2 equals signs before it, saying it is a subset of the log above. If false, it
-	 *            is logged normally.
+	 * @param input - String to be logged.
+	 * @param type - If true, it logs with 2 equals signs before it, saying it is a subset of the log above. If false,
+	 *            it is logged normally.
 	 * @since 3.3_dev05
 	 */
 	static void log(String input, int type) {
@@ -40,17 +38,17 @@ public class TextCommands extends Utilities_Pro {
 		} else if (type == 1) {
 			log("== " + input);
 		} else if (type == 2) { // other types of logs should be added here. create numbers as necessary.
-
+		
 		} else {
 			log("Section is attempting to TextCommands.log with an invalid integer specification.");
 		}
 	}
-
+	
 	protected static void processInputField() {
 		String preoperand = getInputField().getText();
 		process(preoperand);
 	}
-
+	
 	/**
 	 * Processes the Text for Application-specific functions. This should be the only method called from this class. All
 	 * others should be called from this class under certain conditions. All internal commands MUST begin with "/", just
@@ -60,24 +58,24 @@ public class TextCommands extends Utilities_Pro {
 	 * @see com.me.ifly6.UtilitiesPro2.TextProc
 	 */
 	static void process(String preoperand) {
-
+		
 		log("Processing operand: " + preoperand);
-
+		
 		// Get and Save Command
 		command(preoperand);
 		addToHistory(preoperand);
 		Utilities_Pro.clearText(3);
-
+		
 		// Split this using this Regular Expression
 		String[] operand = preoperand.split("(?<!\\\\)\\s+");
-
+		
 		// Remove all remaining backslashes, as Java doesn't like them.
 		for (int x = 0; x < operand.length; x++) {
 			if (operand[x].contains("\\")) {
 				operand[x] = operand[x].replace("\\", "");
 			}
 		}
-
+		
 		// Command Evaluation
 		if (commText.get(0).equals(operand[0])) {
 			HelpCommands.changeLog();
@@ -123,7 +121,7 @@ public class TextCommands extends Utilities_Pro {
 		} else if (commText.get(13).equals(operand[0])) {
 			System.exit(0);
 		}
-
+		
 		/* If it is not a '/' type internal command, see if it is calling for the implementation of 'cd' or anything
 		 * else like that. */
 		else if (operand[0].equals("cd")) {
@@ -136,14 +134,14 @@ public class TextCommands extends Utilities_Pro {
 			out("The command 'top' is not supported because of technical limitations of Java. \n Please use the string "
 					+ "'ps -arxo cpu,pid,args' instead.");
 		}
-
+		
 		/* If it is not a internal command, treat it as it it were a bash command. */
 		else {
 			ExecEngine.exec(operand);
 		}
-
+		
 	}
-
+	
 	/**
 	 * The CD entire Subsystem. Much waiting was done for this. One epiphany later, it was solved. Updated in 3.1 to
 	 * include way of dealing with spaces in filenames. However, when the entire space system was overhauled in 3.2, it
@@ -151,16 +149,17 @@ public class TextCommands extends Utilities_Pro {
 	 * trying to go to actually exists.
 	 *
 	 * @since 3.0_dev09.03
-	 * @param operand
-	 *            - The command which was put in. This command can begin with anything, but when called, should only
+	 * @param operand - The command which was put in. This command can begin with anything, but when called, should only
 	 *            being with 'cd'.
 	 */
 	public static void cd(String[] operand) {
+
 		String nonCanonical = "";
 		String dirExists = "The directory you are looking for does not exist, is not a directory, or there has been an error.";
 		String dirPerms = "The directory have selected is restricted";
-
+		
 		try {
+
 			// Deal with Files that start with '/'
 			if (operand[1].startsWith("/")) {
 				if (new File(operand[1]).isDirectory() && new File(operand[1]).canRead()) {
@@ -176,7 +175,7 @@ public class TextCommands extends Utilities_Pro {
 					out(dirExists);
 				}
 			}
-
+			
 			// Deal with things that start with '~'
 			else if (operand[1].startsWith("~")) {
 				String newDir = operand[1].replaceAll("~", System.getProperty("user.home"));
@@ -193,29 +192,31 @@ public class TextCommands extends Utilities_Pro {
 					out(dirExists);
 				}
 			}
-
+			
 			// Deal with Everything Else
 			else {
 				if (new File(Utilities_Pro.currentDir + "/" + operand[1]).isDirectory()
 						&& new File(Utilities_Pro.currentDir + "/" + operand[1]).canRead()) {
 					nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
+
 					try {
 						currentDir = new File(nonCanonical).getCanonicalPath();
 					} catch (IOException e) {
 						out("Changing Directory somehow failed. Report this error to GitHub.");
 					}
+
 				} else if (!(new File(Utilities_Pro.currentDir + "/" + operand[1]).canRead())) {
 					out(dirPerms);
 				} else {
 					out(dirExists);
 				}
 			}
+
 		} catch (ArrayIndexOutOfBoundsException e) {
 			out("Add argument to change directory command.");
 		}
-
 	}
-
+	
 	/**
 	 * Display the current Path.
 	 *
@@ -224,7 +225,7 @@ public class TextCommands extends Utilities_Pro {
 	public static void path() {
 		out(currentDir);
 	}
-
+	
 	/**
 	 * Uses advanced recognition technology to auto-complete what is being looked for. Since 3.3_dev01, it also includes
 	 * directory confirmation, and support for space-escape auto-formatting. Since 3.3_dev02, it also includes infinite
@@ -234,21 +235,21 @@ public class TextCommands extends Utilities_Pro {
 	 */
 	static String tabComplete() {
 		command("> Tab Auto-Complete");
-
+		
 		String preoperand = getInputField().getText();
-
+		
 		String[] operand = preoperand.split("(?<!\\\\)\\s+");
 		String[] dirLayer = operand[operand.length - 1].split("/");
 		boolean absPath = operand[operand.length - 1].startsWith("/");
 		boolean usrPath = operand[operand.length - 1].startsWith("~");
 		String lookDir = currentDir;
-
+		
 		log("Raw: " + preoperand);
 		log("Search Term: " + dirLayer[dirLayer.length - 1]);
-
+		
 		if ((dirLayer.length - 1) >= 1) {
 			StringBuilder builder = new StringBuilder();
-
+			
 			if (absPath) { // Is it an absolute Path?
 				for (int x = 0; x < (dirLayer.length - 1); x++) {
 					builder.append("/" + dirLayer[x]);
@@ -267,14 +268,13 @@ public class TextCommands extends Utilities_Pro {
 			lookDir = builder.toString();
 			log("LOG: Looking At " + lookDir);
 		}
-
+		
 		String[] fileList = new File(lookDir).list();
 		ArrayList<String> narrowList = new ArrayList<String>();
-
+		
 		for (String element : fileList) {
 			if (operand[0].equals("cd")) { // With Directory Confirmation!
-				if (element.startsWith(dirLayer[dirLayer.length - 1])
-						&& new File(lookDir + "/" + element).isDirectory()) {
+				if (element.startsWith(dirLayer[dirLayer.length - 1]) && new File(lookDir + "/" + element).isDirectory()) {
 					narrowList.add(element);
 				}
 			} else { // To get completed file names!
@@ -283,54 +283,54 @@ public class TextCommands extends Utilities_Pro {
 				}
 			}
 		}
-
+		
 		if (narrowList.isEmpty()) { // No Matches
 			out("No Directory Match for keyword: " + dirLayer[dirLayer.length - 1]);
-		} else if (narrowList.size() == 1) { // One Match
 
+		} else if (narrowList.size() == 1) { // One Match
+			
 			StringBuilder builder = new StringBuilder();
 			String selected = narrowList.get(0);
 			String reinput = narrowList.get(0);
-
+			
 			// Deal with possible spaces.
 			if (selected.contains(" ")) {
 				selected = selected.replace(" ", "\\ ");
 			}
-
+			
 			// Deal with possible Path Issues
 			if (absPath || usrPath) {
 				selected = lookDir + "/" + selected;
 			}
-
+			
 			operand[operand.length - 1] = selected; // Load
-
+			
 			// Recombine the String
 			for (String element : operand) {
 				builder.append(element + " ");
 			}
-
+			
 			reinput = builder.toString().trim();
 			return reinput;
-
+			
 		} else if (narrowList.size() > 1) { // More than 1 Match
 			out("There is more than one option available. Please continue typing.");
 			for (String element : narrowList) {
 				out(" * " + element);
 			}
-
+			
 			return getInputField().getText();
 		}
-
+		
 		// If none of these Returns are triggered, return what was already typed in.
 		return getInputField().getText();
 	}
-
+	
 	/**
 	 * A private method for processing the plugin command and its arguments
 	 *
 	 * @since 3.3_dev05
-	 * @param operand
-	 *            - a String[] containing all the pertinent operands for the plugin command.
+	 * @param operand - a String[] containing all the pertinent operands for the plugin command.
 	 */
 	private static void pluginLogic(String[] operand) {
 		// Make sure the initial operand is correct.
@@ -375,13 +375,12 @@ public class TextCommands extends Utilities_Pro {
 			}
 		}
 	}
-
+	
 	/**
 	 * A private method for processing the operand command and its arguments.
 	 *
 	 * @since 3.3_dev02
-	 * @param operand
-	 *            - String[] containing all the pertinent information.
+	 * @param operand - String[] containing all the pertinent information.
 	 */
 	private static void textConfig(String[] operand) {
 		log("Called Configuration Handler through CLI");
@@ -419,14 +418,14 @@ public class TextCommands extends Utilities_Pro {
 			log("Lack of Operand for TextConfig triggered NPE");
 		}
 	}
-
+	
 	public static void quitHandler() {
 		Properties prop = new Properties();
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		InputStream stream = loader.getResourceAsStream(Utilities_Pro.UtilitiesPro_DIR + "/config.properties");
 		try {
 			prop.load(stream);
-
+			
 			// If it matches any of these keywords, do it.
 			if (prop.getProperty("QuitFunction").equals("purgeMemory")) {
 				ScriptCommands.purge();
@@ -444,7 +443,7 @@ public class TextCommands extends Utilities_Pro {
 			} else {
 				System.exit(0);
 			}
-
+			
 		} catch (IOException e1) {
 			System.exit(0);
 		} catch (NullPointerException e1) {

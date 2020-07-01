@@ -13,6 +13,8 @@ import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.Arrays;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 import static com.git.ifly6.utilities.UtilitiesPro.FULL_VERSION;
@@ -41,9 +43,16 @@ public class UPWindow implements UPInteractable {
 
                 if (keyCode == KeyEvent.VK_ENTER) {
                     String input = inputField.getText();
-                    UPWindow.this.history.add(input);
-                    inputField.setText("");
-                    UPExecutor.getInstance().execute(input, UPWindow.this);
+                    if (input.startsWith("/")) {
+                        Optional<UPInternalCommand> c = UPInternalCommand
+                                .parseCommand(input.replaceFirst("/", ""));
+                        c.ifPresent(i -> i.execute(UPWindow.this));
+
+                    } else {
+                        UPWindow.this.history.add(input);
+                        inputField.setText("");
+                        UPExecutor.getInstance().execute(input, UPWindow.this);
+                    }
 
                 } else if (keyCode == KeyEvent.VK_UP)
                     inputField.setText(history.step(UPHistory.BACK));
@@ -96,5 +105,37 @@ public class UPWindow implements UPInteractable {
     @Override
     public File getDirectory() {
         return cdManager.getPath().toFile();
+    }
+
+    /**
+     * Internal commands that can be executed
+     */
+    enum UPInternalCommand {
+        EXPORT_LOG {
+            @Override
+            public void execute(UPWindow i) {
+
+            }
+        },
+
+        CLEAR {
+            @Override
+            public void execute(UPWindow i) {
+
+            }
+        };
+
+        public abstract void execute(UPWindow i);
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+
+        public static Optional<UPInternalCommand> parseCommand(String s) {
+            return Arrays.stream(UPInternalCommand.values())
+                    .filter(c -> c.toString().equals(s))
+                    .findFirst(); // ifPresent -> otherwise do nothing
+        }
     }
 }

@@ -17,6 +17,7 @@
         <properties>
           <font name="Monospaced" size="11"/>
           <horizontalAlignment value="2"/>
+          <toolTipText value="Type commands here, hit enter to execute"/>
         </properties>
       </component>
       <scrollpane id="a8ca7">

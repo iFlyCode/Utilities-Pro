@@ -155,8 +155,8 @@ public class TextCommands extends UtilitiesPro {
 	public static void cd(String[] operand) {
 
 		String nonCanonical = "";
-		String dirExists = "The directory you are looking for does not exist, is not a directory, or there has been an error.";
-		String dirPerms = "The directory have selected is restricted";
+		final String dirExists = "The directory you are looking for does not exist, is not a directory, or there has been an error.";
+		final String dirPerms = "The directory have selected is restricted";
 		
 		try {
 
@@ -425,28 +425,24 @@ public class TextCommands extends UtilitiesPro {
 		InputStream stream = loader.getResourceAsStream(UtilitiesPro.UtilitiesPro_DIR + "/config.properties");
 		try {
 			prop.load(stream);
-			
 			// If it matches any of these keywords, do it.
-			if (prop.getProperty("QuitFunction").equals("purgeMemory")) {
-				ScriptCommands.purge();
-				System.exit(0);
-			} else if (prop.getProperty("QuitFunction").equals("purgeConfiguration")) {
-				ScriptCommands.purge();
-				FileCommands.deleteConfig(false); // Deletes Configuration
-				System.exit(0);
-			} else if (prop.getProperty("QuitFunction").equals("purgeFolder")) {
-				ScriptCommands.purge();
-				FileCommands.deleteConfig(true); // Deletes Utilities Pro DIR
-				System.exit(0);
-			} else if (prop.getProperty("QuitFunction").equals("persist")) {
-				System.exit(0);
-			} else {
-				System.exit(0);
+			switch (prop.getProperty("QuitFunction")) {
+				case "purgeMemory":
+					ScriptCommands.purge();
+					System.exit(0);
+				case "purgeConfiguration":
+					ScriptCommands.purge();
+					FileCommands.deleteConfig(false); // Deletes Configuration
+					System.exit(0);
+				case "purgeFolder":
+					ScriptCommands.purge();
+					FileCommands.deleteConfig(true); // Deletes Utilities Pro DIR
+					System.exit(0);
+				default:
+					System.exit(0);
 			}
 			
-		} catch (IOException e1) {
-			System.exit(0);
-		} catch (NullPointerException e1) {
+		} catch (IOException | NullPointerException e) {
 			System.exit(0);
 		}
 	}

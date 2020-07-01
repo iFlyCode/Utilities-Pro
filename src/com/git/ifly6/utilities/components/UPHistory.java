@@ -5,8 +5,8 @@ import java.util.List;
 
 public class UPHistory {
 
-    public static final int BACK = -1;
-    public static final int FORWARD = 1;
+    public static final UPHistoryStep BACK = UPHistoryStep.BACKWARD;
+    public static final UPHistoryStep FORWARD = UPHistoryStep.FORWARD;
 
     private List<String> history;
     private int pointer;
@@ -15,24 +15,45 @@ public class UPHistory {
         history = new ArrayList<>();
     }
 
+    /**
+     * Adds new strings to the history. Note that this sets the pointer also at the end.
+     * @param s to add to history cache
+     */
     public void add(String s) {
         history.add(s);
         pointer = history.size() - 1;
     }
 
-    public String step(int i) {
-        try {
-            int p = pointer - i;
-            pointer = p;
-            return history.get(p);
-        } catch (IndexOutOfBoundsException e) {
-            pointer = 0;
-            return "";
-        }
+    /**
+     * @param step to move <code>pointer</code> forward or back
+     * @return string at that pointer variable
+     */
+    public String step(UPHistoryStep step) {
+        // constrain pointer
+        pointer = Math.max(
+                Math.min(pointer + step.getValue(), history.size() - 1),
+                0
+        );
+        return history.get(pointer);
     }
 
     public int getPointer() {
         return pointer;
     }
 
+}
+
+enum UPHistoryStep {
+
+    FORWARD(1), BACKWARD(-1);
+
+    private final int value;
+
+    UPHistoryStep(final int i) {
+        value = i;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

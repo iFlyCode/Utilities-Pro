@@ -25,37 +25,27 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultEditorKit;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.FileDialog;
 import java.awt.Font;
 import java.awt.TextField;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.NoSuchElementException;
-import java.util.Properties;
 
 /**
  * Main Class for Utilities Pro 3.x. It initialises the GUI and contains all relevant pieces of data fundamental to the
@@ -73,7 +63,7 @@ public class UtilitiesPro {
 	 *
 	 * @since 3.2
 	 */
-	static ArrayList<String> history = new ArrayList<String>();
+	static ArrayList<String> history = new ArrayList<>();
 
 	/**
 	 * The number which tells us where we are looking in the ArrayList.
@@ -92,7 +82,7 @@ public class UtilitiesPro {
 	/**
 	 * List of all the internal commands inside a String Array. All unused commands should be stated as nulls.
 	 */
-	public static ArrayList<String> commText = new ArrayList<String>();
+	public static ArrayList<String> commText = new ArrayList<>();
 
 	/**
 	 * Used for greeting the user. It should be replaced from Unknown to the iNet name of the user inside
@@ -136,13 +126,6 @@ public class UtilitiesPro {
 	 * Process is declared here to allow other classes to terminate that process should it be necessary.
 	 */
 	static Process process;
-
-	/**
-	 * Runtime Handler. Can be called from anywhere to execute a String[]. When we finish a system to return a Process,
-	 * this shared resource will be removed. However, as it appears that it is not happening, it will likely never be
-	 * removed.
-	 */
-	static Runtime rt = Runtime.getRuntime();
 
 	/**
 	 * A place in ~/Library/Application Support/ where we store all of our configuration files.
@@ -263,109 +246,6 @@ public class UtilitiesPro {
 			UtilitiesPro.log("CSA terminated on Startup.");
 		}
 
-		// Read Properties
-		try {
-			// Create Local Properties Instance
-			Properties prop = new Properties();
-			ClassLoader loader = Thread.currentThread().getContextClassLoader();
-			InputStream stream = loader.getResourceAsStream(UtilitiesPro_DIR + "/config.properties");
-			prop.load(stream);
-
-			// Logic for Properties
-			if (prop.getProperty("Look&Feel").equals("CrossPlatformLAF")) {
-				try {
-					UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
-				} catch (ClassNotFoundException e) {
-				} catch (InstantiationException e) {
-				} catch (IllegalAccessException e) {
-				} catch (UnsupportedLookAndFeelException e) {
-				}
-			} else if (prop.getProperty("Look&Feel").equals("Nimbus")) {
-				try {
-					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-						if ("Nimbus".equals(info.getName())) {
-							UIManager.setLookAndFeel(info.getClassName());
-							break;
-						}
-					}
-				} catch (ClassNotFoundException e) {
-				} catch (InstantiationException e) {
-				} catch (IllegalAccessException e) {
-				} catch (UnsupportedLookAndFeelException e) {
-				}
-			} else if (prop.getProperty("Look&Feel").equals("A Tasting")) {
-				try {
-					// Find and Set Nimbus
-					for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-						if ("Nimbus".equals(info.getName())) {
-							UIManager.setLookAndFeel(info.getClassName());
-							break;
-						}
-					}
-
-					// Set Colours for Nimbus
-					UIManager.put("nimbusBase", Color.black);
-					UIManager.put("nimbusBlueGrey", Color.DARK_GRAY);
-					UIManager.put("control", Color.GRAY);
-
-				} catch (ClassNotFoundException e) {
-				} catch (InstantiationException e) {
-				} catch (IllegalAccessException e) {
-				} catch (UnsupportedLookAndFeelException e) {
-				}
-			} else if (prop.getProperty("Look&Feel").equals("System")) {
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (ClassNotFoundException e) {
-				} catch (InstantiationException e) {
-				} catch (IllegalAccessException e) {
-				} catch (UnsupportedLookAndFeelException e) {
-				}
-			} else {
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (ClassNotFoundException e) {
-				} catch (InstantiationException e) {
-				} catch (IllegalAccessException e) {
-				} catch (UnsupportedLookAndFeelException e) {
-				}
-			}
-		} catch (FileNotFoundException e1) {
-			// If Configuration is not found, Do this stuff.
-			try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
-			}
-		} catch (NoSuchElementException e1) {
-			// If Configuation is empty, Do this stuff.
-			try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
-			}
-		} catch (IOException e1) {
-			try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
-			}
-		} catch (NullPointerException e1) {
-			try {
-				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-			} catch (ClassNotFoundException e) {
-			} catch (InstantiationException e) {
-			} catch (IllegalAccessException e) {
-			} catch (UnsupportedLookAndFeelException e) {
-			}
-		}
-
 		// Populate the List of Internal Commands
 		setCommands();
 
@@ -381,15 +261,12 @@ public class UtilitiesPro {
 		}
 
 		// Launch the GUI.
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					UtilitiesPro window = new UtilitiesPro();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		EventQueue.invokeLater(() -> {
+			try {
+				UtilitiesPro window = new UtilitiesPro();
+				window.frame.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 	}
@@ -422,12 +299,6 @@ public class UtilitiesPro {
 	 */
 	public static void out(String in) {
 		outText.append("\n " + in);
-		UtilitiesPro.outText.setCaretPosition(outText.getDocument().getLength());
-	}
-
-	public static void out(String in, boolean bool) {
-		outText.append("\n " + in);
-		logText.append("\n" + in);
 		UtilitiesPro.outText.setCaretPosition(outText.getDocument().getLength());
 	}
 
@@ -544,64 +415,45 @@ public class UtilitiesPro {
 		menuBar.add(mnFile);
 
 		JMenuItem mntmOpenConfig = new JMenuItem("Open Configuration Folder");
-		mntmOpenConfig.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				command("File>Open Configuration Folder");
-				FileCommands.openConfig();
-			}
+		mntmOpenConfig.addActionListener(arg0 -> {
+			command("File>Open Configuration Folder");
+			FileCommands.openConfig();
 		});
 		mnFile.add(mntmOpenConfig);
 
 		JMenuItem mntmDeleteConfig = new JMenuItem("Delete Configuration");
-		mntmDeleteConfig.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("File>Delete Configuration");
-				FileCommands.deleteConfig(false);
-			}
+		mntmDeleteConfig.addActionListener(e -> {
+			command("File>Delete Configuration");
+			FileCommands.deleteConfig(false);
 		});
 		mnFile.add(mntmDeleteConfig);
 
 		JMenuItem mntmDeleteUtilitiesProFolder = new JMenuItem("Delete Utilities Pro Folder");
-		mntmDeleteUtilitiesProFolder.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("File>Delete Configuration Folder");
-				FileCommands.deleteConfig(true);
-			}
+		mntmDeleteUtilitiesProFolder.addActionListener(e -> {
+			command("File>Delete Configuration Folder");
+			FileCommands.deleteConfig(true);
 		});
 		mnFile.add(mntmDeleteUtilitiesProFolder);
 
 		JMenuItem mntmChangeConfiguration = new JMenuItem("Change Configuration");
-		mntmChangeConfiguration.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO FileCommands.configHandler();
-			}
+		mntmChangeConfiguration.addActionListener(arg0 -> {
+			// TODO FileCommands.configHandler();
 		});
 		mnFile.add(mntmChangeConfiguration);
 
-		JSeparator separator = new JSeparator();
-		mnFile.add(separator);
+		mnFile.addSeparator();
 
 		JMenuItem mntmExportConsole = new JMenuItem("Export Console\n");
-		mntmExportConsole.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("File>Export Utilities_Pro");
-				FileCommands.export(1);
-			}
+		mntmExportConsole.addActionListener(e -> {
+			command("File>Export Utilities_Pro");
+			FileCommands.export(1);
 		});
 		mnFile.add(mntmExportConsole);
 
 		JMenuItem mntmConsoleLog = new JMenuItem("Export Log");
-		mntmConsoleLog.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("File>Export Log");
-				FileCommands.export(2);
-			}
+		mntmConsoleLog.addActionListener(e -> {
+			command("File>Export Log");
+			FileCommands.export(2);
 		});
 		mnFile.add(mntmConsoleLog);
 
@@ -610,39 +462,32 @@ public class UtilitiesPro {
 
 		JMenuItem mntmCut = new JMenuItem(new DefaultEditorKit.CutAction());
 		mntmCut.setText("Cut");
-		mntmCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.META_MASK));
+		mntmCut.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, InputEvent.META_MASK));
 		mnEdit.add(mntmCut);
 
 		JMenuItem mntmCopy = new JMenuItem(new DefaultEditorKit.CopyAction());
 		mntmCopy.setText("Copy");
-		mntmCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.META_MASK));
+		mntmCopy.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.META_MASK));
 		mnEdit.add(mntmCopy);
 
 		JMenuItem mntmPaste = new JMenuItem(new DefaultEditorKit.PasteAction());
 		mntmPaste.setText("Paste");
-		mntmPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, ActionEvent.META_MASK));
+		mntmPaste.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_V, InputEvent.META_MASK));
 		mnEdit.add(mntmPaste);
 
-		JSeparator separator_4 = new JSeparator();
-		mnEdit.add(separator_4);
+		mnEdit.addSeparator();
 
 		JMenuItem mntmClearConsole = new JMenuItem("Clear Console");
-		mntmClearConsole.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// There is no need for command log here.
-				EditCommands.consoleClear();
-			}
+		mntmClearConsole.addActionListener(e -> {
+			// There is no need for command log here.
+			EditCommands.consoleClear();
 		});
 		mnEdit.add(mntmClearConsole);
 
 		JMenuItem mntmClearLog = new JMenuItem("Clear Log");
-		mntmClearLog.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// There is no need for command log here.
-				EditCommands.logClear();
-			}
+		mntmClearLog.addActionListener(e -> {
+			// There is no need for command log here.
+			EditCommands.logClear();
 		});
 		mnEdit.add(mntmClearLog);
 
@@ -650,78 +495,60 @@ public class UtilitiesPro {
 		menuBar.add(mnScripts);
 
 		JMenuItem mntmPurge = new JMenuItem("Purge Memory");
-		mntmPurge.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Scripts>Purge Memory");
-				ScriptCommands.purge();
-			}
+		mntmPurge.addActionListener(e -> {
+			command("Scripts>Purge Memory");
+			ScriptCommands.purge();
 		});
 		mnScripts.add(mntmPurge);
 
 		JMenuItem mntmRestartAirport = new JMenuItem("Restart Airport");
-		mntmRestartAirport.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Scripts>Restart Airport");
-				ScriptCommands.wireless();
-			}
+		mntmRestartAirport.addActionListener(e -> {
+			command("Scripts>Restart Airport");
+			ScriptCommands.wireless();
 		});
 		mnScripts.add(mntmRestartAirport);
 
 		JMenuItem mntmFinderChange = new JMenuItem("Change Finder Options");
-		mntmFinderChange.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				command("Scripts>Change Finder Options");
+		mntmFinderChange.addActionListener(arg0 -> {
+			command("Scripts>Change Finder Options");
 
-				Object[] options = { "Cancel", "Hidden", "Visible" };
-				int n = JOptionPane.showOptionDialog(frame,
-						"Select an option to change the visibility of the Finder Quit opton and hidden files to.",
-						"Utilities Pro OptionPane", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
-						null, options, options[0]);
-				System.out.println(n);
+			Object[] options = { "Cancel", "Hidden", "Visible" };
+			int n = JOptionPane.showOptionDialog(frame,
+					"Select an option to change the visibility of the Finder Quit opton and hidden files to.",
+					"Utilities Pro OptionPane", JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
+					null, options, options[0]);
+			System.out.println(n);
 
-				if (n == 2) { // Visible
-					ScriptCommands.finderConfig(true);
-				} else if (n == 1) { // Hidden
-					ScriptCommands.finderConfig(false);
-				} else if (n == 0) { // Cancel
-
-				}
+			if (n == 2) { // Visible
+				ScriptCommands.finderConfig(true);
+			} else if (n == 1) { // Hidden
+				ScriptCommands.finderConfig(false);
 			}
+			// else cancel
 		});
 		mnScripts.add(mntmFinderChange);
 
-		JSeparator separator_1 = new JSeparator();
-		mnScripts.add(separator_1);
+		mnScripts.addSeparator();
 
 		JMenuItem mntmDownloadMindterm = new JMenuItem("Download Mindterm");
-		mntmDownloadMindterm.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Scripts>Download Mindterm");
-				ScriptCommands.mindterm();
-			}
+		mntmDownloadMindterm.addActionListener(e -> {
+			command("Scripts>Download Mindterm");
+			ScriptCommands.mindterm();
 		});
 		mnScripts.add(mntmDownloadMindterm);
 
-		JSeparator separator_5 = new JSeparator();
-		mnScripts.add(separator_5);
+		mnScripts.addSeparator();
 
 		JMenuItem mntmLoadAndExecute = new JMenuItem("Load and Execute Script");
-		mntmLoadAndExecute.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				command("Scripts>Load and Exec Script");
-				fileDialog.setVisible(true);
-				File selScript = new File(fileDialog.getDirectory() + fileDialog.getFile());
-				try {
-					ExecEngine.scriptEngine(selScript.getCanonicalPath());
-				} catch (IOException e) {
-					out("Script Load Failed.");
-					log("Script Load Failed for: " + selScript);
-				}
+		mntmLoadAndExecute.addActionListener(arg0 -> {
+			command("Scripts>Load and Exec Script");
+			fileDialog.setVisible(true);
+			File selScript = new File(fileDialog.getDirectory() + fileDialog.getFile());
+			try {
+				ExecEngine.scriptEngine(selScript.getCanonicalPath());
+			} catch (IOException e) {
+				out("Script Load Failed.");
+				log("Script Load Failed for: " + selScript);
 			}
 		});
 		mnScripts.add(mntmLoadAndExecute);
@@ -730,36 +557,26 @@ public class UtilitiesPro {
 		menuBar.add(mnCommand);
 
 		JMenuItem mntmTerminateUtilitiesPro = new JMenuItem("Terminate Utilities Pro Process");
-		mntmTerminateUtilitiesPro.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Command>Terminate Utilities Pro Process");
-				CommandCommands.terminateUtility();
-			}
+		mntmTerminateUtilitiesPro.addActionListener(e -> {
+			command("Command>Terminate Utilities Pro Process");
+			CommandCommands.terminateUtility();
 		});
-		mntmTerminateUtilitiesPro.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, ActionEvent.META_MASK));
+		mntmTerminateUtilitiesPro.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.META_MASK));
 		mnCommand.add(mntmTerminateUtilitiesPro);
 
 		JMenuItem mntmTerminateArbitraryProcess = new JMenuItem("Terminate Arbitrary Process");
-		mntmTerminateArbitraryProcess.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Command>Terminate Arbitrary Process");
-				CommandCommands.terminateChoose();
-			}
+		mntmTerminateArbitraryProcess.addActionListener(e -> {
+			command("Command>Terminate Arbitrary Process");
+			CommandCommands.terminateChoose();
 		});
 		mnCommand.add(mntmTerminateArbitraryProcess);
 
-		JSeparator separator_3 = new JSeparator();
-		mnCommand.add(separator_3);
+		mnCommand.addSeparator();
 
 		JMenuItem mntmBombard = new JMenuItem("Bombard");
-		mntmBombard.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Command>Bombard");
-				CommandCommands.bombard();
-			}
+		mntmBombard.addActionListener(e -> {
+			command("Command>Bombard");
+			CommandCommands.bombard();
 		});
 		mnCommand.add(mntmBombard);
 
@@ -770,52 +587,36 @@ public class UtilitiesPro {
 		menuBar.add(mnHelp);
 
 		JMenuItem mntmAbout = new JMenuItem("About");
-		mntmAbout.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Help>About");
-				HelpCommands.about();
-			}
+		mntmAbout.addActionListener(e -> {
+			command("Help>About");
+			HelpCommands.about();
 		});
 		mnHelp.add(mntmAbout);
 
 		JMenuItem mntmHelp = new JMenuItem("Utilities Pro Help");
-		mntmHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Help>Utilities Pro Help");
-				HelpCommands.helpList();
-			}
+		mntmHelp.addActionListener(e -> {
+			command("Help>Utilities Pro Help");
+			HelpCommands.helpList();
 		});
 		mnHelp.add(mntmHelp);
 
 		JMenuItem mntmBashHelp = new JMenuItem("Bash Help");
-		mntmBashHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Help>Bash Help");
-				HelpCommands.bashHelp();
-			}
+		mntmBashHelp.addActionListener(e -> {
+			command("Help>Bash Help");
+			HelpCommands.bashHelp();
 		});
 		mnHelp.add(mntmBashHelp);
 
-		JSeparator separator_2 = new JSeparator();
-		mnHelp.add(separator_2);
+		mnHelp.addSeparator();
 
 		JMenuItem mntmUpdate = new JMenuItem("Update");
-		mntmUpdate.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				command("Help>Update");
-				HelpCommands.update();
-			}
+		mntmUpdate.addActionListener(e -> {
+			command("Help>Update");
+			HelpCommands.update();
 		});
 		mnHelp.add(mntmUpdate);
 
-		// MacAddrLog init = new MacAddrLog();
-		// init.parameters();
-
-		String greet = "Welcome, " + userName + ", to Utilities Pro - " + version + " '" + keyword + "'\n===========";
+		String greet = String.format("Welcome to Utilities Pro %s '%s'\n===========", version, keyword);
 		outText.append(greet);
 	}
 

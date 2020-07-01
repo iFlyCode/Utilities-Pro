@@ -55,7 +55,7 @@ public class ScriptCommands extends UtilitiesPro {
 			ExecEngine.exec("purge");
 			out("Purge Complete.");
 		} else {
-			out("This computer uses Compressed Memory and cannot be purged without super-user authorisation.", true);
+			out("This computer uses compressed memory and cannot be purged without super-user authorisation.");
 		}
 	}
 
@@ -80,9 +80,7 @@ public class ScriptCommands extends UtilitiesPro {
 
 	/**
 	 * Method used to download the programme "Mindterm" from mirror at ifly6.no-ip.org
-	 *
 	 * @since 2.1
-	 * @see {@link http://www.cryptzone.com/products/mindterm/#editionsstart}
 	 */
 	static void mindterm() {
 		log("Mindterm Download Commenced.");

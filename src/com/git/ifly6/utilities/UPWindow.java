@@ -1,38 +1,65 @@
 package com.git.ifly6.utilities;
 
+import com.git.ifly6.utilities.components.UPDirectoryManager;
 import com.git.ifly6.utilities.components.UPHistory;
+import com.git.ifly6.utilities.components.UPNotDirectoryException;
 import com.git.ifly6.utilities.components.UPTabber;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import java.awt.Dimension;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.util.logging.Logger;
 
-public class UPWindow implements UPPrintable {
+import static com.git.ifly6.utilities.UtilitiesPro.FULL_VERSION;
+
+public class UPWindow implements UPInteractable {
+
+    private static final Logger LOGGER = Logger.getLogger(UPWindow.class.getName());
+    public JPanel panel;
+
     private JTextField inputField;
     private JTextArea textArea;
-    private JPanel panel;
 
-    private UPHistory history;
+    private UPHistory history = new UPHistory();
+    private UPDirectoryManager cdManager = new UPDirectoryManager();
 
     public UPWindow() {
         panel.setMinimumSize(new Dimension(400, 400));
+        textArea.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+
+        inputField.setFocusTraversalKeysEnabled(false);
         inputField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
+            public void keyReleased(KeyEvent e) { // MUST use keyReleased, not keyTyped for enter, tab, etc.
                 int keyCode = e.getKeyCode();
-                if (keyCode == KeyEvent.VK_ENTER)
-                    UPExecutor.getInstance().execute(inputField.getText(), UPWindow.this);
-                else if (keyCode == KeyEvent.VK_UP)
+                // LOGGER.info(String.format("Key released: %d", keyCode));
+
+                if (keyCode == KeyEvent.VK_ENTER) {
+                    String input = inputField.getText();
+                    UPWindow.this.history.add(input);
+                    inputField.setText("");
+                    UPExecutor.getInstance().execute(input, UPWindow.this);
+
+                } else if (keyCode == KeyEvent.VK_UP)
                     inputField.setText(history.step(UPHistory.BACK));
+
                 else if (keyCode == KeyEvent.VK_DOWN)
                     inputField.setText(history.step(UPHistory.FORWARD));
+
                 else if (keyCode == KeyEvent.VK_TAB)
-                    inputField.setText(UPTabber.tabComplete(inputField.getText()));
+                    inputField.setText(UPTabber.tabComplete(
+                            inputField.getText(),
+                            UPWindow.this.cdManager.getPath()
+                    ));
             }
         });
+
+        textArea.setText(String.format("Welcome to %s\n========\n", FULL_VERSION));
 
         createMenus();
     }
@@ -43,6 +70,7 @@ public class UPWindow implements UPPrintable {
     public void append(String s) {
         if (!textArea.getText().endsWith("\n")) s = "\n" + s;
         textArea.append(s);
+        textArea.setCaretPosition(textArea.getText().length());
     }
 
     @Override
@@ -53,5 +81,20 @@ public class UPWindow implements UPPrintable {
     @Override
     public void log(String s) {
         this.append(s);
+    }
+
+    @Override
+    public void changeDirectory(String p) {
+        try {
+            cdManager.appendPath(p);
+        } catch (UPNotDirectoryException e) {
+            e.printStackTrace();
+            append(String.format("Cannot change directory to %s as it is not a directory", p));
+        }
+    }
+
+    @Override
+    public File getDirectory() {
+        return cdManager.getPath().toFile();
     }
 }

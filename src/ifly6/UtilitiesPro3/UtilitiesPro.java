@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 ifly6
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -67,7 +67,7 @@ import com.apple.eawt.Application;
  * @author ifly6
  * @version 3.x
  */
-public class Utilities_Pro {
+public class UtilitiesPro {
 
 	/**
 	 * Remembers all commands done in the session.
@@ -246,7 +246,7 @@ public class Utilities_Pro {
 	public static void main(String[] inputArgs) {
 
 		// Create Configuration Directory
-		Utilities_Pro.mkdirs();
+		UtilitiesPro.mkdirs();
 
 		// Set Properties before GUI Calls
 		System.setProperty("apple.laf.useScreenMenuBar", "true");
@@ -261,7 +261,7 @@ public class Utilities_Pro {
 		// Deal with CSA should it be an LMSD computer
 		if (computername.startsWith("HH-S") && userName.startsWith("s")) {
 			ExecEngine.exec("killall CSA");
-			Utilities_Pro.log("CSA terminated on Startup.");
+			UtilitiesPro.log("CSA terminated on Startup.");
 		}
 
 		// Read Properties
@@ -386,7 +386,7 @@ public class Utilities_Pro {
 			@Override
 			public void run() {
 				try {
-					Utilities_Pro window = new Utilities_Pro();
+					UtilitiesPro window = new UtilitiesPro();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -424,13 +424,13 @@ public class Utilities_Pro {
 	 */
 	public static void out(String in) {
 		outText.append("\n " + in);
-		Utilities_Pro.outText.setCaretPosition(outText.getDocument().getLength());
+		UtilitiesPro.outText.setCaretPosition(outText.getDocument().getLength());
 	}
 
 	public static void out(String in, boolean bool) {
 		outText.append("\n " + in);
 		logText.append("\n" + in);
-		Utilities_Pro.outText.setCaretPosition(outText.getDocument().getLength());
+		UtilitiesPro.outText.setCaretPosition(outText.getDocument().getLength());
 	}
 
 	/**
@@ -460,7 +460,7 @@ public class Utilities_Pro {
 	/**
 	 * Create instance of the application.
 	 */
-	public Utilities_Pro() {
+	public UtilitiesPro() {
 		initialize();
 	}
 

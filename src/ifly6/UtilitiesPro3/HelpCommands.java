@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 ifly6
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -31,7 +31,7 @@ import javax.swing.JOptionPane;
  * @author ifly6
  * @since 3.0_dev06
  */
-public class HelpCommands extends Utilities_Pro {
+public class HelpCommands extends UtilitiesPro {
 
 	/**
 	 * Opens the GitHub versions page. Used to download an actual changelog, then read it, but that was changed as we
@@ -58,7 +58,7 @@ public class HelpCommands extends Utilities_Pro {
 	 * @see ifly6.UtilitiesPro3.HelpCommands#changelog()
 	 */
 	public static void about() {
-		String about = ("Utilities Pro - " + Utilities_Pro.version + " '" + Utilities_Pro.keyword + "'" + "\n"
+		String about = ("Utilities Pro - " + UtilitiesPro.version + " '" + UtilitiesPro.keyword + "'" + "\n"
 				+ "\nUtilities Pro is a Java Runtime/ProcessBuilder tapper. "
 				+ "\nIt is to serve as a terminal in restricted enviornments, such as "
 				+ "\nschools or universities. Tapping Java's ProcessBuilder or Runtime"
@@ -97,7 +97,7 @@ public class HelpCommands extends Utilities_Pro {
 	 * Displays the contents of Utilities_Pro.commText, which (due to design) is the list of all internal commands for
 	 * the programme.
 	 *
-	 * @see Utilities_Pro.commText
+	 * @see UtilitiesPro.commText
 	 * @since 2.3
 	 */
 	public static void helpList() {

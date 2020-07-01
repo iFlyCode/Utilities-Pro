@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 ifly6
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -71,7 +71,7 @@ public class MacHandler extends ApplicationAdapter {
 	 */
 	@Override
 	public void handlePreferences(ApplicationEvent e) {
-		String[] input = { "open", Utilities_Pro.UtilitiesPro_DIR + "/config.txt" };
+		String[] input = { "open", UtilitiesPro.UtilitiesPro_DIR + "/config.txt" };
 		ExecEngine.exec(input);
 	}
 }

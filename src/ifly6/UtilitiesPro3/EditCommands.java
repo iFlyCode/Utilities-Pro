@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 ifly6
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -21,19 +21,19 @@ public class EditCommands {
 	 * Calls the clearText method in console, with input of 1
 	 *
 	 * @since 3.0_dev05
-	 * @see ifly6.UtilitiesPro3.Utilities_Pro#consoleClear
+	 * @see UtilitiesPro#consoleClear
 	 */
 	static void consoleClear() {
-		Utilities_Pro.clearText(1);
+		UtilitiesPro.clearText(1);
 	}
 
 	/**
 	 * Calls the clearText method in console, with input of 2
 	 *
 	 * @since 3.0_dev05
-	 * @see ifly6.UtilitiesPro3.Utilities_Pro#consoleClear
+	 * @see UtilitiesPro#consoleClear
 	 */
 	static void logClear() {
-		Utilities_Pro.clearText(2);
+		UtilitiesPro.clearText(2);
 	}
 }

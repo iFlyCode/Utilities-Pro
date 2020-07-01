@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 ifly6
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -36,11 +36,11 @@ import java.util.ArrayList;
  */
 public class apiImplementation extends ClassLoader {
 
-	private File plugin_dir = new File(Utilities_Pro.UtilitiesPro_DIR + "/plugins/");
+	private File plugin_dir = new File(UtilitiesPro.UtilitiesPro_DIR + "/plugins/");
 	Class<?> cls = null;
 
 	private void out(String input) {
-		Utilities_Pro.out(input);
+		UtilitiesPro.out(input);
 	}
 
 	private void log(String input, int type) {

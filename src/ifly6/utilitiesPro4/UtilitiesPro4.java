@@ -18,7 +18,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import ifly6.UtilitiesPro3.Utilities_Pro;
+import ifly6.UtilitiesPro3.UtilitiesPro;
 import ifly6.utilitiesPro4.config.UPVersion;
 
 public class UtilitiesPro4 implements UPOutput {
@@ -294,10 +294,10 @@ public class UtilitiesPro4 implements UPOutput {
 			// Deal with Everything Else
 			else {
 				
-				File newDir = new File(Utilities_Pro.currentDir + "/" + operand[1]);
+				File newDir = new File(UtilitiesPro.currentDir + "/" + operand[1]);
 				if (newDir.isDirectory() && newDir.canRead()) {
 					
-					currentDir = new File(Utilities_Pro.currentDir + "/" + operand[1]);
+					currentDir = new File(UtilitiesPro.currentDir + "/" + operand[1]);
 					
 				} else if (!newDir.canRead()) {
 					out(dirPerms);

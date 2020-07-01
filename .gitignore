@@ -7,3 +7,10 @@
 *.ear
 /bin/
 /target/
+
+.classpath
+/.project
+/.idea
+/.settings
+/classes
+*.iml

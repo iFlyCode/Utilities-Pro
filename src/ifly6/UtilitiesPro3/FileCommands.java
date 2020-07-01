@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 ifly6
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -31,7 +31,7 @@ import java.util.Properties;
  * @author ifly6
  * @since 3.0
  */
-public class FileCommands extends Utilities_Pro {
+public class FileCommands extends UtilitiesPro {
 
 	/**
 	 * Deletes the configuration file if marked 'false'. If marked 'true', it deletes the entire Utilities Pro folder in
@@ -125,7 +125,7 @@ public class FileCommands extends Utilities_Pro {
 	static void export(int which) {
 		switch (which) {
 		case 1:
-			String outFile = Utilities_Pro.getOutText().getText();
+			String outFile = UtilitiesPro.getOutText().getText();
 			log("Output Export Invoked.");
 			mkdirs();
 			Writer writer = null;
@@ -140,7 +140,7 @@ public class FileCommands extends Utilities_Pro {
 			out("Contents Exported to " + UtilitiesPro_DIR);
 			break;
 		case 2:
-			outFile = Utilities_Pro.getLogText().getText();
+			outFile = UtilitiesPro.getLogText().getText();
 			log("Log Export Invoked.");
 			mkdirs();
 			writer = null;

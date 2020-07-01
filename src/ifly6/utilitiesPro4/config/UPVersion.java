@@ -1,4 +1,4 @@
-/* Copyright (c) 2016 Kevin Wong
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -14,10 +14,7 @@
  * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 package ifly6.utilitiesPro4.config;
 
-/**
- * @author Kevin
- *
- */
+
 public class UPVersion {
 
 	public int		major;

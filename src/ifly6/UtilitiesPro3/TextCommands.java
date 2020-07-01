@@ -1,4 +1,4 @@
-/* Copyright (c) 2015 ifly6
+/* Copyright (c) 2017 ifly6
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
  * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Properties;
 
-public class TextCommands extends Utilities_Pro {
+public class TextCommands extends UtilitiesPro {
 	
 	/**
 	 * Logs with a change to reflect a different section of the log.
@@ -64,7 +64,7 @@ public class TextCommands extends Utilities_Pro {
 		// Get and Save Command
 		command(preoperand);
 		addToHistory(preoperand);
-		Utilities_Pro.clearText(3);
+		UtilitiesPro.clearText(3);
 		
 		// Split this using this Regular Expression
 		String[] operand = preoperand.split("(?<!\\\\)\\s+");
@@ -87,9 +87,9 @@ public class TextCommands extends Utilities_Pro {
 			HelpCommands.helpList();
 			log("Help Processing Trigger Invoked");
 		} else if (commText.get(3).equals(operand[0])) {
-			Utilities_Pro.clearText(1);
-			Utilities_Pro.clearText(2);
-			Utilities_Pro.clearText(3);
+			UtilitiesPro.clearText(1);
+			UtilitiesPro.clearText(2);
+			UtilitiesPro.clearText(3);
 			log("JTextAreas Cleared");
 		} else if (commText.get(4).equals(operand[0])) {
 			HelpCommands.licence();
@@ -127,7 +127,7 @@ public class TextCommands extends Utilities_Pro {
 		else if (operand[0].equals("cd")) {
 			cd(operand); // Engage change directory engine
 		} else if (operand[0].equals("clear")) {
-			Utilities_Pro.clearText(1); // Clear the output JTextArea
+			UtilitiesPro.clearText(1); // Clear the output JTextArea
 		} else if (operand[0].equals("path")) {
 			path(); // Show Path
 		} else if (operand[0].equals("top") || operand[0].equals("htop")) {
@@ -195,9 +195,9 @@ public class TextCommands extends Utilities_Pro {
 			
 			// Deal with Everything Else
 			else {
-				if (new File(Utilities_Pro.currentDir + "/" + operand[1]).isDirectory()
-						&& new File(Utilities_Pro.currentDir + "/" + operand[1]).canRead()) {
-					nonCanonical = Utilities_Pro.currentDir + "/" + operand[1];
+				if (new File(UtilitiesPro.currentDir + "/" + operand[1]).isDirectory()
+						&& new File(UtilitiesPro.currentDir + "/" + operand[1]).canRead()) {
+					nonCanonical = UtilitiesPro.currentDir + "/" + operand[1];
 
 					try {
 						currentDir = new File(nonCanonical).getCanonicalPath();
@@ -205,7 +205,7 @@ public class TextCommands extends Utilities_Pro {
 						out("Changing Directory somehow failed. Report this error to GitHub.");
 					}
 
-				} else if (!(new File(Utilities_Pro.currentDir + "/" + operand[1]).canRead())) {
+				} else if (!(new File(UtilitiesPro.currentDir + "/" + operand[1]).canRead())) {
 					out(dirPerms);
 				} else {
 					out(dirExists);
@@ -422,7 +422,7 @@ public class TextCommands extends Utilities_Pro {
 	public static void quitHandler() {
 		Properties prop = new Properties();
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		InputStream stream = loader.getResourceAsStream(Utilities_Pro.UtilitiesPro_DIR + "/config.properties");
+		InputStream stream = loader.getResourceAsStream(UtilitiesPro.UtilitiesPro_DIR + "/config.properties");
 		try {
 			prop.load(stream);
 			

@@ -78,15 +78,4 @@ public class ScriptCommands extends UtilitiesPro {
 		log(outPut);
 	}
 
-	/**
-	 * Method used to download the programme "Mindterm" from mirror at ifly6.no-ip.org
-	 * @since 2.1
-	 */
-	static void mindterm() {
-		log("Mindterm Download Commenced.");
-		ExecEngine.download("http://ifly6.no-ip.org/Public/mindterm.jar", Downloads_DIR);
-		out("Mindterm Downloaded to: " + Downloads_DIR
-				+ "\nThis is a full Java Based SSH/Telnet Client, capable of creating an SSH tunnel, and using it as a SOCKS proxy."
-				+ "\nIt is, however, not made by the Utilities Pro Team, and therefore, does not fall under our perview.");
-	}
 }

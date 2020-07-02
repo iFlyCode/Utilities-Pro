@@ -29,7 +29,7 @@ public class UPExecutor {
 
         if (input[0].toLowerCase().equals("cd")) {
             if (input.length == 2) p.changeDirectory(input[1]);
-            else LOGGER.info("Attempted to change directory but wrong number of inputs!\n");
+            else LOGGER.info("Attempted to change directory but wrong number of inputs!");
 
         } else {  // not changing directories
             Runnable runner = () -> {
@@ -45,16 +45,17 @@ public class UPExecutor {
                         p.out(scan.nextLine());
 
                     scan.close();
-                    p.out("\n"); // ending
 
                 } catch (IOException e) { // Must distinguish between 'Invalid Commands' and
                     // 'Running Failed'
                     p.out("Invalid Command");
-                    p.log("Running Failed or Invalid Command");
                 }
             };
 
             new Thread(runner).start();
         }
+
+        p.out("\n"); // ending
     }
+
 }

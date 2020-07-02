@@ -17,19 +17,14 @@ public class UPDirectoryManager {
     }
 
     public void appendPath(String s) {
-        // implement tilde
-        s = s.equals("~")
-                ? System.getProperty("user.home")
-                : s;
-
+        s = s.replace("~", System.getProperty("user.home")); // implement tilde
         s = s.replace("\\ ", " "); // unescape character
 
         Path test = Paths.get(s);
-        if (test.isAbsolute()) {
-            // if path is absolute, we're done
-            this.path = test;
+        if (test.isAbsolute())
+            this.path = test; // if path is absolute, we're done
 
-        } else {
+        else {
             // if not absolute, resolve from current location
             Path newPath = path.resolve(s);
             if (Files.isDirectory(newPath))

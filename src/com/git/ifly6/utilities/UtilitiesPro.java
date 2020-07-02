@@ -1,5 +1,6 @@
 package com.git.ifly6.utilities;
 
+import com.bulenkov.darcula.DarculaLaf;
 import com.git.ifly6.iflyLibrary.IflyDates;
 import com.git.ifly6.iflyLibrary.IflySystem;
 import com.git.ifly6.iflyLibrary.IflyVersion;
@@ -15,7 +16,6 @@ import java.net.UnknownHostException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -81,9 +81,13 @@ public class UtilitiesPro {
         initialise();
         EventQueue.invokeLater(() -> {
             JFrame frame = new JFrame(VERSION.toString());
-            frame.setMinimumSize(new Dimension(500,400));
+            frame.setMinimumSize(new Dimension(500, 400));
             frame.setLocationRelativeTo(null); // centre
-            frame.setContentPane(new UPWindow().panel);
+
+            UPWindow w = new UPWindow();
+            frame.setContentPane(w.panel);
+            frame.setJMenuBar(w.createMenus());
+
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.pack();
             frame.setVisible(true);
@@ -95,26 +99,11 @@ public class UtilitiesPro {
     }
 
     private static void setLAF() {
-        // Set our look and feel
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                | UnsupportedLookAndFeelException lfE) {
-            try {
-                UIManager.setLookAndFeel(
-                        Arrays.stream(UIManager.getInstalledLookAndFeels())
-                                .filter(laf -> laf.getName().equals("Nimbus"))
-                                .findFirst()
-                                .orElseThrow(ClassNotFoundException::new)
-                                .getClassName()
-                );
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException
-                    | UnsupportedLookAndFeelException e) {
-                LOGGER.severe("Cannot initialise? Cannot find basic Nimbus look and feel.");
-                e.printStackTrace();
-            }
-            lfE.printStackTrace();
+            UIManager.setLookAndFeel(new DarculaLaf());
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+            LOGGER.info("Failed to set Darcula look and feel");
         }
     }
 

@@ -4,6 +4,7 @@ import com.bulenkov.darcula.DarculaLaf;
 import com.git.ifly6.iflyLibrary.IflyDates;
 import com.git.ifly6.iflyLibrary.IflySystem;
 import com.git.ifly6.iflyLibrary.IflyVersion;
+import com.git.ifly6.iflyLibrary.swing.IflyDialogs;
 
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -35,7 +36,10 @@ public class UtilitiesPro {
         // Do this static initialisation block when LAF is called
         // Find or create the application support directory
         if (IflySystem.IS_OS_MAC) {
-            APP_SUPPORT = Paths.get(System.getProperty("user.home"), "Library", "Application Support", "Utilities-Pro");
+            APP_SUPPORT = Paths.get(System.getProperty("user.home"),
+                    "Library",
+                    "Application Support",
+                    "Utilities-Pro");
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("com.apple.mrj.application.apple.menu.about.name", UtilitiesPro.VERSION.toString());
 
@@ -78,13 +82,19 @@ public class UtilitiesPro {
     }
 
     public static void main(String[] args) {
+        // show warning if not mac
+        if (!IflySystem.IS_OS_MAC)
+            IflyDialogs.showMessageDialog(null,
+                    "Scripts in this program depend on macOS implementation details",
+                    "Warning");
+
         initialise();
         EventQueue.invokeLater(() -> {
             JFrame frame = new JFrame(VERSION.toString());
             frame.setMinimumSize(new Dimension(500, 400));
             frame.setLocationRelativeTo(null); // centre
 
-            UPWindow w = new UPWindow();
+            UPWindow w = new UPWindow(frame);
             frame.setContentPane(w.panel);
             frame.setJMenuBar(w.createMenus());
 

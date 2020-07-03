@@ -1,5 +1,10 @@
 package com.git.ifly6.utilities.components;
 
+import com.git.ifly6.utilities.UPInteractable;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +46,18 @@ public class UPHistory {
         return pointer;
     }
 
+    public List<String> listHistory() {
+        return history;
+    }
+
+    public void toFile(Path p, UPInteractable i) {
+        try {
+            Files.write(p, this.history);
+        } catch (IOException ex) {
+            i.out("Failed to write history to file: " + p.getFileName());
+            ex.printStackTrace();
+        }
+    }
 }
 
 enum UPHistoryStep {

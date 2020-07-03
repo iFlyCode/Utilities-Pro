@@ -18,7 +18,7 @@ public class UPDirectoryManager {
 
     public void appendPath(String s) {
         s = s.replace("~", System.getProperty("user.home")); // implement tilde
-        s = s.replace("\\ ", " "); // unescape character
+        s = unescapeSpaces(s);
 
         Path test = Paths.get(s);
         if (test.isAbsolute())
@@ -36,6 +36,13 @@ public class UPDirectoryManager {
         }
     }
 
+    public static String unescapeSpaces(String s) {
+        return s.replace("\\ ", " ");
+    }
+
+    public static String escapeSpaces(String s) {
+        return s.replace(" ", "\\ "); // unescape character
+    }
 
 }
 

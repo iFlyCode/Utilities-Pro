@@ -1,17 +1,19 @@
 package com.git.ifly6.utilities;
 
+import com.git.ifly6.utilities.components.UPDirectoryManager;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.logging.Logger;
-
-import static com.git.ifly6.utilities.UtilitiesPro.COMPUTER_NAME;
 
 public class UPExecutor {
 
     private static final Logger LOGGER = Logger.getLogger(UPExecutor.class.getName());
     private static UPExecutor instance = null;
+    private static Thread executionThread;
 
     private UPExecutor() {
     }
@@ -22,9 +24,10 @@ public class UPExecutor {
     }
 
     public void execute(String s, UPInteractable p) {
-        p.out(String.format("%s %s $ %s", COMPUTER_NAME, p.getDirectory().getName(), s));
 
-        String[] input = s.trim().split("(?<!\\\\)\\s+?");
+        String[] input = Arrays.stream(s.trim().split("(?<!\\\\)\\s+?"))
+                .map(UPDirectoryManager::unescapeSpaces)
+                .toArray(String[]::new);
         LOGGER.info("command parsed as: " + Arrays.toString(input));
 
         if (input[0].toLowerCase().equals("cd")) {
@@ -52,10 +55,16 @@ public class UPExecutor {
                 }
             };
 
-            new Thread(runner).start();
+            executionThread = new Thread(runner);
+            executionThread.start();
         }
 
         p.out("\n"); // ending
+    }
+
+    public void terminateRunning() {
+        if (Objects.nonNull(executionThread))
+            executionThread.interrupt();
     }
 
 }

@@ -62,7 +62,7 @@ public class TextCommands extends UtilitiesPro {
 		log("Processing operand: " + preoperand);
 		
 		// Get and Save Command
-		command(preoperand);
+		printLoopback(preoperand);
 		addToHistory(preoperand);
 		UtilitiesPro.clearText(3);
 		
@@ -104,8 +104,8 @@ public class TextCommands extends UtilitiesPro {
 			// Call textConfig and pass information to it.
 			textConfig(operand);
 		} else if (commText.get(8).equals(operand[0])) {
-			ScriptCommands.mindterm();
-			log("Mindterm Download Processing Trigger Called");
+			throw new UnsupportedOperationException("Mindterm removed");
+//			log("Mindterm Download Processing Trigger Called");
 		} else if (commText.get(9).equals(operand[0])) {
 			log("ScriptExecution Trigger Called");
 			ExecEngine.scriptEngine(operand[1]);
@@ -234,7 +234,7 @@ public class TextCommands extends UtilitiesPro {
 	 * @since 3.3
 	 */
 	static String tabComplete() {
-		command("> Tab Auto-Complete");
+		printLoopback("> Tab Auto-Complete");
 		
 		String preoperand = getInputField().getText();
 		

@@ -164,14 +164,13 @@ public class UtilitiesPro {
 	 * @param in
 	 *            - String to append with the bash prompt to JTextArea outText. Also appends to logText.
 	 */
-	public static void command(String in) {
+	public static void printLoopback(String in) {
 
 		// Get Name of Current Directory (as we now use Canonical names)
 		String[] directories = currentDir.split("/");
-		int temp = (directories.length) - 1;
 
 		try {
-			outText.append("\n" + computername + ":" + directories[temp] + " $ " + in);
+			outText.append("\n" + computername + ":" + directories[directories.length - 1] + " $ " + in);
 		} catch (Exception e) {
 			outText.append("\n" + computername + ": $ " + in);
 		}
@@ -308,6 +307,7 @@ public class UtilitiesPro {
 	 * @since 3.0_dev08
 	 */
 	private static void setCommands() {
+		// ifly6 (2020-07-02) this legit stupid... just use an enum
 		commText.add("/changelog");
 		commText.add("/about");
 		commText.add("/help");
@@ -416,21 +416,21 @@ public class UtilitiesPro {
 
 		JMenuItem mntmOpenConfig = new JMenuItem("Open Configuration Folder");
 		mntmOpenConfig.addActionListener(arg0 -> {
-			command("File>Open Configuration Folder");
+			printLoopback("File>Open Configuration Folder");
 			FileCommands.openConfig();
 		});
 		mnFile.add(mntmOpenConfig);
 
 		JMenuItem mntmDeleteConfig = new JMenuItem("Delete Configuration");
 		mntmDeleteConfig.addActionListener(e -> {
-			command("File>Delete Configuration");
+			printLoopback("File>Delete Configuration");
 			FileCommands.deleteConfig(false);
 		});
 		mnFile.add(mntmDeleteConfig);
 
 		JMenuItem mntmDeleteUtilitiesProFolder = new JMenuItem("Delete Utilities Pro Folder");
 		mntmDeleteUtilitiesProFolder.addActionListener(e -> {
-			command("File>Delete Configuration Folder");
+			printLoopback("File>Delete Configuration Folder");
 			FileCommands.deleteConfig(true);
 		});
 		mnFile.add(mntmDeleteUtilitiesProFolder);
@@ -445,14 +445,14 @@ public class UtilitiesPro {
 
 		JMenuItem mntmExportConsole = new JMenuItem("Export Console\n");
 		mntmExportConsole.addActionListener(e -> {
-			command("File>Export Utilities_Pro");
+			printLoopback("File>Export Utilities_Pro");
 			FileCommands.export(1);
 		});
 		mnFile.add(mntmExportConsole);
 
 		JMenuItem mntmConsoleLog = new JMenuItem("Export Log");
 		mntmConsoleLog.addActionListener(e -> {
-			command("File>Export Log");
+			printLoopback("File>Export Log");
 			FileCommands.export(2);
 		});
 		mnFile.add(mntmConsoleLog);
@@ -496,21 +496,21 @@ public class UtilitiesPro {
 
 		JMenuItem mntmPurge = new JMenuItem("Purge Memory");
 		mntmPurge.addActionListener(e -> {
-			command("Scripts>Purge Memory");
+			printLoopback("Scripts>Purge Memory");
 			ScriptCommands.purge();
 		});
 		mnScripts.add(mntmPurge);
 
 		JMenuItem mntmRestartAirport = new JMenuItem("Restart Airport");
 		mntmRestartAirport.addActionListener(e -> {
-			command("Scripts>Restart Airport");
+			printLoopback("Scripts>Restart Airport");
 			ScriptCommands.wireless();
 		});
 		mnScripts.add(mntmRestartAirport);
 
 		JMenuItem mntmFinderChange = new JMenuItem("Change Finder Options");
 		mntmFinderChange.addActionListener(arg0 -> {
-			command("Scripts>Change Finder Options");
+			printLoopback("Scripts>Change Finder Options");
 
 			Object[] options = { "Cancel", "Hidden", "Visible" };
 			int n = JOptionPane.showOptionDialog(frame,
@@ -530,18 +530,9 @@ public class UtilitiesPro {
 
 		mnScripts.addSeparator();
 
-		JMenuItem mntmDownloadMindterm = new JMenuItem("Download Mindterm");
-		mntmDownloadMindterm.addActionListener(e -> {
-			command("Scripts>Download Mindterm");
-			ScriptCommands.mindterm();
-		});
-		mnScripts.add(mntmDownloadMindterm);
-
-		mnScripts.addSeparator();
-
 		JMenuItem mntmLoadAndExecute = new JMenuItem("Load and Execute Script");
 		mntmLoadAndExecute.addActionListener(arg0 -> {
-			command("Scripts>Load and Exec Script");
+			printLoopback("Scripts>Load and Exec Script");
 			fileDialog.setVisible(true);
 			File selScript = new File(fileDialog.getDirectory() + fileDialog.getFile());
 			try {
@@ -558,7 +549,7 @@ public class UtilitiesPro {
 
 		JMenuItem mntmTerminateUtilitiesPro = new JMenuItem("Terminate Utilities Pro Process");
 		mntmTerminateUtilitiesPro.addActionListener(e -> {
-			command("Command>Terminate Utilities Pro Process");
+			printLoopback("Command>Terminate Utilities Pro Process");
 			CommandCommands.terminateUtility();
 		});
 		mntmTerminateUtilitiesPro.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.META_MASK));
@@ -566,7 +557,7 @@ public class UtilitiesPro {
 
 		JMenuItem mntmTerminateArbitraryProcess = new JMenuItem("Terminate Arbitrary Process");
 		mntmTerminateArbitraryProcess.addActionListener(e -> {
-			command("Command>Terminate Arbitrary Process");
+			printLoopback("Command>Terminate Arbitrary Process");
 			CommandCommands.terminateChoose();
 		});
 		mnCommand.add(mntmTerminateArbitraryProcess);
@@ -575,7 +566,7 @@ public class UtilitiesPro {
 
 		JMenuItem mntmBombard = new JMenuItem("Bombard");
 		mntmBombard.addActionListener(e -> {
-			command("Command>Bombard");
+			printLoopback("Command>Bombard");
 			CommandCommands.bombard();
 		});
 		mnCommand.add(mntmBombard);
@@ -588,21 +579,21 @@ public class UtilitiesPro {
 
 		JMenuItem mntmAbout = new JMenuItem("About");
 		mntmAbout.addActionListener(e -> {
-			command("Help>About");
+			printLoopback("Help>About");
 			HelpCommands.about();
 		});
 		mnHelp.add(mntmAbout);
 
 		JMenuItem mntmHelp = new JMenuItem("Utilities Pro Help");
 		mntmHelp.addActionListener(e -> {
-			command("Help>Utilities Pro Help");
+			printLoopback("Help>Utilities Pro Help");
 			HelpCommands.helpList();
 		});
 		mnHelp.add(mntmHelp);
 
 		JMenuItem mntmBashHelp = new JMenuItem("Bash Help");
 		mntmBashHelp.addActionListener(e -> {
-			command("Help>Bash Help");
+			printLoopback("Help>Bash Help");
 			HelpCommands.bashHelp();
 		});
 		mnHelp.add(mntmBashHelp);
@@ -611,7 +602,7 @@ public class UtilitiesPro {
 
 		JMenuItem mntmUpdate = new JMenuItem("Update");
 		mntmUpdate.addActionListener(e -> {
-			command("Help>Update");
+			printLoopback("Help>Update");
 			HelpCommands.update();
 		});
 		mnHelp.add(mntmUpdate);
